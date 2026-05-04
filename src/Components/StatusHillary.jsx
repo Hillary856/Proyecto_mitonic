@@ -1,11 +1,29 @@
-import { useState } from "react";
+import React, { useState } from 'react'
 
-export default function Personajes(){
+export default function StatusHillary() {
 
-    const [setPersonajes] = useState();
+    const [gemas, setgemas] = useState("");
+
+  return (
+    <>
+    
+    <div>StatusHillary</div>
+    <div className="gemas">
+        
+<button>10</button>
+<button>15👾</button>
+<button>20 😈</button>
+<button>25 😾</button>
 
 
 
+    </div>
+    
+    </>
+   
+  )
 }
+
+
 
 
