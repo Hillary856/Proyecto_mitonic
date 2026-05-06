@@ -1,9 +1,10 @@
-import React from 'react'
+import AndresStatus from "./Components/AndresStatus"
+
 
 function App() {
   return (
     <div>
-      
+      <AndresStatus/>
     </div>
   )
 }
