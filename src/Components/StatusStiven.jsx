@@ -7,10 +7,10 @@ export const StatusStiven = () => {
     <>
     <div>StatusStiven</div>
     <div className="puntos">
-    <button onClick={()=>{setpuntos((prev)=>{prev + 2})}}>100 </button>
-     <button>400</button>
-      <button>500 🥵</button>
-       <button>700 🥲</button>
+    <button onClick={()=>{setpuntos((prev)=>{prev + 1})}}>100 🥵</button>
+     <button onClick={()=>{setpuntos((prev)=>{prev + 2})}}>400 🥲</button>
+      <button onClick={()=>{setpuntos((prev)=>{prev + 3})}}>500 🥵</button>
+       <button onClick={()=>{setpuntos((prev)=>{prev + 4})}}>700 🥲</button>
        
 
 
