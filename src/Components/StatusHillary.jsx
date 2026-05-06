@@ -2,18 +2,19 @@ import React, { useState } from 'react'
 
 export default function StatusHillary() {
 
-    const [gemas, setgemas] = useState("");
+    const [gemas, Setgemas] = useState(0);
 
   return (
     <>
     
     <div>StatusHillary</div>
     <div className="gemas">
-        
-<button>10</button>
-<button>15👾</button>
-<button>20 😈</button>
-<button>25 😾</button>
+      
+        <h1>Gemas: {gemas}</h1>
+<button onClick={() => { Setgemas ((prev) => prev + 10)}}>Gemas azules</button>
+<button>Gemas verdes👾</button>
+<button>Gemas rojas 😈</button>
+<button>Gemas moradas😾</button>
 
 
 
