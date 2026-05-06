@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-export default function AndresStatus() {
+export function AndresStatus() {
 
   const [gemas, Setgemas] = useState(0);
 

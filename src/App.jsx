@@ -1,12 +1,9 @@
-import AndresStatus from "./Components/AndresStatus"
+import { AndresStatus } from "./Components/AndresStatus"
 
 
-function App() {
+export const App = () => {
   return (
-    <div>
-      <AndresStatus/>
-    </div>
+    <AndresStatus/>
   )
 }
 
-export default App
