@@ -4,10 +4,12 @@ export const StatusStiven = () => {
 
   const[puntos,setpuntos]= useState(0 ) 
 
+  const [characters, setCharacters] = useState([])
+
   const getCharacters= async()=>{
     const res= await fetch("https://rickandmortyapi.com/api/character")
     const data = await res.json()
-    
+    setCharacters(data.results)
     console.log( data )
   }
 
@@ -30,8 +32,12 @@ useEffect(() => {
        
 
 
-
-
+<h1>personajes Rick and Morty</h1>
+{characters.map ((char, index)=>()=>(
+ 
+ <li>key={[index]>char.name}</li>
+))
+}
     </div>
     
     
