@@ -1,15 +1,21 @@
-import { AndresStatus } from "./Components/AndresStatus"
+/* import { AndresStatus } from "./Components/AndresStatus"
 import StatusHillary from "./Components/StatusHillary"
 import { StatusStiven } from "./Components/StatusStiven"
+ */
 
+import { SeccionHeader } from "./Components/SeccionHeader"
 
 export const App = () => {
   return (
     <div>
-      <AndresStatus/>
+      {/* <AndresStatus/>
         
         <StatusStiven/>
-      <StatusHillary/>
+      <StatusHillary/> */}
+
+      
+      <SeccionHeader/>
+
     </div>
   )
 }
