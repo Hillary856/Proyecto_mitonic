@@ -3,7 +3,9 @@ import StatusHillary from "./Components/StatusHillary"
 import { StatusStiven } from "./Components/StatusStiven"
  */
 
-import { SeccionHeader } from "./Components/SeccionHeader"
+import { SeccionHeader } from "./Components/SeccionHeader/SeccionHeader"
+import "./Components/SeccionHeader/SeccionHeader.css"
+
 
 export const App = () => {
   return (
@@ -13,9 +15,7 @@ export const App = () => {
         <StatusStiven/>
       <StatusHillary/> */}
 
-      
-      <SeccionHeader/>
-
+     <SeccionHeader/>
     </div>
   )
 }
