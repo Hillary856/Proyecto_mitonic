@@ -5,7 +5,8 @@ import { StatusStiven } from "./Components/StatusStiven"
 
 import { SeccionHeader } from "./Components/SeccionHeader/SeccionHeader"
 import "./Components/SeccionHeader/SeccionHeader.css"
-
+import { SeccionInfoComic } from "./Components/SeccionInfoComic/SeccionInfoComic"
+import "./Components/SeccionInfoComic/SeccionInfoComic.css"
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
       <StatusHillary/> */}
 
      <SeccionHeader/>
+     <SeccionInfoComic/>
     </div>
   )
 }

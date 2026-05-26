@@ -1,0 +1,176 @@
+.si-root {
+    font-family: 'Barlow', sans-serif;
+    background-color: #F0EFEA;
+    padding: 70px 60px 80px 60px;
+    overflow-x: hidden;
+  }
+
+  /* ─── ENCABEZADO ─── */
+  .si-label {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #F5A800;
+    margin-bottom: 16px;
+  }
+
+  .si-titulo {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    color: #111111;
+    line-height: 1.05;
+    margin-bottom: 40px;
+    max-width: 800px;
+  }
+
+  /* ─── CARDS GRANDES ─── */
+  .si-cards-top {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  /* Card oscura (izquierda, más ancha) */
+  .si-card-dark {
+    flex: 0 0 63%;
+    background: #1b1b2f;
+    border-radius: 22px;
+    overflow: hidden;
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px;
+    position: relative;
+  }
+
+  .si-card-dark-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1b1b2f 0%, #2e2e50 60%, #1b1b2f 100%);
+    z-index: 0;
+  }
+
+  /* Placeholder imagen dentro de card oscura */
+  .si-card-dark-img {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.35;
+    font-size: 6rem;
+  }
+
+  .si-card-dark-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .si-card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+    display: block;
+    color: #F5A800;
+  }
+
+  .si-card-dark h3 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+
+  .si-card-dark p {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 420px;
+  }
+
+  /* Card naranja (derecha) */
+  .si-card-orange {
+    flex: 1;
+    background: #F5A800;
+    border-radius: 22px;
+    min-height: 380px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .si-card-orange-icon {
+    font-size: 1.8rem;
+    margin-bottom: auto;
+    display: block;
+    color: #7a5000;
+  }
+
+  .si-card-orange h3 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    color: #111111;
+    margin-bottom: 10px;
+    line-height: 1.1;
+    margin-top: 80px;
+  }
+
+  .si-card-orange p {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: #5a3a00;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ─── CARDS PEQUEÑAS ─── */
+  .si-cards-bottom {
+    display: flex;
+    gap: 20px;
+  }
+
+  .si-card-small {
+    flex: 1;
+    background: #E8E6DF;
+    border-radius: 18px;
+    padding: 28px 28px 32px 28px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .si-card-num {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #F5A800;
+    letter-spacing: 1px;
+    margin-bottom: 40px;
+  }
+
+  .si-card-small h4 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #111111;
+    margin-bottom: 10px;
+  }
+
+  .si-card-small p {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #888888;
+    line-height: 1.6;
+    margin: 0;
+  }
