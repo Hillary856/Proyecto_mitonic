@@ -3,6 +3,7 @@ import StatusHillary from "./Components/StatusHillary"
 import { StatusStiven } from "./Components/StatusStiven"
  */
 
+import SeccionStiven from "./Components/SeccionEscenarios/SeccionStiven"
 import { SeccionHeader } from "./Components/SeccionHeader/SeccionHeader"
 import "./Components/SeccionHeader/SeccionHeader.css"
 import { SeccionInfoComic } from "./Components/SeccionInfoComic/SeccionInfoComic"
@@ -18,6 +19,7 @@ export const App = () => {
 
      <SeccionHeader/>
      <SeccionInfoComic/>
+     <SeccionStiven/>
     </div>
   )
 }
