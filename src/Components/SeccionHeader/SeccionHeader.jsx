@@ -7,7 +7,7 @@ export const SeccionHeader = () => {
 
         
         <nav className="sh-navbar">
-          <span className="sh-brand">Logo<span>.</span></span>
+          <span className="sh-brand">Logo</span>
 
           <ul className="sh-nav-links">
             <li><span className="sh-nav-link">Trailer</span></li>

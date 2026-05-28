@@ -5,7 +5,7 @@
     overflow-x: hidden;
   }
 
-  /* ─── ENCABEZADO ─── */
+  /* encabezado */
   .si-label {
     font-family: 'Barlow', sans-serif;
     font-weight: 700;
@@ -26,14 +26,14 @@
     max-width: 800px;
   }
 
-  /* ─── CARDS GRANDES ─── */
+  /* la ultima */
   .si-cards-top {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
   }
 
-  /* Card oscura (izquierda, más ancha) */
+  /* card oscura */
   .si-card-dark {
     flex: 0 0 63%;
     background: #1b1b2f;
@@ -54,7 +54,7 @@
     z-index: 0;
   }
 
-  /* Placeholder imagen dentro de card oscura */
+  /* donde tengo que poner la img si queremos */
   .si-card-dark-img {
     position: absolute;
     inset: 0;
@@ -96,7 +96,7 @@
     max-width: 420px;
   }
 
-  /* Card naranja (derecha) */
+  /* caja naranja*/
   .si-card-orange {
     flex: 1;
     background: #F5A800;
@@ -134,7 +134,7 @@
     margin: 0;
   }
 
-  /* ─── CARDS PEQUEÑAS ─── */
+  /* la ultima */
   .si-cards-bottom {
     display: flex;
     gap: 20px;

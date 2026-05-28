@@ -5,13 +5,14 @@ export const SeccionInfoComic = () => {
     <>
     <div className="si-root">
 
-        {/* ─── ENCABEZADO ─── */}
-        <p className="si-label">Por qué Mi Marca</p>
+        
+        <p className="si-label">MITONIC Y LO TRANSMEDIAL</p>
         <h2 className="si-titulo">
-          El cómic y el objeto,<br />en su máxima expresión.
+          En busca de<br /> la innovación y lo contemporaneo.
+ 
         </h2>
 
-        {/* ─── CARDS GRANDES ─── */}
+        
         <div className="si-cards-top">
 
           {/* Card oscura */}
@@ -20,10 +21,9 @@ export const SeccionInfoComic = () => {
             <div className="si-card-dark-img"></div>
             <div className="si-card-dark-content">
               <span className="si-card-icon"></span>
-              <h3>Curaduría de autor</h3>
+              <h3>¿Que es un comic interactivo?</h3>
               <p>
-                Cada título y cada pieza es seleccionada por un colectivo de
-                artistas, críticos y diseñadores. Sin algoritmos, sin ruido.
+                Es una versión digital que permite al lector participar en la historia mediante animaciones, sonidos o decisiones que cambian la trama. 
               </p>
             </div>
           </div>
@@ -31,34 +31,20 @@ export const SeccionInfoComic = () => {
           {/* Card naranja */}
           <div className="si-card-orange">
             <span className="si-card-orange-icon"></span>
-            <h3>Ediciones<br />limitadas</h3>
+            <h3>¿Como lo implementamos?</h3>
             <p>
-              Tiradas numeradas, prints exclusivos
-              y figuras de tiraje corto.
+              En Mitonic puede aplicarse con elecciones de caminos, objetos que revelen información y efectos visuales o sonoros que hagan la experiencia más inmersiva.
             </p>
           </div>
 
         </div>
 
-        {/* ─── CARDS PEQUEÑAS ─── */}
+        {/* la ultima */}
         <div className="si-cards-bottom">
 
           <div className="si-card-small">
-            <span className="si-card-num">01 /</span>
-            <h4>Cómic independiente</h4>
-            <p>Festivales, clásicos restaurados y cortos premiados.</p>
-          </div>
-
-          <div className="si-card-small">
-            <span className="si-card-num">02 /</span>
-            <h4>Envío al mundo</h4>
-            <p>Empaquetado de archivo. Llega como debe llegar: impecable.</p>
-          </div>
-
-          <div className="si-card-small">
-            <span className="si-card-num">03 /</span>
-            <h4>Comunidad activa</h4>
-            <p>Acceso a proyecciones, conversatorios y preventas.</p>
+            <span className="si-card-num"> Somos una linea del tiempo</span>
+            <h4> En este capítulo exploramos Grecia y Roma, sus mitos, costumbres y aportes, pero la historia sigue con más capítulos que recorren distintas épocas de forma divertida y diferente.</h4>
           </div>
 
         </div>

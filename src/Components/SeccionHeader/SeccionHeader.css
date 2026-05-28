@@ -4,7 +4,7 @@
     overflow-x: hidden;
   }
 
-  /* ─── NAVBAR ─── */
+  /* navegacion */
   .sh-navbar {
     background-color: #ffffff;
     border-bottom: 1.5px solid #e2e2e2;
@@ -61,7 +61,7 @@
     white-space: nowrap;
   }
 
-  /* ─── HERO ─── */
+  /* contenedor*/
   .sh-hero {
     background-color: #EDECEA;
     display: flex;
@@ -70,7 +70,7 @@
     overflow: hidden;
   }
 
-  /* Columna izquierda */
+  /* columna izquierda */
   .sh-left {
     flex: 0 0 55%;
     padding: 60px 50px 60px 60px;
@@ -130,7 +130,7 @@
     margin-bottom: 38px;
   }
 
-  /* ─── BOTONES PLANOS ─── */
+  /* botones */
   .sh-ctas {
     display: flex;
     align-items: center;
@@ -181,7 +181,7 @@
     flex-shrink: 0;
   }
 
-  /* ─── COLUMNA DERECHA CON IMAGEN ─── */
+  /* donde va la imagen*/
   .sh-right {
     flex: 0 0 45%;
     position: relative;
@@ -234,7 +234,7 @@
     margin: 0;
   }
 
-  /* ─── REVIEW FLOTANTE ─── */
+  /* comentario */
   .sh-review-card {
     position: absolute;
     bottom: 30px;
