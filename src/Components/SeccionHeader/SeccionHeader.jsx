@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import '../SeccionHeader/SeccionHeader.css'
 
 export const SeccionHeader = () => {
@@ -17,6 +18,7 @@ export const SeccionHeader = () => {
           </ul>
 
           <span className="sh-btn-tienda">Ir a al Comic</span>
+          <Link to="/comic"className="sh-btn-tienda">Ir a al Comic</Link>
         </nav>
 
        
