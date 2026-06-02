@@ -1,13 +1,16 @@
-import React from 'react'
-import { SeccionHeader } from '../Components/SeccionHeader'
+
+
+import { SeccionHeader } from '../Components/SeccionHeader/SeccionHeader'
+import { SeccionInfoComic } from '../Components/SeccionInfoComic/SeccionInfoComic'
+import SeccionStiven from '../Components/SeccionStiven/SeccionStiven'
 
 export const Home = () => {
   return (
-   <>
-   <SeccionHeader/>
-   
-   
-   
-   </>
+    <>
+      <SeccionHeader />
+      <SeccionInfoComic />
+      <SeccionStiven />
+
+    </>
   )
 }

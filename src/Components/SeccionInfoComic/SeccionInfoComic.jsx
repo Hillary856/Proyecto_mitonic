@@ -1,5 +1,5 @@
-import React from 'react'
 
+import '../SeccionInfoComic/SeccionInfoComic.css'
 export const SeccionInfoComic = () => {
   return (
     <>
