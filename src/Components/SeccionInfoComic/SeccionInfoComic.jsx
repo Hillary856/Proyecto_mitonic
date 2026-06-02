@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import '../SeccionInfoComic/SeccionInfoComic.css'
 export const SeccionInfoComic = () => {
   return (

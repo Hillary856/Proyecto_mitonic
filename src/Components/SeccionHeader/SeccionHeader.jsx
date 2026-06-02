@@ -4,9 +4,9 @@ import '../SeccionHeader/SeccionHeader.css'
 export const SeccionHeader = () => {
   return (
     <>
-    <div className="sh-root">
+      <div className="sh-root">
 
-        
+
         <nav className="sh-navbar">
           <span className="sh-brand">Logo</span>
 
@@ -17,22 +17,22 @@ export const SeccionHeader = () => {
             <li><span className="sh-nav-link">Personajes</span></li>
           </ul>
 
-          <span className="sh-btn-tienda">Ir a al Comic</span>
-          <Link to="/comic"className="sh-btn-tienda">Ir a al Comic</Link>
+
+          <Link to="/comic" className="btn btn-primary">Ir a al Comic</Link>
         </nav>
 
-       
+
         <section className="sh-hero">
 
-        
+
           <div className="sh-left">
             <div className="sh-badge">
               <span className="sh-badge-dot"></span>
-            transmitiendo grandeza, conocimiento y poder.
+              transmitiendo grandeza, conocimiento y poder.
             </div>
 
             <h1 className="sh-titulo">
-             Mitonic como
+              Mitonic como
               <span className="sh-highlight">puente de<br />sabiduria.</span>
             </h1>
 
@@ -55,14 +55,14 @@ export const SeccionHeader = () => {
             </div>
           </div>
 
-          
+
           <div className="sh-right">
             <div className="sh-image-card">
               <img
-                  src=""
-                  alt="Portada"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
+                src=""
+                alt="Portada"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             </div>
 
             <div className="sh-review-card">
