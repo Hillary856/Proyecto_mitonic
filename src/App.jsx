@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import { Home } from "./Pages/Home"
 import Comic from "./Pages/Comic"
-import TrailerStiven from "./Components/SeccionStiven/TrailerStiven"
+
 import { Lineadeltiempo } from "./Components/Lineadeltiempo"
+import TrailerStiven from "./Pages/TrailerStiven"
 
 export const App = () => {
   return (
@@ -11,8 +12,8 @@ export const App = () => {
     <Routes>
        <Route path="/" element={<Home />} />
         <Route path="/comic" element={<Comic/>} />
-         <Route path="/TrailerStiven" element={<TrailerStiven/>} />
-         <Route  path="/Lineadeltiempo" element={<Lineadeltiempo/>} />
+         <Route path="/trailerStiven" element={<TrailerStiven/>} />
+         <Route  path="/lineadeltiempo" element={<Lineadeltiempo/>} />
     </Routes>
     </BrowserRouter>
       
