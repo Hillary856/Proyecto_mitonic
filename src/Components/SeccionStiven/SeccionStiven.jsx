@@ -1,4 +1,4 @@
-import "./SeccionStiven.css"
+import "./SeccionStiven"
 
 const SeccionStiven = () => {
   return (
