@@ -31,19 +31,19 @@ export const SeccionHeader = () => {
             >
               <ul className="navbar-nav gap-lg-4 text-uppercase fw-bold">
                 <li className="nav-item">
-                  <span className="nav-link">Trailer</span>
+                  <span className="">Trailer</span>
                 </li>
 
                 <li className="nav-item">
-                  <span className="nav-link">Escenarios</span>
+                  <span className="">Escenarios</span>
                 </li>
 
                 <li className="nav-item">
-                  <span className="nav-link">Equipo</span>
+                  <span className="">Equipo</span>
                 </li>
 
                 <li className="nav-item">
-                  <span className="nav-link">Personajes</span>
+                  <span className="">Personajes</span>
                 </li>
               </ul>
             </div>
@@ -92,11 +92,11 @@ export const SeccionHeader = () => {
 
               <div className="d-flex flex-wrap gap-3 mt-4">
 
-                <button className="btn btn-warning btn-lg rounded-pill">
+                <button className="btn btn-warning btn-lg">
                   Descubre más ↗
                 </button>
 
-                <button className="btn btn-outline-dark btn-lg rounded-pill">
+                <button className="btn btn-outline-dark btn-lg">
                   ▶ Ver tráiler
                 </button>
 
