@@ -4,77 +4,140 @@ import '../SeccionHeader/SeccionHeader.css'
 export const SeccionHeader = () => {
   return (
     <>
-      <div className="sh-root">
+    
+    
+      <div className="bg-light min-vh-100">
 
+        {/* Navbar */}
+        <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+          <div className="container">
 
-        <nav className="sh-navbar">
-          <span className="sh-brand">Logo</span>
+            <span className="navbar-brand fs-2 fw-bold">
+              Logo
+            </span>
 
-          <ul className="sh-nav-links">
-            <li><span className="sh-nav-link">Trailer</span></li>
-            <li><span className="sh-nav-link">Escenarios</span></li>
-            <li><span className="sh-nav-link">Equipo</span></li>
-            <li><span className="sh-nav-link">Personajes</span></li>
-          </ul>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarMitonic"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
 
+            <div
+              className="collapse navbar-collapse justify-content-center"
+              id="navbarMitonic"
+            >
+              <ul className="navbar-nav gap-lg-4 text-uppercase fw-bold">
+                <li className="nav-item">
+                  <span className="nav-link">Trailer</span>
+                </li>
 
-          <Link to="/comic" className="btn btn-primary">Ir a al Comic</Link>
+                <li className="nav-item">
+                  <span className="nav-link">Escenarios</span>
+                </li>
+
+                <li className="nav-item">
+                  <span className="nav-link">Equipo</span>
+                </li>
+
+                <li className="nav-item">
+                  <span className="nav-link">Personajes</span>
+                </li>
+              </ul>
+            </div>
+
+            <Link
+              to="/comic"
+              className="btn btn-primary rounded-pill"
+            >
+              Ir al Comic
+            </Link>
+
+          </div>
         </nav>
 
+        {/* Hero */}
+        <section className="container">
+          <div className="row align-items-center min-vh-100">
 
-        <section className="sh-hero">
+            {/* Columna izquierda */}
+            <div className="col-lg-6">
 
+              <span className="badge bg-warning text-dark rounded-pill px-3 py-2 mb-3">
+                ● Transmitiendo grandeza, conocimiento y poder
+              </span>
 
-          <div className="sh-left">
-            <div className="sh-badge">
-              <span className="sh-badge-dot"></span>
-              transmitiendo grandeza, conocimiento y poder.
-            </div>
+              <h1 className="display-2 fw-bold">
+                Mitonic como
+                <span className="d-block text-warning">
+                  puente de sabiduría
+                </span>
+              </h1>
 
-            <h1 className="sh-titulo">
-              Mitonic como
-              <span className="sh-highlight">puente de<br />sabiduria.</span>
-            </h1>
+              <ul className="fs-5 text-secondary mt-4">
+                <li>
+                  Mito: la inspiración en la mitología griega y romana.
+                </li>
 
-            <p className="sh-descripcion">
-              <ul>
-                <li>Mito: la inspiración en la mitología griega y romana.</li>
-                <li>Toni (Othoni): que significa “pantalla”, relacionándolo con lo visual.</li>
-                <li>NIC es la referencia al componente tecnológico.</li>
+                <li>
+                  Toni (Othoni): significa "pantalla", relacionándolo con lo visual.
+                </li>
+
+                <li>
+                  NIC: referencia al componente tecnológico.
+                </li>
               </ul>
-            </p>
 
-            <div className="sh-ctas">
-              <span className="sh-btn-catalogo">
-                Descubre más &nbsp;↗
-              </span>
-              <span className="sh-btn-trailer">
-                <span className="sh-play-icon">▶</span>
-                Ver tráiler
-              </span>
+              <div className="d-flex flex-wrap gap-3 mt-4">
+
+                <button className="btn btn-warning btn-lg rounded-pill">
+                  Descubre más ↗
+                </button>
+
+                <button className="btn btn-outline-dark btn-lg rounded-pill">
+                  ▶ Ver tráiler
+                </button>
+
+              </div>
+
             </div>
+
+            {/* Columna derecha */}
+            <div className="col-lg-6 mt-5 mt-lg-0">
+
+              <div className="card shadow-lg border-0">
+
+                <img
+                  src="https://placehold.co/800x600"
+                  alt="Portada"
+                  className="card-img-top"
+                />
+
+                <div className="card-body">
+
+                  <div className="text-warning fs-5 mb-2">
+                    ★★★★★
+                  </div>
+
+                  <p className="card-text text-muted">
+                    Una obra maestra que fusiona mitología y tecnología de
+                    manera épica. Mitonic es un viaje visual impresionante
+                    que cautiva desde el primer momento.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
           </div>
-
-
-          <div className="sh-right">
-            <div className="sh-image-card">
-              <img
-                src=""
-                alt="Portada"
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
-            </div>
-
-            <div className="sh-review-card">
-              <div className="sh-review-stars">★★★★★</div>
-              <p className="sh-review-text">
-                "Una obra maestra que fusiona mitología y tecnología de manera épica. Mitonic es un viaje visual impresionante que cautiva desde el primer momento."
-              </p>
-            </div>
-          </div>
-
         </section>
+
       </div>
     </>
   );
-}
+};
+    
