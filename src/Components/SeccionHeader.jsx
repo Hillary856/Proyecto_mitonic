@@ -20,15 +20,13 @@ export const SeccionHeader = () => {
               className="navbar-toggler"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#navbarMitonic"
-            >
+              data-bs-target="#navbarMitonic">
               <span className="navbar-toggler-icon"></span>
             </button>
 
             <div
               className="collapse navbar-collapse justify-content-center"
-              id="navbarMitonic"
-            >
+              id="navbarMitonic">
               <ul className="navbar-nav gap-lg-4 text-uppercase fw-bold">
                 <li className="nav-item">
                   <span className="">Trailer</span>
@@ -50,8 +48,7 @@ export const SeccionHeader = () => {
 
             <Link
               to="/comic"
-              className="btn btn-primary rounded-pill"
-            >
+              className="btn btn-primary rounded-pill">
               Ir al Comic
             </Link>
 
@@ -97,7 +94,7 @@ export const SeccionHeader = () => {
                 </button>
 
                 <button className="btn btn-outline-dark btn-lg">
-                  ▶ Ver tráiler
+                  ver tráiler
                 </button>
 
               </div>
@@ -112,8 +109,7 @@ export const SeccionHeader = () => {
                 <img
                   src="https://placehold.co/800x600"
                   alt="Portada"
-                  className="card-img-top"
-                />
+                  className="card-img-top"/>
 
                 <div className="card-body">
 
