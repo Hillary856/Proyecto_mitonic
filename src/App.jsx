@@ -14,6 +14,7 @@ export const App = () => {
         <Route path="/comic" element={<Comic/>} />
          <Route path="/trailerStiven" element={<TrailerStiven/>} />
          <Route  path="/lineadeltiempo" element={<Lineadeltiempo/>} />
+         <Route path="=stivenanimacion" element={<  LottieStiven/>}/>
     </Routes>
     </BrowserRouter>
       
