@@ -1,4 +1,4 @@
-import LottieReact from "lottie-react";
+/* import LottieReact from "lottie-react";
 import stivenAnimation from "./stivenanimacion.json";
 
 const Lottie = LottieReact.default; 
@@ -10,4 +10,4 @@ const stivenAnimation = () => {
   )
 };
 
-export default Example;
+export default Example; */

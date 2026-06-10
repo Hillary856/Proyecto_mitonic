@@ -4,6 +4,7 @@ import Comic from "./Pages/Comic"
 
 import { Lineadeltiempo } from "./Components/Lineadeltiempo"
 import TrailerStiven from "./Pages/TrailerStiven"
+import LottieHillary from "./Components/LottieHillary"
 
 export const App = () => {
   return (
@@ -14,7 +15,7 @@ export const App = () => {
         <Route path="/comic" element={<Comic/>} />
          <Route path="/trailerStiven" element={<TrailerStiven/>} />
          <Route  path="/lineadeltiempo" element={<Lineadeltiempo/>} />
-         <Route path="=stivenanimacion" element={<  LottieStiven/>}/>
+         <Route path="/lottiehillary" element={<LottieHillary/>} />
     </Routes>
     </BrowserRouter>
       
