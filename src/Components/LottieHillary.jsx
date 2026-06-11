@@ -1,5 +1,5 @@
 import lottieReact from "lottie-react"
-import stivenAnimation from "../assets/stivenanimacion.json";
+import osopolarH from "../assets/osopolarH.json";
 import { useRef } from "react";
 
 const Lottie = lottieReact.default;
@@ -17,7 +17,7 @@ export const LottieHillary = () => {
             <div onClick={Reproducir}>
                 <Lottie
                     lottieRef={LottieRef}
-                    animationData={stivenAnimation}
+                    animationData={osopolarH}
                     loop={true}
                     autoplay={false}
                     style={{ width: 500, height: 500 }}
