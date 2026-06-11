@@ -1,10 +1,10 @@
-import LottieReact from "lottie-react";
+import lottieReact from "lottie-react"
 import stivenAnimation from "../assets/stivenanimacion.json";
 import { useRef } from "react";
 
 const Lottie = lottieReact.default;
 
-const LottieHillary = () => {
+export const LottieHillary = () => {
     const LottieRef = useRef();
 
     const Reproducir = () => {
@@ -14,15 +14,15 @@ const LottieHillary = () => {
     return (
         <>
 
-<div onClick={Reproducir}>
-    <Lottie
-        lottieRef={LottieRef}
-        animationData={stivenAnimation}
-        loop={true}
-        autoplay={false}
-        style={{ width: 500, height: 500 }}
-    />
-</div>
+            <div onClick={Reproducir}>
+                <Lottie
+                    lottieRef={LottieRef}
+                    animationData={stivenAnimation}
+                    loop={true}
+                    autoplay={false}
+                    style={{ width: 500, height: 500 }}
+                />
+            </div>
 
 
         </>
@@ -30,5 +30,3 @@ const LottieHillary = () => {
 
     );
 };
-
-export default LottieStiven;
