@@ -1,0 +1,38 @@
+.pantalla{
+position:relative;
+width: 1000px ;
+height: 408px;
+overflow: hidden;
+background: yellow;
+
+}
+
+
+.hielo{
+width: 60px;
+
+}
+
+.pez{
+    width: 100px;
+}
+
+.nube1{
+width: 360px;
+top: 31px;
+left: 36px;
+
+}
+
+.nube2{
+width: 360px;
+top: 31px;
+left: 432px;
+}
+
+.OsoH{
+    width: 350px;
+    position: absolute;
+    right: 198px;
+    bottom: 52px;
+}
