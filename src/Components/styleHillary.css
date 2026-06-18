@@ -1,38 +1,105 @@
-.pantalla{
-position:relative;
-width: 1000px ;
-height: 408px;
-overflow: hidden;
-background: yellow;
+.pantalla {
+    position: relative;
+    width: 1000px;
+    height: 408px;
+    overflow: hidden;
+    background: yellow;
 
 }
 
 
-.hielo{
-width: 60px;
+.hielo {
+    width: 60px;
+    left: 70px;
+    bottom: 20px;
+    cursor: pointer;
+    transition-duration: .1s;
+}
+
+.hielo:hover {
+    transform: rotate(-5deg) scale(1.1);
 
 }
 
-.pez{
-    width: 100px;
+.pez:hover {
+    transform: rotate(5deg) scale(1.1);
 }
 
-.nube1{
-width: 360px;
-top: 31px;
-left: 36px;
-
+.pez {
+    width: 90px;
+    left: 290px;
+    bottom: 30%;
+    cursor: pointer;
+    transition-duration: .1s;
 }
 
-.nube2{
-width: 360px;
-top: 31px;
-left: 432px;
+.nube1 {
+    width: 360px;
+    top: 31px;
+    left: 36px;
+    animation: nube1 50s linear infinite;
 }
 
-.OsoH{
+
+.nube2 {
+    width: 360px;
+    top: 31px;
+    left: 432px;
+    animation: nube1 50s linear infinite;
+}
+
+.OsoH {
     width: 350px;
     position: absolute;
     right: 198px;
     bottom: 52px;
+    cursor: pointer;
+}
+
+.pingo {
+    width: 100px;
+    position: absolute;
+    bottom: 80px;
+    left: 160px;
+    cursor: pointer;
+    transition-duration: .1s;
+}
+
+.pingo:hover {
+    transform: rotate(-1deg) scale(1.05);
+    filter: drop-shadow(2px 2px 2px blue);
+}
+
+@keyframes nube1 {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(400px);
+
+    }
+
+    100% {
+        transform: translateX(0);
+
+    }
+
+}
+
+@keyframes nube2 {
+    0% {
+        transform: translateX(-0);
+    }
+
+    50% {
+        transform: translateX(-400px);
+
+    }
+
+    100% {
+        transform: translateX(-0);
+
+    }
+
 }

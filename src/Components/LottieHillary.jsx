@@ -8,10 +8,27 @@ const Lottie = lottieReact.default;
 
 export const LottieHillary = () => {
     const LottieRef = useRef();
+    const LottieRefPingui = useRef();
 
-    const Reproducir = () => {
+
+    const ReproducirOso = () => {
         LottieRef.current.play();
+        
     }
+
+      const ReproducirPingui = () => {
+        LottieRefPingui.current.play();
+    }
+
+    const lanzarhielo =() => {
+       LottieRefPingui.current.playSegments([0,30], true );
+    }
+
+     const lanzarpez =() => {
+       LottieRef.current.playSegments([20,50], true );
+    }
+
+
 
     return (
         <>
@@ -23,18 +40,27 @@ export const LottieHillary = () => {
                 <img className= "position-absolute fondo" src="../public/SVG/Fondo.svg" alt="" />
                 <img className= "position-absolute nube1" src="../public/SVG/Nube1.svg" alt="" />
                 <img className= "position-absolute nube2" src="../public/SVG/Nube2.svg" alt="" />
-                <img className= "position-absolute hielo" src="../public/SVG/Hielo.svg" alt="" />
-                <img className= "position-absolute pez" src="../public/SVG/pez.svg" alt="" />
+                <img onClick={lanzarhielo} className= "position-absolute hielo" src="../public/SVG/Hielo.svg" alt="" />
+                <img onClick={lanzarpez} className= "position-absolute pez" src="../public/SVG/pez.svg" alt="" />
 
 
-                <div onClick={Reproducir}>
+                <div onClick={ReproducirOso}>
                     <Lottie
                         lottieRef={LottieRef}
                         animationData={osopolarH}
                         loop={true}
                         autoplay={false}
-                        style={{ width: 500, height: 500 }}
                         className="OsoH"
+                    />
+                </div>
+
+                <div onClick={ReproducirPingui}>
+                    <Lottie
+                        lottieRef={LottieRefPingui}
+                        animationData={pinguinoAndres}
+                        loop={true}
+                        autoplay={false}
+                        className="pingo"
                     />
                 </div>
 
