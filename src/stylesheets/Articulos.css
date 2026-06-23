@@ -1,0 +1,167 @@
+.articulos-container {
+  min-height: 100vh;
+  background: #e8e8e8;
+  overflow-x: auto;
+}
+
+.articulos-title {
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 400;
+  color: #000;
+  letter-spacing: 1px;
+}
+
+/* Botones */
+
+.btn-home,
+.btn-history {
+  background: #0d5bff;
+  color: white;
+  border-radius: 40px;
+  padding: 10px 22px;
+  border: none;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.btn-home:hover,
+.btn-history:hover {
+  background: #0048dd;
+  color: white;
+}
+
+/* Zona barras */
+
+.bars-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  min-height: 420px;
+  padding-bottom: 2rem;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.collection-bar {
+  width: 65px;
+  background: #8d8d8d;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Iconos */
+
+.icon-container {
+  height: 85px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Círculo azul */
+
+.blue-circle {
+  width: 64px;
+  height: 64px;
+  background: #1451ff;
+  border-radius: 50%;
+}
+
+/* Triángulo verde agua */
+
+.triangle-icon {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-left: 28px solid transparent;
+  border-right: 28px solid transparent;
+  border-top: 48px solid #a9efe4;
+}
+
+.triangle-icon span {
+  position: absolute;
+  top: -43px;
+  left: -7px;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: black;
+}
+
+/* Estrella rosada */
+
+.star-icon {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  background: #c78e8e;
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+}
+
+.star-icon span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: black;
+}
+
+/* Responsive */
+
+@media (max-width: 992px) {
+  .bars-wrapper {
+    gap: 1rem;
+  }
+
+  .collection-bar {
+    width: 55px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bars-wrapper {
+    min-width: 700px;
+  }
+
+  .collection-bar {
+    width: 50px;
+  }
+
+  .triangle-icon {
+    transform: scale(0.9);
+  }
+
+  .star-icon {
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 576px) {
+  .btn-home,
+  .btn-history {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+
+  .collection-bar {
+    width: 45px;
+  }
+}

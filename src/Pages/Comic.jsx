@@ -1,8 +1,13 @@
 import { Link } from 'react-router-dom';
+import { EscenaPortada } from './EscenaPortada';
+import { EscenaAdrian } from './EscenaAdrian';
 
 const Comic = () => {
   return (
-    <div>Comic</div>
+    <>
+      <EscenaPortada />
+      {/* <EscenaAdrian /> */}
+    </>
   )
 }
 
