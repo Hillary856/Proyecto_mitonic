@@ -5,6 +5,8 @@ import { Lineadeltiempo } from "./Components/Lineadeltiempo"
 import TrailerStiven from "./Pages/TrailerStiven"
 import { LottieHillary } from "./Components/LottieHillary"
 import { Articulos } from "./Pages/Articulos"
+import { EscenaPortada } from "./Pages/EscenaPortada"
+
 
 
 export const App = () => {
@@ -18,6 +20,8 @@ export const App = () => {
           <Route path="/trailerStiven" element={<TrailerStiven />} />
           <Route path="/lineadeltiempo" element={<Lineadeltiempo />} />
           <Route path="/lottiehillary" element={<LottieHillary />} />
+          <Route path="/escenaportada" element={<EscenaPortada />} />
+
         </Routes>
       </BrowserRouter>
 
