@@ -1,19 +1,51 @@
 import "../stylesheets/Articulos.css";
+import { useNavigate } from "react-router-dom";
 
 export const Articulos = () => {
 
+  const navigate = useNavigate();
+
+
   const items = [
-    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/relo1.svg" },
-    { column: "/AssetsH/Columna2.svg", object: "../public/AssetsH/estatua.svg" },
-    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/pan.svg" },
-    { column: "/AssetsH/Columna2.svg", object: "../public/AssetsH/caballo.svg" },
-    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/frutas.svg" },
-    { column: "/AssetsH/Columna2.svg", object: "../public/AssetsH/pergamino.svg" },
-    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/brujula.svg" },
+    {
+      column: "/AssetsH/Columna1.svg",
+      object: "../public/AssetsH/relo1.svg",
+      locked: true,
+    },
+    {
+      column: "/AssetsH/Columna2.svg",
+      object: "../public/AssetsH/estatua.svg",
+      locked: true,
+    },
+    {
+      column: "/AssetsH/Columna1.svg",
+      object: "../public/AssetsH/pan.svg",
+      locked: true,
+    },
+    {
+      column: "/AssetsH/Columna2.svg",
+      object: "../public/AssetsH/caballo.svg",
+      locked: true,
+    },
+    {
+      column: "/AssetsH/Columna1.svg",
+      object: "../public/AssetsH/frutas.svg",
+      locked: true,
+    },
+    {
+      column: "/AssetsH/Columna2.svg",
+      object: "../public/AssetsH/pergamino.svg",
+      locked: true,
+    },
+    {
+      column: "/AssetsH/Columna1.svg",
+      object: "../public/AssetsH/brujula.svg",
+      locked: true,
+    },
   ];
 
   return (
-    <div className="container-fluid articulos-page">
+    <div className="articulos-page">
 
       {/* Header */}
       <div className="d-flex justify-content-between align-items-center px-5 pt-4">
@@ -24,11 +56,14 @@ export const Articulos = () => {
 
         <div className="d-flex gap-3">
 
-          <button className="btn btn-primary px-4">
+          <button
+            className="btn-menu-articulos"
+            onClick={() => navigate("/EscenaPortada")}
+          >
             Volver al Inicio
           </button>
 
-          <button className="btn btn-warning px-4">
+          <button className="btn-menu-articulos amarillo">
             Volver a la historia
           </button>
 
@@ -44,19 +79,26 @@ export const Articulos = () => {
 
           <div className="column-item" key={index}>
 
-            {/* Objeto */}
+            <div className="object-container">
 
-            <img
-              src={item.object}
-              alt="Objeto"
-              className="collection-object"
-            />
+              <img
+                src={item.object}
+                alt=""
+                className={`collection-object ${item.locked ? "locked" : ""
+                  }`}
+              />
 
-            {/* Columna */}
+              {item.locked && (
+                <div className="lock-icon">
+                  🔒
+                </div>
+              )}
+
+            </div>
 
             <img
               src={item.column}
-              alt="Columna"
+              alt=""
               className="collection-column"
             />
 
@@ -69,3 +111,5 @@ export const Articulos = () => {
     </div>
   );
 };
+
+export default Articulos;
