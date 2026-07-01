@@ -443,3 +443,71 @@
     }
 
 }
+
+
+
+/* ESTILOS ESCENA ADRIAN*/
+
+.pantalla-adrian{
+
+    width:100vw;
+    height:100vh;
+
+    position:relative;
+
+    overflow:hidden;
+
+    background:#2f241d; /* Temporal, luego pondremos la cueva */
+
+}
+
+.adrian-container{
+
+    position: absolute;
+
+    left: 50%;
+    top: 34%;
+
+    transform: translate(-50%, -50%);
+
+    width: 300px;
+
+    cursor: pointer;
+
+    z-index: 2;
+
+}
+
+.adrian-lottie{
+
+    width:100%;
+
+}
+
+.texto-container{
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 10px;
+
+    transform: translateX(-50%);
+
+    width: 850px;
+
+    display: flex;
+    justify-content: center;
+
+    z-index: 1;
+
+}
+
+.texto-lottie{
+
+    width: 100%;
+
+    transform: scale(0.82);
+
+    transform-origin: center bottom;
+
+}
