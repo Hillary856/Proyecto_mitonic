@@ -104,7 +104,9 @@
 
 }
 
-
+.fondo-1{
+    width: 100%;
+}
 
 .fondo1{
     width: 11%;
@@ -124,7 +126,7 @@
     position: absolute;
     width: 30vw;
     min-width: 348vw;
-    top: 2%;
+    top: -695px;
     left: 0;
     right: 0%;
     margin: auto;

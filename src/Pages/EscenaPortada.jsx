@@ -11,7 +11,7 @@ export const EscenaPortada = () => {
         {/* Fondo gris (placeholder para imagen futura) */}
         <div className=" position-relative w-100 h-100 d-flex flex-column justify-content-center align-items-center">
 
-          <img className="position-absolute " src="../public/fondo-1.png" alt="" />
+          <img className="fondo-1 " src="../public/fondo-1.png" alt="" />
 
           {/* Sol */}
           <div className="position-relative d-flex align-items-center">

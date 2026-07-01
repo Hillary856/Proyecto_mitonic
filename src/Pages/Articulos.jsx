@@ -1,72 +1,71 @@
 import "../stylesheets/Articulos.css";
 
 export const Articulos = () => {
+
   const items = [
-    { type: "circle", height: 220 },
-    { type: "star", height: 115 },
-    { type: "triangle", height: 190 },
-    { type: "star", height: 160 },
-    { type: "triangle", height: 235 },
-    { type: "star", height: 180 },
-    { type: "triangle", height: 100 },
+    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/relo1.svg" },
+    { column: "/AssetsH/Columna2.svg", object: "../public/AssetsH/estatua.svg" },
+    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/pan.svg" },
+    { column: "/AssetsH/Columna2.svg", object: "../public/AssetsH/caballo.svg" },
+    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/frutas.svg" },
+    { column: "/AssetsH/Columna2.svg", object: "../public/AssetsH/pergamino.svg" },
+    { column: "/AssetsH/Columna1.svg", object: "../public/AssetsH/brujula.svg" },
   ];
 
   return (
-    <div className="articulos-container">
-      <div className="container py-4">
-        {/* Header */}
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-5">
-          <h1 className="articulos-title mb-0">
-            ARTICULOS COLECCIONADOS
-          </h1>
+    <div className="container-fluid articulos-page">
 
-          <div className="d-flex gap-2 justify-content-md-end">
-            <button className="btn btn-primary">
-              Volver al Inicio
-            </button>
+      {/* Header */}
+      <div className="d-flex justify-content-between align-items-center px-5 pt-4">
 
-            <button className="btn btn-warning">
-              Volver a la historia
-            </button>
-          </div>
+        <h1 className="titulo-articulos">
+          ARTÍCULOS COLECCIONADOS
+        </h1>
+
+        <div className="d-flex gap-3">
+
+          <button className="btn btn-primary px-4">
+            Volver al Inicio
+          </button>
+
+          <button className="btn btn-warning px-4">
+            Volver a la historia
+          </button>
+
         </div>
 
-        {/* Barras */}
-        <div className="bars-wrapper">
-          {items.map((item, index) => (
-            <div key={index} className="bar-item">
-
-              {/* Icono superior */}
-              <div className="icon-container">
-
-                {item.type === "circle" && (
-                  <div className="blue-circle"></div>
-                )}
-
-                {item.type === "triangle" && (
-                  <div className="triangle-icon">
-                    <span>?</span>
-                  </div>
-                )}
-
-                {item.type === "star" && (
-                  <div className="star-icon">
-                    <span>?</span>
-                  </div>
-                )}
-
-              </div>
-
-              {/* Barra */}
-              <div
-                className="collection-bar"
-                style={{ height: `${item.height}px` }}
-              ></div>
-            </div>
-          ))}
-        </div>
       </div>
+
+      {/* Colección */}
+
+      <div className="collection-container">
+
+        {items.map((item, index) => (
+
+          <div className="column-item" key={index}>
+
+            {/* Objeto */}
+
+            <img
+              src={item.object}
+              alt="Objeto"
+              className="collection-object"
+            />
+
+            {/* Columna */}
+
+            <img
+              src={item.column}
+              alt="Columna"
+              className="collection-column"
+            />
+
+          </div>
+
+        ))}
+
+      </div>
+
     </div>
   );
 };
-
