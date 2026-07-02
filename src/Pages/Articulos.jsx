@@ -10,7 +10,7 @@ export const Articulos = () => {
     {
       column: "/AssetsH/Columna1.svg",
       object: "../public/AssetsH/relo1.svg",
-      locked: true,
+      locked: false,
     },
     {
       column: "/AssetsH/Columna2.svg",
