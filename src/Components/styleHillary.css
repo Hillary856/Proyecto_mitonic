@@ -509,7 +509,6 @@
 .texto-container {
 
     position: absolute;
-
     left: 50%;
     bottom: -92px;
 
@@ -519,18 +518,18 @@
 
     display: flex;
     justify-content: center;
+    align-items: center;
 
     z-index: 2;
 
 }
 
+
 .texto-lottie {
 
     width: 100%;
+    
 
-    transform: scale(1.08);
-
-    transform-origin: center bottom;
 
 }
 
@@ -551,38 +550,99 @@
 
 }
 
-.flecha-dialogo{
+.texto-parpadeo .texto-lottie{
 
-    position: absolute;
-
-    bottom: 20px;
-
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    font-size: 28px;
-
-    color: white;
-
-    animation: flechaAnimada .8s infinite;
-
-    pointer-events: none;
+    cursor: pointer;
+    animation: brilloContinuar 1.2s infinite;
 
 }
 
-@keyframes flechaAnimada{
+@keyframes brilloContinuar{
 
     0%{
-        transform: translateX(-50%) translateY(0);
+
+        filter: brightness(1);
+        transform: scale(1);
+
     }
 
     50%{
-        transform: translateX(-50%) translateY(6px);
+
+        filter: brightness(1.45);
+        transform: scale(1.03);
+
     }
 
     100%{
-        transform: translateX(-50%) translateY(0);
+
+        filter: brightness(1);
+        transform: scale(1);
+
+    }
+
+}
+
+
+
+.reloj-articulo{
+
+    position: absolute;
+    width: 110px;
+    left: 16%;
+    top: 16%;
+    z-index: 5;
+    transform: rotate(27deg);
+
+}
+
+.reloj-activo{
+
+    cursor: pointer;
+
+    animation: relojRespira 1.4s ease-in-out infinite;
+
+    transition: .25s;
+}
+
+.reloj-activo:hover{
+
+    transform: translate(-50%, -50%) scale(1.12);
+
+    filter:
+        drop-shadow(0 0 10px #ffe16b)
+        drop-shadow(0 0 20px #ffd000)
+        drop-shadow(0 0 35px #ffea8a);
+
+}
+
+@keyframes relojRespira{
+
+    0%{
+
+        transform: translate(-50%, -50%) scale(1);
+
+        filter:
+            drop-shadow(0 0 0px rgba(255,225,107,.2));
+
+    }
+
+    50%{
+
+        transform: translate(-50%, -50%) scale(1.08);
+
+        filter:
+            drop-shadow(0 0 12px rgba(255,225,107,.9))
+            drop-shadow(0 0 25px rgba(255,208,0,.7));
+
+    }
+
+    100%{
+
+        transform: translate(-50%, -50%) scale(1);
+
+        filter:
+            drop-shadow(0 0 0px rgba(255,225,107,.2));
+
     }
 
 }
