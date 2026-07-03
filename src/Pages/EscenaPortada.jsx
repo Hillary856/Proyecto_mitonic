@@ -12,6 +12,20 @@ export const EscenaPortada = () => {
   const [mostrarIndicaciones, setMostrarIndicaciones] = useState(false);
   const navigate = useNavigate();
 
+  const comenzarHistoria = () => {
+
+
+  setAnimarSol(true);
+
+  
+  setTimeout(() => {
+
+    navigate("/escenaadrian");
+
+  }, 2500); 
+
+};
+
   return (
     <>
       <div className="portada-container vh-100 vw-100 d-flex justify-content-center align-items-center position-relative">
@@ -29,7 +43,7 @@ export const EscenaPortada = () => {
               className={`fondo1 ${animarSol ? "sol-desaparece" : ""}`}
               src="../public/AssetsH/sol2.svg"
               alt=""
-              onClick={() => setAnimarSol(true)}
+              onClick={comenzarHistoria}
             />
           </div>
 
