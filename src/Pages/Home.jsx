@@ -2,15 +2,16 @@
 
 import { SeccionHeader } from '../Components/SeccionHeader'
 import { SeccionInfoComic } from '../Components/SeccionInfoComic'
-import SeccionStiven from '../Components/SeccionStiven/SeccionStiven'
+import { Seccioncartelera } from '../Components/Seccioncartelera'
+import { SeccionAdrian } from '../Components/SeccionAdrian'
 
 export const Home = () => {
   return (
     <>
       <SeccionHeader />
       <SeccionInfoComic />
-      <SeccionStiven />
-
+      <Seccioncartelera />
+      <SeccionAdrian />
     </>
   )
 }

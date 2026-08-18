@@ -646,3 +646,1035 @@
     }
 
 }
+
+/* ============================= */
+/* RESET */
+/* ============================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* ============================= */
+/* CONTENEDOR */
+/* ============================= */
+
+.pagina-mitonic {
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+
+/* ============================= */
+/* HEADER */
+/* ============================= */
+
+.header-mitonic {
+  width: 100%;
+  height: 72px;
+
+  background-color: #f4f1ed;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 4.5%;
+
+  position: relative;
+  z-index: 10;
+}
+
+
+/* ============================= */
+/* LOGO */
+/* ============================= */
+
+.logo-mitonic {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-mitonic img {
+  width: 72px;
+  height: auto;
+  display: block;
+}
+
+
+/* ============================= */
+/* NAV */
+/* ============================= */
+
+.nav-mitonic {
+  display: flex;
+  align-items: center;
+  gap: clamp(30px, 5vw, 75px);
+
+  height: 100%;
+}
+
+.nav-mitonic a {
+  color: #111;
+
+  text-decoration: none;
+
+  font-size: clamp(11px, 1vw, 15px);
+  font-weight: 700;
+
+  transition: opacity 0.2s ease;
+}
+
+.nav-mitonic a:hover {
+  opacity: 0.6;
+}
+
+
+/* VER COMIC */
+
+.nav-mitonic .link-comic {
+  color: #650000;
+}
+
+
+/* ============================= */
+/* HERO */
+/* ============================= */
+
+.hero-mitonic {
+  width: 100%;
+  min-height: calc(100vh - 72px);
+
+  background-color: #e97813;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 6%;
+
+  padding: 6vh 7%;
+}
+
+
+/* ============================= */
+/* TEXTO HERO */
+/* ============================= */
+
+.hero-texto {
+  width: 52%;
+  display: flex;
+  align-items: center;
+}
+
+.hero-texto h1 {
+  margin: 0;
+
+  color: #4b0000;
+
+  font-size: clamp(52px, 6.2vw, 96px);
+  line-height: 1.02;
+
+  font-weight: 700;
+
+  letter-spacing: -3px;
+}
+
+.hero-texto h1 span {
+  color: #f4e7d5;
+}
+
+
+/* ============================= */
+/* TRAILER */
+/* ============================= */
+
+.trailer-mitonic {
+  width: 44%;
+  height: clamp(280px, 38vh, 430px);
+
+  background-color: #d9d9d9;
+
+  border-radius: 20px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* ============================= */
+/* BOTÓN TRAILER */
+/* ============================= */
+
+.boton-trailer {
+  border: none;
+
+  background-color: #650000;
+  color: white;
+
+  padding: 10px 24px;
+
+  border-radius: 25px;
+
+  font-size: clamp(9px, 0.8vw, 12px);
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.boton-trailer:hover {
+  transform: scale(1.05);
+  background-color: #4d0000;
+}
+
+
+/* ============================= */
+/* INDICADOR DE SECCIÓN */
+/* ============================= */
+
+.indicador-seccion {
+  position: absolute;
+
+  left: 0;
+  bottom: 20px;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 16px;
+
+  font-weight: 400;
+}
+
+
+/* ============================= */
+/* TABLET */
+/* ============================= */
+
+@media (max-width: 900px) {
+
+  .header-mitonic {
+    height: 68px;
+    padding: 0 5%;
+  }
+
+  .logo-mitonic img {
+    width: 62px;
+  }
+
+  .nav-mitonic {
+    gap: 28px;
+  }
+
+  .nav-mitonic a {
+    font-size: 11px;
+  }
+
+  .hero-mitonic {
+    min-height: calc(100vh - 68px);
+
+    padding: 6vh 6%;
+
+    gap: 5%;
+  }
+
+  .hero-texto {
+    width: 50%;
+  }
+
+  .hero-texto h1 {
+    font-size: clamp(46px, 7vw, 72px);
+  }
+
+  .trailer-mitonic {
+    width: 45%;
+    height: 300px;
+  }
+}
+
+
+/* ============================= */
+/* CELULAR */
+/* ============================= */
+
+@media (max-width: 650px) {
+
+  .header-mitonic {
+    height: 64px;
+    padding: 0 20px;
+  }
+
+  .logo-mitonic img {
+    width: 55px;
+  }
+
+  .nav-mitonic {
+    gap: 14px;
+  }
+
+  .nav-mitonic a {
+    font-size: 9px;
+  }
+
+  .hero-mitonic {
+    min-height: calc(100vh - 64px);
+
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    gap: 40px;
+
+    padding: 50px 25px;
+  }
+
+  .hero-texto {
+    width: 100%;
+  }
+
+  .hero-texto h1 {
+    font-size: clamp(42px, 12vw, 64px);
+    letter-spacing: -2px;
+  }
+
+  .trailer-mitonic {
+    width: 100%;
+    height: 280px;
+
+    border-radius: 18px;
+  }
+
+  .indicador-seccion {
+    left: 25px;
+  }
+}
+
+
+/* ============================= */
+/* CELULAR PEQUEÑO */
+/* ============================= */
+
+@media (max-width: 450px) {
+
+  .nav-mitonic {
+    gap: 9px;
+  }
+
+  .nav-mitonic a {
+    font-size: 8px;
+  }
+
+  .hero-mitonic {
+    padding: 40px 20px;
+  }
+
+  .hero-texto h1 {
+    font-size: 42px;
+  }
+
+  .trailer-mitonic {
+    height: 230px;
+  }
+}
+
+
+/* ========================================= */
+/* SECCIÓN INFO COMIC */
+/* ========================================= */
+
+.info-comic {
+  width: 100%;
+  min-height: 720px;
+
+  position: relative;
+
+  overflow: hidden;
+
+  background-color: #fcebd8;
+}
+
+
+/* ========================================= */
+/* DECORACIÓN SUPERIOR */
+/* ========================================= */
+
+.decoracion-circulos {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 28px;
+
+  background-color: #e97813;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  z-index: 10;
+
+  overflow: visible;
+}
+
+
+/* CÍRCULOS */
+
+.decoracion-circulos span {
+  width: 48px;
+  height: 48px;
+
+  flex-shrink: 0;
+
+  background-color: #e97813;
+
+  border-radius: 50%;
+
+  transform: translateY(-18px);
+}
+
+
+/* ========================================= */
+/* TÍTULO */
+/* ========================================= */
+
+.info-comic-titulo {
+  position: relative;
+
+  z-index: 4;
+
+  width: 100%;
+
+  padding: 70px 20px 0;
+
+  text-align: center;
+}
+
+.info-comic-titulo h2 {
+  margin: 0;
+
+  color: #c36d3c;
+
+  font-size: clamp(38px, 4.2vw, 62px);
+
+  line-height: 0.98;
+
+  font-weight: 800;
+
+  letter-spacing: -2px;
+}
+
+
+/* ========================================= */
+/* MONTAÑAS */
+/* ========================================= */
+
+.montanas-comic {
+  position: absolute;
+
+  top: 55px;
+  left: 0;
+
+  width: 100%;
+  height: calc(100% - 55px);
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+.montanas-comic img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center top;
+}
+
+
+/* ========================================= */
+/* CONTENIDO */
+/* ========================================= */
+
+.info-comic-contenido {
+  position: relative;
+
+  z-index: 3;
+
+  width: 85%;
+
+  max-width: 1250px;
+
+  margin: 145px auto 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 32px;
+}
+
+
+/* ========================================= */
+/* BLOQUES */
+/* ========================================= */
+
+.info-item {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: 43% 57%;
+
+  align-items: start;
+
+  column-gap: 20px;
+}
+
+
+/* ========================================= */
+/* TÍTULOS */
+/* ========================================= */
+
+.info-item h3 {
+  margin: 0;
+
+  color: #fcebd8;
+
+  font-size: clamp(22px, 2vw, 32px);
+
+  line-height: 1.05;
+
+  font-weight: 800;
+}
+
+
+/* ========================================= */
+/* TEXTOS */
+/* ========================================= */
+
+.info-item p {
+  margin: 0;
+
+  max-width: 650px;
+
+  color: #ffffff;
+
+  font-size: clamp(14px, 1vw, 17px);
+
+  line-height: 1.25;
+
+  font-weight: 600;
+}
+
+
+/* ========================================= */
+/* TABLET */
+/* ========================================= */
+
+@media (max-width: 900px) {
+
+  .info-comic {
+    min-height: 700px;
+  }
+
+
+  /* DECORACIÓN */
+
+  .decoracion-circulos {
+    height: 25px;
+  }
+
+  .decoracion-circulos span {
+    width: 40px;
+    height: 40px;
+
+    transform: translateY(-15px);
+  }
+
+
+  /* TÍTULO */
+
+  .info-comic-titulo {
+    padding-top: 65px;
+  }
+
+  .info-comic-titulo h2 {
+    font-size: clamp(34px, 6vw, 52px);
+  }
+
+
+  /* MONTAÑAS */
+
+  .montanas-comic {
+    top: 50px;
+    height: calc(100% - 50px);
+  }
+
+
+  /* CONTENIDO */
+
+  .info-comic-contenido {
+    width: 88%;
+
+    margin-top: 140px;
+
+    gap: 28px;
+  }
+
+
+  .info-item {
+    grid-template-columns: 43% 57%;
+  }
+
+
+  .info-item h3 {
+    font-size: clamp(20px, 3vw, 28px);
+  }
+
+
+  .info-item p {
+    font-size: 14px;
+  }
+
+}
+
+
+/* ========================================= */
+/* MÓVIL */
+/* ========================================= */
+
+@media (max-width: 650px) {
+
+  .info-comic {
+    min-height: 850px;
+  }
+
+
+  /* DECORACIÓN */
+
+  .decoracion-circulos {
+    height: 23px;
+  }
+
+  .decoracion-circulos span {
+    width: 34px;
+    height: 34px;
+
+    transform: translateY(-13px);
+  }
+
+
+  /* TÍTULO */
+
+  .info-comic-titulo {
+    padding: 55px 18px 0;
+  }
+
+  .info-comic-titulo h2 {
+    font-size: 36px;
+
+    line-height: 1;
+
+    letter-spacing: -1px;
+  }
+
+
+  /* MONTAÑAS */
+
+  .montanas-comic {
+    top: 45px;
+    height: calc(100% - 45px);
+  }
+
+  .montanas-comic img {
+    object-position: center top;
+  }
+
+
+  /* CONTENIDO */
+
+  .info-comic-contenido {
+    width: 86%;
+
+    margin-top: 130px;
+
+    gap: 34px;
+  }
+
+
+  /* BLOQUES */
+
+  .info-item {
+    grid-template-columns: 1fr;
+
+    gap: 9px;
+  }
+
+
+  .info-item h3 {
+    font-size: 24px;
+  }
+
+
+  .info-item p {
+    font-size: 14px;
+
+    line-height: 1.3;
+  }
+
+}
+
+
+/* ========================================= */
+/* MÓVIL PEQUEÑO */
+/* ========================================= */
+
+@media (max-width: 450px) {
+
+  .info-comic {
+    min-height: 900px;
+  }
+
+
+  .decoracion-circulos {
+    height: 22px;
+  }
+
+  .decoracion-circulos span {
+    width: 31px;
+    height: 31px;
+
+    transform: translateY(-12px);
+  }
+
+
+  .info-comic-titulo {
+    padding-top: 52px;
+  }
+
+
+  .info-comic-titulo h2 {
+    font-size: 31px;
+  }
+
+
+  .info-comic-contenido {
+    margin-top: 125px;
+  }
+
+
+  .info-item h3 {
+    font-size: 21px;
+  }
+
+
+  .info-item p {
+    font-size: 13px;
+  }
+
+}
+
+/* =========================================
+   SECCIÓN CARTELERA
+========================================= */
+
+.cartelera-mitonic {
+  width: 100%;
+  min-height: 100vh;
+
+  position: relative;
+  overflow: hidden;
+
+  background-color: #5FAD30;
+}
+
+
+/* =========================================
+   TIERRA / FONDO
+========================================= */
+
+.tierra-cartelera {
+  position: absolute;
+
+  width: 100%;
+  height: 92%;
+
+  left: 0;
+  top: 5%;
+
+  z-index: 1;
+}
+
+.tierra-cartelera img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: fill;
+
+  display: block;
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.contenido-cartelera {
+  position: relative;
+
+  width: 100%;
+  height: 100vh;
+
+  z-index: 2;
+}
+
+
+/* =========================================
+   BOTONES
+========================================= */
+
+.controles-cartelera {
+  position: absolute;
+
+  top: 5%;
+  right: 7%;
+
+  display: flex;
+  gap: 28px;
+
+  z-index: 10;
+}
+
+.boton-cartelera {
+  width: 52px;
+  height: 52px;
+
+  border: none;
+  border-radius: 50%;
+
+  background-color: #650000;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 30px;
+  font-weight: bold;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.boton-cartelera:hover {
+  transform: scale(1.08);
+
+  background-color: #4d0000;
+}
+
+
+
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .tierra-cartelera {
+    width: 92%;
+    left: 4%;
+  }
+
+  .fondos-cartelera {
+    width: 88%;
+    left: 6%;
+
+    gap: 25px;
+  }
+
+  .fondo-cartelera {
+    height: 350px;
+  }
+
+  .controles-cartelera {
+    right: 6%;
+  }
+
+}
+
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 700px) {
+
+  .cartelera-mitonic {
+    min-height: 100vh;
+  }
+
+  .tierra-cartelera {
+    width: 120%;
+    height: 80%;
+
+    left: -10%;
+    top: 15%;
+  }
+
+  .controles-cartelera {
+    top: 5%;
+    right: 7%;
+
+    gap: 12px;
+  }
+
+  .boton-cartelera {
+    width: 44px;
+    height: 44px;
+
+    font-size: 24px;
+  }
+
+ }
+
+
+
+/* ============================= */
+/* SECCIÓN ADRIAN */
+/* ============================= */
+
+.seccion-adrian {
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: #fce9d5;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 60px 7%;
+
+  overflow: hidden;
+}
+
+
+/* ============================= */
+/* INFORMACIÓN */
+/* ============================= */
+
+.adrian-info {
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+/* ============================= */
+/* NOMBRE */
+/* ============================= */
+
+.adrian-nombre {
+  margin: 0;
+
+  color: #713e25;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(55px, 6vw, 86px);
+
+  line-height: 0.95;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+
+/* ============================= */
+/* PROFESIÓN */
+/* ============================= */
+
+.adrian-profesion {
+  margin: 38px 0 0;
+
+  color: #650000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(18px, 1.5vw, 24px);
+
+  font-weight: 800;
+}
+
+
+/* ============================= */
+/* FOTO ADRIAN */
+/* ============================= */
+
+.adrian-foto {
+  width: 560px;
+  height: 560px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-right: 100px;
+}
+
+
+/* ============================= */
+/* SVG ADRIAN */
+/* ============================= */
+
+.adrian-foto img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+}
+
+

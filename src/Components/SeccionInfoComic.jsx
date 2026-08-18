@@ -1,105 +1,96 @@
-
 export const SeccionInfoComic = () => {
   return (
-    <>
+    <section className="info-comic">
+
     
-    <section className="bg-light py-5">
-      <div className="container">
 
-        {/* Encabezado */}
-        <p className="text-warning fw-bold text-uppercase small mb-3">
-          Mitonic y lo transmedial
-        </p>
 
-        <h2 className="display-4 fw-bold mb-5">
-          En busca de
+      {/* ========================================= */}
+      {/* TÍTULO */}
+      {/* ========================================= */}
+
+      <div className="info-comic-titulo">
+
+        <h2>
+          En busca de la innovación y lo
           <br />
-          la innovación y lo contemporáneo.
+          contemporáneo.
         </h2>
 
-        {/* Cards superiores */}
-        <div className="row g-4 mb-4">
+      </div>
 
-          {/* Card oscura */}
-          <div className="col-lg-8">
 
-            <div className="card bg-dark text-white border-0 shadow h-100">
+      {/* ========================================= */}
+      {/* MONTAÑAS */}
+      {/* ========================================= */}
 
-              <div className="card-body d-flex flex-column justify-content-end p-5">
+      <div className="montanas-comic">
 
-                <h3 className="fw-bold display-6 mb-3">
-                  ¿Qué es un comic interactivo?
-                </h3>
+        <img
+          src="/montaña.svg"
+          alt=""
+        />
 
-                <p className="text-white-50 mb-0">
-                  Es una versión digital que permite al lector participar
-                  en la historia mediante animaciones, sonidos o decisiones
-                  que cambian la trama.
-                </p>
+      </div>
 
-              </div>
 
-            </div>
+      {/* ========================================= */}
+      {/* INFORMACIÓN */}
+      {/* ========================================= */}
 
-          </div>
+      <div className="info-comic-contenido">
 
-          {/* Card amarilla */}
-          <div className="col-lg-4">
+        {/* BLOQUE 1 */}
 
-            <div className="card bg-warning border-0 shadow h-100">
+        <div className="info-item">
 
-              <div className="card-body d-flex flex-column justify-content-end p-5">
+          <h3>
+            ¿Qué es un comic interactivo?
+          </h3>
 
-                <h3 className="fw-bold mb-3">
-                  ¿Cómo lo implementamos?
-                </h3>
-
-                <p className="mb-0">
-                  En Mitonic puede aplicarse con elecciones de caminos,
-                  objetos que revelen información y efectos visuales o
-                  sonoros que hagan la experiencia más inmersiva.
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
+          <p>
+            Es una versión digital que permite al lector participar en la historia
+            mediante animaciones, sonidos o decisiones que cambian la trama.
+          </p>
 
         </div>
 
-        {/* Card inferior */}
-        <div className="row">
 
-          <div className="col-12">
+        {/* BLOQUE 2 */}
 
-            <div className="card bg-secondary-subtle border-0 shadow-sm">
+        <div className="info-item">
 
-              <div className="card-body p-4">
+          <h3>
+            ¿Cómo lo implementamos?
+          </h3>
 
-                <p className="text-warning fw-bold mb-4">
-                  Somos una línea del tiempo
-                </p>
+          <p>
+            En Mitonic puede aplicarse con elecciones de caminos, objetos que
+            revelen información y efectos visuales o sonoros que hagan la
+            experiencia más inmersiva.
+          </p>
 
-                <h4 className="fw-bold mb-0">
-                  En este capítulo exploramos Grecia y Roma, sus mitos,
-                  costumbres y aportes, pero la historia sigue con más
-                  capítulos que recorren distintas épocas de forma
-                  divertida y diferente.
-                </h4>
+        </div>
 
-              </div>
 
-            </div>
+        {/* BLOQUE 3 */}
 
-          </div>
+        <div className="info-item">
+
+          <h3>
+            Somos una línea del tiempo
+          </h3>
+
+          <p>
+            En este capítulo exploramos Grecia y Roma, sus mitos, costumbres y
+            aportes, pero la historia sigue con más capítulos que recorren
+            distintas épocas de forma divertida y diferente.
+          </p>
 
         </div>
 
       </div>
+
     </section>
-
-
- </>
   );
-}
+};
