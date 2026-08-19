@@ -1678,3 +1678,22 @@ body {
 }
 
 
+/* ============================= */
+/* SECCIÓN EQUIPO */
+/* ============================= */
+
+.seccion-equipo {
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: #e97813;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
