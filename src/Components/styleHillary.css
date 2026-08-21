@@ -1697,3 +1697,199 @@ body {
   overflow: hidden;
 }
 
+/* ============================= */
+/* SECCIÓN FOOTER */
+/* ============================= */
+
+.seccion-footer {
+  width: 100%;
+  height: 420px;
+
+  background-color: #fce0ad;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* ============================= */
+/* LOGO */
+/* ============================= */
+
+.footer-logo {
+  position: absolute;
+
+  left: 3%;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  z-index: 5;
+}
+
+.footer-logo img {
+  width: 350px;
+  height: auto;
+
+  display: block;
+}
+
+
+/* ============================= */
+/* CONTENEDOR DE ONDAS */
+/* ============================= */
+
+.footer-ondas {
+  position: absolute;
+
+  right: -50px;
+  bottom: -10px;
+
+  width: 79%;
+  height: auto;
+
+  display: block;
+
+  z-index: 1;
+}
+
+
+
+
+
+/* ============================= */
+/* REDES SOCIALES */
+/* ============================= */
+
+.footer-redes {
+  position: absolute;
+
+  right: 4%;
+  bottom: 22px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 30px;
+
+  z-index: 10;
+}
+
+
+/* ============================= */
+/* ICONOS */
+/* ============================= */
+
+.footer-icono {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fce0ad;
+
+  text-decoration: none;
+
+  font-size: 52px;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+
+.footer-icono:hover {
+  transform: scale(1.12);
+
+  opacity: 0.75;
+}
+
+
+/* ============================= */
+/* INDICADOR */
+/* ============================= */
+
+.indicador-footer {
+  position: absolute;
+
+  left: 0;
+  bottom: 12px;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.65);
+
+  font-size: 14px;
+
+  font-weight: 400;
+
+  z-index: 20;
+}
+
+
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
+
+@media (max-width: 900px) {
+
+  .footer-logo img {
+    width: 200px;
+  }
+
+  .footer-ondas {
+    width: 65%;
+  }
+
+  .footer-redes {
+    gap: 18px;
+  }
+
+  .footer-icono {
+    font-size: 27px;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .seccion-footer {
+    height: 500px;
+  }
+
+  .footer-logo {
+    left: 50%;
+    top: 25%;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .footer-logo img {
+    width: 190px;
+  }
+
+  .footer-ondas {
+    width: 100%;
+    height: 65%;
+
+    right: 0;
+  }
+
+  .footer-redes {
+    right: 50%;
+
+    bottom: 20px;
+
+    transform: translateX(50%);
+
+    gap: 22px;
+  }
+
+  .footer-icono {
+    font-size: 28px;
+  }
+
+}
