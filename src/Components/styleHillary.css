@@ -1,4 +1,4 @@
-.pantalla {
+/* .pantalla {
     position: relative;
     width: 1000px;
     height: 408px;
@@ -103,7 +103,8 @@
     }
 
 }
-
+ */
+ 
 
 /* ESCENA PORTADA */
 
@@ -647,9 +648,9 @@
 
 }
 
-/* ============================= */
+
 /* RESET */
-/* ============================= */
+
 
 * {
   margin: 0;
@@ -670,9 +671,9 @@ body {
 }
 
 
-/* ============================= */
+
 /* CONTENEDOR */
-/* ============================= */
+
 
 .pagina-mitonic {
   width: 100%;
@@ -681,9 +682,8 @@ body {
 }
 
 
-/* ============================= */
 /* HEADER */
-/* ============================= */
+
 
 .header-mitonic {
   width: 100%;
@@ -702,9 +702,9 @@ body {
 }
 
 
-/* ============================= */
+
 /* LOGO */
-/* ============================= */
+
 
 .logo-mitonic {
   display: flex;
@@ -719,9 +719,9 @@ body {
 }
 
 
-/* ============================= */
+
 /* NAV */
-/* ============================= */
+
 
 .nav-mitonic {
   display: flex;
@@ -754,9 +754,9 @@ body {
 }
 
 
-/* ============================= */
+
 /* HERO */
-/* ============================= */
+
 
 .hero-mitonic {
   width: 100%;
@@ -774,9 +774,9 @@ body {
 }
 
 
-/* ============================= */
+
 /* TEXTO HERO */
-/* ============================= */
+
 
 .hero-texto {
   width: 52%;
@@ -1696,6 +1696,56 @@ body {
 
   overflow: hidden;
 }
+
+
+/* ============================= */
+/* INTEGRANTES */
+/* ============================= */
+
+.equipo-integrantes {
+  width: 90%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 50px;
+}
+
+
+/* ============================= */
+/* CADA INTEGRANTE */
+/* ============================= */
+
+.integrante {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+}
+
+
+/* ============================= */
+/* IMÁGENES */
+/* ============================= */
+
+.integrante img {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+
+  display: block;
+}
+
+.integrante:nth-child(2) img {
+  max-width: 300px;
+}
+
+
+
 
 /* ============================= */
 /* SECCIÓN FOOTER */
