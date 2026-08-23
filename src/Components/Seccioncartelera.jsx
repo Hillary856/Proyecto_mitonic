@@ -27,18 +27,14 @@ export const Seccioncartelera = () => {
 
         <div className="controles-cartelera">
 
-          <button
-            className="boton-cartelera boton-anterior"
-            aria-label="Fondo anterior"
-          >
-            ‹
+          <button className="boton-cartelera">
+            <img src="/public/btn1.svg" alt="" />
+            <span>‹</span>
           </button>
 
-          <button
-            className="boton-cartelera boton-siguiente"
-            aria-label="Fondo siguiente"
-          >
-            ›
+          <button className="boton-cartelera">
+            <img src="/public/btn2.svg" alt="" />
+            <span>›</span>
           </button>
 
         </div>
