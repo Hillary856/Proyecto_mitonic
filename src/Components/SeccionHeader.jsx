@@ -16,7 +16,7 @@ export const SeccionHeader = () => {
         {/* Navegación */}
         <nav className="nav-mitonic">
 
-          <Link to="/personajes">
+          <Link to="/personaje">
             PERSONAJE
           </Link>
 

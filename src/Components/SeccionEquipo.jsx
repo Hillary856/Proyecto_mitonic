@@ -4,6 +4,8 @@ export const SeccionEquipo = () => {
   return (
     <section className="seccion-equipo">
 
+       <h2 className="equipo-titulo">EQUIPO</h2>
+
       <div className="equipo-integrantes">
 
         {/* LUISA C */}

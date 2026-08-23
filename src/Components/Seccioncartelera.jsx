@@ -1,3 +1,6 @@
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+
 export const Seccioncartelera = () => {
   return (
     <section className="cartelera-mitonic">
@@ -29,12 +32,12 @@ export const Seccioncartelera = () => {
 
           <button className="boton-cartelera">
             <img src="/public/btn1.svg" alt="" />
-            <span>‹</span>
+            <FaChevronLeft />
           </button>
 
           <button className="boton-cartelera">
             <img src="/public/btn2.svg" alt="" />
-            <span>›</span>
+            <FaChevronRight />
           </button>
 
         </div>
