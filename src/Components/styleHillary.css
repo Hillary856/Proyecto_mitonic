@@ -1,3 +1,11 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+
 /* .pantalla {
     position: relative;
     width: 1000px;
@@ -672,16 +680,6 @@ body {
 
 
 
-/* CONTENEDOR */
-
-
-.pagina-mitonic {
-  width: 100%;
-  min-height: 100vh;
-  overflow: hidden;
-}
-
-
 /* HEADER */
 
 
@@ -689,18 +687,17 @@ body {
   width: 100%;
   height: 72px;
 
-  background-color: #f4f1ed;
+  margin: 0;
+  padding: 0 7%;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  padding: 0 4.5%;
+  box-sizing: border-box;
 
-  position: relative;
-  z-index: 10;
+  background-color: #f5f2ed;
 }
-
 
 
 /* LOGO */
@@ -769,12 +766,13 @@ body {
   background-repeat: no-repeat;
 
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   gap: 6%;
+  margin: 0;
 
-  padding: 6vh 7%;
+  padding: 18vh 7% 6vh;
 }
 
 /* TEXTO HERO */
@@ -1495,8 +1493,10 @@ body {
 /* =========================================
    FLECHA
 ========================================= */
+
 .boton-cartelera svg {
   position: relative;
+
   z-index: 2;
 
   width: 24px;
@@ -1518,6 +1518,218 @@ body {
   transform: scale(1.08);
 }
 
+
+/* =========================================
+   VENTANA DE LAS IMÁGENES
+========================================= */
+
+.fondos-cartelera {
+  position: absolute;
+
+  width: 82%;
+  height: 500px;
+
+  left: 9%;
+  top: 23%;
+
+  overflow: hidden;
+
+  z-index: 5;
+}
+
+
+/* =========================================
+   TRACK DEL CARRUSEL
+========================================= */
+
+.fondos-track {
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 90px;
+
+  transition: transform 0.5s ease;
+}
+
+
+/* =========================================
+   TARJETAS DE LOS FONDOS
+========================================= */
+
+.cartelera {
+  flex: 0 0 310px;
+
+  width: 310px;
+  height: 390px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background-color: #d9d9d9;
+
+  transform: rotate(-3deg);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+/* =========================================
+   IMÁGENES DE LOS FONDOS
+========================================= */
+
+.cartelera img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+}
+
+
+/* =========================================
+   ROTACIONES
+========================================= */
+
+.fondo-1 {
+  transform: rotate(-3deg);
+}
+
+.fondo-2 {
+  transform: rotate(3deg);
+}
+
+.fondo-3 {
+  transform: rotate(-3deg);
+}
+
+.fondo-4 {
+  transform: rotate(3deg);
+}
+
+.fondo-5 {
+  transform: rotate(-3deg);
+}
+
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .tierra-cartelera {
+    width: 92%;
+
+    left: 4%;
+  }
+
+
+  .fondos-cartelera {
+    width: 88%;
+
+    left: 6%;
+
+    height: 430px;
+  }
+
+
+  .fondos-track {
+    gap: 25px;
+  }
+
+
+  .cartelera {
+    flex: 0 0 280px;
+
+    width: 280px;
+
+    height: 350px;
+  }
+
+
+  .controles-cartelera {
+    right: 6%;
+  }
+
+}
+
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 700px) {
+
+  .cartelera-mitonic {
+    min-height: 100vh;
+  }
+
+
+  .tierra-cartelera {
+    width: 120%;
+
+    height: 80%;
+
+    left: -10%;
+
+    top: 15%;
+  }
+
+
+  .fondos-cartelera {
+    width: 88%;
+
+    height: 380px;
+
+    left: 6%;
+
+    top: 28%;
+  }
+
+
+  .fondos-track {
+    gap: 20px;
+  }
+
+
+  .cartelera {
+    flex: 0 0 240px;
+
+    width: 240px;
+
+    height: 310px;
+  }
+
+
+  .controles-cartelera {
+    top: 5%;
+
+    right: 7%;
+
+    gap: 12px;
+  }
+
+
+  .boton-cartelera {
+    width: 44px;
+
+    height: 44px;
+  }
+
+
+  .boton-cartelera svg {
+    width: 18px;
+
+    height: 18px;
+  }
+
+}
 
 
 
@@ -1971,4 +2183,1035 @@ body {
     font-size: 28px;
   }
 
+}
+
+/* =========================================================
+   ANIMACIONES PERSONAJE
+========================================================= */
+
+
+/* =========================================
+   HERO
+========================================= */
+
+.personaje-ficha-info {
+  animation: aparecerIzquierda 0.8s ease-out both;
+}
+
+.personaje-cuerpo {
+  animation: aparecerAbajo 0.9s ease-out 0.15s both;
+}
+
+.personaje-linea {
+  animation: crecerLinea 0.7s ease-out 0.6s both;
+}
+
+
+/* =========================================
+   BLOQUE CONOCE
+========================================= */
+
+.personaje-conoce {
+  opacity: 0;
+  transform: translateY(50px);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.personaje-conoce.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* TÍTULO */
+
+.personaje-conoce-titulo {
+  opacity: 0;
+  transform: translateX(-40px);
+
+  transition:
+    opacity 0.7s ease 0.1s,
+    transform 0.7s ease 0.1s;
+}
+
+.personaje-conoce.visible .personaje-conoce-titulo {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+/* TEXTO */
+
+.personaje-conoce-texto {
+  opacity: 0;
+  transform: translateX(40px);
+
+  transition:
+    opacity 0.7s ease 0.2s,
+    transform 0.7s ease 0.2s;
+}
+
+.personaje-conoce.visible .personaje-conoce-texto {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+/* =========================================
+   CARACTERÍSTICAS
+========================================= */
+
+.personaje-caracteristicas {
+  opacity: 0;
+  transform: translateY(50px);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.personaje-caracteristicas.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* HEADER */
+
+.personaje-caracteristicas .caracteristicas-header {
+  opacity: 0;
+  transform: translateY(25px);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.personaje-caracteristicas.visible .caracteristicas-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* =========================================
+   TARJETAS
+========================================= */
+
+.personaje-caracteristicas .caracteristica-card {
+  opacity: 0;
+  transform: translateY(35px);
+
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+
+/* TARJETA 1 */
+
+.personaje-caracteristicas.visible
+.caracteristica-card:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
+
+  transition-delay: 0.15s;
+}
+
+
+/* TARJETA 2 */
+
+.personaje-caracteristicas.visible
+.caracteristica-card:nth-child(2) {
+  opacity: 1;
+  transform: translateY(0);
+
+  transition-delay: 0.3s;
+}
+
+
+/* TARJETA 3 */
+
+.personaje-caracteristicas.visible
+.caracteristica-card:nth-child(3) {
+  opacity: 1;
+  transform: translateY(0);
+
+  transition-delay: 0.45s;
+}
+
+
+/* =========================================
+   ANIMACIONES
+========================================= */
+
+@keyframes aparecerIzquierda {
+
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
+
+
+@keyframes aparecerAbajo {
+
+  from {
+    opacity: 0;
+    transform: translateY(70px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+@keyframes crecerLinea {
+
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+}
+
+/* =========================================================
+   PÁGINA DE PERSONAJE
+========================================================= */
+
+.pagina-personaje {
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: #fce9d5;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.personaje-header {
+  width: 100%;
+  height: 80px;
+
+  padding: 0 6%;
+
+  background-color: #f4f1ed;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  z-index: 20;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.personaje-logo {
+  display: flex;
+  align-items: center;
+
+  text-decoration: none;
+}
+
+
+.personaje-logo img {
+  width: 75px;
+  height: auto;
+
+  display: block;
+}
+
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
+
+.personaje-nav {
+  display: flex;
+  align-items: center;
+
+  gap: 38px;
+}
+
+
+.personaje-nav a {
+  color: #111;
+
+  text-decoration: none;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+
+.personaje-nav a:hover {
+  color: #650000;
+
+  transform: translateY(-2px);
+}
+
+
+/* LINK ACTIVO */
+
+.personaje-nav a.activo {
+  color: #650000;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.personaje-ficha {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+
+  background-color: #fce9d5;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 60px 8% 70px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   INFORMACIÓN IZQUIERDA
+========================================================= */
+
+.personaje-ficha-info {
+  width: 48%;
+
+  position: relative;
+
+  z-index: 5;
+}
+
+
+.personaje-etiqueta {
+  margin: 0 0 25px;
+
+  color: #650000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+}
+
+
+/* =========================================================
+   NOMBRE
+========================================================= */
+
+.personaje-ficha-info h1 {
+  margin: 0;
+
+  color: #713e25;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(60px, 7vw, 105px);
+
+  line-height: 0.87;
+
+  font-weight: 800;
+
+  letter-spacing: -4px;
+}
+
+
+/* =========================================================
+   PROFESIÓN
+========================================================= */
+
+.personaje-profesion {
+  margin: 30px 0 0;
+
+  color: #650000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(18px, 1.5vw, 25px);
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   LÍNEA
+========================================================= */
+
+.personaje-linea {
+  width: 180px;
+
+  height: 4px;
+
+  margin: 30px 0;
+
+  background-color: #c36d3c;
+
+  border-radius: 5px;
+}
+
+
+/* =========================================================
+   FRASE
+========================================================= */
+
+.personaje-frase {
+  width: 430px;
+
+  max-width: 100%;
+
+  margin: 0;
+
+  color: #713e25;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(16px, 1.3vw, 20px);
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   ADRIÁN CUERPO COMPLETO
+========================================================= */
+
+.personaje-cuerpo {
+  width: 420px;
+  height: 720px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+}
+
+.personaje-cuerpo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* =========================================================
+   SECCIÓN CONOCE A ADRIÁN
+========================================================= */
+
+.personaje-conoce {
+  width: 100%;
+  min-height: 420px;
+
+  padding: 90px 8%;
+
+  background-color: #fce9d5;
+
+  display: grid;
+  grid-template-columns: 40% 60%;
+
+  align-items: center;
+  gap: 60px;
+
+  box-sizing: border-box;
+}
+
+
+
+/* =========================================
+   TÍTULO
+========================================= */
+
+.personaje-conoce-titulo {
+  padding-right: 30px;
+}
+
+.personaje-conoce-titulo p {
+  margin: 0 0 20px;
+
+  color: #650000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+}
+
+.personaje-conoce-titulo h2 {
+  margin: 0;
+
+  color: #713e25;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(45px, 5vw, 75px);
+
+  line-height: 0.95;
+
+  font-weight: 800;
+
+  letter-spacing: -2px;
+}
+
+
+/* =========================================
+   TEXTO
+========================================= */
+
+.personaje-conoce-texto {
+  max-width: 650px;
+}
+
+.personaje-conoce-texto p {
+  margin: 0 0 25px;
+
+  color: #713e25;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(17px, 1.4vw, 21px);
+
+  line-height: 1.6;
+}
+
+.personaje-conoce-texto p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   SECCIÓN CARACTERÍSTICAS
+========================================================= */
+
+.personaje-caracteristicas {
+  width: 100%;
+  min-height: 500px;
+
+  padding: 90px 8%;
+
+  background-color: #e97813;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================
+   ENCABEZADO
+========================================= */
+
+.caracteristicas-header {
+  margin-bottom: 55px;
+}
+
+.caracteristicas-header p {
+  margin: 0 0 15px;
+
+  color: #fce9d5;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+}
+
+.caracteristicas-header h2 {
+  margin: 0;
+
+  color: #4b0000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(38px, 4.5vw, 65px);
+
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: -2px;
+}
+
+
+/* =========================================
+   GRID DE TARJETAS
+========================================= */
+
+.caracteristicas-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 35px;
+}
+
+
+/* =========================================
+   TARJETAS
+========================================= */
+
+.caracteristica-card {
+  min-height: 230px;
+
+  padding: 35px;
+
+  background-color: #fce9d5;
+
+  border-radius: 18px;
+
+  box-sizing: border-box;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+
+/* Hover */
+
+.caracteristica-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow: 0 15px 30px rgba(75, 0, 0, 0.15);
+}
+
+
+/* =========================================
+   NÚMERO
+========================================= */
+
+.caracteristica-numero {
+  display: block;
+
+  margin-bottom: 25px;
+
+  color: #c36d3c;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+
+/* =========================================
+   TÍTULO TARJETA
+========================================= */
+
+.caracteristica-card h3 {
+  margin: 0 0 18px;
+
+  color: #713e25;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 24px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================
+   TEXTO TARJETA
+========================================= */
+
+.caracteristica-card p {
+  margin: 0;
+
+  color: #713e25;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 16px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .personaje-conoce {
+    grid-template-columns: 1fr;
+
+    padding: 70px 30px;
+
+    gap: 40px;
+  }
+
+
+  .personaje-conoce-titulo {
+    padding-right: 0;
+  }
+
+
+  .personaje-caracteristicas {
+    padding: 70px 30px;
+  }
+
+
+  .caracteristicas-grid {
+    grid-template-columns: 1fr;
+
+    gap: 25px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .personaje-conoce {
+    padding: 60px 22px;
+  }
+
+
+  .personaje-conoce-titulo h2 {
+    font-size: 48px;
+  }
+
+
+  .personaje-caracteristicas {
+    padding: 60px 22px;
+  }
+
+
+  .caracteristicas-header h2 {
+    font-size: 42px;
+  }
+
+
+  .caracteristica-card {
+    min-height: 200px;
+
+    padding: 28px;
+  }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .personaje-header {
+    height: 70px;
+
+    padding: 0 25px;
+  }
+
+
+  .personaje-logo img {
+    width: 60px;
+  }
+
+
+  .personaje-nav {
+    gap: 15px;
+  }
+
+
+  .personaje-nav a {
+    font-size: 9px;
+  }
+
+
+  .personaje-ficha {
+    min-height: auto;
+
+    flex-direction: column;
+
+    padding: 70px 30px 0;
+
+    text-align: center;
+  }
+
+
+  .personaje-ficha-info {
+    width: 100%;
+  }
+
+
+  .personaje-ficha-info h1 {
+    font-size: clamp(55px, 12vw, 85px);
+  }
+
+
+  .personaje-linea {
+    margin: 30px auto;
+  }
+
+
+  .personaje-frase {
+    margin: auto;
+  }
+
+
+  .personaje-cuerpo {
+    width: 80%;
+
+    height: 60vh;
+
+    min-height: 450px;
+
+    margin-top: 30px;
+  }
+
+
+  .personaje-informacion {
+    grid-template-columns: 1fr;
+
+    gap: 45px;
+
+    padding: 70px 30px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .personaje-header {
+    padding: 0 18px;
+  }
+
+
+  .personaje-nav {
+    gap: 10px;
+  }
+
+
+  .personaje-nav a {
+    font-size: 8px;
+  }
+
+
+  .personaje-logo img {
+    width: 52px;
+  }
+
+
+  .personaje-ficha {
+    padding: 60px 22px 0;
+  }
+
+
+  .personaje-ficha-info h1 {
+    font-size: 52px;
+
+    letter-spacing: -2px;
+  }
+
+
+  .personaje-cuerpo {
+    width: 100%;
+
+    height: 55vh;
+
+    min-height: 400px;
+  }
+
+
+  .personaje-informacion {
+    padding: 60px 25px;
+  }
+
+}
+
+
+
+
+/* =========================================
+   PORTADA DEL CÓMIC
+========================================= */
+
+.portada-comic {
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: #f4f1ed;
+
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.portada-contenido {
+  width: 50%;
+
+  margin-left: 7%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================
+   CATEGORÍA
+========================================= */
+
+.portada-categoria {
+  margin: 0 0 20px;
+
+  color: #650000;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+}
+
+
+/* =========================================
+   TÍTULO
+========================================= */
+
+.portada-titulo {
+  margin: 0;
+
+  color: #4b0000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(55px, 7vw, 100px);
+
+  line-height: 0.9;
+
+  font-weight: 800;
+
+  letter-spacing: -3px;
+}
+
+
+/* =========================================
+   DESCRIPCIÓN
+========================================= */
+
+.portada-descripcion {
+  width: 75%;
+
+  margin: 30px 0 35px;
+
+  color: #4b0000;
+
+  font-size: clamp(16px, 1.3vw, 20px);
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   BOTÓN VER AHORA
+========================================= */
+
+.boton-ver-ahora {
+  border: none;
+
+  background-color: #650000;
+
+  color: white;
+
+  padding: 15px 28px;
+
+  border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+
+.boton-ver-ahora:hover {
+  transform: scale(1.05);
+
+  background-color: #4d0000;
+}
+
+
+.boton-ver-ahora span {
+  font-size: 15px;
 }

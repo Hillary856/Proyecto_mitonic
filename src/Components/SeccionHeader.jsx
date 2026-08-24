@@ -37,34 +37,6 @@ export const SeccionHeader = () => {
       </header>
 
 
-      {/* HERO */}
-      <section className="hero-mitonic">
-
-        {/* Texto */}
-        <div className="hero-texto">
-
-          <h1>
-            Mitonic como
-            <br />
-            puente de
-            <br />
-            <span>sabiduría</span>
-          </h1>
-
-        </div>
-
-
-        {/* Video / Trailer */}
-        <div className="trailer-mitonic">
-
-          <button className="boton-trailer">
-            VER TRAILER
-          </button>
-
-        </div>
-
-      </section>
-
     </div>
   );
 };

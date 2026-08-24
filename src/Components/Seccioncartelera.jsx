@@ -1,88 +1,194 @@
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useState } from "react";
+import {
+  FaChevronLeft,
+  FaChevronRight
+} from "react-icons/fa";
+
+import "./styleHillary.css";
 
 
 export const Seccioncartelera = () => {
+
+  const [desplazamiento, setDesplazamiento] = useState(0);
+
+
   return (
     <section className="cartelera-mitonic">
 
-      {/* ========================================= */}
-      {/* FONDO DE TIERRA */}
-      {/* ========================================= */}
+
+      {/* =========================================
+          FONDO DE TIERRA
+      ========================================= */}
 
       <div className="tierra-cartelera">
+
         <img
           src="/tierra.svg"
           alt=""
         />
+
       </div>
 
 
-      {/* ========================================= */}
-      {/* CONTENIDO DE LA CARTELERA */}
-      {/* ========================================= */}
+
+      {/* =========================================
+          CONTENIDO
+      ========================================= */}
 
       <div className="contenido-cartelera">
 
 
-        {/* ========================================= */}
-        {/* CONTROLES */}
-        {/* ========================================= */}
+        {/* =========================================
+            BOTONES
+        ========================================= */}
 
         <div className="controles-cartelera">
 
-          <button className="boton-cartelera">
-            <img src="/public/btn1.svg" alt="" />
+
+          {/* BOTÓN IZQUIERDO */}
+
+          <button
+            className="boton-cartelera"
+            onClick={() => {
+              setDesplazamiento(
+                (valor) => Math.max(valor - 1, 0)
+              );
+            }}
+          >
+
+            <img
+              src="/btn1.svg"
+              alt="Anterior"
+            />
+
             <FaChevronLeft />
+
           </button>
 
-          <button className="boton-cartelera">
-            <img src="/public/btn2.svg" alt="" />
+
+
+          {/* BOTÓN DERECHO */}
+
+          <button
+            className="boton-cartelera"
+            onClick={() => {
+              setDesplazamiento(
+                (valor) => Math.min(valor + 1, 2)
+              );
+            }}
+          >
+
+            <img
+              src="/btn2.svg"
+              alt="Siguiente"
+            />
+
             <FaChevronRight />
+
           </button>
+
 
         </div>
 
 
-        {/* ========================================= */}
-        {/* FONDOS DEL CÓMIC */}
-        {/* ========================================= */}
+
+        {/* =========================================
+            VENTANA DEL CARRUSEL
+        ========================================= */}
 
         <div className="fondos-cartelera">
 
 
-          {/* FONDO 1 */}
+          {/* =========================================
+              TRACK
+          ========================================= */}
 
-          <div className="cartelera fondo-1">
-            <div className="">
+          <div
+            className="fondos-track"
+            style={{
+              transform: `translateX(-${desplazamiento * 350}px)`
+            }}
+          >
+
+
+            {/* =========================================
+                FONDO 1
+            ========================================= */}
+
+            <div className="cartelera fondo-1">
+
+              <img
+                src="/cueva1.png"
+                alt="Cueva"
+              />
+
             </div>
-          </div>
 
 
-          {/* FONDO 2 */}
 
-          <div className="cartelera fondo-2">
-            <div className="">
+            {/* =========================================
+                FONDO 2
+            ========================================= */}
+
+            <div className="cartelera fondo-2">
+
+              <img
+                src="/imperio1.png"
+                alt="Imperio"
+              />
+
             </div>
-          </div>
 
 
-          {/* FONDO 3 */}
 
-          <div className="cartelera fondo-3">
-            <div className="">
+            {/* =========================================
+                FONDO 3
+            ========================================= */}
+
+            <div className="cartelera fondo-3">
+
+              <img
+                src="/coliseo1.png"
+                alt="Coliseo"
+              />
+
             </div>
-          </div>
 
 
-          {/* FONDO 4 */}
 
-          <div className="cartelera fondo-4">
-            <div className="">
+            {/* =========================================
+                FONDO 4
+            ========================================= */}
+
+            <div className="cartelera fondo-4">
+
+              <img
+                src="/cueva2.png"
+                alt="Escenario"
+              />
+
             </div>
-          </div>
 
+
+
+            {/* =========================================
+                FONDO 5
+            ========================================= */}
+
+            <div className="cartelera fondo-5">
+
+              <img
+                src="/atenas1.png"
+                alt="Escenario"
+              />
+
+            </div>
+
+
+          </div>
 
         </div>
+
 
       </div>
 
