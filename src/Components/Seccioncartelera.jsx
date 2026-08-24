@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   FaChevronLeft,
   FaChevronRight
@@ -11,9 +11,55 @@ export const Seccioncartelera = () => {
 
   const [desplazamiento, setDesplazamiento] = useState(0);
 
+  const carteleraRef = useRef(null);
+
+  const [visible, setVisible] = useState(false);
+
+
+  /* =========================================
+     DETECTAR SCROLL
+  ========================================= */
+
+  useEffect(() => {
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach((entry) => {
+
+          if (entry.target === carteleraRef.current) {
+            setVisible(entry.isIntersecting);
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.15
+      }
+    );
+
+
+    if (carteleraRef.current) {
+      observer.observe(carteleraRef.current);
+    }
+
+
+    return () => {
+      observer.disconnect();
+    };
+
+  }, []);
+
 
   return (
-    <section className="cartelera-mitonic">
+
+    <section
+      ref={carteleraRef}
+      className={`cartelera-mitonic ${
+        visible ? "visible" : ""
+      }`}
+    >
 
 
       {/* =========================================
@@ -111,9 +157,7 @@ export const Seccioncartelera = () => {
           >
 
 
-            {/* =========================================
-                FONDO 1
-            ========================================= */}
+            {/* FONDO 1 */}
 
             <div className="cartelera fondo-1">
 
@@ -126,9 +170,7 @@ export const Seccioncartelera = () => {
 
 
 
-            {/* =========================================
-                FONDO 2
-            ========================================= */}
+            {/* FONDO 2 */}
 
             <div className="cartelera fondo-2">
 
@@ -141,9 +183,7 @@ export const Seccioncartelera = () => {
 
 
 
-            {/* =========================================
-                FONDO 3
-            ========================================= */}
+            {/* FONDO 3 */}
 
             <div className="cartelera fondo-3">
 
@@ -156,9 +196,7 @@ export const Seccioncartelera = () => {
 
 
 
-            {/* =========================================
-                FONDO 4
-            ========================================= */}
+            {/* FONDO 4 */}
 
             <div className="cartelera fondo-4">
 
@@ -171,9 +209,7 @@ export const Seccioncartelera = () => {
 
 
 
-            {/* =========================================
-                FONDO 5
-            ========================================= */}
+            {/* FONDO 5 */}
 
             <div className="cartelera fondo-5">
 

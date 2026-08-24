@@ -1,13 +1,122 @@
+import { useEffect, useRef, useState } from "react";
+import "./styleHillary.css";
+
 export const SeccionInfoComic = () => {
+
+  const seccionRef = useRef(null);
+
+  const [visible, setVisible] = useState(false);
+  const [subiendo, setSubiendo] = useState(false);
+
+  const ultimaPosicion = useRef(window.scrollY);
+
+
+  /* =========================================
+     DETECTAR CUANDO ENTRA LA SECCIÓN
+  ========================================= */
+
+  useEffect(() => {
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+
+        entries.forEach((entry) => {
+
+          if (
+            entry.target === seccionRef.current &&
+            entry.isIntersecting
+          ) {
+
+            setVisible(true);
+
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.2
+      }
+    );
+
+
+    if (seccionRef.current) {
+      observer.observe(seccionRef.current);
+    }
+
+
+    return () => {
+      observer.disconnect();
+    };
+
+  }, []);
+
+
+  /* =========================================
+     DETECTAR DIRECCIÓN DEL SCROLL
+  ========================================= */
+
+  useEffect(() => {
+
+    const detectarScroll = () => {
+
+      const posicionActual = window.scrollY;
+
+
+      if (posicionActual < ultimaPosicion.current) {
+
+        // El usuario está subiendo
+
+        setSubiendo(true);
+
+      } else {
+
+        // El usuario está bajando
+
+        setSubiendo(false);
+
+      }
+
+
+      ultimaPosicion.current = posicionActual;
+
+    };
+
+
+    window.addEventListener(
+      "scroll",
+      detectarScroll,
+      { passive: true }
+    );
+
+
+    return () => {
+
+      window.removeEventListener(
+        "scroll",
+        detectarScroll
+      );
+
+    };
+
+  }, []);
+
+
   return (
-    <section className="info-comic">
 
-    
+    <section
+      ref={seccionRef}
+      className={`
+        info-comic
+        ${visible ? "visible" : ""}
+        ${subiendo ? "scroll-arriba" : ""}
+      `}
+    >
 
 
-      {/* ========================================= */}
-      {/* TÍTULO */}
-      {/* ========================================= */}
+      {/* =========================================
+          TÍTULO
+      ========================================= */}
 
       <div className="info-comic-titulo">
 
@@ -20,9 +129,9 @@ export const SeccionInfoComic = () => {
       </div>
 
 
-      {/* ========================================= */}
-      {/* MONTAÑAS */}
-      {/* ========================================= */}
+      {/* =========================================
+          MONTAÑAS
+      ========================================= */}
 
       <div className="montanas-comic">
 
@@ -34,13 +143,16 @@ export const SeccionInfoComic = () => {
       </div>
 
 
-      {/* ========================================= */}
-      {/* INFORMACIÓN */}
-      {/* ========================================= */}
+      {/* =========================================
+          INFORMACIÓN
+      ========================================= */}
 
       <div className="info-comic-contenido">
 
-        {/* BLOQUE 1 */}
+
+        {/* =========================================
+            BLOQUE 1
+        ========================================= */}
 
         <div className="info-item">
 
@@ -49,14 +161,18 @@ export const SeccionInfoComic = () => {
           </h3>
 
           <p>
-            Es una versión digital que permite al lector participar en la historia
-            mediante animaciones, sonidos o decisiones que cambian la trama.
+            Es una versión digital que permite al lector participar
+            en la historia mediante animaciones, sonidos o decisiones
+            que cambian la trama.
           </p>
 
         </div>
 
 
-        {/* BLOQUE 2 */}
+
+        {/* =========================================
+            BLOQUE 2
+        ========================================= */}
 
         <div className="info-item">
 
@@ -65,15 +181,18 @@ export const SeccionInfoComic = () => {
           </h3>
 
           <p>
-            En Mitonic puede aplicarse con elecciones de caminos, objetos que
-            revelen información y efectos visuales o sonoros que hagan la
-            experiencia más inmersiva.
+            En Mitonic puede aplicarse con elecciones de caminos,
+            objetos que revelen información y efectos visuales o
+            sonoros que hagan la experiencia más inmersiva.
           </p>
 
         </div>
 
 
-        {/* BLOQUE 3 */}
+
+        {/* =========================================
+            BLOQUE 3
+        ========================================= */}
 
         <div className="info-item">
 
@@ -82,15 +201,19 @@ export const SeccionInfoComic = () => {
           </h3>
 
           <p>
-            En este capítulo exploramos Grecia y Roma, sus mitos, costumbres y
-            aportes, pero la historia sigue con más capítulos que recorren
-            distintas épocas de forma divertida y diferente.
+            En este capítulo exploramos Grecia y Roma, sus mitos,
+            costumbres y aportes, pero la historia sigue con más
+            capítulos que recorren distintas épocas de forma
+            divertida y diferente.
           </p>
 
         </div>
 
+
       </div>
 
+
     </section>
+
   );
 };
