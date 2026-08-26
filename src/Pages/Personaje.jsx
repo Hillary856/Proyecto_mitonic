@@ -176,9 +176,7 @@ export const Personaje = () => {
 
         <div className="personaje-ficha-info">
 
-          <p className="personaje-etiqueta">
-            PERSONAJE PRINCIPAL
-          </p>
+      
 
           <h1>
             ADRIÁN
@@ -211,131 +209,6 @@ export const Personaje = () => {
 
       </section>
 
-
-      {/* =========================================
-          SOBRE ADRIÁN
-      ========================================= */}
-
-      <section
-        ref={conoceRef}
-        className={`personaje-conoce ${conoceVisible ? "visible" : ""
-          }`}
-      >
-
-        <div className="personaje-conoce-titulo">
-
-          <p>
-            CONOCE AL PERSONAJE
-          </p>
-
-          <h2>
-            ¿Quién es
-            <br />
-            Adrián?
-          </h2>
-
-        </div>
-
-
-        <div className="personaje-conoce-texto">
-
-          <p>
-            Adrián es un arqueólogo apasionado por la historia
-            y la exploración. Su curiosidad lo lleva a descubrir
-            secretos ocultos y a enfrentarse a desafíos que pondrán
-            a prueba su ingenio y valentía.
-          </p>
-
-          <p>
-            A lo largo de su viaje, Adrián se encuentra con
-            misterios que desafían su comprensión del mundo,
-            y su determinación lo impulsa a seguir adelante,
-            sin importar los obstáculos que se presenten.
-          </p>
-
-        </div>
-
-      </section>
-
-
-      {/* =========================================
-          CARACTERÍSTICAS
-      ========================================= */}
-
-      <section
-        ref={caracteristicasRef}
-        className={`personaje-caracteristicas ${caracteristicasVisible ? "visible" : ""
-          }`}
-      >
-
-        <div className="caracteristicas-header">
-
-          <p>
-            MÁS SOBRE ADRIÁN
-          </p>
-
-          <h2>
-            Descubre al personaje
-          </h2>
-
-        </div>
-
-
-        <div className="caracteristicas-grid">
-
-          <article className="caracteristica-card">
-
-            <span className="caracteristica-numero">
-              01
-            </span>
-
-            <h3>
-              SOBRE ADRIÁN
-            </h3>
-
-            <p>
-              Adrian es un arqueólogo apasionado por la historia y la exploración. Su curiosidad lo lleva a descubrir secretos ocultos y a enfrentarse a desafíos que pondrán a prueba su ingenio y valentía.
-            </p>
-
-          </article>
-
-
-          <article className="caracteristica-card">
-
-            <span className="caracteristica-numero">
-              02
-            </span>
-
-            <h3>
-              PERSONALIDAD
-            </h3>
-
-            <p>
-              Adrián es valiente, curioso y determinado. Su pasión por la historia lo impulsa a explorar lo desconocido y a enfrentar los desafíos con ingenio y perseverancia.
-            </p>
-
-          </article>
-
-
-          <article className="caracteristica-card">
-
-            <span className="caracteristica-numero">
-              03
-            </span>
-
-            <h3>
-              CURIOSIDADES
-            </h3>
-
-            <p>
-              A lo largo de su viaje, Adrián se encuentra con misterios que desafían su comprensión del mundo, y su determinación lo impulsa a seguir adelante, sin importar los obstáculos que se presenten.
-            </p>
-
-          </article>
-
-        </div>
-
-      </section>
 
     </main>
   );

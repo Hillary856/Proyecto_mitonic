@@ -152,71 +152,143 @@ export const Seccioncartelera = () => {
           <div
             className="fondos-track"
             style={{
-              transform: `translateX(-${desplazamiento * 350}px)`
+              transform: `translateX(-${
+                desplazamiento * 350
+              }px)`
             }}
           >
 
 
-            {/* FONDO 1 */}
+            {/* =========================================
+                FONDO 1
+            ========================================= */}
 
             <div className="cartelera fondo-1">
 
-              <img
-                src="/cueva1.png"
-                alt="Cueva"
-              />
+              <div className="imagen-cartelera">
+
+                <span className="etiqueta-capitulo">
+                  CAPÍTULO 01
+                </span>
+
+                <img
+                  src="/cueva1.png"
+                  alt="Cueva"
+                />
+
+                <h3>
+                  CUEVA
+                </h3>
+
+              </div>
 
             </div>
 
 
 
-            {/* FONDO 2 */}
+            {/* =========================================
+                FONDO 2
+            ========================================= */}
 
             <div className="cartelera fondo-2">
 
-              <img
-                src="/imperio1.png"
-                alt="Imperio"
-              />
+              <div className="imagen-cartelera">
+
+                <span className="etiqueta-capitulo">
+                  CAPÍTULO 02
+                </span>
+
+                <img
+                  src="/imperio1.png"
+                  alt="Atenas"
+                />
+
+                <h3>
+                  ATENAS
+                </h3>
+
+              </div>
 
             </div>
 
 
 
-            {/* FONDO 3 */}
+            {/* =========================================
+                FONDO 3
+            ========================================= */}
 
             <div className="cartelera fondo-3">
 
-              <img
-                src="/coliseo1.png"
-                alt="Coliseo"
-              />
+              <div className="imagen-cartelera">
+
+                <span className="etiqueta-capitulo">
+                  CAPÍTULO 03
+                </span>
+
+                <img
+                  src="/coliseo1.png"
+                  alt="Coliseo"
+                />
+
+                <h3>
+                  COLISEO
+                </h3>
+
+              </div>
 
             </div>
 
 
 
-            {/* FONDO 4 */}
+            {/* =========================================
+                FONDO 4
+            ========================================= */}
 
             <div className="cartelera fondo-4">
 
-              <img
-                src="/cueva2.png"
-                alt="Escenario"
-              />
+              <div className="imagen-cartelera">
+
+                <span className="etiqueta-capitulo">
+                  CAPÍTULO 04
+                </span>
+
+                <img
+                  src="/cueva2.png"
+                  alt="Cueva"
+                />
+
+                <h3>
+                  CUEVA
+                </h3>
+
+              </div>
 
             </div>
 
 
 
-            {/* FONDO 5 */}
+            {/* =========================================
+                FONDO 5
+            ========================================= */}
 
             <div className="cartelera fondo-5">
 
-              <img
-                src="/atenas1.png"
-                alt="Escenario"
-              />
+              <div className="imagen-cartelera">
+
+                <span className="etiqueta-capitulo">
+                  CAPÍTULO 05
+                </span>
+
+                <img
+                  src="/atenas1.png"
+                  alt="Atenas"
+                />
+
+                <h3>
+                  ATENAS
+                </h3>
+
+              </div>
 
             </div>
 

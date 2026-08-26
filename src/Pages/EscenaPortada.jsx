@@ -1,176 +1,214 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import "./EscenaPortada.css";
 
 export const EscenaPortada = () => {
 
-  const navigate = useNavigate();
+  const [capituloActivo, setCapituloActivo] = useState(1);
 
-  const comenzarHistoria = () => {
-    navigate("/escenaadrian");
+  const capitulos = [
+    {
+      numero: "01",
+      titulo: "EL COMIENZO",
+      disponible: true
+    },
+    {
+      numero: "02",
+      titulo: "PRÓXIMAMENTE",
+      disponible: false
+    },
+    {
+      numero: "03",
+      titulo: "PRÓXIMAMENTE",
+      disponible: false
+    },
+    {
+      numero: "04",
+      titulo: "PRÓXIMAMENTE",
+      disponible: false
+    },
+    {
+      numero: "05",
+      titulo: "PRÓXIMAMENTE",
+      disponible: false
+    },
+    {
+      numero: "06",
+      titulo: "PRÓXIMAMENTE",
+      disponible: false
+    }
+  ];
+
+
+  const seleccionarCapitulo = (capitulo) => {
+
+    if (!capitulo.disponible) return;
+
+    setCapituloActivo(Number(capitulo.numero));
+
+    console.log("Capítulo seleccionado:", capitulo.numero);
+
   };
 
+
   return (
-    <main className="portada-comic">
 
-      {/* =========================================
-          PANEL PRINCIPAL
-      ========================================= */}
-
-      <section className="portada-principal">
-
-        {/* LOGO */}
-
-        <Link to="/" className="portada-logo">
-          <img
-            src="/Logo.png"
-            alt="Mitonic"
-          />
-        </Link>
+    <main className="comic-interface">
 
 
-        {/* CONTENIDO */}
+      {/* =====================================================
+          LOGO MITONIC
+      ===================================================== */}
 
-        <div className="portada-contenido">
+      <a href="/" className="comic-logo">
 
+        <img
+          src="/public/Logo.png"
+          alt="Mitonic"
+        />
 
-          <h1 className="portada-titulo">
-            ADRIAN Y LAS
-            <br />
-            CRÓNICAS
-            <br />
-            DEL IMPERIO
-          </h1>
-
-
-          <p className="portada-descripcion">
-            Acompaña a nuestro personaje en una aventura
-            donde la historia cobra vida de una manera
-            diferente e interactiva.
-          </p>
-
-        </div>
-
-      </section>
+      </a>
 
 
-      {/* =========================================
-          CAPÍTULOS
-      ========================================= */}
 
-      <aside className="portada-capitulos">
+      {/* =====================================================
+          CONTENEDOR PRINCIPAL
+      ===================================================== */}
 
-        <p className="capitulos-titulo">
-          CAPÍTULOS
-        </p>
+      <div className="comic-layout">
 
 
-        <div className="capitulos-lista">
+        {/* =================================================
+            PANTALLA PRINCIPAL
+        ================================================= */}
+
+        <section className="comic-pantalla">
 
 
-          {/* =====================================
-              CAPÍTULO 1
-          ===================================== */}
+          {/* -----------------------------------------------
+              CONTENIDO DE LA PANTALLA
+          ------------------------------------------------ */}
 
-          <button
-            className="capitulo activo"
-            onClick={comenzarHistoria}
-          >
-
-            <div className="capitulo-portada">
-
-              <span className="capitulo-numero">
-                01
-              </span>
-
-            </div>
-
-            <div className="capitulo-info">
-
-              <span>
-                CAPÍTULO 01
-              </span>
-
-              <strong>
-                EL COMIENZO
-              </strong>
-
-            </div>
-
-          </button>
+          <div className="comic-pantalla-contenido">
 
 
-          {/* =====================================
-              CAPÍTULO 2
-          ===================================== */}
-
-          <button
-            className="capitulo bloqueado"
-            disabled
-          >
-
-            <div className="capitulo-portada">
-
-              <span className="capitulo-numero">
-                02
-              </span>
+            <p className="comic-categoria">
+              MITONIC
+            </p>
 
 
-            </div>
+            <h1 className="comic-titulo">
 
-            <div className="capitulo-info">
+              ADRIAN Y LAS
+              <br />
 
-              <span>
-                CAPÍTULO 02
-              </span>
+              CRÓNICAS DEL IMPERIO
 
-              <strong>
-                PRÓXIMAMENTE
-              </strong>
-
-            </div>
-
-          </button>
+            </h1>
 
 
-          {/* =====================================
-              CAPÍTULO 3
-          ===================================== */}
+            <p className="comic-descripcion">
 
-          <button
-            className="capitulo bloqueado"
-            disabled
-          >
+              Acompaña a nuestro personaje en una aventura
+              donde la historia cobra vida de una manera
+              diferente e interactiva.
 
-            <div className="capitulo-portada">
-
-              <span className="capitulo-numero">
-                03
-              </span>
+            </p>
 
 
-            </div>
+            {/* BOTÓN COMENZAR */}
 
-            <div className="capitulo-info">
+            <button
+              className="comic-boton-comenzar"
+              onClick={() => seleccionarCapitulo(capitulos[0])}
+            >
 
-              <span>
-                CAPÍTULO 03
-              </span>
+              <span>▶</span>
 
-              <strong>
-                PRÓXIMAMENTE
-              </strong>
+              COMENZAR
 
-            </div>
-
-          </button>
+            </button>
 
 
-        </div>
+          </div>
 
-      </aside>
+
+        </section>
+
+
+
+        {/* =================================================
+            PANEL DE CAPÍTULOS
+        ================================================= */}
+
+        <aside className="comic-capitulos">
+
+
+          <h2 className="comic-capitulos-titulo">
+            CAPÍTULOS
+          </h2>
+
+
+          <div className="comic-capitulos-lista">
+
+
+            {capitulos.map((capitulo) => (
+
+              <button
+                key={capitulo.numero}
+                className={`
+                  comic-capitulo
+                  ${capitulo.disponible ? "disponible" : "bloqueado"}
+                  ${capituloActivo === Number(capitulo.numero)
+                    ? "seleccionado"
+                    : ""}
+                `}
+                onClick={() => seleccionarCapitulo(capitulo)}
+                disabled={!capitulo.disponible}
+              >
+
+
+                {/* NÚMERO */}
+
+                <div className="comic-capitulo-numero">
+
+                  {capitulo.numero}
+
+                </div>
+
+
+                {/* INFORMACIÓN */}
+
+                <div className="comic-capitulo-info">
+
+                  <span>
+                    CAPÍTULO {capitulo.numero}
+                  </span>
+
+                  <strong>
+                    {capitulo.titulo}
+                  </strong>
+
+                </div>
+
+
+              </button>
+
+            ))}
+
+
+          </div>
+
+
+        </aside>
+
+
+      </div>
+
 
     </main>
+
   );
 };
+
 
 export default EscenaPortada;

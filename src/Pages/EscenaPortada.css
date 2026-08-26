@@ -1,49 +1,39 @@
-/* =========================================
-   PÁGINA PORTADA DEL CÓMIC
-========================================= */
+/* =========================================================
+   INTERFAZ GENERAL DEL CÓMIC
+========================================================= */
 
-.portada-comic {
+.comic-interface {
   width: 100%;
-  min-height: 100vh;
-
-  display: flex;
-
-  background-color: #f5f2ed;
-
-  overflow: hidden;
-}
-
-
-/* =========================================
-   PANEL PRINCIPAL
-========================================= */
-
-.portada-principal {
-  width: calc(100% - 320px);
-
   min-height: 100vh;
 
   position: relative;
 
+  background:
+    radial-gradient(
+      circle at 25% 35%,
+      #8a1717 0%,
+      #650000 45%,
+      #3d0000 100%
+    );
+
+  overflow: hidden;
+
   box-sizing: border-box;
 
-  border: 4px solid #650000;
-
-  background-color: #f5f2ed;
+  padding: 35px 3%;
 }
 
+/* =========================================================
+   LOGO MITONIC
+========================================================= */
 
-/* =========================================
-   LOGO
-========================================= */
-
-.portada-logo {
+.comic-logo {
   position: absolute;
 
-  top: 35px;
-  left: 7%;
+  top: 8px;
+  left: 5%;
 
-  z-index: 5;
+  z-index: 20;
 
   display: block;
 
@@ -51,8 +41,8 @@
 }
 
 
-.portada-logo img {
-  width: 115px;
+.comic-logo img {
+  width: 105px;
 
   height: auto;
 
@@ -60,32 +50,110 @@
 }
 
 
-/* =========================================
-   CONTENIDO PRINCIPAL
-========================================= */
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+========================================================= */
 
-.portada-contenido {
-  position: absolute;
+.comic-layout {
+  width: 100%;
 
-  left: 7%;
-  top: 26%;
+  min-height: calc(100vh - 70px);
 
-  width: 75%;
+  display: flex;
+
+  align-items: stretch;
+
+  gap: 35px;
+
+  box-sizing: border-box;
+
+  padding-top: 70px;
 }
 
 
-/* =========================================
-   CATEGORÍA
-========================================= */
+/* =========================================================
+   PANTALLA PRINCIPAL
+========================================================= */
 
-.portada-categoria {
-  margin: 0 0 25px;
+.comic-pantalla {
+  flex: 1;
+
+  min-height: calc(100vh - 105px);
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+
+  background-color: #d9d9d9;
+
+  border-radius: 65px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.18);
+
+  border: 3px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* =========================================================
+   EFECTO INTERIOR DE LA PANTALLA
+========================================================= */
+
+.comic-pantalla::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 75% 25%,
+      rgba(255, 255, 255, 0.14),
+      transparent 30%
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTENIDO DE LA PANTALLA
+========================================================= */
+
+.comic-pantalla-contenido {
+  position: relative;
+
+  z-index: 2;
+
+  width: 82%;
+
+  max-width: 1050px;
+
+  margin-top: 60px;
+}
+
+
+/* =========================================================
+   CATEGORÍA
+========================================================= */
+
+.comic-categoria {
+  margin: 0 0 22px;
 
   color: #650000;
 
   font-family: Arial, Helvetica, sans-serif;
 
-  font-size: 18px;
+  font-size: 17px;
 
   font-weight: 800;
 
@@ -93,18 +161,18 @@
 }
 
 
-/* =========================================
+/* =========================================================
    TÍTULO
-========================================= */
+========================================================= */
 
-.portada-titulo {
+.comic-titulo {
   margin: 0;
 
   color: #650000;
 
   font-family: Arial, Helvetica, sans-serif;
 
-  font-size: clamp(55px, 6.5vw, 105px);
+  font-size: clamp(48px, 6vw, 100px);
 
   line-height: 0.94;
 
@@ -114,87 +182,191 @@
 }
 
 
-/* =========================================
+/* =========================================================
    DESCRIPCIÓN
-========================================= */
+========================================================= */
 
-.portada-descripcion {
-  width: 620px;
+.comic-descripcion {
+  width: 650px;
 
   max-width: 100%;
 
-  margin: 40px 0 35px;
+  margin: 42px 0 32px;
 
   color: #713e25;
 
   font-family: Arial, Helvetica, sans-serif;
 
-  font-size: clamp(16px, 1.3vw, 21px);
+  font-size: clamp(16px, 1.25vw, 21px);
 
   line-height: 1.5;
 }
 
 
+/* =========================================================
+   BOTÓN COMENZAR
+========================================================= */
 
+.comic-boton-comenzar {
+  display: inline-flex;
 
+  align-items: center;
 
+  justify-content: center;
 
-/* =========================================
-   PANEL DE CAPÍTULOS
-========================================= */
+  gap: 12px;
 
-.portada-capitulos {
-  width: 320px;
+  padding: 15px 28px;
 
-  min-height: 100vh;
+  border: none;
 
-  box-sizing: border-box;
+  border-radius: 12px;
 
-  padding: 45px 25px;
+  background-color: #650000;
 
-  background-color: #f5f2ed;
-
-  border-left: 4px solid #713e25;
-}
-
-
-/* =========================================
-   TÍTULO CAPÍTULOS
-========================================= */
-
-.capitulos-titulo {
-  margin: 0 0 25px;
-
-  color: #713e25;
+  color: #ffffff;
 
   font-family: Arial, Helvetica, sans-serif;
 
-  font-size: 18px;
+  font-size: 15px;
 
   font-weight: 800;
 
-  letter-spacing: 3px;
+  letter-spacing: 1px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 
-/* =========================================
-   LISTA
-========================================= */
+.comic-boton-comenzar span {
+  font-size: 13px;
+}
 
-.capitulos-lista {
+
+.comic-boton-comenzar:hover {
+  transform: translateY(-3px);
+
+  background-color: #4d0000;
+
+  box-shadow:
+    0 8px 18px rgba(101, 0, 0, 0.25);
+}
+
+
+.comic-boton-comenzar:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   PANEL DE CAPÍTULOS
+========================================================= */
+
+.comic-capitulos {
+  width: 310px;
+
+  min-height: calc(100vh - 105px);
+
+  box-sizing: border-box;
+
+  padding: 15px 15px 15px 30px;
+
+  position: relative;
+}
+
+
+/* =========================================================
+   LÍNEA DE SEPARACIÓN
+========================================================= */
+
+.comic-capitulos::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 5%;
+
+  width: 3px;
+
+  height: 90%;
+
+  border-radius: 10px;
+
+  background-color: rgba(245, 242, 237, 0.55);
+}
+
+
+/* =========================================================
+   TÍTULO CAPÍTULOS
+========================================================= */
+
+.comic-capitulos-titulo {
+  margin: 0 0 28px;
+
+  color: #f5f2ed;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: 21px;
+
+  font-weight: 900;
+
+  letter-spacing: 4px;
+}
+
+
+/* =========================================================
+   LISTA DE CAPÍTULOS
+========================================================= */
+
+.comic-capitulos-lista {
   display: flex;
 
   flex-direction: column;
 
-  gap: 22px;
+  gap: 23px;
+
+  max-height: calc(100vh - 180px);
+
+  overflow-y: auto;
+
+  padding-right: 5px;
 }
 
 
-/* =========================================
-   CAPÍTULO
-========================================= */
+/* =========================================================
+   OCULTAR SCROLLBAR
+========================================================= */
 
-.capitulo {
+.comic-capitulos-lista::-webkit-scrollbar {
+  width: 5px;
+}
+
+
+.comic-capitulos-lista::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.comic-capitulos-lista::-webkit-scrollbar-thumb {
+  background-color: rgba(245, 242, 237, 0.3);
+
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   CAPÍTULO
+========================================================= */
+
+.comic-capitulo {
   width: 100%;
 
   padding: 0;
@@ -211,30 +383,32 @@
 
   gap: 8px;
 
+  position: relative;
+
   cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 
-/* =========================================
-   PORTADA DEL CAPÍTULO
-========================================= */
+/* =========================================================
+   PORTADA / NÚMERO DEL CAPÍTULO
+========================================================= */
 
-.capitulo-portada {
+.comic-capitulo-numero {
   width: 100%;
 
-  height: 150px;
+  height: 135px;
 
-  position: relative;
+  box-sizing: border-box;
 
-  overflow: hidden;
-
-  border-radius: 12px;
+  border-radius: 22px;
 
   background-color: #d9d9d9;
 
   border: 3px solid #713e25;
-
-  box-sizing: border-box;
 
   display: flex;
 
@@ -242,17 +416,6 @@
 
   justify-content: center;
 
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-
-/* =========================================
-   NÚMERO
-========================================= */
-
-.capitulo-numero {
   color: #650000;
 
   font-family: Arial, Helvetica, sans-serif;
@@ -260,184 +423,333 @@
   font-size: 45px;
 
   font-weight: 900;
+
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 
-/* =========================================
-   INFORMACIÓN
-========================================= */
+/* =========================================================
+   INFORMACIÓN DEL CAPÍTULO
+========================================================= */
 
-.capitulo-info {
+.comic-capitulo-info {
   display: flex;
 
   flex-direction: column;
 
-  gap: 3px;
+  gap: 4px;
 
-  padding-left: 4px;
+  padding-left: 5px;
 }
 
 
-.capitulo-info span {
-  color: #713e25;
+.comic-capitulo-info span {
+  color: #f5f2ed;
 
   font-family: Arial, Helvetica, sans-serif;
 
-  font-size: 11px;
+  font-size: 10px;
 
   font-weight: 700;
 
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 
 
-.capitulo-info strong {
-  color: #650000;
+.comic-capitulo-info strong {
+  color: #ffffff;
 
   font-family: Arial, Helvetica, sans-serif;
 
   font-size: 15px;
 
-  font-weight: 800;
+  font-weight: 900;
+
+  letter-spacing: 0.5px;
 }
 
 
-/* =========================================
-   HOVER CAPÍTULO ACTIVO
-========================================= */
+/* =========================================================
+   CAPÍTULO SELECCIONADO
+========================================================= */
 
-.capitulo.activo:hover .capitulo-portada {
-  transform: scale(1.03);
+.comic-capitulo.seleccionado .comic-capitulo-numero {
+  background-color: #cfcfcf;
 
-  box-shadow: 0 8px 18px rgba(101, 0, 0, 0.2);
+  border-color: #f5f2ed;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
 
-/* =========================================
+/* =========================================================
+   HOVER CAPÍTULO DISPONIBLE
+========================================================= */
+
+.comic-capitulo.disponible:hover {
+  transform: translateX(-5px);
+}
+
+
+.comic-capitulo.disponible:hover .comic-capitulo-numero {
+  transform: scale(1.02);
+
+  background-color: #e2e2e2;
+
+  box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
    CAPÍTULOS BLOQUEADOS
-========================================= */
+========================================================= */
 
-.capitulo.bloqueado {
+.comic-capitulo.bloqueado {
   cursor: not-allowed;
 
   opacity: 0.55;
 }
 
 
-.capitulo.bloqueado .capitulo-portada {
-  background-color: #dedbd6;
+.comic-capitulo.bloqueado .comic-capitulo-numero {
+  background-color: #b9b5b1;
+
+  border-color: #a28d82;
+
+  color: #8c5f55;
 }
 
 
-/* =========================================
+/* =========================================================
    CANDADO
-========================================= */
+========================================================= */
 
-.candado {
+.comic-capitulo-candado {
   position: absolute;
 
   right: 12px;
+
   top: 10px;
 
-  font-size: 18px;
+  font-size: 17px;
+
+  opacity: 0.8;
 }
 
 
-/* =========================================
+/* =========================================================
    TABLET
-========================================= */
+========================================================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
 
-  .portada-principal {
-    width: calc(100% - 250px);
+  .comic-interface {
+    padding: 25px 2%;
   }
 
-  .portada-capitulos {
-    width: 250px;
 
-    padding: 35px 18px;
+  .comic-layout {
+    gap: 25px;
+
+    padding-top: 65px;
   }
 
-  .portada-contenido {
-    width: 82%;
 
-    top: 18%;
+  .comic-capitulos {
+    width: 260px;
+
+    padding-left: 25px;
   }
 
-  .portada-titulo {
-    font-size: clamp(48px, 7vw, 80px);
+
+  .comic-pantalla {
+    border-radius: 50px;
   }
 
-  .capitulo-portada {
-    height: 120px;
+
+  .comic-pantalla-contenido {
+    width: 85%;
+  }
+
+
+  .comic-titulo {
+    font-size: clamp(42px, 6vw, 75px);
+  }
+
+
+  .comic-capitulo-numero {
+    height: 115px;
+
+    font-size: 38px;
   }
 
 }
 
 
-/* =========================================
+/* =========================================================
    CELULAR
-========================================= */
+========================================================= */
 
 @media (max-width: 700px) {
 
-  .portada-comic {
-    flex-direction: column;
+  .comic-interface {
+    padding: 20px 5%;
   }
 
 
-  .portada-principal {
-    width: 100%;
-
-    min-height: 100vh;
-
-    border: none;
-  }
-
-
-  .portada-contenido {
+  .comic-logo {
     position: relative;
 
-    left: auto;
     top: auto;
+    left: auto;
 
-    width: 85%;
-
-    margin: 220px auto 80px;
+    margin: 0 0 25px;
   }
 
 
-  .portada-titulo {
-    font-size: clamp(45px, 13vw, 70px);
+  .comic-logo img {
+    width: 85px;
   }
 
 
-  .portada-descripcion {
+  .comic-layout {
+    flex-direction: column;
+
+    min-height: auto;
+
+    padding-top: 0;
+
+    gap: 35px;
+  }
+
+
+  .comic-pantalla {
+    width: 100%;
+
+    min-height: 80vh;
+
+    border-radius: 40px;
+  }
+
+
+  .comic-pantalla-contenido {
+    width: 82%;
+
+    margin-top: 30px;
+  }
+
+
+  .comic-categoria {
+    font-size: 14px;
+
+    letter-spacing: 3px;
+  }
+
+
+  .comic-titulo {
+    font-size: clamp(42px, 12vw, 68px);
+
+    letter-spacing: -2px;
+  }
+
+
+  .comic-descripcion {
+    margin: 30px 0;
+
     font-size: 16px;
   }
 
 
-  .portada-capitulos {
+  .comic-boton-comenzar {
+    padding: 14px 22px;
+
+    font-size: 14px;
+  }
+
+
+  .comic-capitulos {
     width: 100%;
 
     min-height: auto;
 
-    border-left: none;
-
-    border-top: 4px solid #713e25;
-
-    padding: 40px 7%;
+    padding: 30px 0 10px;
   }
 
 
-  .capitulos-lista {
+  .comic-capitulos::before {
+    left: 0;
+
+    top: 0;
+
+    width: 100%;
+
+    height: 3px;
+  }
+
+
+  .comic-capitulos-titulo {
+    margin-top: 20px;
+  }
+
+
+  .comic-capitulos-lista {
+    max-height: none;
+
     display: grid;
 
     grid-template-columns: repeat(2, 1fr);
 
-    gap: 20px;
+    gap: 25px 15px;
+  }
+
+
+  .comic-capitulo-numero {
+    height: 120px;
+
+    border-radius: 18px;
+
+    font-size: 38px;
   }
 
 }
 
+
+/* =========================================================
+   CELULAR PEQUEÑO
+========================================================= */
+
+@media (max-width: 450px) {
+
+  .comic-pantalla {
+    min-height: 75vh;
+
+    border-radius: 32px;
+  }
+
+
+  .comic-pantalla-contenido {
+    width: 84%;
+  }
+
+
+  .comic-titulo {
+    font-size: 40px;
+  }
+
+
+  .comic-capitulos-lista {
+    grid-template-columns: 1fr;
+  }
+
+
+  .comic-capitulo-numero {
+    height: 110px;
+  }
+
+}
