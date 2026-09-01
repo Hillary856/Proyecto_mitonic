@@ -142,24 +142,6 @@
 }
 
 
-/* =========================================================
-   CATEGORÍA
-========================================================= */
-
-.comic-categoria {
-  margin: 0 0 22px;
-
-  color: #650000;
-
-  font-family: Arial, Helvetica, sans-serif;
-
-  font-size: 17px;
-
-  font-weight: 800;
-
-  letter-spacing: 4px;
-}
-
 
 /* =========================================================
    TÍTULO
@@ -750,6 +732,247 @@
 
   .comic-capitulo-numero {
     height: 110px;
+  }
+
+}
+
+/* =========================================================
+   CONTROLES DE LA ESCENA
+========================================================= */
+
+.comic-controles {
+  position: absolute;
+
+  top: 25px;
+  right: 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  z-index: 50;
+}
+
+
+/* =========================================================
+   BOTONES DE CONTROL
+========================================================= */
+
+.comic-control {
+  width: 45px;
+  height: 45px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background-color: rgba(101, 0, 0, 0.9);
+
+  color: #ffffff;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 17px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.2);
+
+  transition:
+    transform 0.25s ease,
+    background-color 0.25s ease;
+}
+
+
+/* =========================================================
+   HOVER CONTROLES
+========================================================= */
+
+.comic-control:hover {
+
+  transform: scale(1.1);
+
+  background-color: #4d0000;
+
+}
+
+
+/* =========================================================
+   ESCENA
+========================================================= */
+
+.comic-escena {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background-color: #000000;
+
+}
+
+
+/* =========================================================
+   FONDO DE LA ESCENA
+========================================================= */
+
+.comic-escena-fondo {
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center;
+}
+
+
+/* =========================================================
+   CONTENEDOR DE INTERACCIONES
+========================================================= */
+
+.comic-interacciones {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 10;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   PANTALLA COMPLETA
+========================================================= */
+
+.comic-pantalla:fullscreen {
+
+  width: 100vw;
+
+  height: 100vh;
+
+  min-height: 100vh;
+
+  border-radius: 0;
+
+  background-color: #000000;
+}
+
+
+/* =========================================================
+   ESCENA EN PANTALLA COMPLETA
+========================================================= */
+
+.comic-pantalla:fullscreen .comic-escena {
+
+  width: 100vw;
+
+  height: 100vh;
+}
+
+
+/* =========================================================
+   ANIMACIÓN AL COMENZAR
+========================================================= */
+
+.comic-escena {
+
+  animation: aparecerEscena 0.8s ease forwards;
+}
+
+
+@keyframes aparecerEscena {
+
+  from {
+
+    opacity: 0;
+
+    transform: scale(1.03);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: scale(1);
+
+  }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .comic-controles {
+
+    top: 20px;
+
+    right: 20px;
+
+  }
+
+
+  .comic-control {
+
+    width: 42px;
+
+    height: 42px;
+
+    font-size: 16px;
+
+  }
+
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .comic-controles {
+
+    top: 15px;
+
+    right: 15px;
+
+    gap: 8px;
+
+  }
+
+
+  .comic-control {
+
+    width: 38px;
+
+    height: 38px;
+
+    font-size: 14px;
+
   }
 
 }
