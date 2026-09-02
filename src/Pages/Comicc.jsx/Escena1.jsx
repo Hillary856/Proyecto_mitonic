@@ -1,32 +1,40 @@
 import "./Escenas.css";
 
 const Escena1 = () => {
+
   return (
+
     <div className="escena-1">
 
-      {/* =========================================
-          FONDO DE LA ESCENA
-      ========================================= */}
+      <div className="escena-1-contenido">
 
-      <img
-        src="/Escenarios/FondoCueva.svg"
-        alt="Cueva"
-        className="escena-1-fondo"
-      />
+        {/* =========================================
+            FONDO DE LA ESCENA
+        ========================================= */}
+
+        <img
+          src="/Escenarios/FondoCueva.svg"
+          alt="Cueva"
+          className="escena-1-fondo"
+        />
 
 
-      {/* =========================================
-          FUEGO
-      ========================================= */}
+        {/* =========================================
+            FUEGO
+        ========================================= */}
 
-      <img
-        src="/Escenarios/fuegoAnto.svg"
-        alt="Fuego"
-        className="escena-1-fuego"
-      />
+        <img
+          src="/Escenarios/fuegoAnto.svg"
+          alt="Fuego"
+          className="escena-1-fuego"
+        />
+
+      </div>
 
     </div>
+
   );
+
 };
 
 export default Escena1;

@@ -3,16 +3,30 @@
 ========================================================= */
 
 .escena-1 {
-    position: absolute;
+  position: absolute;
 
-    inset: 0;
+  inset: 0;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    background-color: #000000;
+  background-color: #000;
+}
+
+
+/* =========================================================
+   CONTENEDOR DEL ESCENARIO
+========================================================= */
+
+.escena-1-contenido {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
 }
 
 
@@ -21,18 +35,19 @@
 ========================================================= */
 
 .escena-1-fondo {
-    position: absolute;
+  position: absolute;
 
-    inset: 0;
+  inset: 0;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    object-fit: cover;
+  object-fit: cover;
+  object-position: center;
 
-    object-position: center;
+  display: block;
 
-    display: block;
+  z-index: 1;
 }
 
 
@@ -43,34 +58,202 @@
 .escena-1-fuego {
   position: absolute;
 
-  left: 36%;
+
+
+  left: 30%;
   bottom: 57%;
 
-  width: 32px;
+  width: 3.2%;
+
   height: auto;
 
   z-index: 5;
+
   display: block;
 
-  animation: fuegoVivo 0.8s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+
+  animation:
+    fuegoVivo 0.8s ease-in-out infinite alternate;
 }
 
 
-
-
+/* =========================================================
+   ANIMACIÓN DEL FUEGO
+========================================================= */
 
 @keyframes fuegoVivo {
 
-    0% {
-        transform: scale(1) rotate(-1deg);
-    }
+  0% {
+    transform:
+      scale(1)
+      rotate(-1deg);
+  }
 
-    50% {
-        transform: scale(1.04) rotate(1deg);
-    }
+  50% {
+    transform:
+      scale(1.04)
+      rotate(1deg);
+  }
 
-    100% {
-        transform: scale(0.97) rotate(-1deg);
-    }
+  100% {
+    transform:
+      scale(0.97)
+      rotate(-1deg);
+  }
 
+}
+
+
+/* =========================================================
+   ESCENA 2
+========================================================= */
+
+.escena-2 {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* =========================================================
+   CONTENEDOR DEL ESCENARIO
+========================================================= */
+
+.escena-2-contenido {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   FONDO DE ATENAS
+========================================================= */
+
+.escena-2-fondo {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    display: block;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   ÁRBOL 1
+========================================================= */
+
+.escena-2-arbol-1 {
+  position: absolute;
+
+  /*
+     POSICIÓN TEMPORAL
+     Después la ajustamos visualmente.
+  */
+
+  left: 5%;
+  bottom: 0;
+
+  width: 20%;
+
+  height: auto;
+
+  z-index: 3;
+
+  display: block;
+}
+
+
+/* =========================================================
+   ÁRBOL 2
+========================================================= */
+
+.escena-2-arbol-2 {
+  position: absolute;
+
+  left: 75%;
+  bottom: 0;
+
+  width: 20%;
+
+  height: auto;
+
+  z-index: 3;
+
+  display: block;
+}
+
+
+/* =========================================================
+   ARBUSTO 1
+========================================================= */
+
+.escena-2-arbusto-1 {
+  position: absolute;
+
+  left: 20%;
+  bottom: 5%;
+
+  width: 12%;
+
+  height: auto;
+
+  z-index: 4;
+
+  display: block;
+}
+
+
+/* =========================================================
+   ARBUSTO 2
+========================================================= */
+
+.escena-2-arbusto-2 {
+  position: absolute;
+
+  left: 48%;
+  bottom: 4%;
+
+  width: 13%;
+
+  height: auto;
+
+  z-index: 4;
+
+  display: block;
+}
+
+
+/* =========================================================
+   ARBUSTO 3
+========================================================= */
+
+.escena-2-arbusto-3 {
+  position: absolute;
+
+  left: 65%;
+  bottom: 6%;
+
+  width: 12%;
+
+  height: auto;
+
+  z-index: 4;
+
+  display: block;
 }

@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import Escena1 from "./Comicc.jsx/Escena1";
+import Escena2 from "./Comicc.jsx/Escena2";
 
 import {
   FaVolumeUp,
@@ -48,27 +49,27 @@ export const EscenaPortada = () => {
     {
       numero: "02",
       titulo: "PRÓXIMAMENTE",
-      disponible: false
+      disponible: true
     },
     {
       numero: "03",
       titulo: "PRÓXIMAMENTE",
-      disponible: false
+      disponible: true
     },
     {
       numero: "04",
       titulo: "PRÓXIMAMENTE",
-      disponible: false
+      disponible: true
     },
     {
       numero: "05",
       titulo: "PRÓXIMAMENTE",
-      disponible: false
+      disponible: true
     },
     {
       numero: "06",
       titulo: "PRÓXIMAMENTE",
-      disponible: false
+      disponible: true
     }
   ];
 
@@ -81,16 +82,11 @@ export const EscenaPortada = () => {
 
     if (!capitulo.disponible) return;
 
-    setCapituloActivo(Number(capitulo.numero));
+    const numero = Number(capitulo.numero);
 
-    /*
-      Por ahora solamente iniciamos el capítulo 1.
-      Más adelante aquí conectaremos las escenas.
-    */
+    setCapituloActivo(numero);
 
-    if (Number(capitulo.numero) === 1) {
-      setEscenaIniciada(true);
-    }
+    setEscenaIniciada(true);
 
   };
 
@@ -328,15 +324,27 @@ export const EscenaPortada = () => {
 
           ) : (
 
-            /* =================================================
-               ESCENA DEL CAPÍTULO 1
-            ================================================= */
+            /* =====================================================
+       ESCENA ACTIVA
+    ===================================================== */
 
             <div className="comic-escena">
 
-              <Escena1 />
+              {/* CAPÍTULO 1 */}
+
+              {capituloActivo === 1 && (
+                <Escena1 />
+              )}
+
+
+              {/* CAPÍTULO 2 */}
+
+              {capituloActivo === 2 && (
+                <Escena2 />
+              )}
 
             </div>
+
 
           )}
 
