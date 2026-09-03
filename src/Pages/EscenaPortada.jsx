@@ -1,16 +1,19 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
 import Escena1 from "./Comicc.jsx/Escena1";
 import Escena2 from "./Comicc.jsx/Escena2";
+import Escena3 from "./Comicc.jsx/Escena3";
 
 import {
   FaVolumeUp,
   FaVolumeMute,
   FaExpand,
-  FaCompress
+  FaCompress,
+  FaMicrophone,
+  FaStop
 } from "react-icons/fa";
 
 import "./EscenaPortada.css";
-
 
 export const EscenaPortada = () => {
 
@@ -19,11 +22,9 @@ export const EscenaPortada = () => {
   ===================================================== */
 
   const [capituloActivo, setCapituloActivo] = useState(1);
-
   const [escenaIniciada, setEscenaIniciada] = useState(false);
-
   const [musicaActiva, setMusicaActiva] = useState(false);
-
+  const [narradorActivo, setNarradorActivo] = useState(false);
   const [pantallaCompleta, setPantallaCompleta] = useState(false);
 
 
@@ -32,8 +33,8 @@ export const EscenaPortada = () => {
   ===================================================== */
 
   const pantallaRef = useRef(null);
-
   const audioRef = useRef(null);
+  const narradorRef = useRef(null);
 
 
   /* =====================================================
@@ -75,6 +76,17 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
+     NARRACIONES DE LAS ESCENAS
+  ===================================================== */
+
+  const narraciones = {
+    1: "/Narraciones/escena1.mp3",
+    2: "/Narraciones/escena2.mp3",
+    3: "/Narraciones/escena3.mp3"
+  };
+
+
+  /* =====================================================
      SELECCIONAR CAPÍTULO
   ===================================================== */
 
@@ -85,9 +97,7 @@ export const EscenaPortada = () => {
     const numero = Number(capitulo.numero);
 
     setCapituloActivo(numero);
-
     setEscenaIniciada(true);
-
   };
 
 
@@ -99,11 +109,9 @@ export const EscenaPortada = () => {
 
     if (!audioRef.current) return;
 
-
     if (musicaActiva) {
 
       audioRef.current.pause();
-
       setMusicaActiva(false);
 
     } else {
@@ -114,12 +122,70 @@ export const EscenaPortada = () => {
           setMusicaActiva(true);
         })
         .catch((error) => {
-          console.error("No se pudo reproducir la música:", error);
+          console.error(
+            "No se pudo reproducir la música:",
+            error
+          );
         });
 
     }
-
   };
+
+
+  /* =====================================================
+     NARRADOR
+  ===================================================== */
+
+  const alternarNarrador = () => {
+
+    if (!narradorRef.current) return;
+
+    if (narradorActivo) {
+
+      narradorRef.current.pause();
+      setNarradorActivo(false);
+
+    } else {
+
+      narradorRef.current
+        .play()
+        .then(() => {
+          setNarradorActivo(true);
+        })
+        .catch((error) => {
+          console.error(
+            "No se pudo reproducir la narración:",
+            error
+          );
+        });
+
+    }
+  };
+
+
+  /* =====================================================
+     DETECTAR CUANDO TERMINA EL NARRADOR
+  ===================================================== */
+
+  const narradorTerminado = () => {
+    setNarradorActivo(false);
+  };
+
+
+  /* =====================================================
+     DETENER NARRADOR AL CAMBIAR DE CAPÍTULO
+  ===================================================== */
+
+  useEffect(() => {
+
+    if (!narradorRef.current) return;
+
+    narradorRef.current.pause();
+    narradorRef.current.currentTime = 0;
+
+    setNarradorActivo(false);
+
+  }, [capituloActivo]);
 
 
   /* =====================================================
@@ -129,7 +195,6 @@ export const EscenaPortada = () => {
   const alternarPantallaCompleta = async () => {
 
     if (!pantallaRef.current) return;
-
 
     try {
 
@@ -155,7 +220,6 @@ export const EscenaPortada = () => {
       );
 
     }
-
   };
 
 
@@ -172,12 +236,22 @@ export const EscenaPortada = () => {
           AUDIO
       ===================================================== */}
 
+      {/* Música de fondo */}
+
       <audio
         ref={audioRef}
         loop
-        src="/musica-comic.mp3"
+        src="/BOMBIS.mp3"
       />
 
+
+      {/* Narrador */}
+
+      <audio
+        ref={narradorRef}
+        src={narraciones[capituloActivo]}
+        onEnded={narradorTerminado}
+      />
 
 
       {/* =====================================================
@@ -197,7 +271,6 @@ export const EscenaPortada = () => {
       </a>
 
 
-
       {/* =====================================================
           CONTENEDOR PRINCIPAL
       ===================================================== */}
@@ -211,8 +284,9 @@ export const EscenaPortada = () => {
 
         <section
           ref={pantallaRef}
-          className={`comic-pantalla ${escenaIniciada ? "escena-activa" : ""
-            }`}
+          className={`comic-pantalla ${
+            escenaIniciada ? "escena-activa" : ""
+          }`}
         >
 
 
@@ -223,7 +297,9 @@ export const EscenaPortada = () => {
           <div className="comic-controles">
 
 
-            {/* MÚSICA */}
+            {/* =================================================
+                MÚSICA
+            ================================================= */}
 
             <button
               className="comic-control"
@@ -243,8 +319,31 @@ export const EscenaPortada = () => {
             </button>
 
 
+            {/* =================================================
+                NARRADOR
+            ================================================= */}
 
-            {/* PANTALLA COMPLETA */}
+            <button
+              className="comic-control"
+              onClick={alternarNarrador}
+              aria-label={
+                narradorActivo
+                  ? "Detener narrador"
+                  : "Escuchar narrador"
+              }
+            >
+
+              {narradorActivo
+                ? <FaStop />
+                : <FaMicrophone />
+              }
+
+            </button>
+
+
+            {/* =================================================
+                PANTALLA COMPLETA
+            ================================================= */}
 
             <button
               className="comic-control"
@@ -265,7 +364,6 @@ export const EscenaPortada = () => {
 
 
           </div>
-
 
 
           {/* =================================================
@@ -292,7 +390,6 @@ export const EscenaPortada = () => {
               </h1>
 
 
-
               <p className="comic-descripcion">
 
                 Acompaña a nuestro personaje en una aventura
@@ -300,7 +397,6 @@ export const EscenaPortada = () => {
                 diferente e interactiva.
 
               </p>
-
 
 
               {/* BOTÓN COMENZAR */}
@@ -324,33 +420,46 @@ export const EscenaPortada = () => {
 
           ) : (
 
-            /* =====================================================
-       ESCENA ACTIVA
-    ===================================================== */
+            /* =================================================
+               ESCENA ACTIVA
+            ================================================= */
 
             <div className="comic-escena">
 
-              {/* CAPÍTULO 1 */}
+
+              {/* =================================================
+                  CAPÍTULO 1
+              ================================================= */}
 
               {capituloActivo === 1 && (
                 <Escena1 />
               )}
 
 
-              {/* CAPÍTULO 2 */}
+              {/* =================================================
+                  CAPÍTULO 2
+              ================================================= */}
 
               {capituloActivo === 2 && (
                 <Escena2 />
               )}
 
-            </div>
 
+              {/* =================================================
+                  CAPÍTULO 3
+              ================================================= */}
+
+              {capituloActivo === 3 && (
+                <Escena3 />
+              )}
+
+
+            </div>
 
           )}
 
 
         </section>
-
 
 
         {/* =================================================
@@ -367,7 +476,6 @@ export const EscenaPortada = () => {
           </h2>
 
 
-
           <div className="comic-capitulos-lista">
 
 
@@ -375,23 +483,21 @@ export const EscenaPortada = () => {
 
               <button
                 key={capitulo.numero}
-
                 className={`
                   comic-capitulo
                   ${capitulo.disponible
                     ? "disponible"
-                    : "bloqueado"}
-
+                    : "bloqueado"
+                  }
                   ${capituloActivo ===
                     Number(capitulo.numero)
                     ? "seleccionado"
-                    : ""}
+                    : ""
+                  }
                 `}
-
                 onClick={() =>
                   seleccionarCapitulo(capitulo)
                 }
-
                 disabled={!capitulo.disponible}
               >
 
@@ -403,7 +509,6 @@ export const EscenaPortada = () => {
                   {capitulo.numero}
 
                 </div>
-
 
 
                 {/* INFORMACIÓN */}
@@ -438,6 +543,7 @@ export const EscenaPortada = () => {
     </main>
 
   );
+
 };
 
 

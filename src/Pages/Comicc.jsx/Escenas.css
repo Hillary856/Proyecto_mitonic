@@ -143,7 +143,9 @@
 
 .escena-2-fondo {
     width: 100%;
-    height: 100%;
+    height: 116%;
+
+    
 
     object-fit: contain;
     object-position: center;
@@ -151,6 +153,7 @@
     display: block;
 
     z-index: 1;
+    background-color: #4FBAF4;
 }
 
 
@@ -159,23 +162,13 @@
 ========================================================= */
 
 .escena-2-arbol-1 {
-  position: absolute;
-
-  /*
-     POSICIÓN TEMPORAL
-     Después la ajustamos visualmente.
-  */
-
-  left: 5%;
-  bottom: 0;
-
-  width: 20%;
-
-  height: auto;
-
-  z-index: 3;
-
-  display: block;
+    position: absolute;
+    left: 94%;
+    bottom: 152px;
+    width: 8%;
+    height: auto;
+    z-index: 3;
+    display: block;
 }
 
 
@@ -184,18 +177,13 @@
 ========================================================= */
 
 .escena-2-arbol-2 {
-  position: absolute;
-
-  left: 75%;
-  bottom: 0;
-
-  width: 20%;
-
-  height: auto;
-
-  z-index: 3;
-
-  display: block;
+    position: absolute;
+    left: 89%;
+    bottom: 246px;
+    width: 8%;
+    height: auto;
+    z-index: 3;
+    display: block;
 }
 
 
@@ -204,56 +192,84 @@
 ========================================================= */
 
 .escena-2-arbusto-1 {
-  position: absolute;
-
-  left: 20%;
-  bottom: 5%;
-
-  width: 12%;
-
-  height: auto;
-
-  z-index: 4;
-
-  display: block;
+    position: absolute;
+    left: 87%;
+    bottom: 25%;
+    width: 12%;
+    height: auto;
+    z-index: 4;
+    display: block;
 }
 
 
 /* =========================================================
    ARBUSTO 2
 ========================================================= */
-
 .escena-2-arbusto-2 {
-  position: absolute;
-
-  left: 48%;
-  bottom: 4%;
-
-  width: 13%;
-
-  height: auto;
-
-  z-index: 4;
-
-  display: block;
+    position: absolute;
+    left: 42%;
+    bottom: 26%;
+    width: 9%;
+    height: auto;
+    z-index: 4;
+    display: block;
 }
-
 
 /* =========================================================
    ARBUSTO 3
 ========================================================= */
 
 .escena-2-arbusto-3 {
+    position: absolute;
+    left: 21%;
+    bottom: 28%;
+    width: 12%;
+    height: auto;
+    z-index: 4;
+    display: block;
+}
+
+
+/* =========================================================
+   ESCENA 3
+========================================================= */
+
+.escena-3 {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 
-  left: 65%;
-  bottom: 6%;
 
-  width: 12%;
+/* =========================================================
+   CONTENEDOR DE LA ESCENA
+========================================================= */
 
-  height: auto;
+.escena-3-contenido {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 
-  z-index: 4;
+
+/* =========================================================
+   FONDO DEL ÁGORA
+========================================================= */
+
+.escena-3-fondo {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
 
   display: block;
+
+  z-index: 1;
 }
