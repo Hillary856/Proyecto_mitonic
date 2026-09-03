@@ -11,9 +11,6 @@ export const SeccionInfoComic = () => {
   const ultimaPosicion = useRef(window.scrollY);
 
 
-  /* =========================================
-     DETECTAR CUANDO ENTRA LA SECCIÓN
-  ========================================= */
 
   useEffect(() => {
 
@@ -52,9 +49,6 @@ export const SeccionInfoComic = () => {
   }, []);
 
 
-  /* =========================================
-     DETECTAR DIRECCIÓN DEL SCROLL
-  ========================================= */
 
   useEffect(() => {
 
@@ -64,25 +58,12 @@ export const SeccionInfoComic = () => {
 
 
       if (posicionActual < ultimaPosicion.current) {
-
-        // El usuario está subiendo
-
         setSubiendo(true);
-
       } else {
-
-        // El usuario está bajando
-
         setSubiendo(false);
-
       }
-
-
       ultimaPosicion.current = posicionActual;
-
     };
-
-
     window.addEventListener(
       "scroll",
       detectarScroll,
@@ -113,11 +94,6 @@ export const SeccionInfoComic = () => {
       `}
     >
 
-
-      {/* =========================================
-          TÍTULO
-      ========================================= */}
-
       <div className="info-comic-titulo">
 
         <h2>
@@ -143,16 +119,8 @@ export const SeccionInfoComic = () => {
       </div>
 
 
-      {/* =========================================
-          INFORMACIÓN
-      ========================================= */}
-
       <div className="info-comic-contenido">
 
-
-        {/* =========================================
-            BLOQUE 1
-        ========================================= */}
 
         <div className="info-item">
 
@@ -169,11 +137,6 @@ export const SeccionInfoComic = () => {
         </div>
 
 
-
-        {/* =========================================
-            BLOQUE 2
-        ========================================= */}
-
         <div className="info-item">
 
           <h3>
@@ -188,11 +151,6 @@ export const SeccionInfoComic = () => {
 
         </div>
 
-
-
-        {/* =========================================
-            BLOQUE 3
-        ========================================= */}
 
         <div className="info-item">
 

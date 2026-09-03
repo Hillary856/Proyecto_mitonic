@@ -8,9 +8,6 @@ export const SeccionEquipo = () => {
   const [visible, setVisible] = useState(false);
 
 
-  /* =========================================
-     DETECTAR SCROLL
-  ========================================= */
 
   useEffect(() => {
 
@@ -52,21 +49,9 @@ export const SeccionEquipo = () => {
         visible ? "visible" : ""
       }`}
     >
-
-
-      {/* =========================================
-          TÍTULO
-      ========================================= */}
-
       <h2 className="equipo-titulo">
         EQUIPO
       </h2>
-
-
-
-      {/* =========================================
-          INTEGRANTES
-      ========================================= */}
 
       <div className="equipo-integrantes">
 

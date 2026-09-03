@@ -27,45 +27,44 @@ export const SeccionHero = () => {
 
       </div>
 
-
-      {/* =====================================================
+ {/* =====================================================
     VIDEO / TRAILER
 ===================================================== */}
 
-<div className="trailer-mitonic">
+      <div className="trailer-mitonic">
 
-  <div className="trailer-contenedor">
+        <div className="trailer-contenedor">
 
-    {!mostrarTrailer ? (
+          {!mostrarTrailer ? (
 
-      <>
+            <>
 
-        <button
-          className="boton-trailer"
-          onClick={() => setMostrarTrailer(true)}
-        >
-          VER TRAILER
-        </button>
-      </>
+              <button
+                className="boton-trailer"
+                onClick={() => setMostrarTrailer(true)}
+              >
+                VER TRAILER
+              </button>
+            </>
 
-    ) : (
+          ) : (
 
-      <video
-        className="video-trailer"
-        controls
-        autoPlay
-      >
-        <source
-          src="/teaser_3.mp4"
-          type="video/mp4"
-        />
-      </video>
+            <video
+              className="video-trailer"
+              controls
+              autoPlay
+            >
+              <source
+                src="/teaser_3.mp4"
+                type="video/mp4"
+              />
+            </video>
 
-    )}
+          )}
 
-  </div>
+        </div>
 
-</div>
+      </div>
 
     </section>
 

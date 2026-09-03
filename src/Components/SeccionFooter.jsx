@@ -11,10 +11,6 @@ export const SeccionFooter = () => {
     return (
         <footer className="seccion-footer">
 
-            {/* ============================= */}
-            {/* LOGO */}
-            {/* ============================= */}
-
             <div className="footer-logo">
                 <img
                     src="/public/Logo.png"
@@ -30,11 +26,6 @@ export const SeccionFooter = () => {
                     className="footer-ondas"
                 />
             </div>
-
-
-            {/* ============================= */}
-            {/* REDES SOCIALES */}
-            {/* ============================= */}
 
             <div className="footer-redes">
 
@@ -64,10 +55,6 @@ export const SeccionFooter = () => {
 
             </div>
 
-
-            {/* ============================= */}
-            {/* INDICADOR */}
-            {/* ============================= */}
 
             <p className="indicador-footer">
                 Sección - FOOTER

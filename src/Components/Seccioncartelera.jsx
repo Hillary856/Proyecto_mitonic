@@ -16,9 +16,7 @@ export const Seccioncartelera = () => {
   const [visible, setVisible] = useState(false);
 
 
-  /* =========================================
-     DETECTAR SCROLL
-  ========================================= */
+
 
   useEffect(() => {
 

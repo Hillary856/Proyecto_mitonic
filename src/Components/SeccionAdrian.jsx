@@ -9,9 +9,7 @@ export const SeccionAdrian = () => {
   const [visible, setVisible] = useState(false);
 
 
-  /* =========================================
-     ANIMACIÓN AL HACER SCROLL
-  ========================================= */
+
 
   useEffect(() => {
 

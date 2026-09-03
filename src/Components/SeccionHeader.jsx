@@ -5,15 +5,12 @@ export const SeccionHeader = () => {
   return (
     <div className="pagina-mitonic">
 
-      {/* HEADER */}
       <header className="header-mitonic">
 
-        {/* Logo */}
         <Link to="/" className="logo-mitonic">
           <img src="/public/Logo.png" alt="Mitonic" />
         </Link>
 
-        {/* Navegación */}
         <nav className="nav-mitonic">
 
           <Link to="/personaje">
