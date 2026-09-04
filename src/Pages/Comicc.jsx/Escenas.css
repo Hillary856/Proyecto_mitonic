@@ -4,15 +4,15 @@
 
 .escena-1 {
   position: absolute;
-
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   overflow: hidden;
-
   background-color: #000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -23,8 +23,13 @@
 .escena-1-contenido {
   position: relative;
 
+  /*
+    El escenario original trabaja con una proporción
+    de 1024 × 598.
+  */
+
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1024 / 598;
 
   overflow: hidden;
 }
@@ -42,93 +47,80 @@
   width: 100%;
   height: 100%;
 
-  object-fit: cover;
-  object-position: center;
-
   display: block;
+
+  /*
+    El fondo y el SVG utilizan exactamente
+    el mismo espacio.
+  */
+
+  object-fit: cover;
 
   z-index: 1;
 }
 
 
 /* =========================================================
-   FUEGO
+   CAPA DE ELEMENTOS
 ========================================================= */
 
-.escena-1-fuego {
+.escena-1-overlay {
   position: absolute;
 
+  inset: 0;
 
-
-  left: 30%;
-  bottom: 57%;
-
-  width: 3.2%;
-
-  height: auto;
-
-  z-index: 5;
+  width: 100%;
+  height: 100%;
 
   display: block;
 
-  transform-origin: center bottom;
+  z-index: 5;
 
-  animation:
-    fuegoVivo 0.8s ease-in-out infinite alternate;
+  /*
+    IMPORTANTE:
+    El viewBox mantiene las coordenadas originales
+    del escenario.
+  */
+
+  pointer-events: none;
 }
 
-
-/* =========================================================
-   ANIMACIÓN DEL FUEGO
-========================================================= */
-
-@keyframes fuegoVivo {
-
-  0% {
-    transform:
-      scale(1)
-      rotate(-1deg);
-  }
-
-  50% {
-    transform:
-      scale(1.04)
-      rotate(1deg);
-  }
-
-  100% {
-    transform:
-      scale(0.97)
-      rotate(-1deg);
-  }
-
-}
-
-
-/* =========================================================
+/* =========================================
    ESCENA 2
-========================================================= */
+========================================= */
 
 .escena-2 {
-    position: absolute;
+  position: absolute;
+  inset: 0;
 
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 
-    overflow: hidden;
+  overflow: hidden;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: #000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
-/* =========================================================
-   CONTENEDOR DEL ESCENARIO
-========================================================= */
+/* =========================================
+   COMPOSICIÓN COMPLETA
+========================================= */
 
 .escena-2-contenido {
-  position: relative;
+  position: absolute;
+
+  /*
+    La escena tiene una resolución de referencia
+    de 1024 × 598.
+
+    Usamos la proporción de la escena para que
+    fondo y elementos mantengan siempre la misma
+    relación entre ellos.
+  */
 
   width: 100%;
   height: 100%;
@@ -137,99 +129,47 @@
 }
 
 
-/* =========================================================
-   FONDO DE ATENAS
-========================================================= */
+/* =========================================
+   FONDO
+========================================= */
 
 .escena-2-fondo {
-    width: 100%;
-    height: 116%;
+  position: absolute;
 
-    
+  inset: 0;
 
-    object-fit: contain;
-    object-position: center;
+  width: 100%;
+  height: 100%;
 
-    display: block;
+  display: block;
 
-    z-index: 1;
-    background-color: #4FBAF4;
+  /*
+    El fondo se adapta a toda la composición.
+  */
+  object-fit: fill;
+
+  z-index: 1;
 }
 
 
-/* =========================================================
-   ÁRBOL 1
-========================================================= */
+/* =========================================
+   ELEMENTOS
+========================================= */
 
-.escena-2-arbol-1 {
-    position: absolute;
-    left: 94%;
-    bottom: 152px;
-    width: 8%;
-    height: auto;
-    z-index: 3;
-    display: block;
+.escena-2-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  z-index: 3;
+
+  pointer-events: none;
 }
-
-
-/* =========================================================
-   ÁRBOL 2
-========================================================= */
-
-.escena-2-arbol-2 {
-    position: absolute;
-    left: 89%;
-    bottom: 246px;
-    width: 8%;
-    height: auto;
-    z-index: 3;
-    display: block;
-}
-
-
-/* =========================================================
-   ARBUSTO 1
-========================================================= */
-
-.escena-2-arbusto-1 {
-    position: absolute;
-    left: 87%;
-    bottom: 25%;
-    width: 12%;
-    height: auto;
-    z-index: 4;
-    display: block;
-}
-
-
-/* =========================================================
-   ARBUSTO 2
-========================================================= */
-.escena-2-arbusto-2 {
-    position: absolute;
-    left: 42%;
-    bottom: 26%;
-    width: 9%;
-    height: auto;
-    z-index: 4;
-    display: block;
-}
-
-/* =========================================================
-   ARBUSTO 3
-========================================================= */
-
-.escena-2-arbusto-3 {
-    position: absolute;
-    left: 21%;
-    bottom: 28%;
-    width: 12%;
-    height: auto;
-    z-index: 4;
-    display: block;
-}
-
-
 /* =========================================================
    ESCENA 3
 ========================================================= */
