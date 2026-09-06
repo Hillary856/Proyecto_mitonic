@@ -5,14 +5,22 @@
 .escena-1 {
   position: absolute;
   inset: 0;
+
   width: 100%;
   height: 100%;
+
   overflow: hidden;
+
   background-color: #000;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  /*
+    Entrada de la escena desde negro.
+  */
+  animation: aparecerEscena 1.2s ease-out both;
 }
 
 
@@ -23,15 +31,14 @@
 .escena-1-contenido {
   position: relative;
 
-  /*
-    El escenario original trabaja con una proporción
-    de 1024 × 598.
-  */
+  width: min(100vw, calc(100vh * (1024 / 598)));
+  height: min(100vh, calc(100vw * (598 / 1024)));
 
-  width: 100%;
   aspect-ratio: 1024 / 598;
 
   overflow: hidden;
+
+  margin: auto;
 }
 
 
@@ -48,11 +55,6 @@
   height: 100%;
 
   display: block;
-
-  /*
-    El fondo y el SVG utilizan exactamente
-    el mismo espacio.
-  */
 
   object-fit: cover;
 
@@ -76,13 +78,118 @@
 
   z-index: 5;
 
-  /*
-    IMPORTANTE:
-    El viewBox mantiene las coordenadas originales
-    del escenario.
-  */
-
   pointer-events: none;
+}
+
+
+/* =========================================================
+   ADRIÁN
+========================================================= */
+
+.escena-1-adrian-prueba {
+  position: absolute;
+
+  left: 22%;
+  bottom: -10%;
+
+  width: 180%;
+  height: auto;
+
+  z-index: 10;
+
+  transform: translateX(-22.7%);
+
+  animation: entradaAdrian 4s ease-out forwards;
+}
+
+
+/* =========================================================
+   LOTTIE ADRIÁN
+========================================================= */
+
+.escena-1-adrian-prueba svg {
+  width: 100%;
+  height: auto;
+
+  display: block;
+}
+
+
+/* =========================================================
+   ENTRADA DE ADRIÁN
+========================================================= */
+
+@keyframes entradaAdrian {
+
+  from {
+    left: -65%;
+  }
+
+  to {
+    left: 3%;
+  }
+
+}
+
+
+/* =========================================================
+   ENTRADA DE LA ESCENA DESDE NEGRO
+========================================================= */
+
+@keyframes aparecerEscena {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+/* =========================================================
+   ADRIÁN HABLANDO
+========================================================= */
+
+.escena-1-adrian-hablando {
+  position: absolute;
+
+  /*
+    Posición horizontal dentro del escenario
+  */
+  left: 22%;
+
+  /*
+    Posición vertical dentro del escenario
+  */
+  bottom: -10%;
+
+  /*
+    Tamaño proporcional al escenario
+  */
+  width: 40%;
+
+  height: auto;
+
+  z-index: 10;
+
+  /*
+    Ajuste fino horizontal
+  */
+  transform: translateX(3%);
+}
+
+
+/* =========================================================
+   LOTTIE ADRIÁN HABLANDO
+========================================================= */
+
+.escena-1-adrian-hablando svg {
+  width: 100%;
+  height: auto;
+
+  display: block;
 }
 
 /* =========================================
