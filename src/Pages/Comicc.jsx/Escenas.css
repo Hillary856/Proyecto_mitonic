@@ -192,6 +192,408 @@
   display: block;
 }
 
+/* =========================================================
+   CONTENEDOR DE LA ESCENA
+========================================================= */
+
+.comic-escena {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   TEXTO DE NARRACIÓN
+========================================================= */
+
+.comic-texto-narracion {
+  /*
+    IMPORTANTE:
+    Ahora sí queda posicionado respecto a .comic-escena
+  */
+  position: absolute;
+
+  /*
+    POSICIÓN HORIZONTAL
+    50% = centro exacto
+  */
+  left: 50%;
+
+  /*
+    POSICIÓN VERTICAL
+  */
+  bottom: 18%;
+
+  /*
+    ANCHO
+  */
+  width: 72%;
+  max-width: 900px;
+
+  /*
+    CENTRAR EL CONTENEDOR SOBRE SU PROPIO CENTRO
+  */
+  transform: translateX(-50%);
+
+  /*
+    DEGRADADO BEIGE
+  */
+  background: linear-gradient(
+    135deg,
+    rgba(252, 233, 213, 0.96),
+    rgba(239, 210, 180, 0.94)
+  );
+
+  /*
+    BORDE
+  */
+  border: 2px solid rgba(101, 0, 0, 0.25);
+
+  /*
+    ESQUINAS
+  */
+  border-radius: 18px;
+
+  /*
+    ESPACIADO
+  */
+  padding: 18px 28px;
+
+  /*
+    TEXTO
+  */
+  color: #650000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(15px, 1.35vw, 23px);
+
+  font-weight: 600;
+
+  line-height: 1.45;
+
+  text-align: center;
+
+  box-sizing: border-box;
+
+  /*
+    ENCIMA DE ADRIÁN Y DEL FONDO
+  */
+  z-index: 50;
+
+  /*
+    SOMBRA
+  */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.20);
+
+  /*
+    ANIMACIÓN
+  */
+  animation: aparecerTextoNarracion 0.4s ease-out both;
+}
+
+
+/* =========================================================
+   ANIMACIÓN DEL TEXTO
+========================================================= */
+
+@keyframes aparecerTextoNarracion {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+/* =========================================================
+   MONEDA
+========================================================= */
+
+.escena-1-moneda-boton {
+  position: absolute;
+
+  /*
+    POSICIÓN INICIAL DE LA MONEDA
+    Después la ajustamos.
+  */
+  left: 68%;
+  top: 52%;
+
+  width: 10%;
+  height: auto;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  z-index: 25;
+
+  transform: translate(-50%, -50%);
+
+  animation: aparecerMoneda 0.6s ease-out both;
+}
+
+
+.escena-1-moneda {
+  width: 100%;
+  height: auto;
+
+  display: block;
+
+  transition: transform 0.2s ease;
+}
+
+
+.escena-1-moneda-boton:hover .escena-1-moneda {
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   ANIMACIÓN DE APARICIÓN DE LA MONEDA
+========================================================= */
+
+@keyframes aparecerMoneda {
+
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+}
+
+
+/* =========================================================
+   FONDO DEL MODAL
+========================================================= */
+
+.escena-1-modal-fondo {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background: rgba(30, 15, 8, 0.65);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  z-index: 100;
+
+  padding: 5%;
+
+  box-sizing: border-box;
+
+  animation: aparecerModal 0.3s ease-out both;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.escena-1-modal {
+  position: relative;
+
+  width: min(80%, 850px);
+
+  min-height: 45%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8%;
+
+  padding: 45px;
+
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    135deg,
+    #fce9d5,
+    #eed4b5
+  );
+
+  border: 3px solid #650000;
+
+  border-radius: 25px;
+
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.45);
+
+  animation: aparecerModalContenido 0.35s ease-out both;
+}
+
+
+/* =========================================================
+   IMAGEN DE LA MONEDA DENTRO DEL MODAL
+========================================================= */
+
+.escena-1-modal-imagen {
+  width: 35%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.escena-1-modal-imagen img {
+  width: 100%;
+
+  height: auto;
+
+  display: block;
+}
+
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
+
+.escena-1-modal-info {
+  width: 55%;
+}
+
+
+.escena-1-modal-info h2 {
+  margin: 0 0 18px;
+
+  color: #650000;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(28px, 3vw, 48px);
+
+  font-weight: 800;
+}
+
+
+.escena-1-modal-info p {
+  margin: 0;
+
+  color: #4d2b1d;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  font-size: clamp(15px, 1.4vw, 22px);
+
+  line-height: 1.55;
+}
+
+
+/* =========================================================
+   BOTÓN CERRAR
+========================================================= */
+
+.escena-1-modal-cerrar {
+  position: absolute;
+
+  top: 15px;
+
+  right: 20px;
+
+  width: 42px;
+
+  height: 42px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #650000;
+
+  color: white;
+
+  font-size: 30px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.escena-1-modal-cerrar:hover {
+  background: #4d0000;
+
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   ANIMACIONES DEL MODAL
+========================================================= */
+
+@keyframes aparecerModal {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+
+@keyframes aparecerModalContenido {
+
+  from {
+    opacity: 0;
+
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
 /* =========================================
    ESCENA 2
 ========================================= */

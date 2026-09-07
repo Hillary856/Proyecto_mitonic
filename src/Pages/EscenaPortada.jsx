@@ -4,16 +4,22 @@ import Escena1 from "./Comicc.jsx/Escena1";
 import Escena2 from "./Comicc.jsx/Escena2";
 import Escena3 from "./Comicc.jsx/Escena3";
 
+import Esc1Audio1 from "../Audios/Esc1Audio1.mp3";
+import Esc1Audio2 from "../Audios/Esc1Audio2.mp3";
+import Esc1Audio3 from "../Audios/Esc1Audio3.mp3";
+
 import {
   FaVolumeUp,
   FaVolumeMute,
   FaExpand,
   FaCompress,
   FaMicrophone,
-  FaStop
+  FaStop,
+  FaClosedCaptioning
 } from "react-icons/fa";
 
 import "./EscenaPortada.css";
+
 
 export const EscenaPortada = () => {
 
@@ -22,9 +28,21 @@ export const EscenaPortada = () => {
   ===================================================== */
 
   const [capituloActivo, setCapituloActivo] = useState(1);
+
   const [escenaIniciada, setEscenaIniciada] = useState(false);
+
   const [musicaActiva, setMusicaActiva] = useState(false);
+
   const [narradorActivo, setNarradorActivo] = useState(false);
+
+  const [textoNarracionActivo, setTextoNarracionActivo] = useState(false);
+
+  const [momentoNarracion, setMomentoNarracion] = useState(1);
+
+  const [caminataTerminada, setCaminataTerminada] = useState(false);
+
+  const [audio1Terminado, setAudio1Terminado] = useState(false);
+
   const [pantallaCompleta, setPantallaCompleta] = useState(false);
 
 
@@ -33,7 +51,9 @@ export const EscenaPortada = () => {
   ===================================================== */
 
   const pantallaRef = useRef(null);
+
   const audioRef = useRef(null);
+
   const narradorRef = useRef(null);
 
 
@@ -47,26 +67,31 @@ export const EscenaPortada = () => {
       titulo: "EL COMIENZO",
       disponible: true
     },
+
     {
       numero: "02",
       titulo: "PRÓXIMAMENTE",
       disponible: true
     },
+
     {
       numero: "03",
       titulo: "PRÓXIMAMENTE",
       disponible: true
     },
+
     {
       numero: "04",
       titulo: "PRÓXIMAMENTE",
       disponible: true
     },
+
     {
       numero: "05",
       titulo: "PRÓXIMAMENTE",
       disponible: true
     },
+
     {
       numero: "06",
       titulo: "PRÓXIMAMENTE",
@@ -76,13 +101,35 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     NARRACIONES DE LAS ESCENAS
+     AUDIOS DE LA ESCENA 1
   ===================================================== */
 
-  const narraciones = {
-    1: "/Narraciones/escena1.mp3",
-    2: "/Narraciones/escena2.mp3",
-    3: "/Narraciones/escena3.mp3"
+  const narracionesEscena1 = {
+
+    1: Esc1Audio1,
+
+    2: Esc1Audio2,
+
+    3: Esc1Audio3
+
+  };
+
+
+  /* =====================================================
+     TEXTOS DE LA ESCENA 1
+  ===================================================== */
+
+  const textosEscena1 = {
+
+    1:
+      "Un nuevo día de investigación. Nunca sé qué voy a encontrar cuando entro en una cueva como esta... y eso es justamente lo que hace interesante mi trabajo.",
+
+    2:
+      "Por lo que puedo ver, este lugar lleva bastante tiempo sin ser explorado. Quizás todavía quede algo entre estos escombros.",
+
+    3:
+      ""
+
   };
 
 
@@ -97,7 +144,28 @@ export const EscenaPortada = () => {
     const numero = Number(capitulo.numero);
 
     setCapituloActivo(numero);
+
     setEscenaIniciada(true);
+
+    /*
+      Reiniciar secuencia.
+    */
+
+    setCaminataTerminada(false);
+
+    setAudio1Terminado(false);
+
+    setMomentoNarracion(1);
+
+    setTextoNarracionActivo(false);
+
+    /*
+      El narrador comienza automáticamente
+      en el capítulo 1.
+    */
+
+    setNarradorActivo(numero === 1);
+
   };
 
 
@@ -109,9 +177,11 @@ export const EscenaPortada = () => {
 
     if (!audioRef.current) return;
 
+
     if (musicaActiva) {
 
       audioRef.current.pause();
+
       setMusicaActiva(false);
 
     } else {
@@ -119,16 +189,21 @@ export const EscenaPortada = () => {
       audioRef.current
         .play()
         .then(() => {
+
           setMusicaActiva(true);
+
         })
         .catch((error) => {
+
           console.error(
             "No se pudo reproducir la música:",
             error
           );
+
         });
 
     }
+
   };
 
 
@@ -140,40 +215,197 @@ export const EscenaPortada = () => {
 
     if (!narradorRef.current) return;
 
+
+    /*
+      Detener narrador.
+    */
+
     if (narradorActivo) {
 
       narradorRef.current.pause();
+
+      narradorRef.current.currentTime = 0;
+
       setNarradorActivo(false);
 
-    } else {
-
-      narradorRef.current
-        .play()
-        .then(() => {
-          setNarradorActivo(true);
-        })
-        .catch((error) => {
-          console.error(
-            "No se pudo reproducir la narración:",
-            error
-          );
-        });
+      return;
 
     }
+
+
+    /*
+      Volver a activar desde el momento actual.
+    */
+
+    const audioActual = caminataTerminada
+      ? 2
+      : momentoNarracion;
+
+    setMomentoNarracion(audioActual);
+
+    setNarradorActivo(true);
+
   };
 
 
   /* =====================================================
-     DETECTAR CUANDO TERMINA EL NARRADOR
+     TEXTO
+  ===================================================== */
+
+  const alternarTextoNarracion = () => {
+
+    setTextoNarracionActivo(
+      (activo) => !activo
+    );
+
+  };
+
+
+  /* =====================================================
+     CUANDO ADRIÁN TERMINA DE CAMINAR
+  ===================================================== */
+
+  const cambiarAAudio2 = () => {
+
+    /*
+      Adrián ya llegó a su posición.
+    */
+
+    setCaminataTerminada(true);
+
+  };
+
+
+  /* =====================================================
+     REPRODUCCIÓN DEL NARRADOR
+  ===================================================== */
+
+  useEffect(() => {
+
+    if (!narradorRef.current) return;
+
+
+    if (!narradorActivo) {
+
+      narradorRef.current.pause();
+
+      return;
+
+    }
+
+
+    const reproducirNarracion = async () => {
+
+      try {
+
+        narradorRef.current.currentTime = 0;
+
+        await narradorRef.current.play();
+
+      } catch (error) {
+
+        console.error(
+          "No se pudo reproducir la narración:",
+          error
+        );
+
+      }
+
+    };
+
+
+    reproducirNarracion();
+
+  }, [
+    momentoNarracion,
+    narradorActivo
+  ]);
+
+
+  /* =====================================================
+     CUANDO TERMINA UN AUDIO
   ===================================================== */
 
   const narradorTerminado = () => {
-    setNarradorActivo(false);
+
+    /*
+      AUDIO 1
+    */
+
+    if (momentoNarracion === 1) {
+
+      setAudio1Terminado(true);
+
+      return;
+
+    }
+
+
+    /*
+      AUDIO 2
+      → pasar al AUDIO 3
+    */
+
+    if (momentoNarracion === 2) {
+
+      setMomentoNarracion(3);
+
+      return;
+
+    }
+
+
+    /*
+      AUDIO 3
+      → termina la secuencia
+    */
+
+    if (momentoNarracion === 3) {
+
+      setNarradorActivo(false);
+
+    }
+
   };
 
 
   /* =====================================================
-     DETENER NARRADOR AL CAMBIAR DE CAPÍTULO
+     PASAR DE AUDIO 1 A AUDIO 2
+  ===================================================== */
+
+  useEffect(() => {
+
+    /*
+      Audio 2 comienza solamente cuando:
+
+      1. Terminó Adrián de caminar.
+      2. Terminó Audio 1.
+      3. El narrador está activo.
+    */
+
+    if (
+      caminataTerminada &&
+      audio1Terminado &&
+      momentoNarracion === 1 &&
+      narradorActivo
+    ) {
+
+      setAudio1Terminado(false);
+
+      setMomentoNarracion(2);
+
+    }
+
+  }, [
+    caminataTerminada,
+    audio1Terminado,
+    momentoNarracion,
+    narradorActivo
+  ]);
+
+
+  /* =====================================================
+     DETENER NARRADOR AL CAMBIAR CAPÍTULO
   ===================================================== */
 
   useEffect(() => {
@@ -181,9 +413,18 @@ export const EscenaPortada = () => {
     if (!narradorRef.current) return;
 
     narradorRef.current.pause();
+
     narradorRef.current.currentTime = 0;
 
     setNarradorActivo(false);
+
+    setCaminataTerminada(false);
+
+    setAudio1Terminado(false);
+
+    setMomentoNarracion(1);
+
+    setTextoNarracionActivo(false);
 
   }, [capituloActivo]);
 
@@ -195,6 +436,7 @@ export const EscenaPortada = () => {
   const alternarPantallaCompleta = async () => {
 
     if (!pantallaRef.current) return;
+
 
     try {
 
@@ -220,6 +462,7 @@ export const EscenaPortada = () => {
       );
 
     }
+
   };
 
 
@@ -232,11 +475,9 @@ export const EscenaPortada = () => {
     <main className="comic-interface">
 
 
-      {/* =====================================================
-          AUDIO
-      ===================================================== */}
-
-      {/* Música de fondo */}
+      {/* =================================================
+          MÚSICA
+      ================================================= */}
 
       <audio
         ref={audioRef}
@@ -245,18 +486,24 @@ export const EscenaPortada = () => {
       />
 
 
-      {/* Narrador */}
+      {/* =================================================
+          NARRADOR
+      ================================================= */}
 
       <audio
         ref={narradorRef}
-        src={narraciones[capituloActivo]}
+        src={
+          capituloActivo === 1
+            ? narracionesEscena1[momentoNarracion]
+            : ""
+        }
         onEnded={narradorTerminado}
       />
 
 
-      {/* =====================================================
-          LOGO MITONIC
-      ===================================================== */}
+      {/* =================================================
+          LOGO
+      ================================================= */}
 
       <a
         href="/"
@@ -271,9 +518,9 @@ export const EscenaPortada = () => {
       </a>
 
 
-      {/* =====================================================
+      {/* =================================================
           CONTENEDOR PRINCIPAL
-      ===================================================== */}
+      ================================================= */}
 
       <div className="comic-layout">
 
@@ -285,13 +532,15 @@ export const EscenaPortada = () => {
         <section
           ref={pantallaRef}
           className={`comic-pantalla ${
-            escenaIniciada ? "escena-activa" : ""
+            escenaIniciada
+              ? "escena-activa"
+              : ""
           }`}
         >
 
 
           {/* =================================================
-              CONTROLES DE LA ESCENA
+              CONTROLES
           ================================================= */}
 
           <div className="comic-controles">
@@ -329,7 +578,7 @@ export const EscenaPortada = () => {
               aria-label={
                 narradorActivo
                   ? "Detener narrador"
-                  : "Escuchar narrador"
+                  : "Activar narrador"
               }
             >
 
@@ -342,7 +591,30 @@ export const EscenaPortada = () => {
 
 
             {/* =================================================
-                PANTALLA COMPLETA
+                TEXTO
+            ================================================= */}
+
+            <button
+              className={`comic-control ${
+                textoNarracionActivo
+                  ? "activo"
+                  : ""
+              }`}
+              onClick={alternarTextoNarracion}
+              aria-label={
+                textoNarracionActivo
+                  ? "Ocultar texto"
+                  : "Mostrar texto"
+              }
+            >
+
+              <FaClosedCaptioning />
+
+            </button>
+
+
+            {/* =================================================
+                FULLSCREEN
             ================================================= */}
 
             <button
@@ -372,12 +644,7 @@ export const EscenaPortada = () => {
 
           {!escenaIniciada ? (
 
-            /* =================================================
-               PORTADA
-            ================================================= */
-
             <div className="comic-pantalla-contenido">
-
 
               <h1 className="comic-titulo">
 
@@ -399,8 +666,6 @@ export const EscenaPortada = () => {
               </p>
 
 
-              {/* BOTÓN COMENZAR */}
-
               <button
                 className="comic-boton-comenzar"
                 onClick={() =>
@@ -414,17 +679,28 @@ export const EscenaPortada = () => {
 
               </button>
 
-
             </div>
-
 
           ) : (
 
-            /* =================================================
-               ESCENA ACTIVA
-            ================================================= */
-
             <div className="comic-escena">
+
+
+              {/* =================================================
+                  TEXTO DE NARRACIÓN
+              ================================================= */}
+
+              {textoNarracionActivo &&
+                capituloActivo === 1 &&
+                momentoNarracion !== 3 && (
+
+                  <div className="comic-texto-narracion">
+
+                    {textosEscena1[momentoNarracion]}
+
+                  </div>
+
+              )}
 
 
               {/* =================================================
@@ -432,7 +708,12 @@ export const EscenaPortada = () => {
               ================================================= */}
 
               {capituloActivo === 1 && (
-                <Escena1 />
+
+                <Escena1
+                  onCaminataTerminada={cambiarAAudio2}
+                  momentoNarracion={momentoNarracion}
+                />
+
               )}
 
 
@@ -441,7 +722,9 @@ export const EscenaPortada = () => {
               ================================================= */}
 
               {capituloActivo === 2 && (
+
                 <Escena2 />
+
               )}
 
 
@@ -450,14 +733,15 @@ export const EscenaPortada = () => {
               ================================================= */}
 
               {capituloActivo === 3 && (
+
                 <Escena3 />
+
               )}
 
 
             </div>
 
           )}
-
 
         </section>
 
@@ -468,7 +752,6 @@ export const EscenaPortada = () => {
 
         <aside className="comic-capitulos">
 
-
           <h2 className="comic-capitulos-titulo">
 
             CAPÍTULOS
@@ -478,31 +761,32 @@ export const EscenaPortada = () => {
 
           <div className="comic-capitulos-lista">
 
-
             {capitulos.map((capitulo) => (
 
               <button
                 key={capitulo.numero}
+
                 className={`
                   comic-capitulo
-                  ${capitulo.disponible
-                    ? "disponible"
-                    : "bloqueado"
+                  ${
+                    capitulo.disponible
+                      ? "disponible"
+                      : "bloqueado"
                   }
-                  ${capituloActivo ===
+                  ${
+                    capituloActivo ===
                     Number(capitulo.numero)
-                    ? "seleccionado"
-                    : ""
+                      ? "seleccionado"
+                      : ""
                   }
                 `}
+
                 onClick={() =>
                   seleccionarCapitulo(capitulo)
                 }
+
                 disabled={!capitulo.disponible}
               >
-
-
-                {/* NÚMERO */}
 
                 <div className="comic-capitulo-numero">
 
@@ -511,39 +795,36 @@ export const EscenaPortada = () => {
                 </div>
 
 
-                {/* INFORMACIÓN */}
-
                 <div className="comic-capitulo-info">
 
                   <span>
+
                     CAPÍTULO {capitulo.numero}
+
                   </span>
 
                   <strong>
+
                     {capitulo.titulo}
+
                   </strong>
 
                 </div>
-
 
               </button>
 
             ))}
 
-
           </div>
-
 
         </aside>
 
 
       </div>
 
-
     </main>
 
   );
-
 };
 
 

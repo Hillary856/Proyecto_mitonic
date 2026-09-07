@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import lottieReact from "lottie-react";
 
 import CicloAdrianBody from "../../assets/CicloAdrianBody.json";
@@ -13,11 +14,16 @@ import img5 from "../../assets/AdrianBody/img_5.png";
 import img6 from "../../assets/AdrianBody/img_6.png";
 import img7 from "../../assets/AdrianBody/img_7.png";
 
+import Es1Moneda from "../../AssetsNuevos/Es1Moneda.svg";
+
 import "./Escenas.css";
 
 const Lottie = lottieReact.default;
 
-const Escena1 = () => {
+const Escena1 = ({
+  onCaminataTerminada,
+  momentoNarracion
+}) => {
 
   /* =====================================================
      IMÁGENES DEL CICLO DE CAMINATA
@@ -51,22 +57,58 @@ const Escena1 = () => {
 
 
   /* =====================================================
-     ESTADO
+     ESTADO DE ADRIÁN
   ===================================================== */
 
   const [adrianHabla, setAdrianHabla] = useState(false);
 
 
   /* =====================================================
-     CUANDO TERMINA LA CAMINATA
+     ESTADO DEL MODAL
+  ===================================================== */
+
+  const [modalMoneda, setModalMoneda] = useState(false);
+
+
+  /* =====================================================
+     TERMINAR CAMINATA
   ===================================================== */
 
   const terminarCaminata = () => {
+
     setAdrianHabla(true);
+
+    if (onCaminataTerminada) {
+      onCaminataTerminada();
+    }
+
+  };
+
+
+  /* =====================================================
+     ABRIR MODAL DE LA MONEDA
+  ===================================================== */
+
+  const abrirModalMoneda = () => {
+
+    setModalMoneda(true);
+
+  };
+
+
+  /* =====================================================
+     CERRAR MODAL DE LA MONEDA
+  ===================================================== */
+
+  const cerrarModalMoneda = () => {
+
+    setModalMoneda(false);
+
   };
 
 
   return (
+
     <div className="escena-1">
 
       <div className="escena-1-contenido">
@@ -108,10 +150,6 @@ const Escena1 = () => {
             ADRIÁN CAMINANDO
         ================================================= */}
 
-        {/* =================================================
-    ADRIÁN CAMINANDO
-================================================= */}
-
         {!adrianHabla && (
 
           <div
@@ -131,8 +169,8 @@ const Escena1 = () => {
 
 
         {/* =================================================
-    ADRIÁN HABLANDO
-================================================= */}
+            ADRIÁN HABLANDO
+        ================================================= */}
 
         {adrianHabla && (
 
@@ -149,9 +187,103 @@ const Escena1 = () => {
         )}
 
 
+        {/* =================================================
+            MONEDA
+            APARECE AL LLEGAR AL MOMENTO 3
+        ================================================= */}
+
+        {momentoNarracion === 3 && (
+
+          <button
+            className="escena-1-moneda-boton"
+            onClick={abrirModalMoneda}
+            aria-label="Explorar moneda"
+          >
+
+            <img
+              src={Es1Moneda}
+              alt="Moneda antigua"
+              className="escena-1-moneda"
+            />
+
+          </button>
+
+        )}
+
+
+        {/* =================================================
+            MODAL DE LA MONEDA
+        ================================================= */}
+
+        {modalMoneda && (
+
+          <div
+            className="escena-1-modal-fondo"
+            onClick={cerrarModalMoneda}
+          >
+
+            <div
+              className="escena-1-modal"
+              onClick={(evento) =>
+                evento.stopPropagation()
+              }
+            >
+
+
+              {/* =================================================
+                  IMAGEN
+              ================================================= */}
+
+              <div className="escena-1-modal-imagen">
+
+                <img
+                  src={Es1Moneda}
+                  alt="Moneda antigua"
+                />
+
+              </div>
+
+
+              {/* =================================================
+                  INFORMACIÓN
+              ================================================= */}
+
+              <div className="escena-1-modal-info">
+
+                <h2>
+                  MONEDA
+                </h2>
+
+                <p>
+                  Las monedas son mucho más que una forma de pagar. Gracias a ellas podemos comerciar con mayor facilidad y conocer quién tiene el poder en una determinada época
+                </p>
+
+              </div>
+
+
+              {/* =================================================
+                  BOTÓN CERRAR
+              ================================================= */}
+
+              <button
+                className="escena-1-modal-cerrar"
+                onClick={cerrarModalMoneda}
+                aria-label="Cerrar información"
+              >
+                ×
+              </button>
+
+
+            </div>
+
+          </div>
+
+        )}
+
       </div>
 
     </div>
+
   );
 };
 
