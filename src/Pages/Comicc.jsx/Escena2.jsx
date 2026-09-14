@@ -21,10 +21,6 @@ const Escena2 = ({
   onNarracionTerminada
 }) => {
 
-  /* =====================================================
-     AUDIOS DE ADRIÁN HABLANDO (EN SECUENCIA)
-  ===================================================== */
-
   const audiosAdrian = [
     Esc2Audio1,
     Esc2Audio2,
@@ -36,23 +32,11 @@ const Escena2 = ({
     Esc2Audio8
   ];
 
-
-  /* =====================================================
-     ESTADO DE ADRIÁN
-  ===================================================== */
-
   const [adrianVisible, setAdrianVisible] = useState(false);
-
   const [mostrarFlash, setMostrarFlash] = useState(false);
-
   const [audioActual, setAudioActual] = useState(0);
 
   const audioRef = useRef(null);
-
-
-  /* =====================================================
-     ENTRADA "PUM" DE ADRIÁN CON FLASH
-  ===================================================== */
 
   useEffect(() => {
 
@@ -67,11 +51,6 @@ const Escena2 = ({
 
   }, []);
 
-
-  /* =====================================================
-     REPRODUCIR CADA AUDIO CUANDO CAMBIA
-  ===================================================== */
-
   useEffect(() => {
 
     if (!adrianVisible) return;
@@ -81,11 +60,6 @@ const Escena2 = ({
     }
 
   }, [adrianVisible, audioActual]);
-
-
-  /* =====================================================
-     PASAR AL SIGUIENTE AUDIO O TERMINAR
-  ===================================================== */
 
   const manejarFinAudio = () => {
 
@@ -97,17 +71,11 @@ const Escena2 = ({
 
   };
 
-
   return (
 
     <div className="escena-2">
 
       <div className="escena-2-contenido">
-
-        {/* =================================================
-            FONDO DE ATENAS
-            Sistema de coordenadas: 1024 × 598
-        ================================================= */}
 
         <img
           src="/Escenarios/FondoAtenas.svg"
@@ -115,21 +83,11 @@ const Escena2 = ({
           className="escena-2-fondo"
         />
 
-        {/* =================================================
-            ELEMENTOS DE LA ESCENA
-            Todos utilizan el mismo sistema de
-            coordenadas del fondo.
-        ================================================= */}
-
         <svg
           className="escena-2-overlay"
           viewBox="0 0 1024 598"
           preserveAspectRatio="none"
         >
-
-          {/* =================================================
-              ÁRBOL 1
-          ================================================= */}
 
           <image
             href="/Escenarios/arbol1.svg"
@@ -139,10 +97,6 @@ const Escena2 = ({
             height="278"
           />
 
-          {/* =================================================
-              ÁRBOL 2
-          ================================================= */}
-
           <image
             href="/Escenarios/arbol2.svg"
             x="914"
@@ -150,10 +104,6 @@ const Escena2 = ({
             width="70"
             height="250"
           />
-
-          {/* =================================================
-              ARBUSTO 1
-          ================================================= */}
 
           <image
             href="/Escenarios/arbusto1.svg"
@@ -163,10 +113,6 @@ const Escena2 = ({
             height="100"
           />
 
-          {/* =================================================
-              ARBUSTO 2
-          ================================================= */}
-
           <image
             href="/Escenarios/arbusto2.svg"
             x="425"
@@ -174,10 +120,6 @@ const Escena2 = ({
             width="90"
             height="85"
           />
-
-          {/* =================================================
-              ARBUSTO 3
-          ================================================= */}
 
           <image
             href="/Escenarios/arbusto3.svg"
@@ -189,19 +131,9 @@ const Escena2 = ({
 
         </svg>
 
-
-        {/* =================================================
-            FLASH DE ENTRADA "PUM"
-        ================================================= */}
-
         {mostrarFlash && (
-          <div className="escena-2-flash" />
+          <div className="escena-2-resplandor" />
         )}
-
-
-        {/* =================================================
-            ADRIÁN HABLANDO (ENTRA DE GOLPE)
-        ================================================= */}
 
         {adrianVisible && (
 
@@ -217,11 +149,6 @@ const Escena2 = ({
 
         )}
 
-
-        {/* =================================================
-            AUDIO OCULTO — REPRODUCE EN SECUENCIA
-        ================================================= */}
-
         <audio
           ref={audioRef}
           src={audiosAdrian[audioActual]}
@@ -233,6 +160,7 @@ const Escena2 = ({
     </div>
 
   );
+
 };
 
 export default Escena2;
