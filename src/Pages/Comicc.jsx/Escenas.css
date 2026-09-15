@@ -584,7 +584,6 @@
 
 }
 
-
 /* =========================================================
    ESCENA 3
 ========================================================= */
@@ -627,4 +626,33 @@
   display: block;
 
   z-index: 1;
+}
+
+
+/* =========================================================
+   ADRIÁN HABLANDO
+========================================================= */
+
+.escena-3-adrian-hablando {
+  position: absolute;
+
+  left: 22%;
+
+  bottom: -10%;
+
+  width: 40%;
+
+  height: auto;
+
+  z-index: 10;
+
+  transform: translateX(3%);
+}
+
+
+.escena-3-adrian-hablando svg {
+  width: 100%;
+  height: auto;
+
+  display: block;
 }
