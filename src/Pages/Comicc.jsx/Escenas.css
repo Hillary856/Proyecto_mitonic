@@ -550,6 +550,215 @@
   transform: scale(1.05);
 }
 
+/* =========================================
+   ESCENA 2
+========================================= */
+
+.escena-2 {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* =========================================
+   COMPOSICIÓN COMPLETA
+========================================= */
+
+.escena-2-contenido {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+
+/* =========================================
+   FONDO
+========================================= */
+
+.escena-2-fondo {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: fill;
+
+  z-index: 1;
+}
+
+
+/* =========================================
+   ELEMENTOS
+========================================= */
+
+.escena-2-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  z-index: 3;
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   RESPLANDOR DE ENTRADA (TELETRANSPORTACIÓN)
+========================================= */
+
+.escena-2-resplandor {
+  position: absolute;
+
+  left: 22%;
+  bottom: 0%;
+
+  width: 40%;
+  height: 65%;
+
+  z-index: 9;
+
+  pointer-events: none;
+
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 235, 180, 0.85) 25%,
+    rgba(255, 200, 90, 0.5) 45%,
+    rgba(255, 200, 90, 0) 70%
+  );
+
+  animation: escena2Resplandor 0.8s ease-out forwards;
+}
+
+
+.escena-2-resplandor::before,
+.escena-2-resplandor::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0) 0deg,
+    rgba(255, 255, 255, 0.9) 10deg,
+    rgba(255, 255, 255, 0) 20deg,
+    rgba(255, 255, 255, 0) 100deg,
+    rgba(255, 255, 255, 0.7) 110deg,
+    rgba(255, 255, 255, 0) 120deg,
+    rgba(255, 255, 255, 0) 200deg,
+    rgba(255, 255, 255, 0.8) 210deg,
+    rgba(255, 255, 255, 0) 220deg,
+    rgba(255, 255, 255, 0) 300deg,
+    rgba(255, 255, 255, 0.6) 310deg,
+    rgba(255, 255, 255, 0) 320deg
+  );
+
+  border-radius: 50%;
+
+  animation: escena2Rayos 0.8s ease-out forwards;
+}
+
+
+.escena-2-resplandor::after {
+  animation-delay: 0.05s;
+
+  transform: rotate(35deg);
+}
+
+
+@keyframes escena2Resplandor {
+
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+
+}
+
+
+@keyframes escena2Rayos {
+
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(0deg);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.3) rotate(25deg);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(1.8) rotate(45deg);
+  }
+
+}
+
+
+/* =========================================
+   ADRIÁN HABLANDO
+========================================= */
+
+.escena-2-adrian-hablando {
+  position: absolute;
+
+  left: 22%;
+
+  bottom: -10%;
+
+  width: 40%;
+
+  height: auto;
+
+  z-index: 10;
+
+  transform: translateX(3%);
+}
+
+
+.escena-2-adrian-hablando svg {
+  width: 100%;
+  height: auto;
+
+  display: block;
+}
+
 
 /* =========================================================
    ANIMACIONES DEL MODAL
