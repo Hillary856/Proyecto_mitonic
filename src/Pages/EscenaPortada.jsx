@@ -7,6 +7,9 @@ import Escena3 from "./Comicc.jsx/Escena3";
 import Esc1Audio1 from "../Audios/Esc1Audio1.mp3";
 import Esc1Audio2 from "../Audios/Esc1Audio2.mp3";
 import Esc1Audio3 from "../Audios/Esc1Audio3.mp3";
+import Esc1Audio4 from "../Audios/Esc1Audio4.mp3";
+import Esc1Audio5 from "../Audios/Esc1Audio5.mp3";
+import Esc1Audio6 from "../Audios/Esc1Audio6.mp3";
 
 import {
   FaVolumeUp,
@@ -62,6 +65,7 @@ export const EscenaPortada = () => {
   ===================================================== */
 
   const capitulos = [
+
     {
       numero: "01",
       titulo: "EL COMIENZO",
@@ -97,6 +101,7 @@ export const EscenaPortada = () => {
       titulo: "PRÓXIMAMENTE",
       disponible: true
     }
+
   ];
 
 
@@ -110,7 +115,13 @@ export const EscenaPortada = () => {
 
     2: Esc1Audio2,
 
-    3: Esc1Audio3
+    3: Esc1Audio3,
+
+    4: Esc1Audio4,
+
+    5: Esc1Audio5,
+
+    6: Esc1Audio6
 
   };
 
@@ -128,7 +139,14 @@ export const EscenaPortada = () => {
       "Por lo que puedo ver, este lugar lleva bastante tiempo sin ser explorado. Quizás todavía quede algo entre estos escombros.",
 
     3:
-      ""
+      "Ve una moneda. Parece bastante antigua. Además, sus figuras y símbolos nos hablan de nuestras creencias, nuestros dioses y hasta de la identidad de nuestras ciudades.",
+
+    4:
+      "Y aquí tenemos un jarrón. Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. A veces, para conocer una época, no hace falta encontrar un gran tesoro. Un objeto como este puede contar una historia completa.",
+
+    5:
+      "Una lanza. Esta sí es fácil de reconocer.",
+
 
   };
 
@@ -147,10 +165,6 @@ export const EscenaPortada = () => {
 
     setEscenaIniciada(true);
 
-    /*
-      Reiniciar secuencia.
-    */
-
     setCaminataTerminada(false);
 
     setAudio1Terminado(false);
@@ -160,8 +174,7 @@ export const EscenaPortada = () => {
     setTextoNarracionActivo(false);
 
     /*
-      El narrador comienza automáticamente
-      en el capítulo 1.
+      Narrador automático para capítulo 1.
     */
 
     setNarradorActivo(numero === 1);
@@ -216,10 +229,6 @@ export const EscenaPortada = () => {
     if (!narradorRef.current) return;
 
 
-    /*
-      Detener narrador.
-    */
-
     if (narradorActivo) {
 
       narradorRef.current.pause();
@@ -234,12 +243,10 @@ export const EscenaPortada = () => {
 
 
     /*
-      Volver a activar desde el momento actual.
+      Retomamos desde el momento actual.
     */
 
-    const audioActual = caminataTerminada
-      ? 2
-      : momentoNarracion;
+    const audioActual = momentoNarracion;
 
     setMomentoNarracion(audioActual);
 
@@ -262,14 +269,10 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     CUANDO ADRIÁN TERMINA DE CAMINAR
+     ADRIÁN TERMINA DE CAMINAR
   ===================================================== */
 
   const cambiarAAudio2 = () => {
-
-    /*
-      Adrián ya llegó a su posición.
-    */
 
     setCaminataTerminada(true);
 
@@ -328,9 +331,9 @@ export const EscenaPortada = () => {
 
   const narradorTerminado = () => {
 
-    /*
-      AUDIO 1
-    */
+    /* ===================================================
+       AUDIO 1
+    =================================================== */
 
     if (momentoNarracion === 1) {
 
@@ -341,10 +344,10 @@ export const EscenaPortada = () => {
     }
 
 
-    /*
-      AUDIO 2
-      → pasar al AUDIO 3
-    */
+    /* ===================================================
+       AUDIO 2
+       → AUDIO 3
+    =================================================== */
 
     if (momentoNarracion === 2) {
 
@@ -355,12 +358,54 @@ export const EscenaPortada = () => {
     }
 
 
-    /*
-      AUDIO 3
-      → termina la secuencia
-    */
+    /* ===================================================
+       AUDIO 3
+       → AUDIO 4
+    =================================================== */
 
     if (momentoNarracion === 3) {
+
+      setMomentoNarracion(4);
+
+      return;
+
+    }
+
+
+    /* ===================================================
+       AUDIO 4
+       → AUDIO 5
+    =================================================== */
+
+    if (momentoNarracion === 4) {
+
+      setMomentoNarracion(5);
+
+      return;
+
+    }
+
+
+    /* ===================================================
+       AUDIO 5
+       → AUDIO 6
+    =================================================== */
+
+    if (momentoNarracion === 5) {
+
+      setMomentoNarracion(6);
+
+      return;
+
+    }
+
+
+    /* ===================================================
+       AUDIO 6
+       → FIN
+    =================================================== */
+
+    if (momentoNarracion === 6) {
 
       setNarradorActivo(false);
 
@@ -370,17 +415,17 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     PASAR DE AUDIO 1 A AUDIO 2
+     PASAR DEL AUDIO 1 AL AUDIO 2
   ===================================================== */
 
   useEffect(() => {
 
     /*
-      Audio 2 comienza solamente cuando:
+      Audio 2 solamente comienza cuando:
 
-      1. Terminó Adrián de caminar.
+      1. Terminó la caminata.
       2. Terminó Audio 1.
-      3. El narrador está activo.
+      3. El narrador sigue activo.
     */
 
     if (
@@ -546,9 +591,7 @@ export const EscenaPortada = () => {
           <div className="comic-controles">
 
 
-            {/* =================================================
-                MÚSICA
-            ================================================= */}
+            {/* MÚSICA */}
 
             <button
               className="comic-control"
@@ -568,9 +611,7 @@ export const EscenaPortada = () => {
             </button>
 
 
-            {/* =================================================
-                NARRADOR
-            ================================================= */}
+            {/* NARRADOR */}
 
             <button
               className="comic-control"
@@ -590,9 +631,7 @@ export const EscenaPortada = () => {
             </button>
 
 
-            {/* =================================================
-                TEXTO
-            ================================================= */}
+            {/* TEXTO */}
 
             <button
               className={`comic-control ${
@@ -613,9 +652,7 @@ export const EscenaPortada = () => {
             </button>
 
 
-            {/* =================================================
-                FULLSCREEN
-            ================================================= */}
+            {/* FULLSCREEN */}
 
             <button
               className="comic-control"
@@ -691,8 +728,7 @@ export const EscenaPortada = () => {
               ================================================= */}
 
               {textoNarracionActivo &&
-                capituloActivo === 1 &&
-                momentoNarracion !== 3 && (
+                capituloActivo === 1 && (
 
                   <div className="comic-texto-narracion">
 
@@ -765,7 +801,6 @@ export const EscenaPortada = () => {
 
               <button
                 key={capitulo.numero}
-
                 className={`
                   comic-capitulo
                   ${
@@ -780,11 +815,9 @@ export const EscenaPortada = () => {
                       : ""
                   }
                 `}
-
                 onClick={() =>
                   seleccionarCapitulo(capitulo)
                 }
-
                 disabled={!capitulo.disponible}
               >
 
