@@ -550,6 +550,114 @@
   transform: scale(1.05);
 }
 
+/* =========================================================
+   JARRÓN
+========================================================= */
+
+.escena-1-jarron-boton {
+  position: absolute;
+
+  left: 78%;
+  top: 55%;
+
+  width: 10%;
+  height: auto;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  z-index: 25;
+
+  transform: translate(-50%, -50%);
+
+  animation: aparecerObjetoEscena1 0.6s ease-out both;
+}
+
+
+.escena-1-jarron {
+  width: 100%;
+  height: auto;
+
+  display: block;
+
+  transition: transform 0.2s ease;
+}
+
+
+.escena-1-jarron-boton:hover .escena-1-jarron {
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   LANZA
+========================================================= */
+
+.escena-1-lanza-boton {
+  position: absolute;
+
+  left: 72%;
+  top: 48%;
+
+  width: 15%;
+  height: auto;
+
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  z-index: 25;
+
+  transform: translate(-50%, -50%);
+
+  animation: aparecerObjetoEscena1 0.6s ease-out both;
+}
+
+
+.escena-1-lanza {
+  width: 100%;
+  height: auto;
+
+  display: block;
+
+  transition: transform 0.2s ease;
+}
+
+
+.escena-1-lanza-boton:hover .escena-1-lanza {
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   ANIMACIÓN DE APARICIÓN
+========================================================= */
+
+@keyframes aparecerObjetoEscena1 {
+
+  from {
+    opacity: 0;
+
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+}
+
 /* =========================================
    ESCENA 2
 ========================================= */

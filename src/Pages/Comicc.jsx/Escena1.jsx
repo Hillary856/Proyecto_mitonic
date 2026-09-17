@@ -15,6 +15,8 @@ import img6 from "../../assets/AdrianBody/img_6.png";
 import img7 from "../../assets/AdrianBody/img_7.png";
 
 import Es1Moneda from "../../AssetsNuevos/Es1Moneda.svg";
+import Es1Jarron from "../../AssetsNuevos/Es1Jarron.svg";
+import Es1Lanza from "../../AssetsNuevos/Es1Lanza.svg";
 
 import "./Escenas.css";
 
@@ -57,7 +59,7 @@ const Escena1 = ({
 
 
   /* =====================================================
-     ESTADO DE ADRIÁN
+     ESTADOS DE ADRIÁN
   ===================================================== */
 
   const [adrianHabla, setAdrianHabla] = useState(false);
@@ -67,7 +69,7 @@ const Escena1 = ({
      ESTADO DEL MODAL
   ===================================================== */
 
-  const [modalMoneda, setModalMoneda] = useState(false);
+  const [objetoActivo, setObjetoActivo] = useState(null);
 
 
   /* =====================================================
@@ -86,26 +88,30 @@ const Escena1 = ({
 
 
   /* =====================================================
-     ABRIR MODAL DE LA MONEDA
+     ABRIR MODAL
   ===================================================== */
 
-  const abrirModalMoneda = () => {
+  const abrirModal = (objeto) => {
 
-    setModalMoneda(true);
+    setObjetoActivo(objeto);
 
   };
 
 
   /* =====================================================
-     CERRAR MODAL DE LA MONEDA
+     CERRAR MODAL
   ===================================================== */
 
-  const cerrarModalMoneda = () => {
+  const cerrarModal = () => {
 
-    setModalMoneda(false);
+    setObjetoActivo(null);
 
   };
 
+
+  /* =====================================================
+     RENDER
+  ===================================================== */
 
   return (
 
@@ -189,14 +195,14 @@ const Escena1 = ({
 
         {/* =================================================
             MONEDA
-            APARECE AL LLEGAR AL MOMENTO 3
+            MOMENTO 3
         ================================================= */}
 
         {momentoNarracion === 3 && (
 
           <button
             className="escena-1-moneda-boton"
-            onClick={abrirModalMoneda}
+            onClick={() => abrirModal("moneda")}
             aria-label="Explorar moneda"
           >
 
@@ -212,14 +218,65 @@ const Escena1 = ({
 
 
         {/* =================================================
-            MODAL DE LA MONEDA
+            JARRÓN
+            MOMENTO 4 Y 5
         ================================================= */}
 
-        {modalMoneda && (
+        {(
+          momentoNarracion === 4 ||
+          momentoNarracion === 5
+        ) && (
+
+          <button
+            className="escena-1-jarron-boton"
+            onClick={() => abrirModal("jarron")}
+            aria-label="Explorar jarrón"
+          >
+
+            <img
+              src={Es1Jarron}
+              alt="Jarrón antiguo"
+              className="escena-1-jarron"
+            />
+
+          </button>
+
+        )}
+
+
+        {/* =================================================
+            LANZA
+            MOMENTO 6
+        ================================================= */}
+
+        {momentoNarracion === 6 && (
+
+          <button
+            className="escena-1-lanza-boton"
+            onClick={() => abrirModal("lanza")}
+            aria-label="Explorar lanza"
+          >
+
+            <img
+              src={Es1Lanza}
+              alt="Lanza antigua"
+              className="escena-1-lanza"
+            />
+
+          </button>
+
+        )}
+
+
+        {/* =================================================
+            MODAL
+        ================================================= */}
+
+        {objetoActivo && (
 
           <div
             className="escena-1-modal-fondo"
-            onClick={cerrarModalMoneda}
+            onClick={cerrarModal}
           >
 
             <div
@@ -231,43 +288,91 @@ const Escena1 = ({
 
 
               {/* =================================================
-                  IMAGEN
+                  IMAGEN DEL OBJETO
               ================================================= */}
 
               <div className="escena-1-modal-imagen">
 
-                <img
-                  src={Es1Moneda}
-                  alt="Moneda antigua"
-                />
+                {objetoActivo === "moneda" && (
+
+                  <img
+                    src={Es1Moneda}
+                    alt="Moneda antigua"
+                  />
+
+                )}
+
+                {objetoActivo === "jarron" && (
+
+                  <img
+                    src={Es1Jarron}
+                    alt="Jarrón antiguo"
+                  />
+
+                )}
+
+                {objetoActivo === "lanza" && (
+
+                  <img
+                    src={Es1Lanza}
+                    alt="Lanza antigua"
+                  />
+
+                )}
 
               </div>
 
 
               {/* =================================================
-                  INFORMACIÓN
+                  INFORMACIÓN DEL OBJETO
               ================================================= */}
 
               <div className="escena-1-modal-info">
 
-                <h2>
-                  MONEDA
-                </h2>
+                {objetoActivo === "moneda" && (
+                  <>
+                    <h2>MONEDA</h2>
 
-                <p>
-                  Las monedas son mucho más que una forma de pagar. Gracias a ellas podemos comerciar con mayor facilidad y conocer quién tiene el poder en una determinada época
-                </p>
+                    <p>
+                      Las monedas son mucho más que una forma de pagar.
+                      Gracias a ellas podemos comerciar con mayor facilidad
+                      y conocer quién tiene el poder en una determinada época.
+                    </p>
+                  </>
+                )}
+
+
+                {objetoActivo === "jarron" && (
+                  <>
+                    <h2>JARRÓN</h2>
+
+                    <p>
+                      Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. Podemos encontrar escenas de nuestras costumbres, guerras, creencias y hasta momentos de nuestra vida diaria.
+                    </p>
+                  </>
+                )}
+
+
+                {objetoActivo === "lanza" && (
+                  <>
+                    <h2>LANZA</h2>
+
+                    <p>
+                      Es una de las armas principales de nuestros guerreros. Los hoplitas la utilizan junto con su escudo para enfrentarse al enemigo y proteger su ciudad.
+                    </p>
+                  </>
+                )}
 
               </div>
 
 
               {/* =================================================
-                  BOTÓN CERRAR
+                  CERRAR
               ================================================= */}
 
               <button
                 className="escena-1-modal-cerrar"
-                onClick={cerrarModalMoneda}
+                onClick={cerrarModal}
                 aria-label="Cerrar información"
               >
                 ×
