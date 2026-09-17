@@ -1,4 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from "react";
 
 import lottieReact from "lottie-react";
 
@@ -17,150 +23,350 @@ import "./Escenas.css";
 
 const Lottie = lottieReact.default;
 
-const Escena2 = ({
-  onNarracionTerminada
-}) => {
 
-  const audiosAdrian = [
-    Esc2Audio1,
-    Esc2Audio2,
-    Esc2Audio3,
-    Esc2Audio4,
-    Esc2Audio5,
-    Esc2Audio6,
-    Esc2Audio7,
-    Esc2Audio8
-  ];
+const Escena2 = forwardRef(
+  ({ onNarradorEstadoChange }, ref) => {
 
-  const [adrianVisible, setAdrianVisible] = useState(false);
-  const [mostrarFlash, setMostrarFlash] = useState(false);
-  const [audioActual, setAudioActual] = useState(0);
+    /* =====================================================
+       AUDIOS
+    ===================================================== */
 
-  const audioRef = useRef(null);
+    const audiosAdrian = [
+      Esc2Audio1,
+      Esc2Audio2,
+      Esc2Audio3,
+      Esc2Audio4,
+      Esc2Audio5,
+      Esc2Audio6,
+      Esc2Audio7,
+      Esc2Audio8
+    ];
 
-  useEffect(() => {
 
-    setMostrarFlash(true);
-    setAdrianVisible(true);
+    /* =====================================================
+       ESTADOS
+    ===================================================== */
 
-    const quitarFlash = setTimeout(() => {
-      setMostrarFlash(false);
-    }, 250);
+    const [adrianVisible, setAdrianVisible] = useState(false);
 
-    return () => clearTimeout(quitarFlash);
+    const [mostrarFlash, setMostrarFlash] = useState(false);
 
-  }, []);
+    const [audioActual, setAudioActual] = useState(0);
 
-  useEffect(() => {
+    const [narradorActivo, setNarradorActivo] = useState(false);
 
-    if (!adrianVisible) return;
 
-    if (audioRef.current) {
-      audioRef.current.play().catch(() => {});
-    }
+    /* =====================================================
+       REFERENCIA
+    ===================================================== */
 
-  }, [adrianVisible, audioActual]);
+    const audioRef = useRef(null);
 
-  const manejarFinAudio = () => {
 
-    if (audioActual < audiosAdrian.length - 1) {
-      setAudioActual((anterior) => anterior + 1);
-    } else if (onNarracionTerminada) {
-      onNarracionTerminada();
-    }
+    /* =====================================================
+       ENTRADA DE ESCENA
+    ===================================================== */
 
-  };
+    useEffect(() => {
 
-  return (
+      setMostrarFlash(true);
 
-    <div className="escena-2">
+      setAdrianVisible(true);
 
-      <div className="escena-2-contenido">
+      const quitarFlash = setTimeout(() => {
 
-        <img
-          src="/Escenarios/FondoAtenas.svg"
-          alt="Atenas"
-          className="escena-2-fondo"
-        />
+        setMostrarFlash(false);
 
-        <svg
-          className="escena-2-overlay"
-          viewBox="0 0 1024 598"
-          preserveAspectRatio="none"
-        >
+      }, 250);
 
-          <image
-            href="/Escenarios/arbol1.svg"
-            x="939"
-            y="79"
-            width="120"
-            height="278"
+
+      return () => {
+
+        clearTimeout(quitarFlash);
+
+      };
+
+    }, []);
+
+
+    /* =====================================================
+       AVISAR ESTADO DEL NARRADOR
+    ===================================================== */
+
+    useEffect(() => {
+
+      if (onNarradorEstadoChange) {
+
+        onNarradorEstadoChange(narradorActivo);
+
+      }
+
+    }, [
+      narradorActivo,
+      onNarradorEstadoChange
+    ]);
+
+
+    /* =====================================================
+       REPRODUCCIÓN
+    ===================================================== */
+
+    useEffect(() => {
+
+      const audio = audioRef.current;
+
+      if (!audio) return;
+
+
+      if (!narradorActivo) {
+
+        audio.pause();
+
+        return;
+
+      }
+
+
+      audio
+        .play()
+        .catch((error) => {
+
+          console.error(
+            "No se pudo reproducir el audio de Escena 2:",
+            error
+          );
+
+          setNarradorActivo(false);
+
+        });
+
+    }, [
+      adrianVisible,
+      audioActual,
+      narradorActivo
+    ]);
+
+
+    /* =====================================================
+       INICIO AUTOMÁTICO
+    ===================================================== */
+
+    useEffect(() => {
+
+      setNarradorActivo(true);
+
+
+      return () => {
+
+        if (audioRef.current) {
+
+          audioRef.current.pause();
+
+          audioRef.current.currentTime = 0;
+
+        }
+
+      };
+
+    }, []);
+
+
+    /* =====================================================
+       CONTROL DEL NARRADOR
+    ===================================================== */
+
+    const toggleNarracion = () => {
+
+      const audio = audioRef.current;
+
+      if (!audio) return;
+
+
+      if (narradorActivo) {
+
+        audio.pause();
+
+        setNarradorActivo(false);
+
+      } else {
+
+        audio
+          .play()
+          .then(() => {
+
+            setNarradorActivo(true);
+
+          })
+          .catch((error) => {
+
+            console.error(
+              "No se pudo reanudar la narración:",
+              error
+            );
+
+          });
+
+      }
+
+    };
+
+
+    /* =====================================================
+       EXPONER AL PADRE
+    ===================================================== */
+
+    useImperativeHandle(ref, () => ({
+
+      toggleNarracion
+
+    }));
+
+
+    /* =====================================================
+       FIN DEL AUDIO
+    ===================================================== */
+
+    const manejarFinAudio = () => {
+
+      if (
+        audioActual <
+        audiosAdrian.length - 1
+      ) {
+
+        setAudioActual(
+          (anterior) => anterior + 1
+        );
+
+      } else {
+
+        setNarradorActivo(false);
+
+      }
+
+    };
+
+
+    return (
+
+      <div className="escena-2">
+
+        <div className="escena-2-contenido">
+
+
+          {/* =================================================
+              FONDO
+          ================================================= */}
+
+          <img
+            src="/Escenarios/FondoAtenas.svg"
+            alt="Atenas"
+            className="escena-2-fondo"
           />
 
-          <image
-            href="/Escenarios/arbol2.svg"
-            x="914"
-            y="105"
-            width="70"
-            height="250"
-          />
 
-          <image
-            href="/Escenarios/arbusto1.svg"
-            x="890"
-            y="300"
-            width="150"
-            height="100"
-          />
+          {/* =================================================
+              ELEMENTOS
+          ================================================= */}
 
-          <image
-            href="/Escenarios/arbusto2.svg"
-            x="425"
-            y="323"
-            width="90"
-            height="85"
-          />
+          <svg
+            className="escena-2-overlay"
+            viewBox="0 0 1024 598"
+            preserveAspectRatio="none"
+          >
 
-          <image
-            href="/Escenarios/arbusto3.svg"
-            x="223"
-            y="300"
-            width="110"
-            height="105"
-          />
-
-        </svg>
-
-        {mostrarFlash && (
-          <div className="escena-2-resplandor" />
-        )}
-
-        {adrianVisible && (
-
-          <div className="escena-2-adrian-hablando">
-
-            <Lottie
-              animationData={AdrianHablando}
-              loop={true}
-              autoplay={true}
+            <image
+              href="/Escenarios/arbol1.svg"
+              x="939"
+              y="79"
+              width="120"
+              height="278"
             />
 
-          </div>
+            <image
+              href="/Escenarios/arbol2.svg"
+              x="914"
+              y="105"
+              width="70"
+              height="250"
+            />
 
-        )}
+            <image
+              href="/Escenarios/arbusto1.svg"
+              x="890"
+              y="300"
+              width="150"
+              height="100"
+            />
 
-        <audio
-          ref={audioRef}
-          src={audiosAdrian[audioActual]}
-          onEnded={manejarFinAudio}
-        />
+            <image
+              href="/Escenarios/arbusto2.svg"
+              x="425"
+              y="323"
+              width="90"
+              height="85"
+            />
+
+            <image
+              href="/Escenarios/arbusto3.svg"
+              x="223"
+              y="300"
+              width="110"
+              height="105"
+            />
+
+          </svg>
+
+
+          {/* =================================================
+              RESPLANDOR
+          ================================================= */}
+
+          {mostrarFlash && (
+
+            <div className="escena-2-resplandor" />
+
+          )}
+
+
+          {/* =================================================
+              ADRIÁN
+          ================================================= */}
+
+          {adrianVisible && (
+
+            <div className="escena-2-adrian-hablando">
+
+              <Lottie
+                animationData={AdrianHablando}
+                loop={true}
+                autoplay={true}
+              />
+
+            </div>
+
+          )}
+
+
+          {/* =================================================
+              AUDIO
+          ================================================= */}
+
+          <audio
+            ref={audioRef}
+            src={audiosAdrian[audioActual]}
+            onEnded={manejarFinAudio}
+            preload="auto"
+          />
+
+        </div>
 
       </div>
 
-    </div>
+    );
 
-  );
+  }
+);
 
-};
+Escena2.displayName = "Escena2";
 
 export default Escena2;
