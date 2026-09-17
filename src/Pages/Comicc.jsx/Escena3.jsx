@@ -1,4 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState
+} from "react";
 
 import lottieReact from "lottie-react";
 
@@ -15,90 +21,267 @@ import "./Escenas.css";
 
 const Lottie = lottieReact.default;
 
-const Escena3 = ({
-  onNarracionTerminada
-}) => {
 
-  const audiosAdrian = [
-    Esc3Audio1,
-    Esc3Audio2,
-    Esc3Audio3,
-    Esc3Audio4,
-    Esc3Audio5,
-    Esc3Audio6
-  ];
+const Escena3 = forwardRef(
+  ({ onNarradorEstadoChange }, ref) => {
 
-  const [adrianVisible, setAdrianVisible] = useState(false);
-  const [audioActual, setAudioActual] = useState(0);
+    /* =====================================================
+       AUDIOS
+    ===================================================== */
 
-  const audioRef = useRef(null);
+    const audiosAdrian = [
+      Esc3Audio1,
+      Esc3Audio2,
+      Esc3Audio3,
+      Esc3Audio4,
+      Esc3Audio5,
+      Esc3Audio6
+    ];
 
-  useEffect(() => {
 
-    setAdrianVisible(true);
+    /* =====================================================
+       ESTADOS
+    ===================================================== */
 
-  }, []);
+    const [adrianVisible, setAdrianVisible] = useState(false);
 
-  useEffect(() => {
+    const [audioActual, setAudioActual] = useState(0);
 
-    if (!adrianVisible) return;
+    const [narradorActivo, setNarradorActivo] = useState(false);
 
-    if (audioRef.current) {
-      audioRef.current.play().catch(() => {});
-    }
 
-  }, [adrianVisible, audioActual]);
+    /* =====================================================
+       REFERENCIA
+    ===================================================== */
 
-  const manejarFinAudio = () => {
+    const audioRef = useRef(null);
 
-    if (audioActual < audiosAdrian.length - 1) {
-      setAudioActual((anterior) => anterior + 1);
-    } else if (onNarracionTerminada) {
-      onNarracionTerminada();
-    }
 
-  };
+    /* =====================================================
+       MOSTRAR ADRIÁN
+    ===================================================== */
 
-  return (
+    useEffect(() => {
 
-    <div className="escena-3">
+      setAdrianVisible(true);
 
-      <div className="escena-3-contenido">
+    }, []);
 
-        {/* =========================================
-            FONDO DE LA ESCENA
-        ========================================= */}
 
-        <img
-          src="/Escenarios/FondoAgora.svg"
-          alt="Ágora"
-          className="escena-3-fondo"
-        />
+    /* =====================================================
+       AVISAR ESTADO
+    ===================================================== */
 
-        {adrianVisible && (
+    useEffect(() => {
 
-          <div className="escena-3-adrian-hablando">
+      if (onNarradorEstadoChange) {
 
-            <Lottie
-              animationData={AdrianHablando}
-              loop={true}
-              autoplay={true}
-            />
+        onNarradorEstadoChange(narradorActivo);
 
-          </div>
+      }
 
-        )}
+    }, [
+      narradorActivo,
+      onNarradorEstadoChange
+    ]);
 
-        <audio
-          ref={audioRef}
-          src={audiosAdrian[audioActual]}
-          onEnded={manejarFinAudio}
-        />
+
+    /* =====================================================
+       REPRODUCCIÓN
+    ===================================================== */
+
+    useEffect(() => {
+
+      const audio = audioRef.current;
+
+      if (!audio) return;
+
+
+      if (!narradorActivo) {
+
+        audio.pause();
+
+        return;
+
+      }
+
+
+      audio
+        .play()
+        .catch((error) => {
+
+          console.error(
+            "No se pudo reproducir el audio de Escena 3:",
+            error
+          );
+
+          setNarradorActivo(false);
+
+        });
+
+    }, [
+      adrianVisible,
+      audioActual,
+      narradorActivo
+    ]);
+
+
+    /* =====================================================
+       INICIO AUTOMÁTICO
+    ===================================================== */
+
+    useEffect(() => {
+
+      setNarradorActivo(true);
+
+
+      return () => {
+
+        if (audioRef.current) {
+
+          audioRef.current.pause();
+
+          audioRef.current.currentTime = 0;
+
+        }
+
+      };
+
+    }, []);
+
+
+    /* =====================================================
+       CONTROL DEL NARRADOR
+    ===================================================== */
+
+    const toggleNarracion = () => {
+
+      const audio = audioRef.current;
+
+      if (!audio) return;
+
+
+      if (narradorActivo) {
+
+        audio.pause();
+
+        setNarradorActivo(false);
+
+      } else {
+
+        audio
+          .play()
+          .then(() => {
+
+            setNarradorActivo(true);
+
+          })
+          .catch((error) => {
+
+            console.error(
+              "No se pudo reanudar la narración:",
+              error
+            );
+
+          });
+
+      }
+
+    };
+
+
+    /* =====================================================
+       EXPONER AL PADRE
+    ===================================================== */
+
+    useImperativeHandle(ref, () => ({
+
+      toggleNarracion
+
+    }));
+
+
+    /* =====================================================
+       FIN DEL AUDIO
+    ===================================================== */
+
+    const manejarFinAudio = () => {
+
+      if (
+        audioActual <
+        audiosAdrian.length - 1
+      ) {
+
+        setAudioActual(
+          (anterior) => anterior + 1
+        );
+
+      } else {
+
+        setNarradorActivo(false);
+
+      }
+
+    };
+
+
+    return (
+
+      <div className="escena-3">
+
+        <div className="escena-3-contenido">
+
+
+          {/* =================================================
+              FONDO
+          ================================================= */}
+
+          <img
+            src="/Escenarios/FondoAgora.svg"
+            alt="Ágora"
+            className="escena-3-fondo"
+          />
+
+
+          {/* =================================================
+              ADRIÁN
+          ================================================= */}
+
+          {adrianVisible && (
+
+            <div className="escena-3-adrian-hablando">
+
+              <Lottie
+                animationData={AdrianHablando}
+                loop={true}
+                autoplay={true}
+              />
+
+            </div>
+
+          )}
+
+
+          {/* =================================================
+              AUDIO
+          ================================================= */}
+
+          <audio
+            ref={audioRef}
+            src={audiosAdrian[audioActual]}
+            onEnded={manejarFinAudio}
+            preload="auto"
+          />
+
+        </div>
 
       </div>
 
-    </div>
-  );
-};
+    );
+
+  }
+);
+
+Escena3.displayName = "Escena3";
 
 export default Escena3;

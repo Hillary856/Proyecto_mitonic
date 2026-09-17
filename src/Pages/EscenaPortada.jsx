@@ -1,21 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import Escena1 from "./Comicc.jsx/Escena1";
 import Escena2 from "./Comicc.jsx/Escena2";
 import Escena3 from "./Comicc.jsx/Escena3";
 
-import Esc1Audio1 from "../Audios/Esc1Audio1.mp3";
-import Esc1Audio2 from "../Audios/Esc1Audio2.mp3";
-import Esc1Audio3 from "../Audios/Esc1Audio3.mp3";
-import Esc1Audio4 from "../Audios/Esc1Audio4.mp3";
-import Esc1Audio5 from "../Audios/Esc1Audio5.mp3";
-import Esc1Audio6 from "../Audios/Esc1Audio6.mp3";
-
 import {
   FaVolumeUp,
   FaVolumeMute,
-  FaExpand,
-  FaCompress,
   FaMicrophone,
   FaStop,
   FaClosedCaptioning
@@ -26,9 +17,6 @@ import "./EscenaPortada.css";
 
 export const EscenaPortada = () => {
 
-  /* =====================================================
-     ESTADOS
-  ===================================================== */
 
   const [capituloActivo, setCapituloActivo] = useState(1);
 
@@ -40,24 +28,14 @@ export const EscenaPortada = () => {
 
   const [textoNarracionActivo, setTextoNarracionActivo] = useState(false);
 
-  const [momentoNarracion, setMomentoNarracion] = useState(1);
 
-  const [caminataTerminada, setCaminataTerminada] = useState(false);
-
-  const [audio1Terminado, setAudio1Terminado] = useState(false);
-
-  const [pantallaCompleta, setPantallaCompleta] = useState(false);
-
-
-  /* =====================================================
-     REFERENCIAS
-  ===================================================== */
+  
 
   const pantallaRef = useRef(null);
 
   const audioRef = useRef(null);
 
-  const narradorRef = useRef(null);
+  const escenaRef = useRef(null);
 
 
   /* =====================================================
@@ -106,52 +84,6 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     AUDIOS DE LA ESCENA 1
-  ===================================================== */
-
-  const narracionesEscena1 = {
-
-    1: Esc1Audio1,
-
-    2: Esc1Audio2,
-
-    3: Esc1Audio3,
-
-    4: Esc1Audio4,
-
-    5: Esc1Audio5,
-
-    6: Esc1Audio6
-
-  };
-
-
-  /* =====================================================
-     TEXTOS DE LA ESCENA 1
-  ===================================================== */
-
-  const textosEscena1 = {
-
-    1:
-      "Un nuevo día de investigación. Nunca sé qué voy a encontrar cuando entro en una cueva como esta... y eso es justamente lo que hace interesante mi trabajo.",
-
-    2:
-      "Por lo que puedo ver, este lugar lleva bastante tiempo sin ser explorado. Quizás todavía quede algo entre estos escombros.",
-
-    3:
-      "Ve una moneda. Parece bastante antigua. Además, sus figuras y símbolos nos hablan de nuestras creencias, nuestros dioses y hasta de la identidad de nuestras ciudades.",
-
-    4:
-      "Y aquí tenemos un jarrón. Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. A veces, para conocer una época, no hace falta encontrar un gran tesoro. Un objeto como este puede contar una historia completa.",
-
-    5:
-      "Una lanza. Esta sí es fácil de reconocer.",
-
-
-  };
-
-
-  /* =====================================================
      SELECCIONAR CAPÍTULO
   ===================================================== */
 
@@ -165,25 +97,19 @@ export const EscenaPortada = () => {
 
     setEscenaIniciada(true);
 
-    setCaminataTerminada(false);
-
-    setAudio1Terminado(false);
-
-    setMomentoNarracion(1);
-
-    setTextoNarracionActivo(false);
-
     /*
-      Narrador automático para capítulo 1.
+      El audio lo inicia la propia escena.
     */
 
-    setNarradorActivo(numero === 1);
+    setNarradorActivo(false);
+
+    setTextoNarracionActivo(false);
 
   };
 
 
   /* =====================================================
-     MÚSICA
+     MÚSICA GENERAL
   ===================================================== */
 
   const alternarMusica = () => {
@@ -226,31 +152,27 @@ export const EscenaPortada = () => {
 
   const alternarNarrador = () => {
 
-    if (!narradorRef.current) return;
+    if (!escenaRef.current) return;
 
+    if (
+      typeof escenaRef.current.toggleNarracion ===
+      "function"
+    ) {
 
-    if (narradorActivo) {
-
-      narradorRef.current.pause();
-
-      narradorRef.current.currentTime = 0;
-
-      setNarradorActivo(false);
-
-      return;
+      escenaRef.current.toggleNarracion();
 
     }
 
+  };
 
-    /*
-      Retomamos desde el momento actual.
-    */
 
-    const audioActual = momentoNarracion;
+  /* =====================================================
+     ESTADO DEL NARRADOR
+  ===================================================== */
 
-    setMomentoNarracion(audioActual);
+  const actualizarEstadoNarrador = (activo) => {
 
-    setNarradorActivo(true);
+    setNarradorActivo(activo);
 
   };
 
@@ -269,249 +191,6 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     ADRIÁN TERMINA DE CAMINAR
-  ===================================================== */
-
-  const cambiarAAudio2 = () => {
-
-    setCaminataTerminada(true);
-
-  };
-
-
-  /* =====================================================
-     REPRODUCCIÓN DEL NARRADOR
-  ===================================================== */
-
-  useEffect(() => {
-
-    if (!narradorRef.current) return;
-
-
-    if (!narradorActivo) {
-
-      narradorRef.current.pause();
-
-      return;
-
-    }
-
-
-    const reproducirNarracion = async () => {
-
-      try {
-
-        narradorRef.current.currentTime = 0;
-
-        await narradorRef.current.play();
-
-      } catch (error) {
-
-        console.error(
-          "No se pudo reproducir la narración:",
-          error
-        );
-
-      }
-
-    };
-
-
-    reproducirNarracion();
-
-  }, [
-    momentoNarracion,
-    narradorActivo
-  ]);
-
-
-  /* =====================================================
-     CUANDO TERMINA UN AUDIO
-  ===================================================== */
-
-  const narradorTerminado = () => {
-
-    /* ===================================================
-       AUDIO 1
-    =================================================== */
-
-    if (momentoNarracion === 1) {
-
-      setAudio1Terminado(true);
-
-      return;
-
-    }
-
-
-    /* ===================================================
-       AUDIO 2
-       → AUDIO 3
-    =================================================== */
-
-    if (momentoNarracion === 2) {
-
-      setMomentoNarracion(3);
-
-      return;
-
-    }
-
-
-    /* ===================================================
-       AUDIO 3
-       → AUDIO 4
-    =================================================== */
-
-    if (momentoNarracion === 3) {
-
-      setMomentoNarracion(4);
-
-      return;
-
-    }
-
-
-    /* ===================================================
-       AUDIO 4
-       → AUDIO 5
-    =================================================== */
-
-    if (momentoNarracion === 4) {
-
-      setMomentoNarracion(5);
-
-      return;
-
-    }
-
-
-    /* ===================================================
-       AUDIO 5
-       → AUDIO 6
-    =================================================== */
-
-    if (momentoNarracion === 5) {
-
-      setMomentoNarracion(6);
-
-      return;
-
-    }
-
-
-    /* ===================================================
-       AUDIO 6
-       → FIN
-    =================================================== */
-
-    if (momentoNarracion === 6) {
-
-      setNarradorActivo(false);
-
-    }
-
-  };
-
-
-  /* =====================================================
-     PASAR DEL AUDIO 1 AL AUDIO 2
-  ===================================================== */
-
-  useEffect(() => {
-
-    /*
-      Audio 2 solamente comienza cuando:
-
-      1. Terminó la caminata.
-      2. Terminó Audio 1.
-      3. El narrador sigue activo.
-    */
-
-    if (
-      caminataTerminada &&
-      audio1Terminado &&
-      momentoNarracion === 1 &&
-      narradorActivo
-    ) {
-
-      setAudio1Terminado(false);
-
-      setMomentoNarracion(2);
-
-    }
-
-  }, [
-    caminataTerminada,
-    audio1Terminado,
-    momentoNarracion,
-    narradorActivo
-  ]);
-
-
-  /* =====================================================
-     DETENER NARRADOR AL CAMBIAR CAPÍTULO
-  ===================================================== */
-
-  useEffect(() => {
-
-    if (!narradorRef.current) return;
-
-    narradorRef.current.pause();
-
-    narradorRef.current.currentTime = 0;
-
-    setNarradorActivo(false);
-
-    setCaminataTerminada(false);
-
-    setAudio1Terminado(false);
-
-    setMomentoNarracion(1);
-
-    setTextoNarracionActivo(false);
-
-  }, [capituloActivo]);
-
-
-  /* =====================================================
-     PANTALLA COMPLETA
-  ===================================================== */
-
-  const alternarPantallaCompleta = async () => {
-
-    if (!pantallaRef.current) return;
-
-
-    try {
-
-      if (!document.fullscreenElement) {
-
-        await pantallaRef.current.requestFullscreen();
-
-        setPantallaCompleta(true);
-
-      } else {
-
-        await document.exitFullscreen();
-
-        setPantallaCompleta(false);
-
-      }
-
-    } catch (error) {
-
-      console.error(
-        "No se pudo activar pantalla completa:",
-        error
-      );
-
-    }
-
-  };
-
-
-  /* =====================================================
      RENDER
   ===================================================== */
 
@@ -521,28 +200,13 @@ export const EscenaPortada = () => {
 
 
       {/* =================================================
-          MÚSICA
+          MÚSICA GENERAL
       ================================================= */}
 
       <audio
         ref={audioRef}
         loop
         src="/BOMBIS.mp3"
-      />
-
-
-      {/* =================================================
-          NARRADOR
-      ================================================= */}
-
-      <audio
-        ref={narradorRef}
-        src={
-          capituloActivo === 1
-            ? narracionesEscena1[momentoNarracion]
-            : ""
-        }
-        onEnded={narradorTerminado}
       />
 
 
@@ -652,26 +316,6 @@ export const EscenaPortada = () => {
             </button>
 
 
-            {/* FULLSCREEN */}
-
-            <button
-              className="comic-control"
-              onClick={alternarPantallaCompleta}
-              aria-label={
-                pantallaCompleta
-                  ? "Salir de pantalla completa"
-                  : "Pantalla completa"
-              }
-            >
-
-              {pantallaCompleta
-                ? <FaCompress />
-                : <FaExpand />
-              }
-
-            </button>
-
-
           </div>
 
 
@@ -692,15 +336,6 @@ export const EscenaPortada = () => {
                 CRÓNICAS DEL IMPERIO
 
               </h1>
-
-
-              <p className="comic-descripcion">
-
-                Acompaña a nuestro personaje en una aventura
-                donde la historia cobra vida de una manera
-                diferente e interactiva.
-
-              </p>
 
 
               <button
@@ -724,53 +359,52 @@ export const EscenaPortada = () => {
 
 
               {/* =================================================
-                  TEXTO DE NARRACIÓN
-              ================================================= */}
-
-              {textoNarracionActivo &&
-                capituloActivo === 1 && (
-
-                  <div className="comic-texto-narracion">
-
-                    {textosEscena1[momentoNarracion]}
-
-                  </div>
-
-              )}
-
-
-              {/* =================================================
-                  CAPÍTULO 1
+                  ESCENA 1
               ================================================= */}
 
               {capituloActivo === 1 && (
 
                 <Escena1
-                  onCaminataTerminada={cambiarAAudio2}
-                  momentoNarracion={momentoNarracion}
+                  ref={escenaRef}
+                  textoNarracionActivo={
+                    textoNarracionActivo
+                  }
+                  onNarradorEstadoChange={
+                    actualizarEstadoNarrador
+                  }
                 />
 
               )}
 
 
               {/* =================================================
-                  CAPÍTULO 2
+                  ESCENA 2
               ================================================= */}
 
               {capituloActivo === 2 && (
 
-                <Escena2 />
+                <Escena2
+                  ref={escenaRef}
+                  onNarradorEstadoChange={
+                    actualizarEstadoNarrador
+                  }
+                />
 
               )}
 
 
               {/* =================================================
-                  CAPÍTULO 3
+                  ESCENA 3
               ================================================= */}
 
               {capituloActivo === 3 && (
 
-                <Escena3 />
+                <Escena3
+                  ref={escenaRef}
+                  onNarradorEstadoChange={
+                    actualizarEstadoNarrador
+                  }
+                />
 
               )}
 
