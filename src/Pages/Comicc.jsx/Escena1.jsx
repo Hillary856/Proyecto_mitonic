@@ -26,10 +26,15 @@ import Esc1Audio3 from "../../Audios/Esc1Audio3.mp3";
 import Esc1Audio4 from "../../Audios/Esc1Audio4.mp3";
 import Esc1Audio5 from "../../Audios/Esc1Audio5.mp3";
 import Esc1Audio6 from "../../Audios/Esc1Audio6.mp3";
+import Esc1Audio7 from "../../Audios/Esc1Audio7.mp3";
+import Esc1Audio8 from "../../Audios/Esc1Audio8.mp3";
 
 import Es1Moneda from "../../AssetsNuevos/Es1Moneda.svg";
 import Es1Jarron from "../../AssetsNuevos/Es1Jarron.svg";
 import Es1Lanza from "../../AssetsNuevos/Es1Lanza.svg";
+
+import reloj from "../../AssetsNuevos/reloj.svg";
+import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
 
 import "./Escenas.css";
 
@@ -40,14 +45,16 @@ const Escena1 = forwardRef(
   (
     {
       textoNarracionActivo,
-      onNarradorEstadoChange
+      onNarradorEstadoChange,
+      onEscenaTerminada,
+      onCapituloDesbloqueado
     },
     ref
   ) => {
 
 
     /* =====================================================
-       IMÁGENES DEL CICLO DE CAMINATA
+       IMÁGENES CAMINATA
     ===================================================== */
 
     const imagenesAdrian = [
@@ -63,38 +70,49 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       PREPARAR JSON DE ADRIÁN
+       PREPARAR JSON
     ===================================================== */
 
     const animacionAdrian = {
+
       ...CicloAdrianBody,
 
-      assets: CicloAdrianBody.assets.map(
-        (asset, index) => ({
-          ...asset,
-          u: "",
-          p: imagenesAdrian[index]
-        })
-      )
+      assets:
+        CicloAdrianBody.assets.map(
+          (asset, index) => ({
+
+            ...asset,
+
+            u: "",
+
+            p: imagenesAdrian[index]
+
+          })
+        )
+
     };
 
 
     /* =====================================================
-       AUDIOS DE ESCENA 1
+       AUDIOS
     ===================================================== */
 
     const audiosEscena1 = {
+
       1: Esc1Audio1,
       2: Esc1Audio2,
       3: Esc1Audio3,
       4: Esc1Audio4,
       5: Esc1Audio5,
-      6: Esc1Audio6
+      6: Esc1Audio6,
+      7: Esc1Audio7,
+      8: Esc1Audio8
+
     };
 
 
     /* =====================================================
-       TEXTOS DE ESCENA 1
+       TEXTOS
     ===================================================== */
 
     const textosEscena1 = {
@@ -115,131 +133,175 @@ const Escena1 = forwardRef(
         "Y aquí tenemos un jarrón. Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. A veces, para conocer una época, no hace falta encontrar un gran tesoro. Un objeto como este puede contar una historia completa.",
 
       6:
-        "Una lanza. Esta sí es fácil de reconocer."
+        "Una lanza. Esta sí es fácil de reconocer.",
+
+      7:
+        "",
+
+      8:
+        ""
+
     };
 
 
     /* =====================================================
-       ESTADOS DE ADRIÁN
+       ADRIÁN
     ===================================================== */
 
-    const [adrianHabla, setAdrianHabla] =
-      useState(false);
+    const [
+      adrianHabla,
+      setAdrianHabla
+    ] = useState(false);
 
-    const [caminataTerminada, setCaminataTerminada] =
-      useState(false);
+
+    const [
+      caminataTerminada,
+      setCaminataTerminada
+    ] = useState(false);
 
 
     /* =====================================================
-       AUDIO ACTUAL
-
-       1 = Audio 1
-       2 = Audio 2
-       3 = Audio 3
-       4 = Audio 4
-       5 = Audio 5
-       6 = Audio 6
+       AUDIO
     ===================================================== */
 
-    const [audioActual, setAudioActual] =
-      useState(1);
+    const [
+      audioActual,
+      setAudioActual
+    ] = useState(1);
+
+
+    const [
+      tipoAudio,
+      setTipoAudio
+    ] = useState("principal");
+
+
+    const [
+      audio1Terminado,
+      setAudio1Terminado
+    ] = useState(false);
+
+
+    const [
+      narradorActivo,
+      setNarradorActivo
+    ] = useState(true);
 
 
     /* =====================================================
-       TIPO DE AUDIO
-
-       principal = narración automática
-       objeto = explicación del objeto
-       espera = esperando clic
+       OBJETOS
     ===================================================== */
 
-    const [tipoAudio, setTipoAudio] =
-      useState("principal");
+    const [
+      objetoVisible,
+      setObjetoVisible
+    ] = useState(null);
+
+
+    const [
+      objetoDescubierto,
+      setObjetoDescubierto
+    ] = useState(null);
+
+
+    const [
+      objetoActivo,
+      setObjetoActivo
+    ] = useState(null);
+
+
+    const [
+      objetoEnAudio,
+      setObjetoEnAudio
+    ] = useState(null);
+
+
+    /*
+      Aquí guardamos los tres objetos
+      que el usuario ya encontró.
+    */
+
+    const [
+      objetosDescubiertos,
+      setObjetosDescubiertos
+    ] = useState([]);
 
 
     /* =====================================================
-       CONTROL DEL AUDIO 1
+       TEXTO
     ===================================================== */
 
-    const [audio1Terminado, setAudio1Terminado] =
-      useState(false);
+    const [
+      momentoTexto,
+      setMomentoTexto
+    ] = useState(1);
 
 
     /* =====================================================
-       NARRADOR
+       RELOJ
     ===================================================== */
 
-    const [narradorActivo, setNarradorActivo] =
-      useState(true);
+    const [
+      relojVisible,
+      setRelojVisible
+    ] = useState(false);
+
+
+    const [
+      relojDescubierto,
+      setRelojDescubierto
+    ] = useState(false);
+
+
+    const [
+      relojMoviendose,
+      setRelojMoviendose
+    ] = useState(false);
+
+
+    const [
+      relojEnCentro,
+      setRelojEnCentro
+    ] = useState(false);
+
+
+    const [
+      relojAbierto,
+      setRelojAbierto
+    ] = useState(false);
+
+
+    const [
+      mostrarContinuar,
+      setMostrarContinuar
+    ] = useState(false);
 
 
     /* =====================================================
-       OBJETO VISIBLE
-    ===================================================== */
-
-    const [objetoVisible, setObjetoVisible] =
-      useState(null);
-
-
-    /* =====================================================
-       OBJETO DESCUBIERTO
-    ===================================================== */
-
-    const [objetoDescubierto, setObjetoDescubierto] =
-      useState(null);
-
-
-    /* =====================================================
-       OBJETO DEL MODAL
-    ===================================================== */
-
-    const [objetoActivo, setObjetoActivo] =
-      useState(null);
-
-
-    /* =====================================================
-       OBJETO CUYO AUDIO ESTÁ SONANDO
-
-       Es diferente a objetoActivo porque
-       el usuario puede cerrar el modal mientras
-       el audio continúa.
-    ===================================================== */
-
-    const [objetoEnAudio, setObjetoEnAudio] =
-      useState(null);
-
-
-    /* =====================================================
-       MOMENTO DEL TEXTO
-    ===================================================== */
-
-    const [momentoTexto, setMomentoTexto] =
-      useState(1);
-
-
-    /* =====================================================
-       REFERENCIA DEL ÚNICO AUDIO
+       REFERENCIAS
     ===================================================== */
 
     const audioRef =
       useRef(null);
 
 
-    /* =====================================================
-       EVITAR DOBLE INICIO EN DESARROLLO
-    ===================================================== */
-
     const escenaIniciadaRef =
       useRef(false);
 
 
+    const relojTimerRef =
+      useRef(null);
+
+
     /* =====================================================
-       AVISAR AL PADRE DEL ESTADO DEL NARRADOR
+       ESTADO NARRADOR
     ===================================================== */
 
     useEffect(() => {
 
-      if (onNarradorEstadoChange) {
+      if (
+        onNarradorEstadoChange
+      ) {
 
         onNarradorEstadoChange(
           narradorActivo
@@ -254,10 +316,42 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       REPRODUCIR AUDIO
+       LIMPIEZA
+    ===================================================== */
 
-       Esta es la parte nueva importante:
-       utilizamos UN SOLO elemento <audio>.
+    useEffect(() => {
+
+      return () => {
+
+        if (
+          audioRef.current
+        ) {
+
+          audioRef.current.pause();
+
+          audioRef.current.currentTime =
+            0;
+
+        }
+
+
+        if (
+          relojTimerRef.current
+        ) {
+
+          clearTimeout(
+            relojTimerRef.current
+          );
+
+        }
+
+      };
+
+    }, []);
+
+
+    /* =====================================================
+       REPRODUCIR AUDIO
     ===================================================== */
 
     const reproducirAudio = (
@@ -266,7 +360,13 @@ const Escena1 = forwardRef(
       tipo
     ) => {
 
-      if (!audioRef.current) return;
+      if (
+        !audioRef.current
+      ) {
+
+        return;
+
+      }
 
 
       const reproductor =
@@ -275,21 +375,28 @@ const Escena1 = forwardRef(
 
       reproductor.pause();
 
-
-      reproductor.src = audio;
-
+      reproductor.src =
+        audio;
 
       reproductor.load();
 
+      reproductor.currentTime =
+        0;
 
-      reproductor.currentTime = 0;
+
+      setAudioActual(
+        numero
+      );
 
 
-      setAudioActual(numero);
+      setTipoAudio(
+        tipo
+      );
 
-      setTipoAudio(tipo);
 
-      setNarradorActivo(true);
+      setNarradorActivo(
+        true
+      );
 
 
       reproductor
@@ -312,9 +419,17 @@ const Escena1 = forwardRef(
 
     useEffect(() => {
 
-      if (escenaIniciadaRef.current) return;
+      if (
+        escenaIniciadaRef.current
+      ) {
 
-      escenaIniciadaRef.current = true;
+        return;
+
+      }
+
+
+      escenaIniciadaRef.current =
+        true;
 
 
       reproducirAudio(
@@ -324,23 +439,68 @@ const Escena1 = forwardRef(
       );
 
 
-      return () => {
+    }, []);
 
-        if (audioRef.current) {
 
-          audioRef.current.pause();
+    /* =====================================================
+       REGISTRAR OBJETO
+    ===================================================== */
 
-          audioRef.current.currentTime = 0;
+    const registrarObjetoEncontrado = (
+      objeto
+    ) => {
 
-          audioRef.current.removeAttribute(
-            "src"
+      /*
+        Evitar contar el mismo objeto
+        dos veces.
+      */
+
+      if (
+        objetosDescubiertos
+          .includes(objeto)
+      ) {
+
+        return;
+
+      }
+
+
+      const nuevosObjetos = [
+
+        ...objetosDescubiertos,
+
+        objeto
+
+      ];
+
+
+      setObjetosDescubiertos(
+        nuevosObjetos
+      );
+
+
+      /*
+        Cuando están los tres:
+        desbloquear capítulo 2.
+      */
+
+      if (
+        nuevosObjetos.length === 3
+      ) {
+
+        if (
+          onCapituloDesbloqueado
+        ) {
+
+          onCapituloDesbloqueado(
+            2
           );
 
         }
 
-      };
+      }
 
-    }, []);
+    };
 
 
     /* =====================================================
@@ -349,18 +509,19 @@ const Escena1 = forwardRef(
 
     const terminarCaminata = () => {
 
-      setCaminataTerminada(true);
+      setCaminataTerminada(
+        true
+      );
 
-      setAdrianHabla(true);
+
+      setAdrianHabla(
+        true
+      );
 
 
-      /*
-        Si el Audio 1 ya terminó mientras Adrián
-        todavía estaba caminando, ahora podemos
-        pasar al Audio 2.
-      */
-
-      if (audio1Terminado) {
+      if (
+        audio1Terminado
+      ) {
 
         reproducirAudio(
           audiosEscena1[2],
@@ -368,7 +529,10 @@ const Escena1 = forwardRef(
           "principal"
         );
 
-        setMomentoTexto(2);
+
+        setMomentoTexto(
+          2
+        );
 
       }
 
@@ -376,7 +540,67 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       MANEJAR FIN DEL AUDIO
+       MOVIMIENTO RELOJ
+    ===================================================== */
+
+    const iniciarMovimientoReloj =
+      () => {
+
+        setRelojMoviendose(
+          true
+        );
+
+
+        relojTimerRef.current =
+          setTimeout(() => {
+
+            setRelojMoviendose(
+              false
+            );
+
+
+            setRelojEnCentro(
+              true
+            );
+
+
+            relojTimerRef.current =
+              setTimeout(() => {
+
+                setRelojEnCentro(
+                  false
+                );
+
+
+                setRelojAbierto(
+                  true
+                );
+
+
+                setMostrarContinuar(
+                  true
+                );
+
+
+                /*
+                  AUDIO 8
+                */
+
+                reproducirAudio(
+                  audiosEscena1[8],
+                  8,
+                  "principal"
+                );
+
+              }, 1800);
+
+          }, 1400);
+
+      };
+
+
+    /* =====================================================
+       FIN DEL AUDIO
     ===================================================== */
 
     const manejarFinAudio = () => {
@@ -386,24 +610,33 @@ const Escena1 = forwardRef(
          AUDIO DE OBJETO
       =================================================== */
 
-      if (tipoAudio === "objeto") {
+      if (
+        tipoAudio === "objeto"
+      ) {
+
 
         /* ===============================================
            MONEDA
-
-           Audio 3 terminó
-           → Audio 4 automático
+           → AUDIO 4
         =============================================== */
 
         if (
           objetoEnAudio === "moneda"
         ) {
 
-          setObjetoActivo(null);
+          setObjetoActivo(
+            null
+          );
 
-          setObjetoEnAudio(null);
 
-          setMomentoTexto(4);
+          setObjetoEnAudio(
+            null
+          );
+
+
+          setMomentoTexto(
+            4
+          );
 
 
           reproducirAudio(
@@ -412,6 +645,7 @@ const Escena1 = forwardRef(
             "principal"
           );
 
+
           return;
 
         }
@@ -419,26 +653,42 @@ const Escena1 = forwardRef(
 
         /* ===============================================
            JARRÓN
-
-           Audio 5 terminó
-           → aparece lanza
+           → LANZA
         =============================================== */
 
         if (
           objetoEnAudio === "jarron"
         ) {
 
-          setObjetoActivo(null);
+          setObjetoActivo(
+            null
+          );
 
-          setObjetoEnAudio(null);
 
-          setObjetoVisible("lanza");
+          setObjetoEnAudio(
+            null
+          );
 
-          setMomentoTexto(6);
 
-          setTipoAudio("espera");
+          setObjetoVisible(
+            "lanza"
+          );
 
-          setNarradorActivo(false);
+
+          setMomentoTexto(
+            null
+          );
+
+
+          setTipoAudio(
+            "espera"
+          );
+
+
+          setNarradorActivo(
+            false
+          );
+
 
           return;
 
@@ -447,24 +697,83 @@ const Escena1 = forwardRef(
 
         /* ===============================================
            LANZA
-
-           Audio 6 terminó
-           → fin de escena
+           → RELOJ
         =============================================== */
 
         if (
           objetoEnAudio === "lanza"
         ) {
 
-          setObjetoActivo(null);
+          setObjetoActivo(
+            null
+          );
 
-          setObjetoEnAudio(null);
 
-          setTipoAudio("espera");
+          setObjetoEnAudio(
+            null
+          );
 
-          setNarradorActivo(false);
 
-          setMomentoTexto(6);
+          setObjetoVisible(
+            null
+          );
+
+
+          setMomentoTexto(
+            null
+          );
+
+
+          setTipoAudio(
+            "espera"
+          );
+
+
+          setNarradorActivo(
+            false
+          );
+
+
+          setRelojVisible(
+            true
+          );
+
+
+          return;
+
+        }
+
+
+        /* ===============================================
+           RELOJ
+           → MOVIMIENTO
+        =============================================== */
+
+        if (
+          objetoEnAudio === "reloj"
+        ) {
+
+          setObjetoEnAudio(
+            null
+          );
+
+
+          setMomentoTexto(
+            null
+          );
+
+
+          setTipoAudio(
+            "espera"
+          );
+
+
+          setNarradorActivo(
+            false
+          );
+
+
+          iniciarMovimientoReloj();
 
           return;
 
@@ -474,31 +783,30 @@ const Escena1 = forwardRef(
 
 
       /* ===================================================
-         AUDIO PRINCIPAL
-      ===================================================== */
-
-
-      /* ===============================================
          AUDIO 1
-      =============================================== */
+      ===================================================== */
 
       if (
         audioActual === 1
       ) {
 
-        setAudio1Terminado(true);
+        setAudio1Terminado(
+          true
+        );
 
-        setNarradorActivo(false);
+
+        setNarradorActivo(
+          false
+        );
 
 
-        /*
-          Si Adrián ya terminó de caminar,
-          pasamos inmediatamente al Audio 2.
-        */
+        if (
+          caminataTerminada
+        ) {
 
-        if (caminataTerminada) {
-
-          setAudio1Terminado(false);
+          setAudio1Terminado(
+            false
+          );
 
 
           reproducirAudio(
@@ -507,7 +815,10 @@ const Escena1 = forwardRef(
             "principal"
           );
 
-          setMomentoTexto(2);
+
+          setMomentoTexto(
+            2
+          );
 
         }
 
@@ -516,44 +827,68 @@ const Escena1 = forwardRef(
       }
 
 
-      /* ===============================================
+      /* ===================================================
          AUDIO 2
-         → aparece MONEDA
-      =============================================== */
+         → MONEDA
+      ===================================================== */
 
       if (
         audioActual === 2
       ) {
 
-        setObjetoVisible("moneda");
+        setObjetoVisible(
+          "moneda"
+        );
 
-        setTipoAudio("espera");
 
-        setNarradorActivo(false);
+        setTipoAudio(
+          "espera"
+        );
 
-        setMomentoTexto(null);
+
+        setNarradorActivo(
+          false
+        );
+
+
+        setMomentoTexto(
+          null
+        );
+
 
         return;
 
       }
 
 
-      /* ===============================================
+      /* ===================================================
          AUDIO 4
-         → aparece JARRÓN
-      =============================================== */
+         → JARRÓN
+      ===================================================== */
 
       if (
         audioActual === 4
       ) {
 
-        setObjetoVisible("jarron");
+        setObjetoVisible(
+          "jarron"
+        );
 
-        setTipoAudio("espera");
 
-        setNarradorActivo(false);
+        setTipoAudio(
+          "espera"
+        );
 
-        setMomentoTexto(null);
+
+        setNarradorActivo(
+          false
+        );
+
+
+        setMomentoTexto(
+          null
+        );
+
 
         return;
 
@@ -563,7 +898,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       CLICK SOBRE OBJETO
+       CLICK EN OBJETOS
     ===================================================== */
 
     const reproducirObjeto = (
@@ -588,9 +923,11 @@ const Escena1 = forwardRef(
         audio =
           audiosEscena1[3];
 
-        numeroAudio = 3;
+        numeroAudio =
+          3;
 
-        momento = 3;
+        momento =
+          3;
 
       }
 
@@ -606,9 +943,11 @@ const Escena1 = forwardRef(
         audio =
           audiosEscena1[5];
 
-        numeroAudio = 5;
+        numeroAudio =
+          5;
 
-        momento = 5;
+        momento =
+          5;
 
       }
 
@@ -624,42 +963,106 @@ const Escena1 = forwardRef(
         audio =
           audiosEscena1[6];
 
-        numeroAudio = 6;
+        numeroAudio =
+          6;
 
-        momento = 6;
+        momento =
+          6;
 
       }
 
 
-      if (!audio) return;
+      /* ===============================================
+         RELOJ
+      =============================================== */
+
+      if (
+        objeto === "reloj"
+      ) {
+
+        audio =
+          audiosEscena1[7];
+
+        numeroAudio =
+          7;
+
+        momento =
+          7;
+
+      }
+
+
+      if (
+        !audio
+      ) {
+
+        return;
+
+      }
 
 
       /* ===============================================
-         EL OBJETO QUEDA DESCUBIERTO
+         REGISTRAR OBJETO
       =============================================== */
 
-      setObjetoDescubierto(objeto);
+      if (
+        objeto !== "reloj"
+      ) {
+
+        registrarObjetoEncontrado(
+          objeto
+        );
+
+
+        setObjetoDescubierto(
+          objeto
+        );
+
+      }
 
 
       /* ===============================================
-         ABRIR MODAL
+         RELOJ DESCUBIERTO
       =============================================== */
 
-      setObjetoActivo(objeto);
+      if (
+        objeto === "reloj"
+      ) {
+
+        setRelojDescubierto(
+          true
+        );
+
+      }
 
 
       /* ===============================================
-         RECORDAR QUÉ OBJETO TIENE EL AUDIO
+         MODAL
       =============================================== */
 
-      setObjetoEnAudio(objeto);
+      if (
+        objeto !== "reloj"
+      ) {
+
+        setObjetoActivo(
+          objeto
+        );
+
+      }
 
 
       /* ===============================================
-         TEXTO
+         OBJETO EN AUDIO
       =============================================== */
 
-      setMomentoTexto(momento);
+      setObjetoEnAudio(
+        objeto
+      );
+
+
+      setMomentoTexto(
+        momento
+      );
 
 
       /* ===============================================
@@ -676,7 +1079,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       BOTÓN DEL NARRADOR
+       BOTÓN NARRADOR
     ===================================================== */
 
     const toggleNarracion = () => {
@@ -690,37 +1093,38 @@ const Escena1 = forwardRef(
       }
 
 
-      if (!audioRef.current) {
+      if (
+        !audioRef.current
+      ) {
 
         return;
 
       }
 
 
-      /* ===============================================
-         PAUSAR
-      =============================================== */
-
-      if (narradorActivo) {
+      if (
+        narradorActivo
+      ) {
 
         audioRef.current.pause();
 
-        setNarradorActivo(false);
+        setNarradorActivo(
+          false
+        );
+
 
         return;
 
       }
 
-
-      /* ===============================================
-         REANUDAR
-      =============================================== */
 
       audioRef.current
         .play()
         .then(() => {
 
-          setNarradorActivo(true);
+          setNarradorActivo(
+            true
+          );
 
         })
         .catch((error) => {
@@ -736,15 +1140,13 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       EXPONER BOTÓN AL PADRE
+       EXPONER CONTROL
     ===================================================== */
 
     useImperativeHandle(
       ref,
       () => ({
-
         toggleNarracion
-
       })
     );
 
@@ -755,14 +1157,9 @@ const Escena1 = forwardRef(
 
     const cerrarModal = () => {
 
-      /*
-        Importante:
-        cerramos SOLO el modal.
-
-        El audio sigue reproduciéndose.
-      */
-
-      setObjetoActivo(null);
+      setObjetoActivo(
+        null
+      );
 
     };
 
@@ -773,9 +1170,13 @@ const Escena1 = forwardRef(
 
     return (
 
-      <div className="escena-1">
+      <div
+        className="escena-1"
+      >
 
-        <div className="escena-1-contenido">
+        <div
+          className="escena-1-contenido"
+        >
 
 
           {/* =================================================
@@ -818,15 +1219,24 @@ const Escena1 = forwardRef(
 
             <div
               className="escena-1-adrian-prueba"
-              onAnimationEnd={terminarCaminata}
+              onAnimationEnd={
+                terminarCaminata
+              }
             >
 
               <Lottie
                 animationData={
                   animacionAdrian
                 }
-                loop={true}
-                autoplay={true}
+
+                loop={
+                  true
+                }
+
+                autoplay={
+                  true
+                }
+
               />
 
             </div>
@@ -848,8 +1258,15 @@ const Escena1 = forwardRef(
                 animationData={
                   AdrianHablando
                 }
-                loop={true}
-                autoplay={true}
+
+                loop={
+                  true
+                }
+
+                autoplay={
+                  true
+                }
+
               />
 
             </div>
@@ -863,18 +1280,22 @@ const Escena1 = forwardRef(
 
           <audio
             ref={audioRef}
-            onEnded={manejarFinAudio}
+            onEnded={
+              manejarFinAudio
+            }
             preload="auto"
           />
 
 
           {/* =================================================
-              TEXTO DE NARRACIÓN
+              TEXTO
           ================================================= */}
 
           {textoNarracionActivo &&
             momentoTexto !== null &&
-            textosEscena1[momentoTexto] && (
+            textosEscena1[
+              momentoTexto
+            ] && (
 
               <div
                 className="escena-1-texto-narracion"
@@ -901,7 +1322,8 @@ const Escena1 = forwardRef(
               className={`
                 escena-1-moneda-boton
                 ${
-                  objetoDescubierto === "moneda"
+                  objetoDescubierto ===
+                  "moneda"
                     ? "descubierto"
                     : ""
                 }
@@ -935,7 +1357,8 @@ const Escena1 = forwardRef(
               className={`
                 escena-1-jarron-boton
                 ${
-                  objetoDescubierto === "jarron"
+                  objetoDescubierto ===
+                  "jarron"
                     ? "descubierto"
                     : ""
                 }
@@ -969,7 +1392,8 @@ const Escena1 = forwardRef(
               className={`
                 escena-1-lanza-boton
                 ${
-                  objetoDescubierto === "lanza"
+                  objetoDescubierto ===
+                  "lanza"
                     ? "descubierto"
                     : ""
                 }
@@ -994,6 +1418,116 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
+              RELOJ CERRADO
+          ================================================= */}
+
+          {relojVisible &&
+            !relojAbierto && (
+
+              <button
+                className={`
+                  escena-1-reloj-boton
+
+                  ${
+                    relojMoviendose
+                      ? "moviendose"
+                      : ""
+                  }
+
+                  ${
+                    relojEnCentro
+                      ? "en-centro"
+                      : ""
+                  }
+
+                  ${
+                    relojDescubierto
+                      ? "descubierto"
+                      : ""
+                  }
+                `}
+                onClick={() =>
+                  reproducirObjeto(
+                    "reloj"
+                  )
+                }
+                aria-label="Explorar reloj"
+              >
+
+                <img
+                  src={
+                    RelojCerrado
+                  }
+                  alt="Reloj cerrado"
+                  className={
+                    "escena-1-reloj-cerrado"
+                  }
+                />
+
+              </button>
+
+            )}
+
+
+          {/* =================================================
+              RELOJ ABIERTO
+          ================================================= */}
+
+          {relojAbierto && (
+
+            <div
+              className="escena-1-reloj-abierto"
+            >
+
+              <img
+                src={reloj}
+                alt="Reloj abierto"
+                className="escena-1-reloj"
+              />
+
+            </div>
+
+          )}
+
+
+          {/* =================================================
+              CONTINUAR AL CAPÍTULO 2
+          ================================================= */}
+
+          {mostrarContinuar && (
+
+            <div
+              className="escena-1-continuar-contenedor"
+            >
+
+              <div
+                className="escena-1-continuar-texto"
+              >
+
+                <span>
+                  CONTINUAR AL CAPÍTULO 2
+                </span>
+
+
+                <button
+                  className="escena-1-continuar-boton"
+                  onClick={
+                    onEscenaTerminada
+                  }
+                >
+
+                  CONTINUAR →
+
+                </button>
+
+              </div>
+
+            </div>
+
+          )}
+
+
+          {/* =================================================
               MODAL
           ================================================= */}
 
@@ -1001,26 +1535,25 @@ const Escena1 = forwardRef(
 
             <div
               className="escena-1-modal-fondo"
-              onClick={cerrarModal}
+              onClick={
+                cerrarModal
+              }
             >
 
               <div
                 className="escena-1-modal"
-                onClick={(evento) =>
-                  evento.stopPropagation()
+                onClick={
+                  (evento) =>
+                    evento.stopPropagation()
                 }
               >
-
-
-                {/* =============================================
-                    IMAGEN
-                ============================================= */}
 
                 <div
                   className="escena-1-modal-imagen"
                 >
 
-                  {objetoActivo === "moneda" && (
+                  {objetoActivo ===
+                    "moneda" && (
 
                     <img
                       src={Es1Moneda}
@@ -1030,7 +1563,8 @@ const Escena1 = forwardRef(
                   )}
 
 
-                  {objetoActivo === "jarron" && (
+                  {objetoActivo ===
+                    "jarron" && (
 
                     <img
                       src={Es1Jarron}
@@ -1040,7 +1574,8 @@ const Escena1 = forwardRef(
                   )}
 
 
-                  {objetoActivo === "lanza" && (
+                  {objetoActivo ===
+                    "lanza" && (
 
                     <img
                       src={Es1Lanza}
@@ -1052,16 +1587,12 @@ const Escena1 = forwardRef(
                 </div>
 
 
-                {/* =============================================
-                    INFORMACIÓN
-                ============================================= */}
-
                 <div
                   className="escena-1-modal-info"
                 >
 
-
-                  {objetoActivo === "moneda" && (
+                  {objetoActivo ===
+                    "moneda" && (
 
                     <>
 
@@ -1081,7 +1612,8 @@ const Escena1 = forwardRef(
                   )}
 
 
-                  {objetoActivo === "jarron" && (
+                  {objetoActivo ===
+                    "jarron" && (
 
                     <>
 
@@ -1102,7 +1634,8 @@ const Escena1 = forwardRef(
                   )}
 
 
-                  {objetoActivo === "lanza" && (
+                  {objetoActivo ===
+                    "lanza" && (
 
                     <>
 
@@ -1124,18 +1657,17 @@ const Escena1 = forwardRef(
                 </div>
 
 
-                {/* =============================================
-                    CERRAR
-                ============================================= */}
-
                 <button
                   className="escena-1-modal-cerrar"
-                  onClick={cerrarModal}
+                  onClick={
+                    cerrarModal
+                  }
                   aria-label="Cerrar información"
                 >
-                  ×
-                </button>
 
+                  ×
+
+                </button>
 
               </div>
 

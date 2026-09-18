@@ -1,4 +1,9 @@
-import { useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from "react";
 
 import Escena1 from "./Comicc.jsx/Escena1";
 import Escena2 from "./Comicc.jsx/Escena2";
@@ -17,25 +22,104 @@ import "./EscenaPortada.css";
 
 export const EscenaPortada = () => {
 
+  /* =====================================================
+     ESTADOS GENERALES
+  ===================================================== */
 
-  const [capituloActivo, setCapituloActivo] = useState(1);
-
-  const [escenaIniciada, setEscenaIniciada] = useState(false);
-
-  const [musicaActiva, setMusicaActiva] = useState(false);
-
-  const [narradorActivo, setNarradorActivo] = useState(false);
-
-  const [textoNarracionActivo, setTextoNarracionActivo] = useState(false);
+  const [
+    capituloActivo,
+    setCapituloActivo
+  ] = useState(1);
 
 
-  
+  const [
+    escenaIniciada,
+    setEscenaIniciada
+  ] = useState(false);
 
-  const pantallaRef = useRef(null);
 
-  const audioRef = useRef(null);
+  const [
+    musicaActiva,
+    setMusicaActiva
+  ] = useState(false);
 
-  const escenaRef = useRef(null);
+
+  const [
+    narradorActivo,
+    setNarradorActivo
+  ] = useState(false);
+
+
+  const [
+    textoNarracionActivo,
+    setTextoNarracionActivo
+  ] = useState(false);
+
+
+  /* =====================================================
+     CAPÍTULOS DESBLOQUEADOS
+
+     SOLO EL CAPÍTULO 1 COMIENZA DESBLOQUEADO.
+  ===================================================== */
+
+  const [
+    capitulosDesbloqueados,
+    setCapitulosDesbloqueados
+  ] = useState([1]);
+
+
+  /* =====================================================
+     CAPÍTULO QUE ESTÁ HACIENDO EL "PUM"
+  ===================================================== */
+
+  const [
+    capituloDesbloqueando,
+    setCapituloDesbloqueando
+  ] = useState(null);
+
+
+  /* =====================================================
+     MENSAJE DE DESBLOQUEO
+  ===================================================== */
+
+  const [
+    mensajeDesbloqueo,
+    setMensajeDesbloqueo
+  ] = useState(null);
+
+
+  /* =====================================================
+     TRANSICIÓN BLANCA
+
+     "entrando" = el blanco aparece
+     "saliendo" = el blanco desaparece
+     null = no hay transición
+  ===================================================== */
+
+  const [
+    transicionBlanca,
+    setTransicionBlanca
+  ] = useState(null);
+
+
+  /* =====================================================
+     REFERENCIAS
+  ===================================================== */
+
+  const audioMusicaRef =
+    useRef(null);
+
+  const escenaRef =
+    useRef(null);
+
+  const mensajeTimerRef =
+    useRef(null);
+
+  const transicionTimerRef =
+    useRef(null);
+
+  const ocultarTransicionTimerRef =
+    useRef(null);
 
 
   /* =====================================================
@@ -46,90 +130,368 @@ export const EscenaPortada = () => {
 
     {
       numero: "01",
-      titulo: "EL COMIENZO",
-      disponible: true
+      titulo: "EL COMIENZO"
     },
 
     {
       numero: "02",
-      titulo: "PRÓXIMAMENTE",
-      disponible: true
+      titulo: "PRÓXIMAMENTE"
     },
 
     {
       numero: "03",
-      titulo: "PRÓXIMAMENTE",
-      disponible: true
+      titulo: "PRÓXIMAMENTE"
     },
 
     {
       numero: "04",
-      titulo: "PRÓXIMAMENTE",
-      disponible: true
+      titulo: "PRÓXIMAMENTE"
     },
 
     {
       numero: "05",
-      titulo: "PRÓXIMAMENTE",
-      disponible: true
+      titulo: "PRÓXIMAMENTE"
     },
 
     {
       numero: "06",
-      titulo: "PRÓXIMAMENTE",
-      disponible: true
+      titulo: "PRÓXIMAMENTE"
+    },
+
+    {
+      numero: "07",
+      titulo: "PRÓXIMAMENTE"
     }
 
   ];
 
 
   /* =====================================================
-     SELECCIONAR CAPÍTULO
+     LIMPIAR TEMPORIZADORES
   ===================================================== */
 
-  const seleccionarCapitulo = (capitulo) => {
+  useEffect(() => {
 
-    if (!capitulo.disponible) return;
+    return () => {
 
-    const numero = Number(capitulo.numero);
+      if (
+        mensajeTimerRef.current
+      ) {
 
-    setCapituloActivo(numero);
+        clearTimeout(
+          mensajeTimerRef.current
+        );
 
-    setEscenaIniciada(true);
+      }
 
-    /*
-      El audio lo inicia la propia escena.
-    */
 
-    setNarradorActivo(false);
+      if (
+        transicionTimerRef.current
+      ) {
 
-    setTextoNarracionActivo(false);
+        clearTimeout(
+          transicionTimerRef.current
+        );
 
-  };
+      }
+
+
+      if (
+        ocultarTransicionTimerRef.current
+      ) {
+
+        clearTimeout(
+          ocultarTransicionTimerRef.current
+        );
+
+      }
+
+    };
+
+  }, []);
 
 
   /* =====================================================
-     MÚSICA GENERAL
+     DESBLOQUEAR CAPÍTULO
+  ===================================================== */
+
+  const desbloquearCapitulo =
+    useCallback(
+      (numero) => {
+
+        /*
+          Si ya está desbloqueado,
+          no repetimos la animación.
+        */
+
+        if (
+          capitulosDesbloqueados
+            .includes(numero)
+        ) {
+
+          return;
+
+        }
+
+
+        /* ===============================================
+           GUARDAR CAPÍTULO DESBLOQUEADO
+        =============================================== */
+
+        setCapitulosDesbloqueados(
+          (anteriores) => {
+
+            if (
+              anteriores.includes(numero)
+            ) {
+
+              return anteriores;
+
+            }
+
+
+            return [
+              ...anteriores,
+              numero
+            ];
+
+          }
+        );
+
+
+        /* ===============================================
+           ACTIVAR "PUM"
+        =============================================== */
+
+        setCapituloDesbloqueando(
+          numero
+        );
+
+
+        /* ===============================================
+           MOSTRAR MENSAJE
+        =============================================== */
+
+        setMensajeDesbloqueo(
+          numero
+        );
+
+
+        /* ===============================================
+           REINICIAR TEMPORIZADOR
+        =============================================== */
+
+        if (
+          mensajeTimerRef.current
+        ) {
+
+          clearTimeout(
+            mensajeTimerRef.current
+          );
+
+        }
+
+
+        mensajeTimerRef.current =
+          setTimeout(() => {
+
+            setMensajeDesbloqueo(
+              null
+            );
+
+            setCapituloDesbloqueando(
+              null
+            );
+
+          }, 5000);
+
+      },
+      [
+        capitulosDesbloqueados
+      ]
+    );
+
+
+  /* =====================================================
+     SELECCIONAR CAPÍTULO
+  ===================================================== */
+
+  const seleccionarCapitulo =
+    useCallback(
+      (capitulo) => {
+
+        const numero =
+          Number(
+            capitulo.numero
+          );
+
+
+        /*
+          Si está bloqueado,
+          no se puede seleccionar.
+        */
+
+        if (
+          !capitulosDesbloqueados
+            .includes(numero)
+        ) {
+
+          return;
+
+        }
+
+
+        setCapituloActivo(
+          numero
+        );
+
+
+        setEscenaIniciada(
+          true
+        );
+
+
+        setNarradorActivo(
+          false
+        );
+
+
+        setTextoNarracionActivo(
+          false
+        );
+
+      },
+      [
+        capitulosDesbloqueados
+      ]
+    );
+
+
+  /* =====================================================
+     PASAR A CAPÍTULO 2
+     
+     ESTA FUNCIÓN SOLO SE LLAMA DESDE ESCENA 1
+     CUANDO EL USUARIO PULSA "CONTINUAR".
+  ===================================================== */
+
+  const pasarACapitulo2 =
+    useCallback(() => {
+
+      /*
+        Evitar doble clic o repetir transición.
+      */
+
+      if (
+        transicionBlanca
+      ) {
+
+        return;
+
+      }
+
+
+      /* ===============================================
+         DETENER NARRADOR
+      =============================================== */
+
+      setNarradorActivo(
+        false
+      );
+
+
+      setTextoNarracionActivo(
+        false
+      );
+
+
+      /* ===============================================
+         COMENZAR DESTELLO BLANCO
+      =============================================== */
+
+      setTransicionBlanca(
+        "entrando"
+      );
+
+
+      /*
+        Después de que el blanco cubra
+        toda la pantalla, cambiamos
+        al capítulo 2.
+      */
+
+      transicionTimerRef.current =
+        setTimeout(() => {
+
+          setCapituloActivo(
+            2
+          );
+
+
+          setEscenaIniciada(
+            true
+          );
+
+
+          /*
+            Ahora comienza la salida
+            del blanco para revelar Escena 2.
+          */
+
+          setTransicionBlanca(
+            "saliendo"
+          );
+
+
+          ocultarTransicionTimerRef.current =
+            setTimeout(() => {
+
+              setTransicionBlanca(
+                null
+              );
+
+            }, 900);
+
+        }, 1250);
+
+    }, [
+      transicionBlanca
+    ]);
+
+
+  /* =====================================================
+     MÚSICA
   ===================================================== */
 
   const alternarMusica = () => {
 
-    if (!audioRef.current) return;
+    if (
+      !audioMusicaRef.current
+    ) {
+
+      return;
+
+    }
 
 
-    if (musicaActiva) {
+    if (
+      musicaActiva
+    ) {
 
-      audioRef.current.pause();
+      audioMusicaRef.current.pause();
 
-      setMusicaActiva(false);
+      setMusicaActiva(
+        false
+      );
 
     } else {
 
-      audioRef.current
+      audioMusicaRef.current
         .play()
         .then(() => {
 
-          setMusicaActiva(true);
+          setMusicaActiva(
+            true
+          );
 
         })
         .catch((error) => {
@@ -152,14 +514,23 @@ export const EscenaPortada = () => {
 
   const alternarNarrador = () => {
 
-    if (!escenaRef.current) return;
+    if (
+      !escenaRef.current
+    ) {
+
+      return;
+
+    }
+
 
     if (
-      typeof escenaRef.current.toggleNarracion ===
+      typeof escenaRef.current
+        .toggleNarracion ===
       "function"
     ) {
 
-      escenaRef.current.toggleNarracion();
+      escenaRef.current
+        .toggleNarracion();
 
     }
 
@@ -170,24 +541,32 @@ export const EscenaPortada = () => {
      ESTADO DEL NARRADOR
   ===================================================== */
 
-  const actualizarEstadoNarrador = (activo) => {
+  const actualizarEstadoNarrador =
+    useCallback(
+      (activo) => {
 
-    setNarradorActivo(activo);
+        setNarradorActivo(
+          activo
+        );
 
-  };
+      },
+      []
+    );
 
 
   /* =====================================================
      TEXTO
   ===================================================== */
 
-  const alternarTextoNarracion = () => {
+  const alternarTextoNarracion =
+    () => {
 
-    setTextoNarracionActivo(
-      (activo) => !activo
-    );
+      setTextoNarracionActivo(
+        (activo) =>
+          !activo
+      );
 
-  };
+    };
 
 
   /* =====================================================
@@ -196,15 +575,18 @@ export const EscenaPortada = () => {
 
   return (
 
-    <main className="comic-interface">
+    <main
+      className="comic-interface"
+    >
+
 
 
       {/* =================================================
-          MÚSICA GENERAL
+          MÚSICA
       ================================================= */}
 
       <audio
-        ref={audioRef}
+        ref={audioMusicaRef}
         loop
         src="/BOMBIS.mp3"
       />
@@ -231,7 +613,9 @@ export const EscenaPortada = () => {
           CONTENEDOR PRINCIPAL
       ================================================= */}
 
-      <div className="comic-layout">
+      <div
+        className="comic-layout"
+      >
 
 
         {/* =================================================
@@ -239,27 +623,68 @@ export const EscenaPortada = () => {
         ================================================= */}
 
         <section
-          ref={pantallaRef}
-          className={`comic-pantalla ${
-            escenaIniciada
+          className={`comic-pantalla ${escenaIniciada
               ? "escena-activa"
               : ""
-          }`}
+            }`}
         >
+
+          {/* =================================================
+      MENSAJE DE DESBLOQUEO
+  ================================================= */}
+
+          {mensajeDesbloqueo && (
+
+            <div
+              className="comic-mensaje-desbloqueo"
+            >
+
+              <div
+                className="comic-mensaje-desbloqueo-superior"
+              >
+
+                <span>
+                  ✓
+                </span>
+
+                <strong>
+                  ¡OBJETOS ENCONTRADOS!
+                </strong>
+
+              </div>
+
+
+              <div
+                className="comic-mensaje-desbloqueo-inferior"
+              >
+
+                DESBLOQUEASTE EL CAPÍTULO{" "}
+
+                {mensajeDesbloqueo}
+
+              </div>
+
+            </div>
+
+          )}
 
 
           {/* =================================================
               CONTROLES
           ================================================= */}
 
-          <div className="comic-controles">
+          <div
+            className="comic-controles"
+          >
 
 
             {/* MÚSICA */}
 
             <button
               className="comic-control"
-              onClick={alternarMusica}
+              onClick={
+                alternarMusica
+              }
               aria-label={
                 musicaActiva
                   ? "Silenciar música"
@@ -279,7 +704,9 @@ export const EscenaPortada = () => {
 
             <button
               className="comic-control"
-              onClick={alternarNarrador}
+              onClick={
+                alternarNarrador
+              }
               aria-label={
                 narradorActivo
                   ? "Detener narrador"
@@ -298,12 +725,13 @@ export const EscenaPortada = () => {
             {/* TEXTO */}
 
             <button
-              className={`comic-control ${
-                textoNarracionActivo
+              className={`comic-control ${textoNarracionActivo
                   ? "activo"
                   : ""
-              }`}
-              onClick={alternarTextoNarracion}
+                }`}
+              onClick={
+                alternarTextoNarracion
+              }
               aria-label={
                 textoNarracionActivo
                   ? "Ocultar texto"
@@ -315,19 +743,22 @@ export const EscenaPortada = () => {
 
             </button>
 
-
           </div>
 
 
           {/* =================================================
-              PORTADA / ESCENA
+              PORTADA
           ================================================= */}
 
           {!escenaIniciada ? (
 
-            <div className="comic-pantalla-contenido">
+            <div
+              className="comic-pantalla-contenido"
+            >
 
-              <h1 className="comic-titulo">
+              <h1
+                className="comic-titulo"
+              >
 
                 ADRIAN Y LAS
 
@@ -341,11 +772,15 @@ export const EscenaPortada = () => {
               <button
                 className="comic-boton-comenzar"
                 onClick={() =>
-                  seleccionarCapitulo(capitulos[0])
+                  seleccionarCapitulo(
+                    capitulos[0]
+                  )
                 }
               >
 
-                <span>▶</span>
+                <span>
+                  ▶
+                </span>
 
                 COMENZAR
 
@@ -355,7 +790,9 @@ export const EscenaPortada = () => {
 
           ) : (
 
-            <div className="comic-escena">
+            <div
+              className="comic-escena"
+            >
 
 
               {/* =================================================
@@ -366,12 +803,23 @@ export const EscenaPortada = () => {
 
                 <Escena1
                   ref={escenaRef}
+
                   textoNarracionActivo={
                     textoNarracionActivo
                   }
+
                   onNarradorEstadoChange={
                     actualizarEstadoNarrador
                   }
+
+                  onCapituloDesbloqueado={
+                    desbloquearCapitulo
+                  }
+
+                  onEscenaTerminada={
+                    pasarACapitulo2
+                  }
+
                 />
 
               )}
@@ -383,12 +831,7 @@ export const EscenaPortada = () => {
 
               {capituloActivo === 2 && (
 
-                <Escena2
-                  ref={escenaRef}
-                  onNarradorEstadoChange={
-                    actualizarEstadoNarrador
-                  }
-                />
+                <Escena2 />
 
               )}
 
@@ -399,15 +842,9 @@ export const EscenaPortada = () => {
 
               {capituloActivo === 3 && (
 
-                <Escena3
-                  ref={escenaRef}
-                  onNarradorEstadoChange={
-                    actualizarEstadoNarrador
-                  }
-                />
+                <Escena3 />
 
               )}
-
 
             </div>
 
@@ -420,78 +857,150 @@ export const EscenaPortada = () => {
             PANEL DE CAPÍTULOS
         ================================================= */}
 
-        <aside className="comic-capitulos">
+        <aside
+          className="comic-capitulos"
+        >
 
-          <h2 className="comic-capitulos-titulo">
-
+          <h2
+            className="comic-capitulos-titulo"
+          >
             CAPÍTULOS
-
           </h2>
 
 
-          <div className="comic-capitulos-lista">
+          <div
+            className="comic-capitulos-lista"
+          >
 
-            {capitulos.map((capitulo) => (
+            {capitulos.map(
+              (capitulo) => {
 
-              <button
-                key={capitulo.numero}
-                className={`
-                  comic-capitulo
-                  ${
-                    capitulo.disponible
-                      ? "disponible"
-                      : "bloqueado"
-                  }
-                  ${
-                    capituloActivo ===
-                    Number(capitulo.numero)
-                      ? "seleccionado"
-                      : ""
-                  }
-                `}
-                onClick={() =>
-                  seleccionarCapitulo(capitulo)
-                }
-                disabled={!capitulo.disponible}
-              >
-
-                <div className="comic-capitulo-numero">
-
-                  {capitulo.numero}
-
-                </div>
+                const numero =
+                  Number(
+                    capitulo.numero
+                  );
 
 
-                <div className="comic-capitulo-info">
+                const desbloqueado =
+                  capitulosDesbloqueados
+                    .includes(numero);
 
-                  <span>
 
-                    CAPÍTULO {capitulo.numero}
+                const animando =
+                  capituloDesbloqueando ===
+                  numero;
 
-                  </span>
 
-                  <strong>
+                return (
 
-                    {capitulo.titulo}
+                  <button
+                    key={
+                      capitulo.numero
+                    }
 
-                  </strong>
+                    className={`
+                      comic-capitulo
 
-                </div>
+                      ${desbloqueado
+                        ? "disponible"
+                        : "bloqueado"
+                      }
 
-              </button>
+                      ${capituloActivo ===
+                        numero
+                        ? "seleccionado"
+                        : ""
+                      }
 
-            ))}
+                      ${animando
+                        ? "desbloqueando"
+                        : ""
+                      }
+                    `}
+
+                    onClick={() =>
+                      seleccionarCapitulo(
+                        capitulo
+                      )
+                    }
+
+                    disabled={
+                      !desbloqueado
+                    }
+                  >
+
+                    <div
+                      className="comic-capitulo-numero"
+                    >
+
+                      {
+                        capitulo.numero
+                      }
+
+                    </div>
+
+
+                    <div
+                      className="comic-capitulo-info"
+                    >
+
+                      <span>
+
+                        CAPÍTULO{" "}
+                        {capitulo.numero}
+
+                      </span>
+
+                      <strong>
+
+                        {capitulo.titulo}
+
+                      </strong>
+
+                    </div>
+
+                  </button>
+
+                );
+
+              }
+            )}
 
           </div>
 
         </aside>
 
-
       </div>
+
+
+      {/* =====================================================
+          DESTELLO BLANCO GLOBAL
+
+          IMPORTANTE:
+          está fuera de .comic-pantalla.
+          
+          Por eso cubre TODA la ventana.
+      ===================================================== */}
+
+      {transicionBlanca && (
+
+        <div
+          className={`
+            comic-transicion-blanca
+            ${transicionBlanca ===
+              "entrando"
+              ? "entrando"
+              : "saliendo"
+            }
+          `}
+        />
+
+      )}
 
     </main>
 
   );
+
 };
 
 
