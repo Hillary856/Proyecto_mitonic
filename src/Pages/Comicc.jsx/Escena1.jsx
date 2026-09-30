@@ -47,14 +47,14 @@ const Escena1 = forwardRef(
       textoNarracionActivo,
       onNarradorEstadoChange,
       onEscenaTerminada,
+      onObjetosEncontrados,
       onCapituloDesbloqueado
     },
     ref
   ) => {
 
-
     /* =====================================================
-       IMÁGENES CAMINATA
+       IMÁGENES DEL CICLO DE CAMINATA
     ===================================================== */
 
     const imagenesAdrian = [
@@ -70,31 +70,24 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       PREPARAR JSON
+       PREPARAR JSON DE ADRIÁN
     ===================================================== */
 
     const animacionAdrian = {
-
       ...CicloAdrianBody,
 
-      assets:
-        CicloAdrianBody.assets.map(
-          (asset, index) => ({
-
-            ...asset,
-
-            u: "",
-
-            p: imagenesAdrian[index]
-
-          })
-        )
-
+      assets: CicloAdrianBody.assets.map(
+        (asset, index) => ({
+          ...asset,
+          u: "",
+          p: imagenesAdrian[index]
+        })
+      )
     };
 
 
     /* =====================================================
-       AUDIOS
+       AUDIOS ESCENA 1
     ===================================================== */
 
     const audiosEscena1 = {
@@ -112,7 +105,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       TEXTOS
+       TEXTOS ESCENA 1
     ===================================================== */
 
     const textosEscena1 = {
@@ -145,7 +138,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       ADRIÁN
+       ESTADOS DE ADRIÁN
     ===================================================== */
 
     const [
@@ -217,8 +210,7 @@ const Escena1 = forwardRef(
 
 
     /*
-      Aquí guardamos los tres objetos
-      que el usuario ya encontró.
+      Guardamos TODOS los objetos encontrados.
     */
 
     const [
@@ -294,7 +286,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       ESTADO NARRADOR
+       ESTADO DEL NARRADOR
     ===================================================== */
 
     useEffect(() => {
@@ -438,26 +430,26 @@ const Escena1 = forwardRef(
         "principal"
       );
 
-
     }, []);
 
 
     /* =====================================================
-       REGISTRAR OBJETO
+       REGISTRAR OBJETO ENCONTRADO
+       
+       IMPORTANTE:
+       AQUÍ YA NO DESBLOQUEAMOS EL CAPÍTULO.
+       
+       SOLO avisamos que se encontraron los tres.
     ===================================================== */
 
     const registrarObjetoEncontrado = (
       objeto
     ) => {
 
-      /*
-        Evitar contar el mismo objeto
-        dos veces.
-      */
-
       if (
-        objetosDescubiertos
-          .includes(objeto)
+        objetosDescubiertos.includes(
+          objeto
+        )
       ) {
 
         return;
@@ -466,11 +458,8 @@ const Escena1 = forwardRef(
 
 
       const nuevosObjetos = [
-
         ...objetosDescubiertos,
-
         objeto
-
       ];
 
 
@@ -480,8 +469,8 @@ const Escena1 = forwardRef(
 
 
       /*
-        Cuando están los tres:
-        desbloquear capítulo 2.
+        Cuando encuentra los tres,
+        SOLO mostramos el mensaje.
       */
 
       if (
@@ -489,12 +478,10 @@ const Escena1 = forwardRef(
       ) {
 
         if (
-          onCapituloDesbloqueado
+          onObjetosEncontrados
         ) {
 
-          onCapituloDesbloqueado(
-            2
-          );
+          onObjetosEncontrados(2);
 
         }
 
@@ -540,7 +527,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       MOVIMIENTO RELOJ
+       MOVIMIENTO DEL RELOJ
     ===================================================== */
 
     const iniciarMovimientoReloj =
@@ -600,7 +587,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       FIN DEL AUDIO
+       CUANDO TERMINA UN AUDIO
     ===================================================== */
 
     const manejarFinAudio = () => {
@@ -898,7 +885,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       CLICK EN OBJETOS
+       CLICK EN LOS OBJETOS
     ===================================================== */
 
     const reproducirObjeto = (
@@ -1002,7 +989,7 @@ const Escena1 = forwardRef(
 
 
       /* ===============================================
-         REGISTRAR OBJETO
+         REGISTRAR OBJETO ENCONTRADO
       =============================================== */
 
       if (
@@ -1079,6 +1066,62 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
+       CONTINUAR AL CAPÍTULO 2
+
+       AQUÍ es donde se desbloquea
+       oficialmente el capítulo.
+    ===================================================== */
+
+    const continuarCapitulo2 = () => {
+
+      /*
+        No se permite continuar
+        hasta haber encontrado
+        los tres objetos.
+      */
+
+      if (
+        objetosDescubiertos.length < 3
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+        AHORA SÍ:
+        desbloqueamos capítulo 2.
+      */
+
+      if (
+        onCapituloDesbloqueado
+      ) {
+
+        onCapituloDesbloqueado(
+          2
+        );
+
+      }
+
+
+      /*
+        Y después ejecutamos
+        la transición blanca.
+      */
+
+      if (
+        onEscenaTerminada
+      ) {
+
+        onEscenaTerminada();
+
+      }
+
+    };
+
+
+    /* =====================================================
        BOTÓN NARRADOR
     ===================================================== */
 
@@ -1140,7 +1183,7 @@ const Escena1 = forwardRef(
 
 
     /* =====================================================
-       EXPONER CONTROL
+       EXPONER CONTROL AL PADRE
     ===================================================== */
 
     useImperativeHandle(
@@ -1228,15 +1271,8 @@ const Escena1 = forwardRef(
                 animationData={
                   animacionAdrian
                 }
-
-                loop={
-                  true
-                }
-
-                autoplay={
-                  true
-                }
-
+                loop={true}
+                autoplay={true}
               />
 
             </div>
@@ -1258,15 +1294,8 @@ const Escena1 = forwardRef(
                 animationData={
                   AdrianHablando
                 }
-
-                loop={
-                  true
-                }
-
-                autoplay={
-                  true
-                }
-
+                loop={true}
+                autoplay={true}
               />
 
             </div>
@@ -1288,7 +1317,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              TEXTO
+              SUBTÍTULOS
           ================================================= */}
 
           {textoNarracionActivo &&
@@ -1321,6 +1350,7 @@ const Escena1 = forwardRef(
             <button
               className={`
                 escena-1-moneda-boton
+
                 ${
                   objetoDescubierto ===
                   "moneda"
@@ -1356,6 +1386,7 @@ const Escena1 = forwardRef(
             <button
               className={`
                 escena-1-jarron-boton
+
                 ${
                   objetoDescubierto ===
                   "jarron"
@@ -1391,6 +1422,7 @@ const Escena1 = forwardRef(
             <button
               className={`
                 escena-1-lanza-boton
+
                 ${
                   objetoDescubierto ===
                   "lanza"
@@ -1459,9 +1491,7 @@ const Escena1 = forwardRef(
                     RelojCerrado
                   }
                   alt="Reloj cerrado"
-                  className={
-                    "escena-1-reloj-cerrado"
-                  }
+                  className="escena-1-reloj-cerrado"
                 />
 
               </button>
@@ -1512,7 +1542,7 @@ const Escena1 = forwardRef(
                 <button
                   className="escena-1-continuar-boton"
                   onClick={
-                    onEscenaTerminada
+                    continuarCapitulo2
                   }
                 >
 

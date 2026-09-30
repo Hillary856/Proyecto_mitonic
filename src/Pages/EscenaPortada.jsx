@@ -50,16 +50,21 @@ export const EscenaPortada = () => {
   ] = useState(false);
 
 
+  /*
+    AHORA LOS SUBTÍTULOS
+    COMIENZAN ACTIVADOS.
+  */
+
   const [
     textoNarracionActivo,
     setTextoNarracionActivo
-  ] = useState(false);
+  ] = useState(true);
 
 
   /* =====================================================
      CAPÍTULOS DESBLOQUEADOS
 
-     SOLO EL CAPÍTULO 1 COMIENZA DESBLOQUEADO.
+     SOLO EL 1 COMIENZA DESBLOQUEADO.
   ===================================================== */
 
   const [
@@ -69,7 +74,7 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     CAPÍTULO QUE ESTÁ HACIENDO EL "PUM"
+     CAPÍTULO QUE HACE EL PUM
   ===================================================== */
 
   const [
@@ -90,10 +95,6 @@ export const EscenaPortada = () => {
 
   /* =====================================================
      TRANSICIÓN BLANCA
-
-     "entrando" = el blanco aparece
-     "saliendo" = el blanco desaparece
-     null = no hay transición
   ===================================================== */
 
   const [
@@ -212,74 +213,20 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     DESBLOQUEAR CAPÍTULO
+     MOSTRAR MENSAJE DE OBJETOS ENCONTRADOS
+
+     IMPORTANTE:
+     NO DESBLOQUEA EL CAPÍTULO.
   ===================================================== */
 
-  const desbloquearCapitulo =
+  const mostrarMensajeObjetos =
     useCallback(
       (numero) => {
-
-        /*
-          Si ya está desbloqueado,
-          no repetimos la animación.
-        */
-
-        if (
-          capitulosDesbloqueados
-            .includes(numero)
-        ) {
-
-          return;
-
-        }
-
-
-        /* ===============================================
-           GUARDAR CAPÍTULO DESBLOQUEADO
-        =============================================== */
-
-        setCapitulosDesbloqueados(
-          (anteriores) => {
-
-            if (
-              anteriores.includes(numero)
-            ) {
-
-              return anteriores;
-
-            }
-
-
-            return [
-              ...anteriores,
-              numero
-            ];
-
-          }
-        );
-
-
-        /* ===============================================
-           ACTIVAR "PUM"
-        =============================================== */
-
-        setCapituloDesbloqueando(
-          numero
-        );
-
-
-        /* ===============================================
-           MOSTRAR MENSAJE
-        =============================================== */
 
         setMensajeDesbloqueo(
           numero
         );
 
-
-        /* ===============================================
-           REINICIAR TEMPORIZADOR
-        =============================================== */
 
         if (
           mensajeTimerRef.current
@@ -299,11 +246,73 @@ export const EscenaPortada = () => {
               null
             );
 
-            setCapituloDesbloqueando(
-              null
-            );
-
           }, 5000);
+
+      },
+      []
+    );
+
+
+  /* =====================================================
+     DESBLOQUEAR CAPÍTULO
+
+     ESTA FUNCIÓN SOLO SE LLAMA CUANDO
+     EL USUARIO PULSA CONTINUAR.
+  ===================================================== */
+
+  const desbloquearCapitulo =
+    useCallback(
+      (numero) => {
+
+        if (
+          capitulosDesbloqueados
+            .includes(numero)
+        ) {
+
+          return;
+
+        }
+
+
+        setCapitulosDesbloqueados(
+          (anteriores) => {
+
+            if (
+              anteriores.includes(
+                numero
+              )
+            ) {
+
+              return anteriores;
+
+            }
+
+
+            return [
+              ...anteriores,
+              numero
+            ];
+
+          }
+        );
+
+
+        /* ===============================================
+           ANIMACIÓN PUM
+        =============================================== */
+
+        setCapituloDesbloqueando(
+          numero
+        );
+
+
+        setTimeout(() => {
+
+          setCapituloDesbloqueando(
+            null
+          );
+
+        }, 900);
 
       },
       [
@@ -327,8 +336,8 @@ export const EscenaPortada = () => {
 
 
         /*
-          Si está bloqueado,
-          no se puede seleccionar.
+          No puede entrar a un capítulo
+          bloqueado.
         */
 
         if (
@@ -356,8 +365,14 @@ export const EscenaPortada = () => {
         );
 
 
+        /*
+          LOS SUBTÍTULOS
+          SIEMPRE COMIENZAN ACTIVOS
+          AL ENTRAR A UNA ESCENA.
+        */
+
         setTextoNarracionActivo(
-          false
+          true
         );
 
       },
@@ -370,15 +385,15 @@ export const EscenaPortada = () => {
   /* =====================================================
      PASAR A CAPÍTULO 2
      
-     ESTA FUNCIÓN SOLO SE LLAMA DESDE ESCENA 1
-     CUANDO EL USUARIO PULSA "CONTINUAR".
+     SOLO SE EJECUTA DESPUÉS DEL CLIC
+     EN "CONTINUAR".
   ===================================================== */
 
   const pasarACapitulo2 =
     useCallback(() => {
 
       /*
-        Evitar doble clic o repetir transición.
+        Evitar doble clic.
       */
 
       if (
@@ -414,9 +429,8 @@ export const EscenaPortada = () => {
 
 
       /*
-        Después de que el blanco cubra
-        toda la pantalla, cambiamos
-        al capítulo 2.
+        El blanco cubre la ventana
+        antes de cambiar de escena.
       */
 
       transicionTimerRef.current =
@@ -433,9 +447,14 @@ export const EscenaPortada = () => {
 
 
           /*
-            Ahora comienza la salida
-            del blanco para revelar Escena 2.
+            Al entrar a Escena 2,
+            los subtítulos empiezan activos.
           */
+
+          setTextoNarracionActivo(
+            true
+          );
+
 
           setTransicionBlanca(
             "saliendo"
@@ -555,7 +574,7 @@ export const EscenaPortada = () => {
 
 
   /* =====================================================
-     TEXTO
+     SUBTÍTULOS
   ===================================================== */
 
   const alternarTextoNarracion =
@@ -578,7 +597,6 @@ export const EscenaPortada = () => {
     <main
       className="comic-interface"
     >
-
 
 
       {/* =================================================
@@ -623,15 +641,19 @@ export const EscenaPortada = () => {
         ================================================= */}
 
         <section
-          className={`comic-pantalla ${escenaIniciada
+          className={`comic-pantalla ${
+            escenaIniciada
               ? "escena-activa"
               : ""
-            }`}
+          }`}
         >
 
+
           {/* =================================================
-      MENSAJE DE DESBLOQUEO
-  ================================================= */}
+              MENSAJE DE OBJETOS ENCONTRADOS
+              
+              ESTÁ DENTRO DEL RECUADRO DEL CÓMIC.
+          ================================================= */}
 
           {mensajeDesbloqueo && (
 
@@ -722,13 +744,14 @@ export const EscenaPortada = () => {
             </button>
 
 
-            {/* TEXTO */}
+            {/* SUBTÍTULOS */}
 
             <button
-              className={`comic-control ${textoNarracionActivo
+              className={`comic-control ${
+                textoNarracionActivo
                   ? "activo"
                   : ""
-                }`}
+              }`}
               onClick={
                 alternarTextoNarracion
               }
@@ -802,7 +825,9 @@ export const EscenaPortada = () => {
               {capituloActivo === 1 && (
 
                 <Escena1
-                  ref={escenaRef}
+                  ref={
+                    escenaRef
+                  }
 
                   textoNarracionActivo={
                     textoNarracionActivo
@@ -812,9 +837,28 @@ export const EscenaPortada = () => {
                     actualizarEstadoNarrador
                   }
 
+                  /*
+                    SOLO MUESTRA EL MENSAJE.
+                    NO DESBLOQUEA.
+                  */
+
+                  onObjetosEncontrados={
+                    mostrarMensajeObjetos
+                  }
+
+                  /*
+                    DESBLOQUEA DE VERDAD
+                    CUANDO SE PULSA CONTINUAR.
+                  */
+
                   onCapituloDesbloqueado={
                     desbloquearCapitulo
                   }
+
+                  /*
+                    INICIA EL DESTELLO
+                    Y CAMBIA A ESCENA 2.
+                  */
 
                   onEscenaTerminada={
                     pasarACapitulo2
@@ -864,7 +908,9 @@ export const EscenaPortada = () => {
           <h2
             className="comic-capitulos-titulo"
           >
+
             CAPÍTULOS
+
           </h2>
 
 
@@ -883,7 +929,9 @@ export const EscenaPortada = () => {
 
                 const desbloqueado =
                   capitulosDesbloqueados
-                    .includes(numero);
+                    .includes(
+                      numero
+                    );
 
 
                 const animando =
@@ -901,20 +949,23 @@ export const EscenaPortada = () => {
                     className={`
                       comic-capitulo
 
-                      ${desbloqueado
-                        ? "disponible"
-                        : "bloqueado"
+                      ${
+                        desbloqueado
+                          ? "disponible"
+                          : "bloqueado"
                       }
 
-                      ${capituloActivo ===
+                      ${
+                        capituloActivo ===
                         numero
-                        ? "seleccionado"
-                        : ""
+                          ? "seleccionado"
+                          : ""
                       }
 
-                      ${animando
-                        ? "desbloqueando"
-                        : ""
+                      ${
+                        animando
+                          ? "desbloqueando"
+                          : ""
                       }
                     `}
 
@@ -947,13 +998,19 @@ export const EscenaPortada = () => {
                       <span>
 
                         CAPÍTULO{" "}
-                        {capitulo.numero}
+
+                        {
+                          capitulo.numero
+                        }
 
                       </span>
 
+
                       <strong>
 
-                        {capitulo.titulo}
+                        {
+                          capitulo.titulo
+                        }
 
                       </strong>
 
@@ -976,10 +1033,7 @@ export const EscenaPortada = () => {
       {/* =====================================================
           DESTELLO BLANCO GLOBAL
 
-          IMPORTANTE:
-          está fuera de .comic-pantalla.
-          
-          Por eso cubre TODA la ventana.
+          FUERA DE comic-pantalla.
       ===================================================== */}
 
       {transicionBlanca && (
@@ -987,10 +1041,12 @@ export const EscenaPortada = () => {
         <div
           className={`
             comic-transicion-blanca
-            ${transicionBlanca ===
+
+            ${
+              transicionBlanca ===
               "entrando"
-              ? "entrando"
-              : "saliendo"
+                ? "entrando"
+                : "saliendo"
             }
           `}
         />

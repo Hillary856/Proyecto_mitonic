@@ -23,12 +23,18 @@ import "./Escenas.css";
 
 const Lottie = lottieReact.default;
 
-
 const Escena2 = forwardRef(
-  ({ onNarradorEstadoChange }, ref) => {
+  (
+    {
+      textoNarracionActivo = true,
+      onNarradorEstadoChange,
+      onNarracionTerminada
+    },
+    ref
+  ) => {
 
     /* =====================================================
-       AUDIOS
+       AUDIOS DE LA ESCENA 2
     ===================================================== */
 
     const audiosAdrian = [
@@ -44,20 +50,45 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
+       SUBTÍTULOS DE LA ESCENA 2
+
+       IMPORTANTE:
+       Aquí van los textos correspondientes a cada audio.
+
+       Por ahora dejo identificados los 8 espacios porque
+       en el código que me enviaste no vienen las
+       transcripciones de los audios.
+    ===================================================== */
+
+    const subtitulosAdrian = [
+      "SUBTÍTULO DEL AUDIO 1",
+      "SUBTÍTULO DEL AUDIO 2",
+      "SUBTÍTULO DEL AUDIO 3",
+      "SUBTÍTULO DEL AUDIO 4",
+      "SUBTÍTULO DEL AUDIO 5",
+      "SUBTÍTULO DEL AUDIO 6",
+      "SUBTÍTULO DEL AUDIO 7",
+      "SUBTÍTULO DEL AUDIO 8"
+    ];
+
+
+    /* =====================================================
        ESTADOS
     ===================================================== */
 
     const [adrianVisible, setAdrianVisible] = useState(false);
 
-    const [mostrarFlash, setMostrarFlash] = useState(false);
+    const [mostrarResplandor, setMostrarResplandor] =
+      useState(false);
 
     const [audioActual, setAudioActual] = useState(0);
 
-    const [narradorActivo, setNarradorActivo] = useState(false);
+    const [narradorActivo, setNarradorActivo] =
+      useState(true);
 
 
     /* =====================================================
-       REFERENCIA
+       REFERENCIAS
     ===================================================== */
 
     const audioRef = useRef(null);
@@ -65,40 +96,36 @@ const Escena2 = forwardRef(
 
     /* =====================================================
        ENTRADA DE ESCENA
+
+       Adrián aparece con un pequeño "PUM" de resplandor.
+       El resplandor solamente rodea a Adrián.
     ===================================================== */
 
     useEffect(() => {
 
-      setMostrarFlash(true);
-
       setAdrianVisible(true);
 
-      const quitarFlash = setTimeout(() => {
+      setMostrarResplandor(true);
 
-        setMostrarFlash(false);
-
-      }, 250);
-
+      const quitarResplandor = setTimeout(() => {
+        setMostrarResplandor(false);
+      }, 900);
 
       return () => {
-
-        clearTimeout(quitarFlash);
-
+        clearTimeout(quitarResplandor);
       };
 
     }, []);
 
 
     /* =====================================================
-       AVISAR ESTADO DEL NARRADOR
+       AVISAR AL PADRE DEL ESTADO DEL NARRADOR
     ===================================================== */
 
     useEffect(() => {
 
       if (onNarradorEstadoChange) {
-
         onNarradorEstadoChange(narradorActivo);
-
       }
 
     }, [
@@ -108,24 +135,26 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       REPRODUCCIÓN
+       REPRODUCCIÓN DEL AUDIO
+
+       Cada vez que cambia el audio, si el narrador está
+       activo, se reproduce automáticamente.
     ===================================================== */
 
     useEffect(() => {
 
       const audio = audioRef.current;
 
-      if (!audio) return;
-
-
-      if (!narradorActivo) {
-
-        audio.pause();
-
+      if (!audio || !adrianVisible) {
         return;
-
       }
 
+      if (!narradorActivo) {
+        audio.pause();
+        return;
+      }
+
+      audio.load();
 
       audio
         .play()
@@ -137,33 +166,28 @@ const Escena2 = forwardRef(
           );
 
           setNarradorActivo(false);
-
         });
 
     }, [
-      adrianVisible,
       audioActual,
+      adrianVisible,
       narradorActivo
     ]);
 
 
     /* =====================================================
-       INICIO AUTOMÁTICO
+       INICIO AUTOMÁTICO DEL NARRADOR
     ===================================================== */
 
     useEffect(() => {
 
       setNarradorActivo(true);
 
-
       return () => {
 
         if (audioRef.current) {
-
           audioRef.current.pause();
-
           audioRef.current.currentTime = 0;
-
         }
 
       };
@@ -173,14 +197,17 @@ const Escena2 = forwardRef(
 
     /* =====================================================
        CONTROL DEL NARRADOR
+
+       El botón superior utiliza esta función mediante ref.
     ===================================================== */
 
     const toggleNarracion = () => {
 
       const audio = audioRef.current;
 
-      if (!audio) return;
-
+      if (!audio) {
+        return;
+      }
 
       if (narradorActivo) {
 
@@ -193,9 +220,7 @@ const Escena2 = forwardRef(
         audio
           .play()
           .then(() => {
-
             setNarradorActivo(true);
-
           })
           .catch((error) => {
 
@@ -212,26 +237,21 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       EXPONER AL PADRE
+       EXPONER LA FUNCIÓN AL PADRE
     ===================================================== */
 
     useImperativeHandle(ref, () => ({
-
       toggleNarracion
-
     }));
 
 
     /* =====================================================
-       FIN DEL AUDIO
+       FIN DE CADA AUDIO
     ===================================================== */
 
     const manejarFinAudio = () => {
 
-      if (
-        audioActual <
-        audiosAdrian.length - 1
-      ) {
+      if (audioActual < audiosAdrian.length - 1) {
 
         setAudioActual(
           (anterior) => anterior + 1
@@ -241,10 +261,18 @@ const Escena2 = forwardRef(
 
         setNarradorActivo(false);
 
+        if (onNarracionTerminada) {
+          onNarracionTerminada();
+        }
+
       }
 
     };
 
+
+    /* =====================================================
+       RENDER
+    ===================================================== */
 
     return (
 
@@ -254,7 +282,7 @@ const Escena2 = forwardRef(
 
 
           {/* =================================================
-              FONDO
+             FONDO
           ================================================= */}
 
           <img
@@ -265,7 +293,7 @@ const Escena2 = forwardRef(
 
 
           {/* =================================================
-              ELEMENTOS
+             ELEMENTOS DEL ESCENARIO
           ================================================= */}
 
           <svg
@@ -318,29 +346,26 @@ const Escena2 = forwardRef(
 
 
           {/* =================================================
-              RESPLANDOR
-          ================================================= */}
-
-          {mostrarFlash && (
-
-            <div className="escena-2-resplandor" />
-
-          )}
-
-
-          {/* =================================================
-              ADRIÁN
+             ADRIÁN + RESPLANDOR
           ================================================= */}
 
           {adrianVisible && (
 
-            <div className="escena-2-adrian-hablando">
+            <div className="escena-2-adrian-aparicion">
 
-              <Lottie
-                animationData={AdrianHablando}
-                loop={true}
-                autoplay={true}
-              />
+              {mostrarResplandor && (
+                <div className="escena-2-resplandor-adrian" />
+              )}
+
+              <div className="escena-2-adrian-hablando">
+
+                <Lottie
+                  animationData={AdrianHablando}
+                  loop={true}
+                  autoplay={true}
+                />
+
+              </div>
 
             </div>
 
@@ -348,7 +373,25 @@ const Escena2 = forwardRef(
 
 
           {/* =================================================
-              AUDIO
+             SUBTÍTULOS
+
+             Se muestran automáticamente porque
+             textoNarracionActivo empieza en true.
+          ================================================= */}
+
+          {textoNarracionActivo && (
+
+            <div className="escena-2-subtitulos">
+
+              {subtitulosAdrian[audioActual]}
+
+            </div>
+
+          )}
+
+
+          {/* =================================================
+             AUDIO
           ================================================= */}
 
           <audio
