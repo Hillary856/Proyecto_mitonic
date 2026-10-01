@@ -70,7 +70,7 @@ export const EscenaPortada = () => {
   const [
     capitulosDesbloqueados,
     setCapitulosDesbloqueados
-  ] = useState([1]);
+  ] = useState([1,2,3]);
 
 
   /* =====================================================

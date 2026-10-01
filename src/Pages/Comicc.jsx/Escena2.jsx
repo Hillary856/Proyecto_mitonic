@@ -52,23 +52,27 @@ const Escena2 = forwardRef(
     /* =====================================================
        SUBTÍTULOS DE LA ESCENA 2
 
-       IMPORTANTE:
-       Aquí van los textos correspondientes a cada audio.
-
-       Por ahora dejo identificados los 8 espacios porque
-       en el código que me enviaste no vienen las
-       transcripciones de los audios.
+       Cada posición corresponde directamente al audio
+       que está en la misma posición del arreglo.
     ===================================================== */
 
     const subtitulosAdrian = [
-      "SUBTÍTULO DEL AUDIO 1",
-      "SUBTÍTULO DEL AUDIO 2",
-      "SUBTÍTULO DEL AUDIO 3",
-      "SUBTÍTULO DEL AUDIO 4",
-      "SUBTÍTULO DEL AUDIO 5",
-      "SUBTÍTULO DEL AUDIO 6",
-      "SUBTÍTULO DEL AUDIO 7",
-      "SUBTÍTULO DEL AUDIO 8"
+      "Estoy en Atenas... Pero este no es el lugar donde estaba hace un momento. Ese extraño objeto me ha traído hasta aquí. Estamos en una de las zonas donde se concentra gran parte de nuestra vida cultural e intelectual. Atenas es hogar de pensadores que cuestionan, enseñan y buscan comprender el mundo que nos rodea. Y si el reloj me ha traído hasta aquí, quizás haya una razón.",
+
+      "Reconozco este libro. Es La República, de Platón. Platón reflexiona aquí sobre la justicia, la educación y la manera en que debería organizarse una sociedad.",
+
+      "Sus ideas generan debates que siguen muy presentes entre quienes buscan comprender cómo debería funcionar nuestra ciudad.",
+
+      "Y este pergamino pertenece a Aristóteles. Él estudia prácticamente todo lo que despierta su curiosidad: la filosofía, la política, la naturaleza y la lógica.",
+
+      "Su objetivo es comprender cómo funciona el mundo, no simplemente aceptar las cosas como son.",
+
+      "Esta copa tiene una historia mucho más difícil. Está relacionada con Sócrates y con uno de los momentos más recordados de nuestra historia.",
+
+      "Después de ser condenado a muerte en Atenas, Sócrates bebe la cicuta y permanece fiel a sus principios hasta el final. Su historia nos recuerda que cuestionar lo que creemos saber también puede tener consecuencias.",
+
+      "Otra vez... Cada vez que este objeto se activa, me lleva a otro lugar. Pero ¿por qué me está mostrando estos momentos?",
+
     ];
 
 
@@ -83,12 +87,15 @@ const Escena2 = forwardRef(
 
     const [audioActual, setAudioActual] = useState(0);
 
+    /*
+      El narrador comienza ACTIVADO.
+    */
     const [narradorActivo, setNarradorActivo] =
       useState(true);
 
 
     /* =====================================================
-       REFERENCIAS
+       REFERENCIA DEL AUDIO
     ===================================================== */
 
     const audioRef = useRef(null);
@@ -97,8 +104,7 @@ const Escena2 = forwardRef(
     /* =====================================================
        ENTRADA DE ESCENA
 
-       Adrián aparece con un pequeño "PUM" de resplandor.
-       El resplandor solamente rodea a Adrián.
+       Adrián aparece + resplandor solamente alrededor de él.
     ===================================================== */
 
     useEffect(() => {
@@ -108,24 +114,30 @@ const Escena2 = forwardRef(
       setMostrarResplandor(true);
 
       const quitarResplandor = setTimeout(() => {
+
         setMostrarResplandor(false);
+
       }, 900);
 
       return () => {
+
         clearTimeout(quitarResplandor);
+
       };
 
     }, []);
 
 
     /* =====================================================
-       AVISAR AL PADRE DEL ESTADO DEL NARRADOR
+       AVISAR AL PADRE EL ESTADO DEL NARRADOR
     ===================================================== */
 
     useEffect(() => {
 
       if (onNarradorEstadoChange) {
+
         onNarradorEstadoChange(narradorActivo);
+
       }
 
     }, [
@@ -135,10 +147,11 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       REPRODUCCIÓN DEL AUDIO
+       REPRODUCIR AUDIO ACTUAL
 
-       Cada vez que cambia el audio, si el narrador está
-       activo, se reproduce automáticamente.
+       IMPORTANTE:
+       Cuando cambia de audio, se reinicia desde 0.
+       Al pausar y reanudar NO se reinicia.
     ===================================================== */
 
     useEffect(() => {
@@ -149,16 +162,21 @@ const Escena2 = forwardRef(
         return;
       }
 
+      audio.pause();
+
+      audio.currentTime = 0;
+
       if (!narradorActivo) {
-        audio.pause();
         return;
       }
 
-      audio.load();
+      const reproducir = async () => {
 
-      audio
-        .play()
-        .catch((error) => {
+        try {
+
+          await audio.play();
+
+        } catch (error) {
 
           console.error(
             "No se pudo reproducir el audio de Escena 2:",
@@ -166,28 +184,73 @@ const Escena2 = forwardRef(
           );
 
           setNarradorActivo(false);
-        });
+
+        }
+
+      };
+
+      reproducir();
 
     }, [
       audioActual,
-      adrianVisible,
-      narradorActivo
+      adrianVisible
     ]);
 
 
     /* =====================================================
-       INICIO AUTOMÁTICO DEL NARRADOR
+       CONTROL DEL ESTADO DEL NARRADOR
+
+       Cuando se activa:
+       → continúa el audio desde donde quedó.
+
+       Cuando se desactiva:
+       → pausa, pero NO reinicia.
     ===================================================== */
 
     useEffect(() => {
 
-      setNarradorActivo(true);
+      const audio = audioRef.current;
+
+      if (!audio) {
+        return;
+      }
+
+      if (narradorActivo) {
+
+        audio
+          .play()
+          .catch((error) => {
+
+            console.error(
+              "No se pudo reanudar la narración:",
+              error
+            );
+
+          });
+
+      } else {
+
+        audio.pause();
+
+      }
+
+    }, [narradorActivo]);
+
+
+    /* =====================================================
+       LIMPIAR AUDIO AL SALIR DE LA ESCENA
+    ===================================================== */
+
+    useEffect(() => {
 
       return () => {
 
         if (audioRef.current) {
+
           audioRef.current.pause();
+
           audioRef.current.currentTime = 0;
+
         }
 
       };
@@ -196,9 +259,7 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       CONTROL DEL NARRADOR
-
-       El botón superior utiliza esta función mediante ref.
+       CONTROL DEL BOTÓN NARRADOR
     ===================================================== */
 
     const toggleNarracion = () => {
@@ -220,7 +281,9 @@ const Escena2 = forwardRef(
         audio
           .play()
           .then(() => {
+
             setNarradorActivo(true);
+
           })
           .catch((error) => {
 
@@ -238,20 +301,33 @@ const Escena2 = forwardRef(
 
     /* =====================================================
        EXPONER LA FUNCIÓN AL PADRE
+
+       Esto permite que el botón superior de Narrador
+       controle la Escena 2.
     ===================================================== */
 
     useImperativeHandle(ref, () => ({
+
       toggleNarracion
+
     }));
 
 
     /* =====================================================
-       FIN DE CADA AUDIO
+       CUANDO TERMINA UN AUDIO
     ===================================================== */
 
     const manejarFinAudio = () => {
 
-      if (audioActual < audiosAdrian.length - 1) {
+      if (
+        audioActual <
+        audiosAdrian.length - 1
+      ) {
+
+        /*
+          Cambia inmediatamente al siguiente audio.
+          Esto también cambia automáticamente el subtítulo.
+        */
 
         setAudioActual(
           (anterior) => anterior + 1
@@ -259,10 +335,16 @@ const Escena2 = forwardRef(
 
       } else {
 
+        /*
+          Terminó toda la narración.
+        */
+
         setNarradorActivo(false);
 
         if (onNarracionTerminada) {
+
           onNarracionTerminada();
+
         }
 
       }
@@ -302,44 +384,58 @@ const Escena2 = forwardRef(
             preserveAspectRatio="none"
           >
 
+            {/* ÁRBOL 1 */}
+
             <image
               href="/Escenarios/arbol1.svg"
-              x="939"
-              y="79"
-              width="120"
-              height="278"
+              x="923"
+              y="62"
+              width="108"
+              height="292"
             />
+
+
+            {/* ÁRBOL 2 */}
 
             <image
               href="/Escenarios/arbol2.svg"
-              x="914"
-              y="105"
-              width="70"
-              height="250"
+              x="884"
+              y="94"
+              width="82"
+              height="265"
             />
+
+
+            {/* ARBUSTO 1 */}
 
             <image
               href="/Escenarios/arbusto1.svg"
-              x="890"
-              y="300"
-              width="150"
-              height="100"
+              x="850"
+              y="296"
+              width="174"
+              height="120"
             />
+
+
+            {/* ARBUSTO 2 */}
 
             <image
               href="/Escenarios/arbusto2.svg"
-              x="425"
-              y="323"
-              width="90"
-              height="85"
+              x="398"
+              y="322"
+              width="100"
+              height="92"
             />
+
+
+            {/* ARBUSTO 3 */}
 
             <image
               href="/Escenarios/arbusto3.svg"
-              x="223"
-              y="300"
-              width="110"
-              height="105"
+              x="180"
+              y="298"
+              width="120"
+              height="110"
             />
 
           </svg>
@@ -354,8 +450,11 @@ const Escena2 = forwardRef(
             <div className="escena-2-adrian-aparicion">
 
               {mostrarResplandor && (
+
                 <div className="escena-2-resplandor-adrian" />
+
               )}
+
 
               <div className="escena-2-adrian-hablando">
 
@@ -375,8 +474,8 @@ const Escena2 = forwardRef(
           {/* =================================================
              SUBTÍTULOS
 
-             Se muestran automáticamente porque
-             textoNarracionActivo empieza en true.
+             Se muestran automáticamente.
+             El botón general de subtítulos los puede ocultar.
           ================================================= */}
 
           {textoNarracionActivo && (
