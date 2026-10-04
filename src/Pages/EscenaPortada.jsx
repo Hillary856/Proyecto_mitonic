@@ -47,7 +47,7 @@ export const EscenaPortada = () => {
   const [
     narradorActivo,
     setNarradorActivo
-  ] = useState(false);
+  ] = useState(true);
 
 
   /*
@@ -70,7 +70,7 @@ export const EscenaPortada = () => {
   const [
     capitulosDesbloqueados,
     setCapitulosDesbloqueados
-  ] = useState([1,2,3]);
+  ] = useState([1, 2, 3]);
 
 
   /* =====================================================
@@ -641,11 +641,10 @@ export const EscenaPortada = () => {
         ================================================= */}
 
         <section
-          className={`comic-pantalla ${
-            escenaIniciada
+          className={`comic-pantalla ${escenaIniciada
               ? "escena-activa"
               : ""
-          }`}
+            }`}
         >
 
 
@@ -747,11 +746,10 @@ export const EscenaPortada = () => {
             {/* SUBTÍTULOS */}
 
             <button
-              className={`comic-control ${
-                textoNarracionActivo
+              className={`comic-control ${textoNarracionActivo
                   ? "activo"
                   : ""
-              }`}
+                }`}
               onClick={
                 alternarTextoNarracion
               }
@@ -874,9 +872,11 @@ export const EscenaPortada = () => {
               ================================================= */}
 
               {capituloActivo === 2 && (
-
-                <Escena2 />
-
+                <Escena2
+                  ref={escenaRef}
+                  textoNarracionActivo={textoNarracionActivo}
+                  onNarradorEstadoChange={actualizarEstadoNarrador}
+                />
               )}
 
 
@@ -949,23 +949,20 @@ export const EscenaPortada = () => {
                     className={`
                       comic-capitulo
 
-                      ${
-                        desbloqueado
-                          ? "disponible"
-                          : "bloqueado"
+                      ${desbloqueado
+                        ? "disponible"
+                        : "bloqueado"
                       }
 
-                      ${
-                        capituloActivo ===
+                      ${capituloActivo ===
                         numero
-                          ? "seleccionado"
-                          : ""
+                        ? "seleccionado"
+                        : ""
                       }
 
-                      ${
-                        animando
-                          ? "desbloqueando"
-                          : ""
+                      ${animando
+                        ? "desbloqueando"
+                        : ""
                       }
                     `}
 
@@ -1042,11 +1039,10 @@ export const EscenaPortada = () => {
           className={`
             comic-transicion-blanca
 
-            ${
-              transicionBlanca ===
+            ${transicionBlanca ===
               "entrando"
-                ? "entrando"
-                : "saliendo"
+              ? "entrando"
+              : "saliendo"
             }
           `}
         />

@@ -19,9 +19,15 @@ import Esc2Audio6 from "../../Audios/Esc2Audio6.mp3";
 import Esc2Audio7 from "../../Audios/Esc2Audio7.mp3";
 import Esc2Audio8 from "../../Audios/Esc2Audio8.mp3";
 
+import Es1Platon from "../../AssetsNuevos/Es1Platon.svg";
+import Es1Pergamino from "../../AssetsNuevos/Es1Pergamino.svg";
+import Es1copa from "../../AssetsNuevos/Es1copa.svg";
+import reloj from "../../AssetsNuevos/reloj.svg";
+
 import "./Escenas.css";
 
 const Lottie = lottieReact.default;
+
 
 const Escena2 = forwardRef(
   (
@@ -33,69 +39,164 @@ const Escena2 = forwardRef(
     ref
   ) => {
 
-    /* =====================================================
-       AUDIOS DE LA ESCENA 2
-    ===================================================== */
-
-    const audiosAdrian = [
-      Esc2Audio1,
-      Esc2Audio2,
-      Esc2Audio3,
-      Esc2Audio4,
-      Esc2Audio5,
-      Esc2Audio6,
-      Esc2Audio7,
-      Esc2Audio8
-    ];
-
 
     /* =====================================================
-       SUBTÍTULOS DE LA ESCENA 2
-
-       Cada posición corresponde directamente al audio
-       que está en la misma posición del arreglo.
+       AUDIOS ESCENA 2
     ===================================================== */
 
-    const subtitulosAdrian = [
-      "Estoy en Atenas... Pero este no es el lugar donde estaba hace un momento. Ese extraño objeto me ha traído hasta aquí. Estamos en una de las zonas donde se concentra gran parte de nuestra vida cultural e intelectual. Atenas es hogar de pensadores que cuestionan, enseñan y buscan comprender el mundo que nos rodea. Y si el reloj me ha traído hasta aquí, quizás haya una razón.",
-
-      "Reconozco este libro. Es La República, de Platón. Platón reflexiona aquí sobre la justicia, la educación y la manera en que debería organizarse una sociedad.",
-
-      "Sus ideas generan debates que siguen muy presentes entre quienes buscan comprender cómo debería funcionar nuestra ciudad.",
-
-      "Y este pergamino pertenece a Aristóteles. Él estudia prácticamente todo lo que despierta su curiosidad: la filosofía, la política, la naturaleza y la lógica.",
-
-      "Su objetivo es comprender cómo funciona el mundo, no simplemente aceptar las cosas como son.",
-
-      "Esta copa tiene una historia mucho más difícil. Está relacionada con Sócrates y con uno de los momentos más recordados de nuestra historia.",
-
-      "Después de ser condenado a muerte en Atenas, Sócrates bebe la cicuta y permanece fiel a sus principios hasta el final. Su historia nos recuerda que cuestionar lo que creemos saber también puede tener consecuencias.",
-
-      "Otra vez... Cada vez que este objeto se activa, me lleva a otro lugar. Pero ¿por qué me está mostrando estos momentos?",
-
-    ];
+    const audiosEscena2 = {
+      1: Esc2Audio1,
+      2: Esc2Audio2,
+      3: Esc2Audio3,
+      4: Esc2Audio4,
+      5: Esc2Audio5,
+      6: Esc2Audio6,
+      7: Esc2Audio7,
+      8: Esc2Audio8
+    };
 
 
     /* =====================================================
-       ESTADOS
+       SUBTÍTULOS
     ===================================================== */
 
-    const [adrianVisible, setAdrianVisible] = useState(false);
+    const subtitulosEscena2 = {
+
+      1:
+        "Estoy en Atenas... Pero este no es el lugar donde estaba hace un momento. Ese extraño objeto me ha traído hasta aquí. Estamos en una de las zonas donde se concentra gran parte de nuestra vida cultural e intelectual. Atenas es hogar de pensadores que cuestionan, enseñan y buscan comprender el mundo que nos rodea. Y si el reloj me ha traído hasta aquí, quizás haya una razón.",
+
+      2:
+        "Reconozco este libro. Es La República, de Platón. Platón reflexiona aquí sobre la justicia, la educación y la manera en que debería organizarse una sociedad.",
+
+      3:
+        "Sus ideas generan debates que siguen muy presentes entre quienes buscan comprender cómo debería funcionar nuestra ciudad.",
+
+      4:
+        "Y este pergamino pertenece a Aristóteles. Él estudia prácticamente todo lo que despierta su curiosidad: la filosofía, la política, la naturaleza y la lógica.",
+
+      5:
+        "Su objetivo es comprender cómo funciona el mundo, no simplemente aceptar las cosas como son.",
+
+      6:
+        "Esta copa tiene una historia mucho más difícil. Está relacionada con Sócrates y con uno de los momentos más recordados de nuestra historia.",
+
+      7:
+        "Después de ser condenado a muerte en Atenas, Sócrates bebe la cicuta y permanece fiel a sus principios hasta el final. Su historia nos recuerda que cuestionar lo que creemos saber también puede tener consecuencias.",
+
+      8:
+        "Otra vez... Cada vez que este objeto se activa, me lleva a otro lugar. Pero ¿por qué me está mostrando estos momentos?"
+
+    };
+
+
+    /* =====================================================
+       ESTADOS DE ADRIÁN
+    ===================================================== */
+
+    const [adrianVisible, setAdrianVisible] =
+      useState(false);
 
     const [mostrarResplandor, setMostrarResplandor] =
       useState(false);
 
-    const [audioActual, setAudioActual] = useState(0);
 
-    /*
-      El narrador comienza ACTIVADO.
-    */
+    /* =====================================================
+       AUDIO ACTUAL
+
+       1 = introducción
+       2 = introducción Platón
+       3 = audio Platón
+       4 = introducción Pergamino
+       5 = audio Pergamino
+       6 = introducción Copa
+       7 = audio Copa
+       8 = Reloj
+    ===================================================== */
+
+    const [audioActual, setAudioActual] =
+      useState(0);
+
+
+    /* =====================================================
+       TIPO DE AUDIO
+
+       principal = narración automática
+       objeto = audio del objeto
+       espera = esperando clic
+    ===================================================== */
+
+    const [tipoAudio, setTipoAudio] =
+      useState("espera");
+
+
+    /* =====================================================
+       NARRADOR
+    ===================================================== */
+
     const [narradorActivo, setNarradorActivo] =
       useState(true);
 
 
     /* =====================================================
-       REFERENCIA DEL AUDIO
+       OBJETO VISIBLE
+
+       SOLO UNO A LA VEZ.
+    ===================================================== */
+
+    const [objetoVisible, setObjetoVisible] =
+      useState(null);
+
+
+    /* =====================================================
+       OBJETO DESCUBIERTO
+    ===================================================== */
+
+    const [objetoDescubierto, setObjetoDescubierto] =
+      useState(null);
+
+
+    /* =====================================================
+       OBJETO QUE ESTÁ HACIENDO PULSO
+    ===================================================== */
+
+    const [objetoPulsando, setObjetoPulsando] =
+      useState(null);
+
+
+    /* =====================================================
+       MODAL
+    ===================================================== */
+
+    const [objetoActivo, setObjetoActivo] =
+      useState(null);
+
+
+    /* =====================================================
+       OBJETO CUYO AUDIO ESTÁ SONANDO
+    ===================================================== */
+
+    const [objetoEnAudio, setObjetoEnAudio] =
+      useState(null);
+
+
+    /* =====================================================
+       TEXTO ACTUAL
+    ===================================================== */
+
+    const [momentoTexto, setMomentoTexto] =
+      useState(null);
+
+
+    /* =====================================================
+       OBJETOS ENCONTRADOS
+    ===================================================== */
+
+    const [objetosDescubiertos, setObjetosDescubiertos] =
+      useState([]);
+
+
+    /* =====================================================
+       AUDIO
     ===================================================== */
 
     const audioRef = useRef(null);
@@ -103,8 +204,6 @@ const Escena2 = forwardRef(
 
     /* =====================================================
        ENTRADA DE ESCENA
-
-       Adrián aparece + resplandor solamente alrededor de él.
     ===================================================== */
 
     useEffect(() => {
@@ -113,15 +212,19 @@ const Escena2 = forwardRef(
 
       setMostrarResplandor(true);
 
-      const quitarResplandor = setTimeout(() => {
+      const quitarResplandor =
+        setTimeout(() => {
 
-        setMostrarResplandor(false);
+          setMostrarResplandor(false);
 
-      }, 900);
+        }, 900);
+
 
       return () => {
 
-        clearTimeout(quitarResplandor);
+        clearTimeout(
+          quitarResplandor
+        );
 
       };
 
@@ -129,14 +232,16 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       AVISAR AL PADRE EL ESTADO DEL NARRADOR
+       INFORMAR ESTADO DEL NARRADOR AL PADRE
     ===================================================== */
 
     useEffect(() => {
 
       if (onNarradorEstadoChange) {
 
-        onNarradorEstadoChange(narradorActivo);
+        onNarradorEstadoChange(
+          narradorActivo
+        );
 
       }
 
@@ -147,36 +252,49 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       REPRODUCIR AUDIO ACTUAL
-
-       IMPORTANTE:
-       Cuando cambia de audio, se reinicia desde 0.
-       Al pausar y reanudar NO se reinicia.
+       REPRODUCIR AUDIO
     ===================================================== */
 
-    useEffect(() => {
+    const reproducirAudio = (
+      audio,
+      numero,
+      tipo,
+      objeto = null,
+      momento = null
+    ) => {
 
-      const audio = audioRef.current;
+      const reproductor =
+        audioRef.current;
 
-      if (!audio || !adrianVisible) {
+
+      if (!reproductor) {
         return;
       }
 
-      audio.pause();
 
-      audio.currentTime = 0;
+      reproductor.pause();
 
-      if (!narradorActivo) {
-        return;
-      }
+      reproductor.src = audio;
 
-      const reproducir = async () => {
+      reproductor.load();
 
-        try {
+      reproductor.currentTime = 0;
 
-          await audio.play();
 
-        } catch (error) {
+      setAudioActual(numero);
+
+      setTipoAudio(tipo);
+
+      setObjetoEnAudio(objeto);
+
+      setMomentoTexto(momento);
+
+      setNarradorActivo(true);
+
+
+      reproductor
+        .play()
+        .catch((error) => {
 
           console.error(
             "No se pudo reproducir el audio de Escena 2:",
@@ -185,60 +303,36 @@ const Escena2 = forwardRef(
 
           setNarradorActivo(false);
 
-        }
+        });
 
-      };
-
-      reproducir();
-
-    }, [
-      audioActual,
-      adrianVisible
-    ]);
+    };
 
 
     /* =====================================================
-       CONTROL DEL ESTADO DEL NARRADOR
-
-       Cuando se activa:
-       → continúa el audio desde donde quedó.
-
-       Cuando se desactiva:
-       → pausa, pero NO reinicia.
+       INICIAR AUDIO 1
     ===================================================== */
 
     useEffect(() => {
 
-      const audio = audioRef.current;
-
-      if (!audio) {
+      if (!adrianVisible) {
         return;
       }
 
-      if (narradorActivo) {
 
-        audio
-          .play()
-          .catch((error) => {
+      reproducirAudio(
+        audiosEscena2[1],
+        1,
+        "principal",
+        null,
+        1
+      );
 
-            console.error(
-              "No se pudo reanudar la narración:",
-              error
-            );
 
-          });
-
-      } else {
-
-        audio.pause();
-
-      }
-
-    }, [narradorActivo]);
+    }, [adrianVisible]);
 
 
     /* =====================================================
-       LIMPIAR AUDIO AL SALIR DE LA ESCENA
+       LIMPIEZA
     ===================================================== */
 
     useEffect(() => {
@@ -259,87 +353,265 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       CONTROL DEL BOTÓN NARRADOR
+       REGISTRAR OBJETO ENCONTRADO
     ===================================================== */
 
-    const toggleNarracion = () => {
+    const registrarObjetoEncontrado = (
+      objeto
+    ) => {
 
-      const audio = audioRef.current;
+      setObjetosDescubiertos(
+        (anteriores) => {
 
-      if (!audio) {
-        return;
-      }
+          if (
+            anteriores.includes(objeto)
+          ) {
 
-      if (narradorActivo) {
+            return anteriores;
 
-        audio.pause();
+          }
 
-        setNarradorActivo(false);
+          return [
+            ...anteriores,
+            objeto
+          ];
 
-      } else {
-
-        audio
-          .play()
-          .then(() => {
-
-            setNarradorActivo(true);
-
-          })
-          .catch((error) => {
-
-            console.error(
-              "No se pudo reanudar la narración:",
-              error
-            );
-
-          });
-
-      }
+        }
+      );
 
     };
 
 
     /* =====================================================
-       EXPONER LA FUNCIÓN AL PADRE
-
-       Esto permite que el botón superior de Narrador
-       controle la Escena 2.
-    ===================================================== */
-
-    useImperativeHandle(ref, () => ({
-
-      toggleNarracion
-
-    }));
-
-
-    /* =====================================================
-       CUANDO TERMINA UN AUDIO
+       FIN DE AUDIO
     ===================================================== */
 
     const manejarFinAudio = () => {
 
+
+      /* ===================================================
+         AUDIO 1
+         → AUDIO 2
+         → APARECE PLATÓN
+      =================================================== */
+
       if (
-        audioActual <
-        audiosAdrian.length - 1
+        tipoAudio === "principal" &&
+        audioActual === 1
       ) {
 
         /*
-          Cambia inmediatamente al siguiente audio.
-          Esto también cambia automáticamente el subtítulo.
+          Platón aparece justo cuando comienza
+          el Audio 2.
         */
 
-        setAudioActual(
-          (anterior) => anterior + 1
+        setObjetoVisible("platon");
+
+        setObjetoPulsando(null);
+
+        reproducirAudio(
+          audiosEscena2[2],
+          2,
+          "principal",
+          null,
+          2
         );
 
-      } else {
+        return;
 
-        /*
-          Terminó toda la narración.
-        */
+      }
+
+
+      /* ===================================================
+         AUDIO 2
+         → PLATÓN QUEDA ESPERANDO CLIC
+      =================================================== */
+
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 2
+      ) {
+
+        setMomentoTexto(null);
+
+        setTipoAudio("espera");
 
         setNarradorActivo(false);
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 3 - PLATÓN
+         → DESAPARECE PLATÓN
+         → APARECE PERGAMINO
+         → AUDIO 4
+      =================================================== */
+
+      if (
+        tipoAudio === "objeto" &&
+        objetoEnAudio === "platon"
+      ) {
+
+        setObjetoActivo(null);
+
+        setObjetoEnAudio(null);
+
+        setObjetoDescubierto(null);
+
+        setObjetoPulsando(null);
+
+        setObjetoVisible(
+          "pergamino"
+        );
+
+
+        reproducirAudio(
+          audiosEscena2[4],
+          4,
+          "principal",
+          null,
+          4
+        );
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 4
+         → PERGAMINO QUEDA ESPERANDO CLIC
+      =================================================== */
+
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 4
+      ) {
+
+        setMomentoTexto(null);
+
+        setTipoAudio("espera");
+
+        setNarradorActivo(false);
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 5 - PERGAMINO
+         → DESAPARECE PERGAMINO
+         → APARECE COPA
+         → AUDIO 6
+      =================================================== */
+
+      if (
+        tipoAudio === "objeto" &&
+        objetoEnAudio === "pergamino"
+      ) {
+
+        setObjetoActivo(null);
+
+        setObjetoEnAudio(null);
+
+        setObjetoDescubierto(null);
+
+        setObjetoPulsando(null);
+
+        setObjetoVisible(
+          "copa"
+        );
+
+
+        reproducirAudio(
+          audiosEscena2[6],
+          6,
+          "principal",
+          null,
+          6
+        );
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 6
+         → COPA QUEDA ESPERANDO CLIC
+      =================================================== */
+
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 6
+      ) {
+
+        setMomentoTexto(null);
+
+        setTipoAudio("espera");
+
+        setNarradorActivo(false);
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 7 - COPA
+         → DESAPARECE COPA
+         → APARECE RELOJ
+         → AUDIO 8
+      =================================================== */
+
+      if (
+        tipoAudio === "objeto" &&
+        objetoEnAudio === "copa"
+      ) {
+
+        setObjetoActivo(null);
+
+        setObjetoEnAudio(null);
+
+        setObjetoDescubierto(null);
+
+        setObjetoPulsando(null);
+
+        setObjetoVisible(
+          "reloj"
+        );
+
+
+        reproducirAudio(
+          audiosEscena2[8],
+          8,
+          "principal",
+          null,
+          8
+        );
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 8
+         → FINAL
+      =================================================== */
+
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 8
+      ) {
+
+        setNarradorActivo(false);
+
+        setTipoAudio("espera");
 
         if (onNarracionTerminada) {
 
@@ -350,6 +622,240 @@ const Escena2 = forwardRef(
       }
 
     };
+
+
+    /* =====================================================
+       CLICK EN LOS OBJETOS
+    ===================================================== */
+
+    const reproducirObjeto = (
+      objeto
+    ) => {
+
+      let audio = null;
+
+      let numeroAudio = null;
+
+      let momento = null;
+
+
+      /* ===================================================
+         PLATÓN
+         → AUDIO 3
+      =================================================== */
+
+      if (
+        objeto === "platon"
+      ) {
+
+        audio =
+          audiosEscena2[3];
+
+        numeroAudio = 3;
+
+        momento = 3;
+
+      }
+
+
+      /* ===================================================
+         PERGAMINO
+         → AUDIO 5
+      =================================================== */
+
+      if (
+        objeto === "pergamino"
+      ) {
+
+        audio =
+          audiosEscena2[5];
+
+        numeroAudio = 5;
+
+        momento = 5;
+
+      }
+
+
+      /* ===================================================
+         COPA
+         → AUDIO 7
+      =================================================== */
+
+      if (
+        objeto === "copa"
+      ) {
+
+        audio =
+          audiosEscena2[7];
+
+        numeroAudio = 7;
+
+        momento = 7;
+
+      }
+
+
+      if (!audio) {
+        return;
+      }
+
+
+      /* ===================================================
+         DESCUBRIR OBJETO
+      =================================================== */
+
+      setObjetoDescubierto(
+        objeto
+      );
+
+      registrarObjetoEncontrado(
+        objeto
+      );
+
+
+      /*
+        Al abrir nuevamente el modal,
+        detenemos momentáneamente el pulso.
+      */
+
+      setObjetoPulsando(null);
+
+
+      /* ===================================================
+         ABRIR MODAL
+      =================================================== */
+
+      setObjetoActivo(
+        objeto
+      );
+
+
+      /* ===================================================
+         REPRODUCIR AUDIO
+      =================================================== */
+
+      reproducirAudio(
+        audio,
+        numeroAudio,
+        "objeto",
+        objeto,
+        momento
+      );
+
+    };
+
+
+    /* =====================================================
+       CERRAR MODAL
+    ===================================================== */
+
+    const cerrarModal = () => {
+
+      setObjetoActivo(null);
+
+
+      /*
+        Cuando cerramos el modal,
+        el objeto comienza a palpitar.
+      */
+
+      if (objetoVisible) {
+
+        setObjetoPulsando(
+          objetoVisible
+        );
+
+      }
+
+    };
+
+
+    /* =====================================================
+       BOTÓN NARRADOR
+    ===================================================== */
+
+    const toggleNarracion = () => {
+
+      const audio =
+        audioRef.current;
+
+
+      if (!audio) {
+        return;
+      }
+
+
+      /*
+        Si estamos esperando un clic
+        en un objeto, el narrador no inicia
+        ningún audio nuevo.
+      */
+
+      if (
+        tipoAudio === "espera"
+      ) {
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         PAUSAR
+      =================================================== */
+
+      if (
+        !audio.paused
+      ) {
+
+        audio.pause();
+
+        setNarradorActivo(
+          false
+        );
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         REANUDAR
+      =================================================== */
+
+      audio
+        .play()
+        .then(() => {
+
+          setNarradorActivo(
+            true
+          );
+
+        })
+        .catch((error) => {
+
+          console.error(
+            "No se pudo reanudar la narración:",
+            error
+          );
+
+        });
+
+    };
+
+
+    /* =====================================================
+       EXPONER AL PADRE
+    ===================================================== */
+
+    useImperativeHandle(
+      ref,
+      () => ({
+        toggleNarracion
+      }),
+      [tipoAudio]
+    );
 
 
     /* =====================================================
@@ -384,8 +890,6 @@ const Escena2 = forwardRef(
             preserveAspectRatio="none"
           >
 
-            {/* ÁRBOL 1 */}
-
             <image
               href="/Escenarios/arbol1.svg"
               x="923"
@@ -393,9 +897,6 @@ const Escena2 = forwardRef(
               width="108"
               height="292"
             />
-
-
-            {/* ÁRBOL 2 */}
 
             <image
               href="/Escenarios/arbol2.svg"
@@ -405,9 +906,6 @@ const Escena2 = forwardRef(
               height="265"
             />
 
-
-            {/* ARBUSTO 1 */}
-
             <image
               href="/Escenarios/arbusto1.svg"
               x="850"
@@ -416,9 +914,6 @@ const Escena2 = forwardRef(
               height="120"
             />
 
-
-            {/* ARBUSTO 2 */}
-
             <image
               href="/Escenarios/arbusto2.svg"
               x="398"
@@ -426,9 +921,6 @@ const Escena2 = forwardRef(
               width="100"
               height="92"
             />
-
-
-            {/* ARBUSTO 3 */}
 
             <image
               href="/Escenarios/arbusto3.svg"
@@ -451,10 +943,13 @@ const Escena2 = forwardRef(
 
               {mostrarResplandor && (
 
-                <div className="escena-2-resplandor-adrian" />
+                <div
+                  className="
+                    escena-2-resplandor-adrian
+                  "
+                />
 
               )}
-
 
               <div className="escena-2-adrian-hablando">
 
@@ -473,16 +968,161 @@ const Escena2 = forwardRef(
 
           {/* =================================================
              SUBTÍTULOS
-
-             Se muestran automáticamente.
-             El botón general de subtítulos los puede ocultar.
           ================================================= */}
 
-          {textoNarracionActivo && (
+          {textoNarracionActivo &&
+            momentoTexto !== null &&
+            subtitulosEscena2[momentoTexto] && (
 
-            <div className="escena-2-subtitulos">
+              <div
+                className="escena-2-subtitulos"
+                key={momentoTexto}
+              >
 
-              {subtitulosAdrian[audioActual]}
+                {subtitulosEscena2[momentoTexto]}
+
+              </div>
+
+            )}
+
+
+          {/* =================================================
+             PLATÓN
+          ================================================= */}
+
+          {objetoVisible === "platon" && (
+
+            <button
+              className={`
+                escena-2-platon-boton
+
+                ${
+                  objetoDescubierto === "platon"
+                    ? "descubierto"
+                    : ""
+                }
+
+                ${
+                  objetoPulsando === "platon"
+                    ? "pulsando"
+                    : ""
+                }
+              `}
+              onClick={() =>
+                reproducirObjeto(
+                  "platon"
+                )
+              }
+              aria-label="Explorar Platón"
+            >
+
+              <img
+                src={Es1Platon}
+                alt="Platón"
+                className="escena-2-platon"
+              />
+
+            </button>
+
+          )}
+
+
+          {/* =================================================
+             PERGAMINO
+          ================================================= */}
+
+          {objetoVisible === "pergamino" && (
+
+            <button
+              className={`
+                escena-2-pergamino-boton
+
+                ${
+                  objetoDescubierto === "pergamino"
+                    ? "descubierto"
+                    : ""
+                }
+
+                ${
+                  objetoPulsando === "pergamino"
+                    ? "pulsando"
+                    : ""
+                }
+              `}
+              onClick={() =>
+                reproducirObjeto(
+                  "pergamino"
+                )
+              }
+              aria-label="Explorar pergamino"
+            >
+
+              <img
+                src={Es1Pergamino}
+                alt="Pergamino"
+                className="escena-2-pergamino"
+              />
+
+            </button>
+
+          )}
+
+
+          {/* =================================================
+             COPA
+          ================================================= */}
+
+          {objetoVisible === "copa" && (
+
+            <button
+              className={`
+                escena-2-copa-boton
+
+                ${
+                  objetoDescubierto === "copa"
+                    ? "descubierto"
+                    : ""
+                }
+
+                ${
+                  objetoPulsando === "copa"
+                    ? "pulsando"
+                    : ""
+                }
+              `}
+              onClick={() =>
+                reproducirObjeto(
+                  "copa"
+                )
+              }
+              aria-label="Explorar copa"
+            >
+
+              <img
+                src={Es1copa}
+                alt="Copa"
+                className="escena-2-copa"
+              />
+
+            </button>
+
+          )}
+
+
+          {/* =================================================
+             RELOJ
+
+             POR AHORA SOLO APARECE.
+          ================================================= */}
+
+          {objetoVisible === "reloj" && (
+
+            <div className="escena-2-reloj">
+
+              <img
+                src={reloj}
+                alt="Reloj"
+              />
 
             </div>
 
@@ -490,12 +1130,131 @@ const Escena2 = forwardRef(
 
 
           {/* =================================================
-             AUDIO
+             MODAL
           ================================================= */}
+
+          {objetoActivo && (
+
+            <div
+              className="escena-2-modal-fondo"
+              onClick={cerrarModal}
+            >
+
+              <div
+                className="escena-2-modal"
+                onClick={(evento) =>
+                  evento.stopPropagation()
+                }
+              >
+
+                <div
+                  className="escena-2-modal-imagen"
+                >
+
+                  {objetoActivo === "platon" && (
+
+                    <img
+                      src={Es1Platon}
+                      alt="Platón"
+                    />
+
+                  )}
+
+                  {objetoActivo === "pergamino" && (
+
+                    <img
+                      src={Es1Pergamino}
+                      alt="Pergamino"
+                    />
+
+                  )}
+
+                  {objetoActivo === "copa" && (
+
+                    <img
+                      src={Es1copa}
+                      alt="Copa"
+                    />
+
+                  )}
+
+                </div>
+
+                <div
+                  className="escena-2-modal-info"
+                >
+
+
+                  {objetoActivo === "platon" && (
+
+                    <>
+
+                      <h2>
+                        PLATÓN
+                      </h2>
+
+                      <p>
+                       Platón reflexiona aquí sobre la justicia, la educación y la manera en que debería organizarse una sociedad. Sus ideas generan debates que siguen muy presentes entre quienes buscan comprender cómo debería funcionar nuestra ciudad.
+                      </p>
+
+                    </>
+
+                  )}
+
+
+                  {objetoActivo === "pergamino" && (
+
+                    <>
+
+                      <h2>
+                        PERGAMINO
+                      </h2>
+
+                      <p>
+                       Él estudia prácticamente todo lo que despierta su curiosidad: la filosofía, la política, la naturaleza y la lógica. Su objetivo es comprender cómo funciona el mundo, no simplemente aceptar las cosas como son.
+                      </p>
+
+                    </>
+
+                  )}
+
+
+                  {objetoActivo === "copa" && (
+
+                    <>
+
+                      <h2>
+                        COPA
+                      </h2>
+
+                      <p>
+                       Después de ser condenado a muerte en Atenas, Sócrates bebe la cicuta y permanece fiel a sus principios hasta el final. Su historia nos recuerda que cuestionar lo que creemos saber también puede tener consecuencias.
+                      </p>
+
+                    </>
+
+                  )}
+
+                </div>
+
+
+                <button
+                  className="escena-2-modal-cerrar"
+                  onClick={cerrarModal}
+                  aria-label="Cerrar información"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            </div>
+
+          )}
+
 
           <audio
             ref={audioRef}
-            src={audiosAdrian[audioActual]}
             onEnded={manejarFinAudio}
             preload="auto"
           />
@@ -508,6 +1267,7 @@ const Escena2 = forwardRef(
 
   }
 );
+
 
 Escena2.displayName = "Escena2";
 
