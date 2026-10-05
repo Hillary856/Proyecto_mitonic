@@ -8,6 +8,7 @@ import {
 import Escena1 from "./Comicc.jsx/Escena1";
 import Escena2 from "./Comicc.jsx/Escena2";
 import Escena3 from "./Comicc.jsx/Escena3";
+import Escena4 from "./Comicc.jsx/Escena4";
 
 import {
   FaVolumeUp,
@@ -70,7 +71,7 @@ export const EscenaPortada = () => {
   const [
     capitulosDesbloqueados,
     setCapitulosDesbloqueados
-  ] = useState([1, 2, 3]);
+  ] = useState([1]);
 
 
   /* =====================================================
@@ -536,7 +537,80 @@ export const EscenaPortada = () => {
     }, [
       transicionBlanca
     ]);
+  const pasarACapitulo4 =
+    useCallback(() => {
 
+      if (
+        transicionBlanca
+      ) {
+        return;
+      }
+
+
+      /* ===================================================
+         DETENER NARRADOR Y SUBTÍTULOS
+      =================================================== */
+
+      setNarradorActivo(
+        false
+      );
+
+      setTextoNarracionActivo(
+        false
+      );
+
+      setMensajeDesbloqueo(
+        null
+      );
+
+
+      /* ===================================================
+         INICIAR FUNDIDO BLANCO
+      =================================================== */
+
+      setTransicionBlanca(
+        "entrando"
+      );
+
+
+      /* ===================================================
+         CAMBIAR AL CAPÍTULO 4
+      =================================================== */
+
+      transicionTimerRef.current =
+        setTimeout(() => {
+
+          setCapituloActivo(
+            4
+          );
+
+          setEscenaIniciada(
+            true
+          );
+
+          setTextoNarracionActivo(
+            true
+          );
+
+          setTransicionBlanca(
+            "saliendo"
+          );
+
+
+          ocultarTransicionTimerRef.current =
+            setTimeout(() => {
+
+              setTransicionBlanca(
+                null
+              );
+
+            }, 900);
+
+        }, 1250);
+
+    }, [
+      transicionBlanca
+    ]);
   /* =====================================================
      MÚSICA
   ===================================================== */
@@ -966,13 +1040,27 @@ export const EscenaPortada = () => {
               {capituloActivo === 3 && (
                 <Escena3
                   ref={escenaRef}
-                  textoNarracionActivo={textoNarracionActivo}
-                  onNarradorEstadoChange={actualizarEstadoNarrador}
+
+                  textoNarracionActivo={
+                    textoNarracionActivo
+                  }
+
+                  onNarradorEstadoChange={
+                    actualizarEstadoNarrador
+                  }
+
+                  onEscenaTerminada={
+                    pasarACapitulo4
+                  }
                 />
               )}
 
             </div>
 
+          )}
+
+          {capituloActivo === 4 && (
+            <Escena4 />
           )}
 
         </section>

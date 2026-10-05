@@ -15,7 +15,7 @@ import Esc3Audio2 from "../../Audios/Esc3Audio2.mp3";
 import Esc3Audio3 from "../../Audios/Esc3Audio3.mp3";
 import Esc3Audio4 from "../../Audios/Esc3Audio4.mp3";
 import Esc3Audio5 from "../../Audios/Esc3Audio5.mp3";
-import Esc3Audio6 from "../../Audios/Esc3Audio6.mp3";
+/* import Esc3Audio6 from "../../Audios/Esc3Audio6.mp3"; */
 
 import Es3Campana from "../../AssetsNuevos/Es3Campana.svg";
 import Es3corona from "../../AssetsNuevos/Es3corona.svg";
@@ -31,11 +31,11 @@ const Escena3 = forwardRef(
     {
       textoNarracionActivo = true,
       onNarradorEstadoChange,
-      onNarracionTerminada
+      onNarracionTerminada,
+      onEscenaTerminada
     },
     ref
   ) => {
-
 
     /* =====================================================
        AUDIOS
@@ -46,8 +46,8 @@ const Escena3 = forwardRef(
       2: Esc3Audio2,
       3: Esc3Audio3,
       4: Esc3Audio4,
-      5: Esc3Audio5,
-      6: Esc3Audio6
+      5: Esc3Audio5
+      /* 6: Esc3Audio6 */
     };
 
 
@@ -70,10 +70,12 @@ const Escena3 = forwardRef(
         "Era obligatoria para todos los comerciantes y debían pesar sus productos frente al cliente, ya fueran sacos de trigo, olivas o polvo de oro.",
 
       5:
-        "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios.",
+        "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios."
 
+      /*
       6:
         "¡Ya está sucediendo otra vez! Cada vez que se activa me transporta a otro momento... ¿Qué está buscando?"
+      */
 
     };
 
@@ -95,12 +97,6 @@ const Escena3 = forwardRef(
 
     const [audioActual, setAudioActual] =
       useState(0);
-
-    /*
-      principal = narración automática
-      objeto = audio activado por clic
-      espera = esperando clic
-    */
 
     const [tipoAudio, setTipoAudio] =
       useState("espera");
@@ -138,7 +134,7 @@ const Escena3 = forwardRef(
 
 
     /* =====================================================
-       SUBTÍTULO ACTUAL
+       SUBTÍTULO
     ===================================================== */
 
     const [momentoTexto, setMomentoTexto] =
@@ -146,7 +142,15 @@ const Escena3 = forwardRef(
 
 
     /* =====================================================
-       REFERENCIA DEL AUDIO
+       BOTÓN CONTINUAR
+    ===================================================== */
+
+    const [mostrarContinuar, setMostrarContinuar] =
+      useState(false);
+
+
+    /* =====================================================
+       AUDIO
     ===================================================== */
 
     const audioRef =
@@ -169,7 +173,6 @@ const Escena3 = forwardRef(
           setMostrarResplandor(false);
 
         }, 900);
-
 
       return () => {
 
@@ -217,52 +220,27 @@ const Escena3 = forwardRef(
       const reproductor =
         audioRef.current;
 
-
       if (!reproductor) {
         return;
       }
 
-
-      /* Detener audio anterior */
-
       reproductor.pause();
 
-
-      /* Cargar nuevo audio */
-
-      reproductor.src =
-        audio;
+      reproductor.src = audio;
 
       reproductor.load();
 
-      reproductor.currentTime =
-        0;
+      reproductor.currentTime = 0;
 
+      setAudioActual(numero);
 
-      /* Actualizar estados */
+      setTipoAudio(tipo);
 
-      setAudioActual(
-        numero
-      );
+      setObjetoEnAudio(objeto);
 
-      setTipoAudio(
-        tipo
-      );
+      setMomentoTexto(momento);
 
-      setObjetoEnAudio(
-        objeto
-      );
-
-      setMomentoTexto(
-        momento
-      );
-
-      setNarradorActivo(
-        true
-      );
-
-
-      /* Reproducir */
+      setNarradorActivo(true);
 
       reproductor
         .play()
@@ -273,9 +251,7 @@ const Escena3 = forwardRef(
             error
           );
 
-          setNarradorActivo(
-            false
-          );
+          setNarradorActivo(false);
 
         });
 
@@ -283,7 +259,7 @@ const Escena3 = forwardRef(
 
 
     /* =====================================================
-       INICIAR AUDIO 1
+       AUDIO 1
     ===================================================== */
 
     useEffect(() => {
@@ -292,7 +268,6 @@ const Escena3 = forwardRef(
         return;
       }
 
-
       reproducirAudio(
         audiosEscena3[1],
         1,
@@ -300,7 +275,6 @@ const Escena3 = forwardRef(
         null,
         1
       );
-
 
     }, [adrianVisible]);
 
@@ -317,8 +291,7 @@ const Escena3 = forwardRef(
 
           audioRef.current.pause();
 
-          audioRef.current.currentTime =
-            0;
+          audioRef.current.currentTime = 0;
 
         }
 
@@ -345,7 +318,6 @@ const Escena3 = forwardRef(
 
       }
 
-
       setObjetosDescubiertos(
         (anteriores) => [
 
@@ -367,8 +339,7 @@ const Escena3 = forwardRef(
 
       /* ===================================================
          AUDIO 1
-         → APARECE CORONA
-         → ESPERAR CLIC
+         → CORONA
       =================================================== */
 
       if (
@@ -407,8 +378,7 @@ const Escena3 = forwardRef(
 
       /* ===================================================
          AUDIO 2 - CORONA
-         → AUDIO 3 AUTOMÁTICO
-         → SIN ASSET
+         → AUDIO 3
       =================================================== */
 
       if (
@@ -436,6 +406,9 @@ const Escena3 = forwardRef(
           null
         );
 
+        setMomentoTexto(
+          null
+        );
 
         reproducirAudio(
           audiosEscena3[3],
@@ -452,8 +425,7 @@ const Escena3 = forwardRef(
 
       /* ===================================================
          AUDIO 3
-         → APARECE CAMPANA
-         → ESPERAR CLIC
+         → CAMPANA
       =================================================== */
 
       if (
@@ -492,9 +464,7 @@ const Escena3 = forwardRef(
 
       /* ===================================================
          AUDIO 4 - CAMPANA
-         → DESAPARECE CAMPANA
-         → APARECE RACIMO
-         → ESPERAR CLIC
+         → RACIMO
       =================================================== */
 
       if (
@@ -541,8 +511,7 @@ const Escena3 = forwardRef(
 
       /* ===================================================
          AUDIO 5 - RACIMO
-         → DESAPARECE RACIMO
-         → AUDIO 6
+         → BOTÓN CAPÍTULO 4
       =================================================== */
 
       if (
@@ -570,46 +539,19 @@ const Escena3 = forwardRef(
           null
         );
 
-
-        reproducirAudio(
-          audiosEscena3[6],
-          6,
-          "principal",
-          null,
-          6
+        setMomentoTexto(
+          null
         );
-
-        return;
-
-      }
-
-
-      /* ===================================================
-         AUDIO 6
-         → FINAL / TELETRANSPORTE
-      =================================================== */
-
-      if (
-        tipoAudio === "principal" &&
-        audioActual === 6
-      ) {
 
         setNarradorActivo(
           false
         );
 
-        setTipoAudio(
-          "espera"
+        setMostrarContinuar(
+          true
         );
 
-
-        if (
-          onNarracionTerminada
-        ) {
-
-          onNarracionTerminada();
-
-        }
+        return;
 
       }
 
@@ -617,7 +559,7 @@ const Escena3 = forwardRef(
 
 
     /* =====================================================
-       CLICK EN LOS OBJETOS
+       CLICK EN OBJETOS
     ===================================================== */
 
     const reproducirObjeto = (
@@ -632,8 +574,7 @@ const Escena3 = forwardRef(
 
 
       /* ===================================================
-         CORONA
-         → AUDIO 2
+         CORONA → AUDIO 2
       =================================================== */
 
       if (
@@ -643,18 +584,15 @@ const Escena3 = forwardRef(
         audio =
           audiosEscena3[2];
 
-        numeroAudio =
-          2;
+        numeroAudio = 2;
 
-        momento =
-          2;
+        momento = 2;
 
       }
 
 
       /* ===================================================
-         CAMPANA
-         → AUDIO 4
+         CAMPANA → AUDIO 4
       =================================================== */
 
       if (
@@ -664,18 +602,15 @@ const Escena3 = forwardRef(
         audio =
           audiosEscena3[4];
 
-        numeroAudio =
-          4;
+        numeroAudio = 4;
 
-        momento =
-          4;
+        momento = 4;
 
       }
 
 
       /* ===================================================
-         RACIMO
-         → AUDIO 5
+         RACIMO → AUDIO 5
       =================================================== */
 
       if (
@@ -685,11 +620,9 @@ const Escena3 = forwardRef(
         audio =
           audiosEscena3[5];
 
-        numeroAudio =
-          5;
+        numeroAudio = 5;
 
-        momento =
-          5;
+        momento = 5;
 
       }
 
@@ -699,10 +632,6 @@ const Escena3 = forwardRef(
       }
 
 
-      /* ===================================================
-         MARCAR COMO DESCUBIERTO
-      =================================================== */
-
       setObjetoDescubierto(
         objeto
       );
@@ -711,28 +640,13 @@ const Escena3 = forwardRef(
         objeto
       );
 
-
-      /* ===================================================
-         DETENER PULSO
-      =================================================== */
-
       setObjetoPulsando(
         null
       );
 
-
-      /* ===================================================
-         ABRIR MODAL
-      =================================================== */
-
       setObjetoActivo(
         objeto
       );
-
-
-      /* ===================================================
-         REPRODUCIR AUDIO
-      =================================================== */
 
       reproducirAudio(
         audio,
@@ -755,12 +669,6 @@ const Escena3 = forwardRef(
         null
       );
 
-
-      /*
-        Después de cerrar el modal,
-        el asset empieza a palpitar.
-      */
-
       if (
         objetoVisible
       ) {
@@ -775,7 +683,28 @@ const Escena3 = forwardRef(
 
 
     /* =====================================================
-       BOTÓN DEL NARRADOR
+       CONTINUAR AL CAPÍTULO 4
+    ===================================================== */
+
+    const continuarCapitulo4 = () => {
+
+      setMostrarContinuar(
+        false
+      );
+
+      if (
+        onEscenaTerminada
+      ) {
+
+        onEscenaTerminada();
+
+      }
+
+    };
+
+
+    /* =====================================================
+       BOTÓN NARRADOR
     ===================================================== */
 
     const toggleNarracion = () => {
@@ -783,17 +712,9 @@ const Escena3 = forwardRef(
       const audio =
         audioRef.current;
 
-
       if (!audio) {
         return;
       }
-
-
-      /*
-        Cuando estamos esperando
-        un clic sobre un objeto,
-        no inicia ningún audio nuevo.
-      */
 
       if (
         tipoAudio === "espera"
@@ -802,11 +723,6 @@ const Escena3 = forwardRef(
         return;
 
       }
-
-
-      /* ===================================================
-         PAUSAR
-      =================================================== */
 
       if (
         !audio.paused
@@ -821,11 +737,6 @@ const Escena3 = forwardRef(
         return;
 
       }
-
-
-      /* ===================================================
-         REANUDAR
-      =================================================== */
 
       audio
         .play()
@@ -904,7 +815,6 @@ const Escena3 = forwardRef(
                 />
 
               )}
-
 
               <div
                 className="
@@ -1087,6 +997,46 @@ const Escena3 = forwardRef(
 
 
           {/* =================================================
+             BOTÓN CONTINUAR
+          ================================================= */}
+
+          {mostrarContinuar && (
+
+            <div
+              className="
+                escena-1-continuar-contenedor
+              "
+            >
+
+              <div
+                className="
+                  escena-1-continuar-texto
+                "
+              >
+
+                <span>
+                  CONTINUAR AL CAPÍTULO 4
+                </span>
+
+                <button
+                  className="
+                    escena-1-continuar-boton
+                  "
+                  onClick={
+                    continuarCapitulo4
+                  }
+                >
+                  CONTINUAR →
+                </button>
+
+              </div>
+
+            </div>
+
+          )}
+
+
+          {/* =================================================
              MODAL
           ================================================= */}
 
@@ -1110,11 +1060,6 @@ const Escena3 = forwardRef(
                 }
               >
 
-
-                {/* =========================================
-                   IMAGEN
-                ========================================= */}
-
                 <div
                   className="
                     escena-3-modal-imagen
@@ -1130,7 +1075,6 @@ const Escena3 = forwardRef(
 
                   )}
 
-
                   {objetoActivo === "campana" && (
 
                     <img
@@ -1139,7 +1083,6 @@ const Escena3 = forwardRef(
                     />
 
                   )}
-
 
                   {objetoActivo === "racimo" && (
 
@@ -1153,16 +1096,11 @@ const Escena3 = forwardRef(
                 </div>
 
 
-                {/* =========================================
-                   INFORMACIÓN
-                ========================================= */}
-
                 <div
                   className="
                     escena-3-modal-info
                   "
                 >
-
 
                   {objetoActivo === "corona" && (
 
@@ -1173,7 +1111,15 @@ const Escena3 = forwardRef(
                       </h2>
 
                       <p>
-                        Llevarla puesta durante las reuniones daba una protección especial, por lo que nadie podía atacar ni callar a esa persona mientras daba su discurso. También se usaba como premio para los ganadores de los concursos de poesía y talento que se hacían en la plaza.
+                        Llevarla puesta durante las
+                        reuniones daba una protección
+                        especial, por lo que nadie podía
+                        atacar ni callar a esa persona
+                        mientras daba su discurso.
+                        También se usaba como premio
+                        para los ganadores de los
+                        concursos de poesía y talento
+                        que se hacían en la plaza.
                       </p>
 
                     </>
@@ -1190,7 +1136,14 @@ const Escena3 = forwardRef(
                       </h2>
 
                       <p>
-                       La balanza de bronce del Ágora, revisada por el inspector oficial llamado Metronomos con pesas de piedra selladas con la lechuza de Atenas, era obligatoria para todos los comerciantes y debían pesar sus productos frente al cliente.
+                        La balanza de bronce del Ágora,
+                        revisada por el inspector
+                        oficial llamado Metronomos con
+                        pesas de piedra selladas con la
+                        lechuza de Atenas, era obligatoria
+                        para todos los comerciantes y
+                        debían pesar sus productos frente
+                        al cliente.
                       </p>
 
                     </>
@@ -1207,7 +1160,13 @@ const Escena3 = forwardRef(
                       </h2>
 
                       <p>
-                        En una plaza donde todo se negociaba y se debatía, vender uvas frescas o pasas significaba mover el comercio diario y alimentar a los ciudadanos que pasaban horas arreglando la política de la ciudad.
+                        En una plaza donde todo se
+                        negociaba y se debatía, vender
+                        uvas frescas o pasas significaba
+                        mover el comercio diario y
+                        alimentar a los ciudadanos que
+                        pasaban horas arreglando la
+                        política de la ciudad.
                       </p>
 
                     </>
@@ -1216,10 +1175,6 @@ const Escena3 = forwardRef(
 
                 </div>
 
-
-                {/* =========================================
-                   CERRAR
-                ========================================= */}
 
                 <button
                   className="

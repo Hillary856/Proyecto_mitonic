@@ -53,6 +53,7 @@ const Escena1 = forwardRef(
     ref
   ) => {
 
+
     /* =====================================================
        IMÁGENES DEL CICLO DE CAMINATA
     ===================================================== */
@@ -91,7 +92,6 @@ const Escena1 = forwardRef(
     ===================================================== */
 
     const audiosEscena1 = {
-
       1: Esc1Audio1,
       2: Esc1Audio2,
       3: Esc1Audio3,
@@ -100,7 +100,6 @@ const Escena1 = forwardRef(
       6: Esc1Audio6,
       7: Esc1Audio7,
       8: Esc1Audio8
-
     };
 
 
@@ -197,6 +196,18 @@ const Escena1 = forwardRef(
     ] = useState(null);
 
 
+    /*
+      NUEVO:
+      objeto que debe quedar palpitando
+      después de cerrar el modal.
+    */
+
+    const [
+      objetoPulsando,
+      setObjetoPulsando
+    ] = useState(null);
+
+
     const [
       objetoActivo,
       setObjetoActivo
@@ -210,7 +221,7 @@ const Escena1 = forwardRef(
 
 
     /*
-      Guardamos TODOS los objetos encontrados.
+      Guardamos todos los objetos encontrados.
     */
 
     const [
@@ -262,6 +273,10 @@ const Escena1 = forwardRef(
       setRelojAbierto
     ] = useState(false);
 
+
+    /* =====================================================
+       CONTINUAR
+    ===================================================== */
 
     const [
       mostrarContinuar,
@@ -436,10 +451,8 @@ const Escena1 = forwardRef(
     /* =====================================================
        REGISTRAR OBJETO ENCONTRADO
        
-       IMPORTANTE:
-       AQUÍ YA NO DESBLOQUEAMOS EL CAPÍTULO.
-       
-       SOLO avisamos que se encontraron los tres.
+       AQUÍ NO DESBLOQUEAMOS.
+       SOLO AVISAMOS CUANDO ESTÁN LOS TRES.
     ===================================================== */
 
     const registrarObjetoEncontrado = (
@@ -468,11 +481,6 @@ const Escena1 = forwardRef(
       );
 
 
-      /*
-        Cuando encuentra los tres,
-        SOLO mostramos el mensaje.
-      */
-
       if (
         nuevosObjetos.length === 3
       ) {
@@ -481,7 +489,9 @@ const Escena1 = forwardRef(
           onObjetosEncontrados
         ) {
 
-          onObjetosEncontrados(2);
+          onObjetosEncontrados(
+            2
+          );
 
         }
 
@@ -530,60 +540,59 @@ const Escena1 = forwardRef(
        MOVIMIENTO DEL RELOJ
     ===================================================== */
 
-    const iniciarMovimientoReloj =
-      () => {
+    const iniciarMovimientoReloj = () => {
 
-        setRelojMoviendose(
-          true
-        );
-
-
-        relojTimerRef.current =
-          setTimeout(() => {
-
-            setRelojMoviendose(
-              false
-            );
+      setRelojMoviendose(
+        true
+      );
 
 
-            setRelojEnCentro(
-              true
-            );
+      relojTimerRef.current =
+        setTimeout(() => {
+
+          setRelojMoviendose(
+            false
+          );
 
 
-            relojTimerRef.current =
-              setTimeout(() => {
-
-                setRelojEnCentro(
-                  false
-                );
+          setRelojEnCentro(
+            true
+          );
 
 
-                setRelojAbierto(
-                  true
-                );
+          relojTimerRef.current =
+            setTimeout(() => {
+
+              setRelojEnCentro(
+                false
+              );
 
 
-                setMostrarContinuar(
-                  true
-                );
+              setRelojAbierto(
+                true
+              );
 
 
-                /*
-                  AUDIO 8
-                */
+              setMostrarContinuar(
+                true
+              );
 
-                reproducirAudio(
-                  audiosEscena1[8],
-                  8,
-                  "principal"
-                );
 
-              }, 1800);
+              /*
+                Audio 8.
+              */
 
-          }, 1400);
+              reproducirAudio(
+                audiosEscena1[8],
+                8,
+                "principal"
+              );
 
-      };
+            }, 1800);
+
+        }, 1400);
+
+    };
 
 
     /* =====================================================
@@ -602,24 +611,27 @@ const Escena1 = forwardRef(
       ) {
 
 
-        /* ===============================================
+        /* =================================================
            MONEDA
            → AUDIO 4
-        =============================================== */
+        ================================================= */
 
         if (
-          objetoEnAudio === "moneda"
+          objetoEnAudio ===
+          "moneda"
         ) {
 
           setObjetoActivo(
             null
           );
 
-
           setObjetoEnAudio(
             null
           );
 
+          setObjetoPulsando(
+            null
+          );
 
           setMomentoTexto(
             4
@@ -632,89 +644,87 @@ const Escena1 = forwardRef(
             "principal"
           );
 
-
           return;
 
         }
 
 
-        /* ===============================================
+        /* =================================================
            JARRÓN
            → LANZA
-        =============================================== */
+        ================================================= */
 
         if (
-          objetoEnAudio === "jarron"
+          objetoEnAudio ===
+          "jarron"
         ) {
 
           setObjetoActivo(
             null
           );
 
-
           setObjetoEnAudio(
             null
           );
 
+          setObjetoPulsando(
+            null
+          );
 
           setObjetoVisible(
             "lanza"
           );
 
-
           setMomentoTexto(
             null
           );
-
 
           setTipoAudio(
             "espera"
           );
 
-
           setNarradorActivo(
             false
           );
-
 
           return;
 
         }
 
 
-        /* ===============================================
+        /* =================================================
            LANZA
            → RELOJ
-        =============================================== */
+        ================================================= */
 
         if (
-          objetoEnAudio === "lanza"
+          objetoEnAudio ===
+          "lanza"
         ) {
 
           setObjetoActivo(
             null
           );
 
-
           setObjetoEnAudio(
             null
           );
 
+          setObjetoPulsando(
+            null
+          );
 
           setObjetoVisible(
             null
           );
 
-
           setMomentoTexto(
             null
           );
 
-
           setTipoAudio(
             "espera"
           );
-
 
           setNarradorActivo(
             false
@@ -725,40 +735,36 @@ const Escena1 = forwardRef(
             true
           );
 
-
           return;
 
         }
 
 
-        /* ===============================================
+        /* =================================================
            RELOJ
            → MOVIMIENTO
-        =============================================== */
+        ================================================= */
 
         if (
-          objetoEnAudio === "reloj"
+          objetoEnAudio ===
+          "reloj"
         ) {
 
           setObjetoEnAudio(
             null
           );
 
-
           setMomentoTexto(
             null
           );
-
 
           setTipoAudio(
             "espera"
           );
 
-
           setNarradorActivo(
             false
           );
-
 
           iniciarMovimientoReloj();
 
@@ -771,7 +777,7 @@ const Escena1 = forwardRef(
 
       /* ===================================================
          AUDIO 1
-      ===================================================== */
+      =================================================== */
 
       if (
         audioActual === 1
@@ -780,7 +786,6 @@ const Escena1 = forwardRef(
         setAudio1Terminado(
           true
         );
-
 
         setNarradorActivo(
           false
@@ -817,7 +822,7 @@ const Escena1 = forwardRef(
       /* ===================================================
          AUDIO 2
          → MONEDA
-      ===================================================== */
+      =================================================== */
 
       if (
         audioActual === 2
@@ -827,21 +832,17 @@ const Escena1 = forwardRef(
           "moneda"
         );
 
-
         setTipoAudio(
           "espera"
         );
-
 
         setNarradorActivo(
           false
         );
 
-
         setMomentoTexto(
           null
         );
-
 
         return;
 
@@ -851,7 +852,7 @@ const Escena1 = forwardRef(
       /* ===================================================
          AUDIO 4
          → JARRÓN
-      ===================================================== */
+      =================================================== */
 
       if (
         audioActual === 4
@@ -861,21 +862,17 @@ const Escena1 = forwardRef(
           "jarron"
         );
 
-
         setTipoAudio(
           "espera"
         );
-
 
         setNarradorActivo(
           false
         );
 
-
         setMomentoTexto(
           null
         );
-
 
         return;
 
@@ -892,16 +889,19 @@ const Escena1 = forwardRef(
       objeto
     ) => {
 
-      let audio = null;
+      let audio =
+        null;
 
-      let numeroAudio = null;
+      let numeroAudio =
+        null;
 
-      let momento = null;
+      let momento =
+        null;
 
 
-      /* ===============================================
+      /* ===================================================
          MONEDA
-      =============================================== */
+      =================================================== */
 
       if (
         objeto === "moneda"
@@ -919,9 +919,9 @@ const Escena1 = forwardRef(
       }
 
 
-      /* ===============================================
+      /* ===================================================
          JARRÓN
-      =============================================== */
+      =================================================== */
 
       if (
         objeto === "jarron"
@@ -939,9 +939,9 @@ const Escena1 = forwardRef(
       }
 
 
-      /* ===============================================
+      /* ===================================================
          LANZA
-      =============================================== */
+      =================================================== */
 
       if (
         objeto === "lanza"
@@ -959,9 +959,9 @@ const Escena1 = forwardRef(
       }
 
 
-      /* ===============================================
+      /* ===================================================
          RELOJ
-      =============================================== */
+      =================================================== */
 
       if (
         objeto === "reloj"
@@ -979,18 +979,16 @@ const Escena1 = forwardRef(
       }
 
 
-      if (
-        !audio
-      ) {
+      if (!audio) {
 
         return;
 
       }
 
 
-      /* ===============================================
-         REGISTRAR OBJETO ENCONTRADO
-      =============================================== */
+      /* ===================================================
+         REGISTRAR OBJETO
+      =================================================== */
 
       if (
         objeto !== "reloj"
@@ -1008,9 +1006,9 @@ const Escena1 = forwardRef(
       }
 
 
-      /* ===============================================
+      /* ===================================================
          RELOJ DESCUBIERTO
-      =============================================== */
+      =================================================== */
 
       if (
         objeto === "reloj"
@@ -1023,9 +1021,18 @@ const Escena1 = forwardRef(
       }
 
 
-      /* ===============================================
-         MODAL
-      =============================================== */
+      /* ===================================================
+         DETENER PULSO
+      =================================================== */
+
+      setObjetoPulsando(
+        null
+      );
+
+
+      /* ===================================================
+         ABRIR MODAL
+      =================================================== */
 
       if (
         objeto !== "reloj"
@@ -1038,9 +1045,9 @@ const Escena1 = forwardRef(
       }
 
 
-      /* ===============================================
+      /* ===================================================
          OBJETO EN AUDIO
-      =============================================== */
+      =================================================== */
 
       setObjetoEnAudio(
         objeto
@@ -1052,9 +1059,9 @@ const Escena1 = forwardRef(
       );
 
 
-      /* ===============================================
+      /* ===================================================
          REPRODUCIR
-      =============================================== */
+      =================================================== */
 
       reproducirAudio(
         audio,
@@ -1067,32 +1074,19 @@ const Escena1 = forwardRef(
 
     /* =====================================================
        CONTINUAR AL CAPÍTULO 2
-
-       AQUÍ es donde se desbloquea
-       oficialmente el capítulo.
     ===================================================== */
 
     const continuarCapitulo2 = () => {
 
-      /*
-        No se permite continuar
-        hasta haber encontrado
-        los tres objetos.
-      */
-
       if (
-        objetosDescubiertos.length < 3
+        objetosDescubiertos.length <
+        3
       ) {
 
         return;
 
       }
 
-
-      /*
-        AHORA SÍ:
-        desbloqueamos capítulo 2.
-      */
 
       if (
         onCapituloDesbloqueado
@@ -1104,11 +1098,6 @@ const Escena1 = forwardRef(
 
       }
 
-
-      /*
-        Y después ejecutamos
-        la transición blanca.
-      */
 
       if (
         onEscenaTerminada
@@ -1154,7 +1143,6 @@ const Escena1 = forwardRef(
         setNarradorActivo(
           false
         );
-
 
         return;
 
@@ -1204,6 +1192,24 @@ const Escena1 = forwardRef(
         null
       );
 
+
+      /*
+        NUEVO:
+        al cerrar el modal, el objeto
+        comienza a palpitar.
+      */
+
+      if (
+        objetoVisible &&
+        objetoVisible !== "reloj"
+      ) {
+
+        setObjetoPulsando(
+          objetoVisible
+        );
+
+      }
+
     };
 
 
@@ -1213,17 +1219,13 @@ const Escena1 = forwardRef(
 
     return (
 
-      <div
-        className="escena-1"
-      >
+      <div className="escena-1">
 
-        <div
-          className="escena-1-contenido"
-        >
+        <div className="escena-1-contenido">
 
 
           {/* =================================================
-              FONDO
+             FONDO
           ================================================= */}
 
           <img
@@ -1234,7 +1236,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              FUEGO
+             FUEGO
           ================================================= */}
 
           <svg
@@ -1255,7 +1257,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              ADRIÁN CAMINANDO
+             ADRIÁN CAMINANDO
           ================================================= */}
 
           {!adrianHabla && (
@@ -1281,7 +1283,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              ADRIÁN HABLANDO
+             ADRIÁN HABLANDO
           ================================================= */}
 
           {adrianHabla && (
@@ -1304,7 +1306,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              AUDIO
+             AUDIO
           ================================================= */}
 
           <audio
@@ -1317,7 +1319,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              SUBTÍTULOS
+             SUBTÍTULOS
           ================================================= */}
 
           {textoNarracionActivo &&
@@ -1327,7 +1329,9 @@ const Escena1 = forwardRef(
             ] && (
 
               <div
-                className="escena-1-texto-narracion"
+                className="
+                  escena-1-texto-narracion
+                "
               >
 
                 {
@@ -1342,7 +1346,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              MONEDA
+             MONEDA
           ================================================= */}
 
           {objetoVisible === "moneda" && (
@@ -1355,6 +1359,13 @@ const Escena1 = forwardRef(
                   objetoDescubierto ===
                   "moneda"
                     ? "descubierto"
+                    : ""
+                }
+
+                ${
+                  objetoPulsando ===
+                  "moneda"
+                    ? "pulsando"
                     : ""
                 }
               `}
@@ -1378,7 +1389,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              JARRÓN
+             JARRÓN
           ================================================= */}
 
           {objetoVisible === "jarron" && (
@@ -1391,6 +1402,13 @@ const Escena1 = forwardRef(
                   objetoDescubierto ===
                   "jarron"
                     ? "descubierto"
+                    : ""
+                }
+
+                ${
+                  objetoPulsando ===
+                  "jarron"
+                    ? "pulsando"
                     : ""
                 }
               `}
@@ -1414,7 +1432,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              LANZA
+             LANZA
           ================================================= */}
 
           {objetoVisible === "lanza" && (
@@ -1427,6 +1445,13 @@ const Escena1 = forwardRef(
                   objetoDescubierto ===
                   "lanza"
                     ? "descubierto"
+                    : ""
+                }
+
+                ${
+                  objetoPulsando ===
+                  "lanza"
+                    ? "pulsando"
                     : ""
                 }
               `}
@@ -1450,7 +1475,7 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              RELOJ CERRADO
+             RELOJ CERRADO
           ================================================= */}
 
           {relojVisible &&
@@ -1491,7 +1516,9 @@ const Escena1 = forwardRef(
                     RelojCerrado
                   }
                   alt="Reloj cerrado"
-                  className="escena-1-reloj-cerrado"
+                  className="
+                    escena-1-reloj-cerrado
+                  "
                 />
 
               </button>
@@ -1500,13 +1527,15 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              RELOJ ABIERTO
+             RELOJ ABIERTO
           ================================================= */}
 
           {relojAbierto && (
 
             <div
-              className="escena-1-reloj-abierto"
+              className="
+                escena-1-reloj-abierto
+              "
             >
 
               <img
@@ -1521,17 +1550,21 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              CONTINUAR AL CAPÍTULO 2
+             CONTINUAR AL CAPÍTULO 2
           ================================================= */}
 
           {mostrarContinuar && (
 
             <div
-              className="escena-1-continuar-contenedor"
+              className="
+                escena-1-continuar-contenedor
+              "
             >
 
               <div
-                className="escena-1-continuar-texto"
+                className="
+                  escena-1-continuar-texto
+                "
               >
 
                 <span>
@@ -1540,7 +1573,9 @@ const Escena1 = forwardRef(
 
 
                 <button
-                  className="escena-1-continuar-boton"
+                  className="
+                    escena-1-continuar-boton
+                  "
                   onClick={
                     continuarCapitulo2
                   }
@@ -1558,28 +1593,38 @@ const Escena1 = forwardRef(
 
 
           {/* =================================================
-              MODAL
+             MODAL
           ================================================= */}
 
           {objetoActivo && (
 
             <div
-              className="escena-1-modal-fondo"
+              className="
+                escena-1-modal-fondo
+              "
               onClick={
                 cerrarModal
               }
             >
 
               <div
-                className="escena-1-modal"
-                onClick={
-                  (evento) =>
-                    evento.stopPropagation()
+                className="
+                  escena-1-modal
+                "
+                onClick={(evento) =>
+                  evento.stopPropagation()
                 }
               >
 
+
+                {/* =========================================
+                   IMAGEN
+                ========================================= */}
+
                 <div
-                  className="escena-1-modal-imagen"
+                  className="
+                    escena-1-modal-imagen
+                  "
                 >
 
                   {objetoActivo ===
@@ -1617,8 +1662,14 @@ const Escena1 = forwardRef(
                 </div>
 
 
+                {/* =========================================
+                   INFORMACIÓN
+                ========================================= */}
+
                 <div
-                  className="escena-1-modal-info"
+                  className="
+                    escena-1-modal-info
+                  "
                 >
 
                   {objetoActivo ===
@@ -1631,10 +1682,12 @@ const Escena1 = forwardRef(
                       </h2>
 
                       <p>
-                        Las monedas son mucho más que una forma
-                        de pagar. Gracias a ellas podemos comerciar
-                        con mayor facilidad y conocer quién tiene
-                        el poder en una determinada época.
+                        Las monedas son mucho más
+                        que una forma de pagar.
+                        Gracias a ellas podemos
+                        comerciar con mayor facilidad
+                        y conocer quién tiene el poder
+                        en una determinada época.
                       </p>
 
                     </>
@@ -1652,11 +1705,13 @@ const Escena1 = forwardRef(
                       </h2>
 
                       <p>
-                        Aunque parece un objeto cotidiano, estos
-                        jarrones pueden contar muchísimo sobre
-                        nosotros. Podemos encontrar escenas de
-                        nuestras costumbres, guerras, creencias
-                        y hasta momentos de nuestra vida diaria.
+                        Aunque parece un objeto
+                        cotidiano, estos jarrones
+                        pueden contar muchísimo sobre
+                        nosotros. Podemos encontrar
+                        escenas de nuestras costumbres,
+                        guerras, creencias y hasta
+                        momentos de nuestra vida diaria.
                       </p>
 
                     </>
@@ -1674,10 +1729,11 @@ const Escena1 = forwardRef(
                       </h2>
 
                       <p>
-                        Es una de las armas principales de nuestros
-                        guerreros. Los hoplitas la utilizan junto
-                        con su escudo para enfrentarse al enemigo
-                        y proteger su ciudad.
+                        Es una de las armas principales
+                        de nuestros guerreros. Los
+                        hoplitas la utilizan junto con
+                        su escudo para enfrentarse al
+                        enemigo y proteger su ciudad.
                       </p>
 
                     </>
@@ -1687,8 +1743,14 @@ const Escena1 = forwardRef(
                 </div>
 
 
+                {/* =========================================
+                   CERRAR
+                ========================================= */}
+
                 <button
-                  className="escena-1-modal-cerrar"
+                  className="
+                    escena-1-modal-cerrar
+                  "
                   onClick={
                     cerrarModal
                   }

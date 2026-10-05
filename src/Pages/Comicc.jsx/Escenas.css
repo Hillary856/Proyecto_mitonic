@@ -21,7 +21,8 @@
 
   animation:
     aparecerEscena
-    1.2s ease-out
+    1.2s
+    ease-out
     both;
 }
 
@@ -104,7 +105,8 @@
 
   animation:
     entradaAdrian
-    4s ease-out
+    4s
+    ease-out
     forwards;
 }
 
@@ -125,11 +127,15 @@
 @keyframes entradaAdrian {
 
   from {
+
     left: -65%;
+
   }
 
   to {
+
     left: 3%;
+
   }
 
 }
@@ -142,11 +148,15 @@
 @keyframes aparecerEscena {
 
   from {
+
     opacity: 0;
+
   }
 
   to {
+
     opacity: 1;
+
   }
 
 }
@@ -184,7 +194,7 @@
 
 
 /* =========================================================
-   TEXTO
+   TEXTO / SUBTÍTULOS
 ========================================================= */
 
 .escena-1-texto-narracion {
@@ -201,7 +211,8 @@
   transform:
     translateX(-50%);
 
-  padding: 12px 20px;
+  padding:
+    12px 20px;
 
   background:
     linear-gradient(
@@ -210,11 +221,15 @@
       rgba(239, 210, 180, 0.94)
     );
 
-  border: 2px solid #650000;
+  border:
+    2px solid
+    #650000;
 
-  border-radius: 18px;
+  border-radius:
+    18px;
 
-  color: #650000;
+  color:
+    #650000;
 
   font-family:
     Arial,
@@ -228,15 +243,20 @@
       18px
     );
 
-  font-weight: 600;
+  font-weight:
+    600;
 
-  line-height: 1.35;
+  line-height:
+    1.35;
 
-  text-align: center;
+  text-align:
+    center;
 
-  box-sizing: border-box;
+  box-sizing:
+    border-box;
 
-  z-index: 50;
+  z-index:
+    50;
 
   box-shadow:
     0 8px 25px
@@ -244,7 +264,8 @@
 
   animation:
     aparecerTextoNarracion
-    0.4s ease-out
+    0.4s
+    ease-out
     both;
 }
 
@@ -252,11 +273,15 @@
 @keyframes aparecerTextoNarracion {
 
   from {
+
     opacity: 0;
+
   }
 
   to {
+
     opacity: 1;
+
   }
 
 }
@@ -270,6 +295,7 @@
   position: absolute;
 
   left: 8%;
+
   top: 89%;
 
   width: 10%;
@@ -293,7 +319,8 @@
 
   animation:
     aparecerMoneda
-    0.6s ease-out
+    0.6s
+    ease-out
     both;
 
   transition:
@@ -349,7 +376,8 @@
       rgba(252, 233, 213, 0.45)
     );
 
-  animation: none;
+  animation:
+    none;
 }
 
 
@@ -386,6 +414,7 @@
   position: absolute;
 
   left: 75%;
+
   top: 66%;
 
   width: 10%;
@@ -409,7 +438,8 @@
 
   animation:
     aparecerObjetoEscena1
-    0.6s ease-out
+    0.6s
+    ease-out
     both;
 
   transition:
@@ -465,7 +495,8 @@
       rgba(252, 233, 213, 0.45)
     );
 
-  animation: none;
+  animation:
+    none;
 }
 
 
@@ -477,6 +508,7 @@
   position: absolute;
 
   left: 18%;
+
   top: 54%;
 
   width: 15%;
@@ -500,7 +532,8 @@
 
   animation:
     aparecerObjetoEscena1
-    0.6s ease-out
+    0.6s
+    ease-out
     both;
 
   transition:
@@ -556,7 +589,8 @@
       rgba(252, 233, 213, 0.45)
     );
 
-  animation: none;
+  animation:
+    none;
 }
 
 
@@ -582,14 +616,65 @@
 
 
 /* =========================================================
+   PULSO DE LOS OBJETOS
+   DESPUÉS DE CERRAR EL MODAL
+========================================================= */
+
+.escena-1-moneda-boton.pulsando
+.escena-1-moneda,
+
+.escena-1-jarron-boton.pulsando
+.escena-1-jarron,
+
+.escena-1-lanza-boton.pulsando
+.escena-1-lanza {
+  animation:
+    pulsoObjetoEscena1
+    1.5s
+    ease-in-out
+    infinite;
+}
+
+
+/* =========================================================
+   ANIMACIÓN DEL PULSO
+========================================================= */
+
+@keyframes pulsoObjetoEscena1 {
+
+  0% {
+
+    transform:
+      scale(1);
+
+  }
+
+  50% {
+
+    transform:
+      scale(1.07);
+
+  }
+
+  100% {
+
+    transform:
+      scale(1);
+
+  }
+
+}
+
+
+/* =========================================================
    RELOJ CERRADO
 ========================================================= */
 
 .escena-1-reloj-boton {
-
   position: absolute;
 
   left: 70%;
+
   top: 46%;
 
   width: 12%;
@@ -618,13 +703,13 @@
 
   animation:
     aparecerObjetoEscena1
-    0.6s ease-out
+    0.6s
+    ease-out
     both;
 }
 
 
 .escena-1-reloj-cerrado {
-
   width: 100%;
 
   height: auto;
@@ -634,7 +719,6 @@
 
 
 .escena-1-reloj-boton:hover {
-
   opacity: 1;
 
   filter:
@@ -650,7 +734,6 @@
 
 
 .escena-1-reloj-boton.descubierto {
-
   opacity: 1;
 
   filter:
@@ -663,7 +746,8 @@
       rgba(252, 233, 213, 0.45)
     );
 
-  animation: none;
+  animation:
+    none;
 }
 
 
@@ -678,6 +762,7 @@
     1.4s
     ease-in-out
     forwards;
+
 }
 
 
@@ -686,6 +771,7 @@
   from {
 
     left: 70%;
+
     top: 46%;
 
     transform:
@@ -697,6 +783,7 @@
   to {
 
     left: 50%;
+
     top: 50%;
 
     transform:
@@ -709,12 +796,13 @@
 
 
 /* =========================================================
-   PULSO
+   PULSO DEL RELOJ
 ========================================================= */
 
 .escena-1-reloj-boton.en-centro {
 
   left: 50%;
+
   top: 50%;
 
   transform:
@@ -725,6 +813,7 @@
     0.65s
     ease-in-out
     infinite;
+
 }
 
 
@@ -762,10 +851,10 @@
 ========================================================= */
 
 .escena-1-reloj-abierto {
-
   position: absolute;
 
   left: 50%;
+
   top: 50%;
 
   width: 22%;
@@ -786,7 +875,6 @@
 
 
 .escena-1-reloj {
-
   width: 100%;
 
   height: auto;
@@ -831,7 +919,6 @@
 ========================================================= */
 
 .escena-1-continuar-contenedor {
-
   position: absolute;
 
   inset: 0;
@@ -856,7 +943,6 @@
 
 
 .escena-1-continuar-texto {
-
   display: flex;
 
   flex-direction: column;
@@ -867,9 +953,11 @@
 
   gap: 10px;
 
-  width: min(70%, 420px);
+  width:
+    min(70%, 420px);
 
-  padding: 13px 20px;
+  padding:
+    13px 20px;
 
   background:
     linear-gradient(
@@ -912,7 +1000,6 @@
 
 
 .escena-1-continuar-texto span {
-
   font-size:
     clamp(
       14px,
@@ -932,7 +1019,6 @@
 
 
 .escena-1-continuar-boton {
-
   border:
     2px solid
     #650000;
@@ -941,8 +1027,7 @@
     9px;
 
   padding:
-    8px
-    18px;
+    8px 18px;
 
   background:
     rgba(101, 0, 0, 0.92);
@@ -980,6 +1065,7 @@
 
   transform:
     translateY(-2px);
+
 }
 
 
@@ -990,6 +1076,7 @@
 
   opacity:
     0.8;
+
 }
 
 
@@ -1022,7 +1109,6 @@
 ========================================================= */
 
 .escena-1-fundido-salida {
-
   position:
     fixed;
 
@@ -1076,7 +1162,6 @@
 ========================================================= */
 
 .escena-1-modal-fondo {
-
   position:
     absolute;
 
@@ -1119,7 +1204,6 @@
 
 
 .escena-1-modal {
-
   position:
     relative;
 
@@ -1171,7 +1255,6 @@
 
 
 .escena-1-modal-imagen {
-
   width:
     35%;
 
@@ -1187,7 +1270,6 @@
 
 
 .escena-1-modal-imagen img {
-
   width:
     100%;
 
@@ -1200,14 +1282,12 @@
 
 
 .escena-1-modal-info {
-
   width:
     55%;
 }
 
 
 .escena-1-modal-info h2 {
-
   margin:
     0 0 18px;
 
@@ -1232,7 +1312,6 @@
 
 
 .escena-1-modal-info p {
-
   margin:
     0;
 
@@ -1257,7 +1336,6 @@
 
 
 .escena-1-modal-cerrar {
-
   position:
     absolute;
 
@@ -1312,17 +1390,24 @@
 
   transform:
     scale(1.05);
+
 }
 
 
 @keyframes aparecerModal {
 
   from {
-    opacity: 0;
+
+    opacity:
+      0;
+
   }
 
   to {
-    opacity: 1;
+
+    opacity:
+      1;
+
   }
 
 }
@@ -1332,7 +1417,8 @@
 
   from {
 
-    opacity: 0;
+    opacity:
+      0;
 
     transform:
       scale(0.92);
@@ -1341,7 +1427,8 @@
 
   to {
 
-    opacity: 1;
+    opacity:
+      1;
 
     transform:
       scale(1);
@@ -3160,4 +3247,78 @@
 
   }
 
+}
+
+/* =========================================================
+   ESCENA 4
+========================================================= */
+
+.escena-4 {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
+  background: #000;
+}
+
+
+.escena-4-contenido {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   FONDO
+========================================================= */
+
+.escena-4-fondo {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  z-index: 1;
+}
+
+
+/* =========================================================
+   ADRIÁN DE ESPALDAS
+========================================================= */
+
+.escena-4-adrian-atras {
+  position: absolute;
+
+  left: 43%;
+
+  bottom: -2%;
+
+  width: 20%;
+
+  height: auto;
+
+  display: block;
+
+  z-index: 10;
+
+  transform: translateX(3%);
 }
