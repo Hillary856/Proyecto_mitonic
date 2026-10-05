@@ -34,14 +34,16 @@ const Escena2 = forwardRef(
     {
       textoNarracionActivo = true,
       onNarradorEstadoChange,
-      onNarracionTerminada
+      onObjetosEncontrados,
+      onCapituloDesbloqueado,
+      onEscenaTerminada
     },
     ref
   ) => {
 
 
     /* =====================================================
-       AUDIOS ESCENA 2
+       AUDIOS DE ESCENA 2
     ===================================================== */
 
     const audiosEscena2 = {
@@ -90,7 +92,7 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       ESTADOS DE ADRIÁN
+       ADRIÁN
     ===================================================== */
 
     const [adrianVisible, setAdrianVisible] =
@@ -101,86 +103,44 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       AUDIO ACTUAL
-
-       1 = introducción
-       2 = introducción Platón
-       3 = audio Platón
-       4 = introducción Pergamino
-       5 = audio Pergamino
-       6 = introducción Copa
-       7 = audio Copa
-       8 = Reloj
+       AUDIO
     ===================================================== */
 
     const [audioActual, setAudioActual] =
       useState(0);
 
-
-    /* =====================================================
-       TIPO DE AUDIO
-
-       principal = narración automática
-       objeto = audio del objeto
-       espera = esperando clic
-    ===================================================== */
-
     const [tipoAudio, setTipoAudio] =
       useState("espera");
-
-
-    /* =====================================================
-       NARRADOR
-    ===================================================== */
 
     const [narradorActivo, setNarradorActivo] =
       useState(true);
 
 
     /* =====================================================
-       OBJETO VISIBLE
-
-       SOLO UNO A LA VEZ.
+       OBJETOS
     ===================================================== */
 
     const [objetoVisible, setObjetoVisible] =
       useState(null);
 
-
-    /* =====================================================
-       OBJETO DESCUBIERTO
-    ===================================================== */
-
     const [objetoDescubierto, setObjetoDescubierto] =
       useState(null);
-
-
-    /* =====================================================
-       OBJETO QUE ESTÁ HACIENDO PULSO
-    ===================================================== */
 
     const [objetoPulsando, setObjetoPulsando] =
       useState(null);
 
-
-    /* =====================================================
-       MODAL
-    ===================================================== */
-
     const [objetoActivo, setObjetoActivo] =
       useState(null);
-
-
-    /* =====================================================
-       OBJETO CUYO AUDIO ESTÁ SONANDO
-    ===================================================== */
 
     const [objetoEnAudio, setObjetoEnAudio] =
       useState(null);
 
+    const [objetosDescubiertos, setObjetosDescubiertos] =
+      useState([]);
+
 
     /* =====================================================
-       TEXTO ACTUAL
+       TEXTO
     ===================================================== */
 
     const [momentoTexto, setMomentoTexto] =
@@ -188,18 +148,19 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       OBJETOS ENCONTRADOS
+       BOTÓN CONTINUAR
     ===================================================== */
 
-    const [objetosDescubiertos, setObjetosDescubiertos] =
-      useState([]);
+    const [mostrarContinuar, setMostrarContinuar] =
+      useState(false);
 
 
     /* =====================================================
        AUDIO
     ===================================================== */
 
-    const audioRef = useRef(null);
+    const audioRef =
+      useRef(null);
 
 
     /* =====================================================
@@ -232,7 +193,7 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       INFORMAR ESTADO DEL NARRADOR AL PADRE
+       ESTADO DEL NARRADOR
     ===================================================== */
 
     useEffect(() => {
@@ -265,7 +226,6 @@ const Escena2 = forwardRef(
 
       const reproductor =
         audioRef.current;
-
 
       if (!reproductor) {
         return;
@@ -318,7 +278,6 @@ const Escena2 = forwardRef(
         return;
       }
 
-
       reproducirAudio(
         audiosEscena2[1],
         1,
@@ -326,7 +285,6 @@ const Escena2 = forwardRef(
         null,
         1
       );
-
 
     }, [adrianVisible]);
 
@@ -360,24 +318,49 @@ const Escena2 = forwardRef(
       objeto
     ) => {
 
+      if (
+        objetosDescubiertos.includes(
+          objeto
+        )
+      ) {
+
+        return;
+
+      }
+
+
+      const nuevosObjetos = [
+        ...objetosDescubiertos,
+        objeto
+      ];
+
+
       setObjetosDescubiertos(
-        (anteriores) => {
+        nuevosObjetos
+      );
 
-          if (
-            anteriores.includes(objeto)
-          ) {
 
-            return anteriores;
+      /*
+        Cuando están los tres objetos:
+        mostramos el mensaje de desbloqueo
+        en EscenaPortada.
+      */
 
-          }
+      if (
+        nuevosObjetos.length === 3
+      ) {
 
-          return [
-            ...anteriores,
-            objeto
-          ];
+        if (
+          onObjetosEncontrados
+        ) {
+
+          onObjetosEncontrados(
+            3
+          );
 
         }
-      );
+
+      }
 
     };
 
@@ -391,8 +374,8 @@ const Escena2 = forwardRef(
 
       /* ===================================================
          AUDIO 1
-         → AUDIO 2
          → APARECE PLATÓN
+         → ESPERA CLIC
       =================================================== */
 
       if (
@@ -400,21 +383,20 @@ const Escena2 = forwardRef(
         audioActual === 1
       ) {
 
-        /*
-          Platón aparece justo cuando comienza
-          el Audio 2.
-        */
+        setObjetoVisible(
+          "platon"
+        );
 
-        setObjetoVisible("platon");
+        setMomentoTexto(
+          null
+        );
 
-        setObjetoPulsando(null);
+        setTipoAudio(
+          "espera"
+        );
 
-        reproducirAudio(
-          audiosEscena2[2],
-          2,
-          "principal",
-          null,
-          2
+        setNarradorActivo(
+          false
         );
 
         return;
@@ -423,31 +405,8 @@ const Escena2 = forwardRef(
 
 
       /* ===================================================
-         AUDIO 2
-         → PLATÓN QUEDA ESPERANDO CLIC
-      =================================================== */
-
-      if (
-        tipoAudio === "principal" &&
-        audioActual === 2
-      ) {
-
-        setMomentoTexto(null);
-
-        setTipoAudio("espera");
-
-        setNarradorActivo(false);
-
-        return;
-
-      }
-
-
-      /* ===================================================
-         AUDIO 3 - PLATÓN
-         → DESAPARECE PLATÓN
-         → APARECE PERGAMINO
-         → AUDIO 4
+         AUDIO 2 - PLATÓN
+         → AUDIO 3
       =================================================== */
 
       if (
@@ -455,25 +414,74 @@ const Escena2 = forwardRef(
         objetoEnAudio === "platon"
       ) {
 
-        setObjetoActivo(null);
+        setObjetoActivo(
+          null
+        );
 
-        setObjetoEnAudio(null);
+        setObjetoEnAudio(
+          null
+        );
 
-        setObjetoDescubierto(null);
+        setObjetoPulsando(
+          null
+        );
 
-        setObjetoPulsando(null);
+
+        reproducirAudio(
+          audiosEscena2[3],
+          3,
+          "principal",
+          null,
+          3
+        );
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 3
+         → DESAPARECE PLATÓN
+         → APARECE PERGAMINO
+         → ESPERA CLIC
+      =================================================== */
+
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 3
+      ) {
+
+        setObjetoActivo(
+          null
+        );
+
+        setObjetoDescubierto(
+          null
+        );
+
+        setObjetoEnAudio(
+          null
+        );
+
+        setObjetoPulsando(
+          null
+        );
 
         setObjetoVisible(
           "pergamino"
         );
 
+        setMomentoTexto(
+          null
+        );
 
-        reproducirAudio(
-          audiosEscena2[4],
-          4,
-          "principal",
-          null,
-          4
+        setTipoAudio(
+          "espera"
+        );
+
+        setNarradorActivo(
+          false
         );
 
         return;
@@ -482,31 +490,8 @@ const Escena2 = forwardRef(
 
 
       /* ===================================================
-         AUDIO 4
-         → PERGAMINO QUEDA ESPERANDO CLIC
-      =================================================== */
-
-      if (
-        tipoAudio === "principal" &&
-        audioActual === 4
-      ) {
-
-        setMomentoTexto(null);
-
-        setTipoAudio("espera");
-
-        setNarradorActivo(false);
-
-        return;
-
-      }
-
-
-      /* ===================================================
-         AUDIO 5 - PERGAMINO
-         → DESAPARECE PERGAMINO
-         → APARECE COPA
-         → AUDIO 6
+         AUDIO 4 - PERGAMINO
+         → AUDIO 5
       =================================================== */
 
       if (
@@ -514,25 +499,74 @@ const Escena2 = forwardRef(
         objetoEnAudio === "pergamino"
       ) {
 
-        setObjetoActivo(null);
+        setObjetoActivo(
+          null
+        );
 
-        setObjetoEnAudio(null);
+        setObjetoEnAudio(
+          null
+        );
 
-        setObjetoDescubierto(null);
+        setObjetoPulsando(
+          null
+        );
 
-        setObjetoPulsando(null);
+
+        reproducirAudio(
+          audiosEscena2[5],
+          5,
+          "principal",
+          null,
+          5
+        );
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 5
+         → DESAPARECE PERGAMINO
+         → APARECE COPA
+         → ESPERA CLIC
+      =================================================== */
+
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 5
+      ) {
+
+        setObjetoActivo(
+          null
+        );
+
+        setObjetoDescubierto(
+          null
+        );
+
+        setObjetoEnAudio(
+          null
+        );
+
+        setObjetoPulsando(
+          null
+        );
 
         setObjetoVisible(
           "copa"
         );
 
+        setMomentoTexto(
+          null
+        );
 
-        reproducirAudio(
-          audiosEscena2[6],
-          6,
-          "principal",
-          null,
-          6
+        setTipoAudio(
+          "espera"
+        );
+
+        setNarradorActivo(
+          false
         );
 
         return;
@@ -541,31 +575,8 @@ const Escena2 = forwardRef(
 
 
       /* ===================================================
-         AUDIO 6
-         → COPA QUEDA ESPERANDO CLIC
-      =================================================== */
-
-      if (
-        tipoAudio === "principal" &&
-        audioActual === 6
-      ) {
-
-        setMomentoTexto(null);
-
-        setTipoAudio("espera");
-
-        setNarradorActivo(false);
-
-        return;
-
-      }
-
-
-      /* ===================================================
-         AUDIO 7 - COPA
-         → DESAPARECE COPA
-         → APARECE RELOJ
-         → AUDIO 8
+         AUDIO 6 - COPA
+         → AUDIO 7
       =================================================== */
 
       if (
@@ -573,13 +584,59 @@ const Escena2 = forwardRef(
         objetoEnAudio === "copa"
       ) {
 
-        setObjetoActivo(null);
+        setObjetoActivo(
+          null
+        );
 
-        setObjetoEnAudio(null);
+        setObjetoEnAudio(
+          null
+        );
 
-        setObjetoDescubierto(null);
+        setObjetoPulsando(
+          null
+        );
 
-        setObjetoPulsando(null);
+
+        reproducirAudio(
+          audiosEscena2[7],
+          7,
+          "principal",
+          null,
+          7
+        );
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         AUDIO 7
+         → DESAPARECE COPA
+         → APARECE RELOJ
+         → AUDIO 8
+      =================================================== */
+
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 7
+      ) {
+
+        setObjetoActivo(
+          null
+        );
+
+        setObjetoDescubierto(
+          null
+        );
+
+        setObjetoEnAudio(
+          null
+        );
+
+        setObjetoPulsando(
+          null
+        );
 
         setObjetoVisible(
           "reloj"
@@ -601,7 +658,7 @@ const Escena2 = forwardRef(
 
       /* ===================================================
          AUDIO 8
-         → FINAL
+         → APARECE BOTÓN CONTINUAR
       =================================================== */
 
       if (
@@ -609,15 +666,25 @@ const Escena2 = forwardRef(
         audioActual === 8
       ) {
 
-        setNarradorActivo(false);
+        setNarradorActivo(
+          false
+        );
 
-        setTipoAudio("espera");
+        setTipoAudio(
+          "espera"
+        );
 
-        if (onNarracionTerminada) {
+        setMostrarContinuar(
+          true
+        );
 
-          onNarracionTerminada();
+        /*
+          Dejamos el último subtítulo visible.
+        */
 
-        }
+        setMomentoTexto(
+          8
+        );
 
       }
 
@@ -640,8 +707,7 @@ const Escena2 = forwardRef(
 
 
       /* ===================================================
-         PLATÓN
-         → AUDIO 3
+         PLATÓN → AUDIO 2
       =================================================== */
 
       if (
@@ -649,18 +715,17 @@ const Escena2 = forwardRef(
       ) {
 
         audio =
-          audiosEscena2[3];
+          audiosEscena2[2];
 
-        numeroAudio = 3;
+        numeroAudio = 2;
 
-        momento = 3;
+        momento = 2;
 
       }
 
 
       /* ===================================================
-         PERGAMINO
-         → AUDIO 5
+         PERGAMINO → AUDIO 4
       =================================================== */
 
       if (
@@ -668,18 +733,17 @@ const Escena2 = forwardRef(
       ) {
 
         audio =
-          audiosEscena2[5];
+          audiosEscena2[4];
 
-        numeroAudio = 5;
+        numeroAudio = 4;
 
-        momento = 5;
+        momento = 4;
 
       }
 
 
       /* ===================================================
-         COPA
-         → AUDIO 7
+         COPA → AUDIO 6
       =================================================== */
 
       if (
@@ -687,11 +751,11 @@ const Escena2 = forwardRef(
       ) {
 
         audio =
-          audiosEscena2[7];
+          audiosEscena2[6];
 
-        numeroAudio = 7;
+        numeroAudio = 6;
 
-        momento = 7;
+        momento = 6;
 
       }
 
@@ -709,17 +773,15 @@ const Escena2 = forwardRef(
         objeto
       );
 
+
       registrarObjetoEncontrado(
         objeto
       );
 
 
-      /*
-        Al abrir nuevamente el modal,
-        detenemos momentáneamente el pulso.
-      */
-
-      setObjetoPulsando(null);
+      setObjetoPulsando(
+        null
+      );
 
 
       /* ===================================================
@@ -752,12 +814,14 @@ const Escena2 = forwardRef(
 
     const cerrarModal = () => {
 
-      setObjetoActivo(null);
+      setObjetoActivo(
+        null
+      );
 
 
       /*
-        Cuando cerramos el modal,
-        el objeto comienza a palpitar.
+        Cuando se cierra el modal,
+        el objeto empieza a palpitar.
       */
 
       if (objetoVisible) {
@@ -772,7 +836,67 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       BOTÓN NARRADOR
+       CONTINUAR AL CAPÍTULO 3
+    ===================================================== */
+
+    const continuarCapitulo3 = () => {
+
+      /*
+        No permitimos continuar
+        si no están los tres objetos.
+      */
+
+      if (
+        objetosDescubiertos.length < 3
+      ) {
+
+        return;
+
+      }
+
+
+      /*
+        Desbloqueo oficial del capítulo 3.
+      */
+
+      if (
+        onCapituloDesbloqueado
+      ) {
+
+        onCapituloDesbloqueado(
+          3
+        );
+
+      }
+
+
+      /*
+        Ocultar botón.
+      */
+
+      setMostrarContinuar(
+        false
+      );
+
+
+      /*
+        Pasar al padre para iniciar
+        el fundido blanco.
+      */
+
+      if (
+        onEscenaTerminada
+      ) {
+
+        onEscenaTerminada();
+
+      }
+
+    };
+
+
+    /* =====================================================
+       BOTÓN DEL NARRADOR
     ===================================================== */
 
     const toggleNarracion = () => {
@@ -787,8 +911,7 @@ const Escena2 = forwardRef(
 
 
       /*
-        Si estamos esperando un clic
-        en un objeto, el narrador no inicia
+        En estado "espera" no comienza
         ningún audio nuevo.
       */
 
@@ -846,7 +969,7 @@ const Escena2 = forwardRef(
 
 
     /* =====================================================
-       EXPONER AL PADRE
+       EXPONER CONTROL AL PADRE
     ===================================================== */
 
     useImperativeHandle(
@@ -950,6 +1073,7 @@ const Escena2 = forwardRef(
                 />
 
               )}
+
 
               <div className="escena-2-adrian-hablando">
 
@@ -1111,8 +1235,6 @@ const Escena2 = forwardRef(
 
           {/* =================================================
              RELOJ
-
-             POR AHORA SOLO APARECE.
           ================================================= */}
 
           {objetoVisible === "reloj" && (
@@ -1123,6 +1245,44 @@ const Escena2 = forwardRef(
                 src={reloj}
                 alt="Reloj"
               />
+
+            </div>
+
+          )}
+
+
+          {/* =================================================
+             CONTINUAR AL CAPÍTULO 3
+          ================================================= */}
+
+          {mostrarContinuar && (
+
+            <div
+              className="escena-1-continuar-contenedor"
+            >
+
+              <div
+                className="escena-1-continuar-texto"
+              >
+
+                <span>
+                  CONTINUAR AL CAPÍTULO 3
+                </span>
+
+
+                <button
+                  className="escena-1-continuar-boton"
+                  onClick={
+                    continuarCapitulo3
+                  }
+                  disabled={
+                    objetosDescubiertos.length < 3
+                  }
+                >
+                  CONTINUAR →
+                </button>
+
+              </div>
 
             </div>
 
@@ -1160,6 +1320,7 @@ const Escena2 = forwardRef(
 
                   )}
 
+
                   {objetoActivo === "pergamino" && (
 
                     <img
@@ -1168,6 +1329,7 @@ const Escena2 = forwardRef(
                     />
 
                   )}
+
 
                   {objetoActivo === "copa" && (
 
@@ -1180,10 +1342,10 @@ const Escena2 = forwardRef(
 
                 </div>
 
+
                 <div
                   className="escena-2-modal-info"
                 >
-
 
                   {objetoActivo === "platon" && (
 
@@ -1194,7 +1356,14 @@ const Escena2 = forwardRef(
                       </h2>
 
                       <p>
-                       Platón reflexiona aquí sobre la justicia, la educación y la manera en que debería organizarse una sociedad. Sus ideas generan debates que siguen muy presentes entre quienes buscan comprender cómo debería funcionar nuestra ciudad.
+                        Platón reflexiona aquí sobre
+                        la justicia, la educación y la
+                        manera en que debería
+                        organizarse una sociedad.
+                        Sus ideas generan debates que
+                        siguen muy presentes entre
+                        quienes buscan comprender cómo
+                        debería funcionar nuestra ciudad.
                       </p>
 
                     </>
@@ -1211,7 +1380,14 @@ const Escena2 = forwardRef(
                       </h2>
 
                       <p>
-                       Él estudia prácticamente todo lo que despierta su curiosidad: la filosofía, la política, la naturaleza y la lógica. Su objetivo es comprender cómo funciona el mundo, no simplemente aceptar las cosas como son.
+                        Él estudia prácticamente todo
+                        lo que despierta su curiosidad:
+                        la filosofía, la política, la
+                        naturaleza y la lógica. Su
+                        objetivo es comprender cómo
+                        funciona el mundo, no
+                        simplemente aceptar las cosas
+                        como son.
                       </p>
 
                     </>
@@ -1228,7 +1404,13 @@ const Escena2 = forwardRef(
                       </h2>
 
                       <p>
-                       Después de ser condenado a muerte en Atenas, Sócrates bebe la cicuta y permanece fiel a sus principios hasta el final. Su historia nos recuerda que cuestionar lo que creemos saber también puede tener consecuencias.
+                        Después de ser condenado a
+                        muerte en Atenas, Sócrates
+                        bebe la cicuta y permanece fiel
+                        a sus principios hasta el final.
+                        Su historia nos recuerda que
+                        cuestionar lo que creemos saber
+                        también puede tener consecuencias.
                       </p>
 
                     </>
@@ -1252,6 +1434,10 @@ const Escena2 = forwardRef(
 
           )}
 
+
+          {/* =================================================
+             AUDIO
+          ================================================= */}
 
           <audio
             ref={audioRef}

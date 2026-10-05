@@ -476,6 +476,66 @@ export const EscenaPortada = () => {
       transicionBlanca
     ]);
 
+  const pasarACapitulo3 =
+    useCallback(() => {
+
+      if (
+        transicionBlanca
+      ) {
+        return;
+      }
+
+      setNarradorActivo(
+        false
+      );
+
+      setTextoNarracionActivo(
+        false
+      );
+
+      setMensajeDesbloqueo(
+        null
+      );
+
+      setTransicionBlanca(
+        "entrando"
+      );
+
+
+      transicionTimerRef.current =
+        setTimeout(() => {
+
+          setCapituloActivo(
+            3
+          );
+
+          setEscenaIniciada(
+            true
+          );
+
+          setTextoNarracionActivo(
+            true
+          );
+
+          setTransicionBlanca(
+            "saliendo"
+          );
+
+
+          ocultarTransicionTimerRef.current =
+            setTimeout(() => {
+
+              setTransicionBlanca(
+                null
+              );
+
+            }, 900);
+
+        }, 1250);
+
+    }, [
+      transicionBlanca
+    ]);
 
   /* =====================================================
      MÚSICA
@@ -642,8 +702,8 @@ export const EscenaPortada = () => {
 
         <section
           className={`comic-pantalla ${escenaIniciada
-              ? "escena-activa"
-              : ""
+            ? "escena-activa"
+            : ""
             }`}
         >
 
@@ -747,8 +807,8 @@ export const EscenaPortada = () => {
 
             <button
               className={`comic-control ${textoNarracionActivo
-                  ? "activo"
-                  : ""
+                ? "activo"
+                : ""
                 }`}
               onClick={
                 alternarTextoNarracion
@@ -872,22 +932,43 @@ export const EscenaPortada = () => {
               ================================================= */}
 
               {capituloActivo === 2 && (
+
                 <Escena2
                   ref={escenaRef}
-                  textoNarracionActivo={textoNarracionActivo}
-                  onNarradorEstadoChange={actualizarEstadoNarrador}
-                />
-              )}
 
+                  textoNarracionActivo={
+                    textoNarracionActivo
+                  }
+
+                  onNarradorEstadoChange={
+                    actualizarEstadoNarrador
+                  }
+
+                  onObjetosEncontrados={
+                    mostrarMensajeObjetos
+                  }
+
+                  onCapituloDesbloqueado={
+                    desbloquearCapitulo
+                  }
+
+                  onEscenaTerminada={
+                    pasarACapitulo3
+                  }
+                />
+
+              )}
 
               {/* =================================================
                   ESCENA 3
               ================================================= */}
 
               {capituloActivo === 3 && (
-
-                <Escena3 />
-
+                <Escena3
+                  ref={escenaRef}
+                  textoNarracionActivo={textoNarracionActivo}
+                  onNarradorEstadoChange={actualizarEstadoNarrador}
+                />
               )}
 
             </div>
