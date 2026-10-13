@@ -73,6 +73,7 @@ export const SeccionAdrian = () => {
         svg.setAttribute("height", "100%");
 
         svg.style.display = "block";
+        
 
 
         /* =========================================
@@ -321,7 +322,7 @@ export const SeccionAdrian = () => {
 
         <h2 className="adrian-nombre">
 
-          ADRIAN
+          ADRIÁN
 
           <br />
 

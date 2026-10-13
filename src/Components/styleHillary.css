@@ -826,7 +826,7 @@ body {
   width: 100%;
   max-width: 600px;
 
-  height: 330px;
+  height: 280px;
 
   overflow: hidden;
 
@@ -843,7 +843,7 @@ body {
 
   justify-content: center;
 
-   transform: translateY(-40px);
+   transform:translateY(-30px); 
 
 }
 
@@ -924,6 +924,7 @@ body {
   border-radius: 0;
 
 }
+
 
 
 /* ============================= */
@@ -1740,10 +1741,10 @@ body {
 
 
 /* =========================================
-   TIERRA / FONDO
+   PERGAMINO / FONDO
 ========================================= */
 
-.tierra-cartelera {
+.pergamino-cartelera {
   position: absolute;
 
   width: 100%;
@@ -1755,7 +1756,7 @@ body {
   z-index: 1;
 }
 
-.tierra-cartelera img {
+.pergamino-cartelera img {
   width: 100%;
   height: 100%;
 
@@ -1882,7 +1883,7 @@ body {
   height: 500px;
 
   left: 9%;
-  top: 23%;
+  top: 16%;
 
   overflow: hidden;
 
@@ -1920,6 +1921,8 @@ body {
   background-color: transparent;
 
   transform: rotate(-3deg);
+
+  border: none;
 
   transition:
     transform 0.3s ease,
@@ -2424,12 +2427,14 @@ body {
   transform: translateY(0);
 }
 
-
 /* =========================================
    TARJETAS
 ========================================= */
 
 .cartelera-mitonic .cartelera {
+  position: relative;
+  cursor: pointer;
+
   opacity: 0;
 
   transform:
@@ -2528,6 +2533,127 @@ body {
 
 
 /* =========================================
+   TARJETA 6
+========================================= */
+
+.cartelera-mitonic.visible
+.fondo-6 {
+
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    rotate(3deg);
+
+  transition-delay: 1.2s;
+}
+
+
+/* =========================================
+   TARJETA 7
+========================================= */
+
+.cartelera-mitonic.visible
+.fondo-7 {
+
+  opacity: 1;
+
+  transform:
+    translateY(0)
+    rotate(-3deg);
+
+  transition-delay: 1.35s;
+}
+
+
+/* =========================================
+   VOLTEO: CARA FRONTAL
+========================================= */
+
+.cartelera .imagen-cartelera {
+  backface-visibility: hidden;
+
+  transform: perspective(1000px) rotateY(0deg);
+
+  transition: transform 0.7s ease;   /* mismo tiempo que integrantes */
+}
+
+.cartelera.volteada .imagen-cartelera {
+  transform: perspective(1000px) rotateY(180deg);
+}
+
+
+/* =========================================
+   VOLTEO: REVERSO
+========================================= */
+
+.cara-atras {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  padding: 22px;
+  box-sizing: border-box;
+
+  background: linear-gradient(160deg, #713e25, #4a2713);
+  color: #fce9d5;
+  text-align: center;
+
+  border-radius: 20px;   /* igual al de tu imagen-cartelera */
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  backface-visibility: hidden;
+
+  transform: perspective(1000px) rotateY(180deg);
+
+  transition: transform 0.7s ease;   /* mismo tiempo que integrantes */
+}
+
+.cartelera.volteada .cara-atras {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.atras-pregunta {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #f0b97a;
+}
+
+.atras-cifra {
+  font-size: clamp(34px, 3.4vw, 50px);
+  font-weight: 800;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.atras-etiqueta {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.atras-dato {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  opacity: 0.9;
+}
+
+.atras-volver {
+  margin-top: 6px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+/* =========================================
    BOTONES
 ========================================= */
 
@@ -2540,7 +2666,11 @@ body {
     opacity 0.7s ease 0.9s,
     transform 0.7s ease 0.9s;
 }
-
+.controles-cartelera {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 10px;
+}
 
 .cartelera-mitonic.visible
 .controles-cartelera {
@@ -2559,7 +2689,7 @@ body {
   width: 100%;
   min-height: 100vh;
 
-  background-color: #fce9d5;
+  background-color:#FCE9D5 ;
 
   position: relative;
 
@@ -2593,11 +2723,11 @@ body {
 .adrian-nombre {
   margin: 0;
 
-  color: #713e25;
+  color: #F0B97A;
 
   font-family: Arial, Helvetica, sans-serif;
 
-  font-size: clamp(55px, 6vw, 86px);
+  font-size: clamp(46px, 5vw, 72px);
 
   line-height: 0.95;
 
@@ -2614,7 +2744,7 @@ body {
 .adrian-profesion {
   margin: 38px 0 0;
 
-  color: #650000;
+  color: #713E25;
 
   font-family: Arial, Helvetica, sans-serif;
 
@@ -2638,7 +2768,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  margin-right: 100px;
+  margin-right: 0;
 
   position: relative;
 }
@@ -2752,11 +2882,10 @@ body {
 /* SECCIÓN EQUIPO */
 /* ============================= */
 
-
 .equipo-titulo {
   position: absolute;
 
-  top: 60px;
+  top: 20px;
   left: 0;
   right: 0;
 
@@ -2838,6 +2967,95 @@ body {
 .integrante:nth-child(2) img {
   max-width: 300px;
 }
+
+
+/* ============================= */
+/* FLIP CARD */
+/* ============================= */
+
+.integrante {
+  perspective: 1000px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.integrante-interior {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+
+  transition: transform 0.7s ease;
+  transform-style: preserve-3d;
+}
+
+.integrante:nth-child(2) .integrante-interior {
+  max-width: 300px;
+}
+
+.integrante.volteada .integrante-interior {
+  transform: rotateY(180deg);
+}
+
+.integrante-frente,
+.integrante-reverso {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.integrante-frente {
+  width: 100%;
+}
+
+.integrante-reverso {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  transform: rotateY(180deg);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  padding: 28px;
+
+  text-align: center;
+
+  background: linear-gradient(160deg, #8a1f3a 0%, #5e1226 100%);
+  border: 3px solid #fce9d5;
+  border-radius: 18px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.integrante-reverso h3 {
+  margin: 0 0 14px;
+
+  color: #ffffff;
+
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.integrante-reverso p {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
 
 /* =========================================================
    ANIMACIONES SECCIÓN EQUIPO
@@ -3889,7 +4107,50 @@ body {
   }
 
 }
+/* ===== INFO COMIC: LETRAS MÁS LLAMATIVAS ===== */
 
+.info-comic-titulo h2 {
+  color: #e17b1f;
+
+  text-shadow:
+    -2px -2px 0 #fff3dc,
+    2px -2px 0 #fff3dc,
+    -2px 2px 0 #fff3dc,
+    2px 2px 0 #fff3dc,
+    0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.info-item h3 {
+  color: #e17b1f;
+
+  text-shadow:
+    -2px -2px 0 #fff3dc,
+    2px -2px 0 #fff3dc,
+    -2px 2px 0 #fff3dc,
+    2px 2px 0 #fff3dc,
+    0 4px 6px rgba(0, 0, 0, 0.45);
+}
+
+.info-item p {
+  color: #ffffff;
+  font-weight: 700;
+
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+}
+
+/* Tamaños más grandes solo en pantallas grandes */
+@media (min-width: 901px) {
+
+  .info-item h3 {
+    font-size: clamp(24px, 2.6vw, 42px);
+  }
+
+  .info-item p {
+    font-size: clamp(15px, 1.45vw, 22px);
+    line-height: 1.3;
+  }
+
+}
 
 
 
