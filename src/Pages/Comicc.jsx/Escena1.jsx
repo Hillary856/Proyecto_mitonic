@@ -36,7 +36,7 @@ import reloj from "../../AssetsNuevos/reloj.svg";
 import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
 
 import "./Escenas.css";
-import "./Escenas.css";
+
 
 const Lottie = lottieReact.default;
 
@@ -47,28 +47,25 @@ const Lottie = lottieReact.default;
 */
 const POSICIONES_ESCONDITES_ESCENA1 = {
   moneda: [
-    { left: "9%", top: "64%" },
-    { left: "25%", top: "64%" },
-    { left: "82%", top: "79%" },
-    { left: "7%", top: "62%" },
-    { left: "27%", top: "66%" },
-    { left: "84%", top: "77%" }
+    { left: "8.5%", top: "62%" },
+    { left: "24%", top: "68%" },
+    { left: "90%", top: "62%" }
   ],
   jarron: [
-    { left: "11%", top: "64%" },
-    { left: "24%", top: "66%" },
-    { left: "80%", top: "79%" },
-    { left: "7%", top: "65%" },
-    { left: "27%", top: "62%" },
-    { left: "84%", top: "76%" }
+
+    { left: "92%", top: "60%" },
+    { left: "11%", top: "63%" },
+    { left: "24%", top: "69%" },
+    { left: "65%", top: "65%" },
+    
   ],
   lanza: [
-    { left: "8%", top: "64%" },
-    { left: "25%", top: "65%" },
-    { left: "83%", top: "80%" },
-    { left: "12%", top: "66%" },
-    { left: "28%", top: "62%" },
-    { left: "79%", top: "77%" }
+    { left: "8%", top: "66%" },
+    { left: "16%", top: "64%" },
+    { left: "23%", top: "71%" },
+    { left: "29%", top: "75%" },
+    { left: "71%", top: "77%" },
+    { left: "88%", top: "59%" }
   ]
 };
 
@@ -150,7 +147,7 @@ const Escena1 = forwardRef(
     const [objetoVisible, setObjetoVisible] = useState(null);
     const [objetoDescubierto, setObjetoDescubierto] = useState(null);
     const [objetoPulsando, setObjetoPulsando] = useState(null);
-    const [objetoAsomado, setObjetoAsomado] = useState(false);
+    const [faseBusqueda, setFaseBusqueda] = useState("oculto");
     const [posicionEscondite, setPosicionEscondite] = useState(0);
     const [objetoActivo, setObjetoActivo] = useState(null);
     const [objetoEnAudio, setObjetoEnAudio] = useState(null);
@@ -251,7 +248,8 @@ const Escena1 = forwardRef(
 
     /* =====================================================
        BÚSQUEDA DE ASSETS
-       Visible: 900 ms. Oculto: 260 ms. Solo cambia de sitio oculto.
+       El objeto aparece, permanece visible, se desvanece y
+       cambia de ubicación solo cuando ya está oculto.
     ===================================================== */
     useEffect(() => {
       const objeto = objetoVisible;
@@ -265,18 +263,14 @@ const Escena1 = forwardRef(
         return;
       }
 
-      const posiciones = POSICIONES_ESCONDITES_ESCENA1[objeto];
-      if (!posiciones || posiciones.length === 0) return;
-
-      if (objetoAsomado) {
+      if (faseBusqueda === "visible") {
         busquedaTimerRef.current = setTimeout(() => {
-          setObjetoAsomado(false);
-        }, 900);
-      } else {
+          setFaseBusqueda("salida");
+        }, 750);
+      } else if (faseBusqueda === "oculto") {
         busquedaTimerRef.current = setTimeout(() => {
-          setPosicionEscondite((actual) => (actual + 1) % posiciones.length);
-          setObjetoAsomado(true);
-        }, 260);
+          setFaseBusqueda("entrada");
+        }, 120);
       }
 
       return () => {
@@ -285,7 +279,29 @@ const Escena1 = forwardRef(
           busquedaTimerRef.current = null;
         }
       };
-    }, [objetoVisible, objetoDescubierto, objetoActivo, objetoAsomado]);
+    }, [objetoVisible, objetoDescubierto, objetoActivo, faseBusqueda]);
+
+    /* =====================================================
+       FIN DE ANIMACIÓN DE BÚSQUEDA
+       La posición cambia después de terminar la animación
+       de salida, cuando el objeto ya está transparente.
+    ===================================================== */
+    const manejarAnimacionBusqueda = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
+
+      if (evento.animationName === "entradaEsconditeEscena1") {
+        setFaseBusqueda("visible");
+        return;
+      }
+
+      if (evento.animationName === "salidaEsconditeEscena1") {
+        const posiciones = POSICIONES_ESCONDITES_ESCENA1[objetoVisible];
+        if (posiciones?.length) {
+          setPosicionEscondite((actual) => (actual + 1) % posiciones.length);
+        }
+        setFaseBusqueda("oculto");
+      }
+    };
 
     /* =====================================================
        REGISTRAR OBJETO ENCONTRADO
@@ -355,7 +371,7 @@ const Escena1 = forwardRef(
           setObjetoVisible("lanza");
           setObjetoDescubierto(null);
           setPosicionEscondite(0);
-          setObjetoAsomado(true);
+          setFaseBusqueda("entrada");
           setMomentoTexto(null);
           setTipoAudio("espera");
           setNarradorActivo(false);
@@ -369,7 +385,7 @@ const Escena1 = forwardRef(
           setObjetoPulsando(null);
           setObjetoVisible(null);
           setObjetoDescubierto(null);
-          setObjetoAsomado(false);
+          setFaseBusqueda("oculto");
           setPosicionEscondite(0);
           setMomentoTexto(null);
           setTipoAudio("espera");
@@ -402,7 +418,7 @@ const Escena1 = forwardRef(
         setObjetoDescubierto(null);
         setObjetoPulsando(null);
         setPosicionEscondite(0);
-        setObjetoAsomado(true);
+        setFaseBusqueda("entrada");
         setTipoAudio("espera");
         setNarradorActivo(false);
         setMomentoTexto(null);
@@ -415,7 +431,7 @@ const Escena1 = forwardRef(
         setObjetoDescubierto(null);
         setObjetoPulsando(null);
         setPosicionEscondite(0);
-        setObjetoAsomado(true);
+        setFaseBusqueda("entrada");
         setTipoAudio("espera");
         setNarradorActivo(false);
         setMomentoTexto(null);
@@ -433,9 +449,6 @@ const Escena1 = forwardRef(
        CLIC EN LOS OBJETOS
     ===================================================== */
     const reproducirObjeto = (objeto) => {
-      // No permite volver a activar el mismo asset tras encontrarlo.
-      if (objeto !== "reloj" && objetoDescubierto === objeto) return;
-
       const audiosObjeto = {
         moneda: { audio: audiosEscena1[3], numero: 3, momento: 3 },
         jarron: { audio: audiosEscena1[5], numero: 5, momento: 5 },
@@ -452,7 +465,7 @@ const Escena1 = forwardRef(
           clearTimeout(busquedaTimerRef.current);
           busquedaTimerRef.current = null;
         }
-        setObjetoAsomado(true);
+        setFaseBusqueda("visible");
         registrarObjetoEncontrado(objeto);
         setObjetoDescubierto(objeto);
         setObjetoActivo(objeto);
@@ -596,15 +609,13 @@ const Escena1 = forwardRef(
           {/* MONEDA: APARECE DETRÁS DE LAS PIEDRAS */}
           {objetoVisible === "moneda" && posicionActual && (
             <button
-              className={`escena-1-moneda-boton escena-1-objeto-busqueda ${
-                objetoAsomado ? "asomado" : "oculto"
-              } ${objetoDescubierto === "moneda" ? "descubierto" : ""} ${
-                objetoPulsando === "moneda" ? "pulsando" : ""
-              }`}
+              className={`escena-1-moneda-boton escena-1-objeto-busqueda ${faseBusqueda} ${
+                objetoDescubierto === "moneda" ? "descubierto" : ""
+              } ${objetoPulsando === "moneda" ? "pulsando" : ""}`}
               style={{ left: posicionActual.left, top: posicionActual.top }}
               onClick={() => reproducirObjeto("moneda")}
+              onAnimationEnd={manejarAnimacionBusqueda}
               aria-label="Encontrar moneda"
-              disabled={objetoDescubierto === "moneda"}
             >
               <img
                 src={Es1Moneda}
@@ -617,15 +628,13 @@ const Escena1 = forwardRef(
           {/* JARRÓN: APARECE DETRÁS DE LAS PIEDRAS */}
           {objetoVisible === "jarron" && posicionActual && (
             <button
-              className={`escena-1-jarron-boton escena-1-objeto-busqueda ${
-                objetoAsomado ? "asomado" : "oculto"
-              } ${objetoDescubierto === "jarron" ? "descubierto" : ""} ${
-                objetoPulsando === "jarron" ? "pulsando" : ""
-              }`}
+              className={`escena-1-jarron-boton escena-1-objeto-busqueda ${faseBusqueda} ${
+                objetoDescubierto === "jarron" ? "descubierto" : ""
+              } ${objetoPulsando === "jarron" ? "pulsando" : ""}`}
               style={{ left: posicionActual.left, top: posicionActual.top }}
               onClick={() => reproducirObjeto("jarron")}
+              onAnimationEnd={manejarAnimacionBusqueda}
               aria-label="Encontrar jarrón"
-              disabled={objetoDescubierto === "jarron"}
             >
               <img
                 src={Es1Jarron}
@@ -638,15 +647,13 @@ const Escena1 = forwardRef(
           {/* LANZA: APARECE DETRÁS DE LAS PIEDRAS */}
           {objetoVisible === "lanza" && posicionActual && (
             <button
-              className={`escena-1-lanza-boton escena-1-objeto-busqueda ${
-                objetoAsomado ? "asomado" : "oculto"
-              } ${objetoDescubierto === "lanza" ? "descubierto" : ""} ${
-                objetoPulsando === "lanza" ? "pulsando" : ""
-              }`}
+              className={`escena-1-lanza-boton escena-1-objeto-busqueda ${faseBusqueda} ${
+                objetoDescubierto === "lanza" ? "descubierto" : ""
+              } ${objetoPulsando === "lanza" ? "pulsando" : ""}`}
               style={{ left: posicionActual.left, top: posicionActual.top }}
               onClick={() => reproducirObjeto("lanza")}
+              onAnimationEnd={manejarAnimacionBusqueda}
               aria-label="Encontrar lanza"
-              disabled={objetoDescubierto === "lanza"}
             >
               <img
                 src={Es1Lanza}
