@@ -7,7 +7,6 @@ import {
 } from "react";
 
 import lottieReact from "lottie-react";
-
 import AdrianHablando from "../../assets/AdrianHablando.json";
 
 import Esc3Audio1 from "../../Audios/Esc3Audio1.mp3";
@@ -15,7 +14,6 @@ import Esc3Audio2 from "../../Audios/Esc3Audio2.mp3";
 import Esc3Audio3 from "../../Audios/Esc3Audio3.mp3";
 import Esc3Audio4 from "../../Audios/Esc3Audio4.mp3";
 import Esc3Audio5 from "../../Audios/Esc3Audio5.mp3";
-/* import Esc3Audio6 from "../../Audios/Esc3Audio6.mp3"; */
 
 import Es3Campana from "../../AssetsNuevos/Es3Campana.svg";
 import Es3corona from "../../AssetsNuevos/Es3corona.svg";
@@ -24,6 +22,63 @@ import Es3racimo from "../../AssetsNuevos/Es3racimo.svg";
 import "./Escenas.css";
 
 const Lottie = lottieReact.default;
+
+
+/* =========================================================
+   POSICIONES DE BÚSQUEDA DE LOS ASSETS
+
+   Estos puntos son una primera distribución alrededor de
+   las piezas del escenario. Puedes corregirlos aquí.
+
+   Los objetos cambian de posición cuando están ocultos.
+========================================================= */
+
+const POSICIONES_ESCONDITE_ESCENA3 = {
+  corona: [
+    { left: "7%", top: "39%" },
+    { left: "28%", top: "25%" },
+    { left: "49%", top: "29%" },
+    { left: "72%", top: "47%" },
+    { left: "75%", top: "63%" },
+    { left: "61%", top: "76%" },
+    { left: "17%", top: "43%" },
+    { left: "87%", top: "48%" }
+  ],
+
+  campana: [
+    { left: "16%", top: "39%" },
+    { left: "37%", top: "29%" },
+    { left: "54%", top: "30%" },
+    { left: "68%", top: "46%" },
+    { left: "79%", top: "62%" },
+    { left: "57%", top: "77%" },
+    { left: "8%", top: "42%" },
+    { left: "88%", top: "52%" }
+  ],
+
+  racimo: [
+    { left: "10%", top: "41%" },
+    { left: "31%", top: "27%" },
+    { left: "46%", top: "31%" },
+    { left: "73%", top: "45%" },
+    { left: "82%", top: "64%" },
+    { left: "63%", top: "77%" },
+    { left: "21%", top: "46%" },
+    { left: "91%", top: "49%" }
+  ]
+};
+
+
+/* =========================================================
+   TIEMPOS DE LA BÚSQUEDA
+========================================================= */
+
+const TIEMPOS_BUSQUEDA_ESCENA3 = {
+  entrada: 220,
+  visible: 750,
+  salida: 240,
+  oculto: 130
+};
 
 
 const Escena3 = forwardRef(
@@ -37,9 +92,7 @@ const Escena3 = forwardRef(
     ref
   ) => {
 
-    /* =====================================================
-       AUDIOS
-    ===================================================== */
+    /* ========================== AUDIOS ===================== */
 
     const audiosEscena3 = {
       1: Esc3Audio1,
@@ -47,53 +100,31 @@ const Escena3 = forwardRef(
       3: Esc3Audio3,
       4: Esc3Audio4,
       5: Esc3Audio5
-      /* 6: Esc3Audio6 */
     };
 
 
-    /* =====================================================
-       SUBTÍTULOS
-    ===================================================== */
+    /* ======================== SUBTÍTULOS =================== */
 
     const subtitulosEscena3 = {
+      1: "El Ágora. Este lugar es mucho más que una plaza. Aquí nos reunimos para comerciar, conversar y discutir sobre los asuntos que afectan a nuestra ciudad. Si prestan atención, pueden escuchar cómo las personas intercambian ideas, opiniones y argumentos. La vida pública de Atenas ocurre aquí, frente a todos.",
 
-      1:
-        "El Ágora. Este lugar es mucho más que una plaza. Aquí nos reunimos para comerciar, conversar y discutir sobre los asuntos que afectan a nuestra ciudad. Si prestan atención, pueden escuchar cómo las personas intercambian ideas, opiniones y argumentos. La vida pública de Atenas ocurre aquí, frente a todos.",
+      2: "Servía para premiar y dar la máxima distinción de respeto a los líderes, jueces y sabios.",
 
-      2:
-        "Servía para premiar y dar la máxima distinción de respeto a los líderes, jueces y sabios.",
+      3: "Cada cosa que encontramos aquí parece mostrarnos una parte diferente de cómo funciona nuestra sociedad.",
 
-      3:
-        "Cada cosa que encontramos aquí parece mostrarnos una parte diferente de cómo funciona nuestra sociedad.",
+      4: "Era obligatoria para todos los comerciantes y debían pesar sus productos frente al cliente, ya fueran sacos de trigo, olivas o polvo de oro.",
 
-      4:
-        "Era obligatoria para todos los comerciantes y debían pesar sus productos frente al cliente, ya fueran sacos de trigo, olivas o polvo de oro.",
-
-      5:
-        "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios."
-
-      /*
-      6:
-        "¡Ya está sucediendo otra vez! Cada vez que se activa me transporta a otro momento... ¿Qué está buscando?"
-      */
-
+      5: "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios."
     };
 
 
-    /* =====================================================
-       ADRIÁN
-    ===================================================== */
+    /* =========================== ESTADOS =================== */
 
     const [adrianVisible, setAdrianVisible] =
       useState(false);
 
     const [mostrarResplandor, setMostrarResplandor] =
       useState(false);
-
-
-    /* =====================================================
-       AUDIO
-    ===================================================== */
 
     const [audioActual, setAudioActual] =
       useState(0);
@@ -103,11 +134,6 @@ const Escena3 = forwardRef(
 
     const [narradorActivo, setNarradorActivo] =
       useState(true);
-
-
-    /* =====================================================
-       OBJETOS
-    ===================================================== */
 
     const [objetoVisible, setObjetoVisible] =
       useState(null);
@@ -124,90 +150,53 @@ const Escena3 = forwardRef(
     const [objetoEnAudio, setObjetoEnAudio] =
       useState(null);
 
-
-    /* =====================================================
-       OBJETOS ENCONTRADOS
-    ===================================================== */
-
     const [objetosDescubiertos, setObjetosDescubiertos] =
       useState([]);
 
+    const [faseBusqueda, setFaseBusqueda] =
+      useState("entrada");
 
-    /* =====================================================
-       SUBTÍTULO
-    ===================================================== */
+    const [indiceEscondite, setIndiceEscondite] =
+      useState(0);
 
     const [momentoTexto, setMomentoTexto] =
       useState(null);
-
-
-    /* =====================================================
-       BOTÓN CONTINUAR
-    ===================================================== */
 
     const [mostrarContinuar, setMostrarContinuar] =
       useState(false);
 
 
-    /* =====================================================
-       AUDIO
-    ===================================================== */
+    /* ========================= REFERENCIAS ================= */
 
-    const audioRef =
-      useRef(null);
+    const audioRef = useRef(null);
+    const busquedaTimerRef = useRef(null);
 
 
-    /* =====================================================
-       ENTRADA DE ESCENA
-    ===================================================== */
+    /* ====================== ENTRADA ESCENA ================= */
 
     useEffect(() => {
-
       setAdrianVisible(true);
-
       setMostrarResplandor(true);
 
-      const quitarResplandor =
-        setTimeout(() => {
+      const timer = setTimeout(() => {
+        setMostrarResplandor(false);
+      }, 900);
 
-          setMostrarResplandor(false);
-
-        }, 900);
-
-      return () => {
-
-        clearTimeout(
-          quitarResplandor
-        );
-
-      };
-
+      return () => clearTimeout(timer);
     }, []);
 
 
-    /* =====================================================
-       AVISAR ESTADO DEL NARRADOR
-    ===================================================== */
+    /* =================== ESTADO DEL NARRADOR =============== */
 
     useEffect(() => {
-
-      if (onNarradorEstadoChange) {
-
-        onNarradorEstadoChange(
-          narradorActivo
-        );
-
-      }
-
+      onNarradorEstadoChange?.(narradorActivo);
     }, [
       narradorActivo,
       onNarradorEstadoChange
     ]);
 
 
-    /* =====================================================
-       REPRODUCIR AUDIO
-    ===================================================== */
+    /* ====================== REPRODUCIR AUDIO =============== */
 
     const reproducirAudio = (
       audio,
@@ -216,57 +205,36 @@ const Escena3 = forwardRef(
       objeto = null,
       momento = null
     ) => {
+      const reproductor = audioRef.current;
 
-      const reproductor =
-        audioRef.current;
-
-      if (!reproductor) {
-        return;
-      }
+      if (!reproductor) return;
 
       reproductor.pause();
-
       reproductor.src = audio;
-
       reproductor.load();
-
       reproductor.currentTime = 0;
 
       setAudioActual(numero);
-
       setTipoAudio(tipo);
-
       setObjetoEnAudio(objeto);
-
       setMomentoTexto(momento);
-
       setNarradorActivo(true);
 
-      reproductor
-        .play()
-        .catch((error) => {
+      reproductor.play().catch((error) => {
+        console.error(
+          "No se pudo reproducir el audio de Escena 3:",
+          error
+        );
 
-          console.error(
-            "No se pudo reproducir el audio de Escena 3:",
-            error
-          );
-
-          setNarradorActivo(false);
-
-        });
-
+        setNarradorActivo(false);
+      });
     };
 
 
-    /* =====================================================
-       AUDIO 1
-    ===================================================== */
+    /* ======================== AUDIO INICIAL ================ */
 
     useEffect(() => {
-
-      if (!adrianVisible) {
-        return;
-      }
+      if (!adrianVisible) return;
 
       reproducirAudio(
         audiosEscena3[1],
@@ -276,139 +244,131 @@ const Escena3 = forwardRef(
         1
       );
 
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [adrianVisible]);
 
 
-    /* =====================================================
-       LIMPIEZA
-    ===================================================== */
+    /* =========================== LIMPIEZA ================== */
 
     useEffect(() => {
-
       return () => {
-
         if (audioRef.current) {
-
           audioRef.current.pause();
-
           audioRef.current.currentTime = 0;
-
         }
 
+        if (busquedaTimerRef.current) {
+          clearTimeout(busquedaTimerRef.current);
+          busquedaTimerRef.current = null;
+        }
       };
-
     }, []);
 
 
-    /* =====================================================
-       REGISTRAR OBJETO
-    ===================================================== */
+    /* ======================= CICLO DE BÚSQUEDA =============
+       El asset se mueve solo mientras está oculto.
+    ========================================================= */
 
-    const registrarObjetoEncontrado = (
-      objeto
-    ) => {
+    useEffect(() => {
+      const posiciones =
+        POSICIONES_ESCONDITE_ESCENA3[objetoVisible];
 
-      if (
-        objetosDescubiertos.includes(
-          objeto
-        )
-      ) {
-
-        return;
-
-      }
-
-      setObjetosDescubiertos(
-        (anteriores) => [
-
-          ...anteriores,
-          objeto
-
-        ]
+      const estaBuscando = Boolean(
+        objetoVisible && posiciones
       );
 
+      if (
+        !estaBuscando ||
+        objetoDescubierto ||
+        objetoActivo
+      ) {
+        if (busquedaTimerRef.current) {
+          clearTimeout(busquedaTimerRef.current);
+          busquedaTimerRef.current = null;
+        }
+
+        return undefined;
+      }
+
+      if (busquedaTimerRef.current) {
+        clearTimeout(busquedaTimerRef.current);
+      }
+
+      const duracion =
+        TIEMPOS_BUSQUEDA_ESCENA3[faseBusqueda] ?? 220;
+
+      busquedaTimerRef.current = setTimeout(() => {
+        if (faseBusqueda === "entrada") {
+          setFaseBusqueda("visible");
+        } else if (faseBusqueda === "visible") {
+          setFaseBusqueda("salida");
+        } else if (faseBusqueda === "salida") {
+          setFaseBusqueda("oculto");
+        } else {
+          setIndiceEscondite(
+            (actual) => (actual + 1) % posiciones.length
+          );
+
+          setFaseBusqueda("entrada");
+        }
+      }, duracion);
+
+      return () => {
+        if (busquedaTimerRef.current) {
+          clearTimeout(busquedaTimerRef.current);
+          busquedaTimerRef.current = null;
+        }
+      };
+    }, [
+      objetoVisible,
+      objetoDescubierto,
+      objetoActivo,
+      faseBusqueda
+    ]);
+
+
+    /* =================== REGISTRAR OBJETO ================== */
+
+    const registrarObjetoEncontrado = (objeto) => {
+      setObjetosDescubiertos((anteriores) =>
+        anteriores.includes(objeto)
+          ? anteriores
+          : [...anteriores, objeto]
+      );
     };
 
 
-    /* =====================================================
-       FIN DEL AUDIO
-    ===================================================== */
+    /* ================= MOSTRAR OBJETO EN BÚSQUEDA ========== */
+
+    const mostrarObjetoEnBusqueda = (objeto) => {
+      setObjetoActivo(null);
+      setObjetoVisible(objeto);
+      setObjetoDescubierto(null);
+      setObjetoPulsando(null);
+      setObjetoEnAudio(null);
+      setIndiceEscondite(0);
+      setFaseBusqueda("entrada");
+      setMomentoTexto(null);
+      setTipoAudio("espera");
+      setNarradorActivo(false);
+    };
+
+
+    /* =========================== FIN AUDIO ================= */
 
     const manejarFinAudio = () => {
 
-
-      /* ===================================================
-         AUDIO 1
-         → CORONA
-      =================================================== */
-
-      if (
-        tipoAudio === "principal" &&
-        audioActual === 1
-      ) {
-
-        setObjetoVisible(
-          "corona"
-        );
-
-        setObjetoDescubierto(
-          null
-        );
-
-        setObjetoPulsando(
-          null
-        );
-
-        setMomentoTexto(
-          null
-        );
-
-        setTipoAudio(
-          "espera"
-        );
-
-        setNarradorActivo(
-          false
-        );
-
-        return;
-
-      }
-
-
-      /* ===================================================
-         AUDIO 2 - CORONA
-         → AUDIO 3
-      =================================================== */
-
+      // AUDIO 2 TERMINA: esconder corona y pasar al audio 3.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "corona"
       ) {
-
-        setObjetoActivo(
-          null
-        );
-
-        setObjetoVisible(
-          null
-        );
-
-        setObjetoDescubierto(
-          null
-        );
-
-        setObjetoPulsando(
-          null
-        );
-
-        setObjetoEnAudio(
-          null
-        );
-
-        setMomentoTexto(
-          null
-        );
+        setObjetoActivo(null);
+        setObjetoVisible(null);
+        setObjetoDescubierto(null);
+        setObjetoPulsando(null);
+        setObjetoEnAudio(null);
+        setMomentoTexto(null);
 
         reproducirAudio(
           audiosEscena3[3],
@@ -419,374 +379,184 @@ const Escena3 = forwardRef(
         );
 
         return;
-
       }
 
 
-      /* ===================================================
-         AUDIO 3
-         → CAMPANA
-      =================================================== */
-
-      if (
-        tipoAudio === "principal" &&
-        audioActual === 3
-      ) {
-
-        setObjetoVisible(
-          "campana"
-        );
-
-        setObjetoDescubierto(
-          null
-        );
-
-        setObjetoPulsando(
-          null
-        );
-
-        setMomentoTexto(
-          null
-        );
-
-        setTipoAudio(
-          "espera"
-        );
-
-        setNarradorActivo(
-          false
-        );
-
-        return;
-
-      }
-
-
-      /* ===================================================
-         AUDIO 4 - CAMPANA
-         → RACIMO
-      =================================================== */
-
+      // AUDIO 4 TERMINA: esconder campana y buscar racimo.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "campana"
       ) {
-
-        setObjetoActivo(
-          null
-        );
-
-        setObjetoVisible(
-          "racimo"
-        );
-
-        setObjetoDescubierto(
-          null
-        );
-
-        setObjetoPulsando(
-          null
-        );
-
-        setObjetoEnAudio(
-          null
-        );
-
-        setMomentoTexto(
-          null
-        );
-
-        setTipoAudio(
-          "espera"
-        );
-
-        setNarradorActivo(
-          false
-        );
-
+        mostrarObjetoEnBusqueda("racimo");
         return;
-
       }
 
 
-      /* ===================================================
-         AUDIO 5 - RACIMO
-         → BOTÓN CAPÍTULO 4
-      =================================================== */
-
+      // AUDIO 5 TERMINA: mostrar botón para continuar.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "racimo"
       ) {
-
-        setObjetoActivo(
-          null
-        );
-
-        setObjetoVisible(
-          null
-        );
-
-        setObjetoDescubierto(
-          null
-        );
-
-        setObjetoPulsando(
-          null
-        );
-
-        setObjetoEnAudio(
-          null
-        );
-
-        setMomentoTexto(
-          null
-        );
-
-        setNarradorActivo(
-          false
-        );
-
-        setMostrarContinuar(
-          true
-        );
+        setObjetoActivo(null);
+        setObjetoVisible(null);
+        setObjetoDescubierto(null);
+        setObjetoPulsando(null);
+        setObjetoEnAudio(null);
+        setMomentoTexto(null);
+        setNarradorActivo(false);
+        setTipoAudio("espera");
+        setMostrarContinuar(true);
 
         return;
-
       }
 
+
+      // AUDIO 1 TERMINA: aparece corona.
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 1
+      ) {
+        mostrarObjetoEnBusqueda("corona");
+        return;
+      }
+
+
+      // AUDIO 3 TERMINA: aparece campana.
+      if (
+        tipoAudio === "principal" &&
+        audioActual === 3
+      ) {
+        mostrarObjetoEnBusqueda("campana");
+      }
     };
 
 
-    /* =====================================================
-       CLICK EN OBJETOS
-    ===================================================== */
+    /* ======================== CLIC EN OBJETO =============== */
 
-    const reproducirObjeto = (
-      objeto
-    ) => {
+    const reproducirObjeto = (objeto) => {
+      const configuracion = {
+        corona: {
+          audio: audiosEscena3[2],
+          numero: 2,
+          momento: 2
+        },
 
-      let audio = null;
+        campana: {
+          audio: audiosEscena3[4],
+          numero: 4,
+          momento: 4
+        },
 
-      let numeroAudio = null;
+        racimo: {
+          audio: audiosEscena3[5],
+          numero: 5,
+          momento: 5
+        }
+      }[objeto];
 
-      let momento = null;
+      if (!configuracion) return;
 
-
-      /* ===================================================
-         CORONA → AUDIO 2
-      =================================================== */
-
-      if (
-        objeto === "corona"
-      ) {
-
-        audio =
-          audiosEscena3[2];
-
-        numeroAudio = 2;
-
-        momento = 2;
-
+      if (busquedaTimerRef.current) {
+        clearTimeout(busquedaTimerRef.current);
+        busquedaTimerRef.current = null;
       }
 
+      registrarObjetoEncontrado(objeto);
 
-      /* ===================================================
-         CAMPANA → AUDIO 4
-      =================================================== */
-
-      if (
-        objeto === "campana"
-      ) {
-
-        audio =
-          audiosEscena3[4];
-
-        numeroAudio = 4;
-
-        momento = 4;
-
-      }
-
-
-      /* ===================================================
-         RACIMO → AUDIO 5
-      =================================================== */
-
-      if (
-        objeto === "racimo"
-      ) {
-
-        audio =
-          audiosEscena3[5];
-
-        numeroAudio = 5;
-
-        momento = 5;
-
-      }
-
-
-      if (!audio) {
-        return;
-      }
-
-
-      setObjetoDescubierto(
-        objeto
-      );
-
-      registrarObjetoEncontrado(
-        objeto
-      );
-
-      setObjetoPulsando(
-        null
-      );
-
-      setObjetoActivo(
-        objeto
-      );
+      setObjetoDescubierto(objeto);
+      setFaseBusqueda("encontrado");
+      setObjetoPulsando(null);
+      setObjetoActivo(objeto);
 
       reproducirAudio(
-        audio,
-        numeroAudio,
+        configuracion.audio,
+        configuracion.numero,
         "objeto",
         objeto,
-        momento
+        configuracion.momento
       );
-
     };
 
 
-    /* =====================================================
-       CERRAR MODAL
-    ===================================================== */
+    /* ======================== CERRAR MODAL ================= */
 
     const cerrarModal = () => {
+      setObjetoActivo(null);
 
-      setObjetoActivo(
-        null
-      );
-
-      if (
-        objetoVisible
-      ) {
-
-        setObjetoPulsando(
-          objetoVisible
-        );
-
+      if (objetoVisible) {
+        setObjetoPulsando(objetoVisible);
       }
-
     };
 
 
-    /* =====================================================
-       CONTINUAR AL CAPÍTULO 4
-    ===================================================== */
+    /* ===================== CONTINUAR CAPÍTULO 4 ============ */
 
     const continuarCapitulo4 = () => {
-
-      setMostrarContinuar(
-        false
-      );
-
-      if (
-        onEscenaTerminada
-      ) {
-
-        onEscenaTerminada();
-
-      }
-
+      setMostrarContinuar(false);
+      onEscenaTerminada?.();
     };
 
 
-    /* =====================================================
-       BOTÓN NARRADOR
-    ===================================================== */
+    /* ======================= BOTÓN NARRADOR ================ */
 
     const toggleNarracion = () => {
+      const audio = audioRef.current;
 
-      const audio =
-        audioRef.current;
+      if (!audio || tipoAudio === "espera") return;
 
-      if (!audio) {
-        return;
-      }
-
-      if (
-        tipoAudio === "espera"
-      ) {
-
-        return;
-
-      }
-
-      if (
-        !audio.paused
-      ) {
-
+      if (!audio.paused) {
         audio.pause();
-
-        setNarradorActivo(
-          false
-        );
-
+        setNarradorActivo(false);
         return;
-
       }
 
-      audio
-        .play()
-        .then(() => {
-
-          setNarradorActivo(
-            true
-          );
-
-        })
+      audio.play()
+        .then(() => setNarradorActivo(true))
         .catch((error) => {
-
           console.error(
             "No se pudo reanudar la narración:",
             error
           );
-
         });
-
     };
-
-
-    /* =====================================================
-       EXPONER AL PADRE
-    ===================================================== */
 
     useImperativeHandle(
       ref,
-      () => ({
-        toggleNarracion
-      }),
-      [tipoAudio]
+      () => ({ toggleNarracion }),
+      [tipoAudio, narradorActivo]
     );
 
 
-    /* =====================================================
-       RENDER
-    ===================================================== */
+    /* ===================== POSICIÓN ACTUAL ================= */
+
+    const posicionesActuales =
+      POSICIONES_ESCONDITE_ESCENA3[objetoVisible];
+
+    const posicionActual = posicionesActuales?.length
+      ? posicionesActuales[
+          indiceEscondite % posicionesActuales.length
+        ]
+      : { left: "50%", top: "50%" };
+
+    const clasesBusqueda =
+      `escena-3-objeto-busqueda ${faseBusqueda} ${
+        objetoDescubierto === objetoVisible
+          ? "descubierto"
+          : ""
+      } ${
+        objetoPulsando === objetoVisible
+          ? "pulsando"
+          : ""
+      }`;
+
+
+    /* ============================ RENDER =================== */
 
     return (
-
       <div className="escena-3">
-
         <div className="escena-3-contenido">
 
-
-          {/* =================================================
-             FONDO
-          ================================================= */}
-
+          {/* FONDO BASE */}
           <img
             src="/Escenarios/FondoAgora.svg"
             alt="Ágora"
@@ -794,430 +564,250 @@ const Escena3 = forwardRef(
           />
 
 
-          {/* =================================================
-             ADRIÁN + RESPLANDOR
-          ================================================= */}
-
-          {adrianVisible && (
-
-            <div
-              className="
-                escena-3-adrian-aparicion
-              "
-            >
-
-              {mostrarResplandor && (
-
-                <div
-                  className="
-                    escena-3-resplandor-adrian
-                  "
-                />
-
-              )}
-
-              <div
-                className="
-                  escena-3-adrian-hablando
-                "
-              >
-
-                <Lottie
-                  animationData={
-                    AdrianHablando
-                  }
-                  loop={true}
-                  autoplay={true}
-                />
-
-              </div>
-
-            </div>
-
-          )}
-
-
-          {/* =================================================
-             SUBTÍTULOS
-          ================================================= */}
-
-          {textoNarracionActivo &&
-            momentoTexto !== null &&
-            subtitulosEscena3[
-              momentoTexto
-            ] && (
-
-              <div
-                className="
-                  escena-3-subtitulos
-                "
-                key={
-                  momentoTexto
-                }
-              >
-
-                {
-                  subtitulosEscena3[
-                    momentoTexto
-                  ]
-                }
-
-              </div>
-
-            )}
-
-
-          {/* =================================================
-             CORONA
-          ================================================= */}
-
+          {/* CORONA */}
           {objetoVisible === "corona" && (
-
             <button
-              className={`
-                escena-3-corona-boton
-
-                ${
-                  objetoDescubierto === "corona"
-                    ? "descubierto"
-                    : ""
-                }
-
-                ${
-                  objetoPulsando === "corona"
-                    ? "pulsando"
-                    : ""
-                }
-              `}
-              onClick={() =>
-                reproducirObjeto(
-                  "corona"
-                )
-              }
+              key={`corona-${indiceEscondite}`}
+              className={`${clasesBusqueda} escena-3-corona-boton`}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top
+              }}
+              onClick={() => reproducirObjeto("corona")}
               aria-label="Explorar corona"
             >
-
               <img
                 src={Es3corona}
                 alt="Corona"
-                className="
-                  escena-3-corona
-                "
+                className="escena-3-corona"
               />
-
             </button>
-
           )}
 
 
-          {/* =================================================
-             CAMPANA
-          ================================================= */}
-
+          {/* CAMPANA */}
           {objetoVisible === "campana" && (
-
             <button
-              className={`
-                escena-3-campana-boton
-
-                ${
-                  objetoDescubierto === "campana"
-                    ? "descubierto"
-                    : ""
-                }
-
-                ${
-                  objetoPulsando === "campana"
-                    ? "pulsando"
-                    : ""
-                }
-              `}
-              onClick={() =>
-                reproducirObjeto(
-                  "campana"
-                )
-              }
+              key={`campana-${indiceEscondite}`}
+              className={`${clasesBusqueda} escena-3-campana-boton`}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top
+              }}
+              onClick={() => reproducirObjeto("campana")}
               aria-label="Explorar campana"
             >
-
               <img
                 src={Es3Campana}
                 alt="Campana"
-                className="
-                  escena-3-campana
-                "
+                className="escena-3-campana"
               />
-
             </button>
-
           )}
 
 
-          {/* =================================================
-             RACIMO
-          ================================================= */}
-
+          {/* RACIMO */}
           {objetoVisible === "racimo" && (
-
             <button
-              className={`
-                escena-3-racimo-boton
-
-                ${
-                  objetoDescubierto === "racimo"
-                    ? "descubierto"
-                    : ""
-                }
-
-                ${
-                  objetoPulsando === "racimo"
-                    ? "pulsando"
-                    : ""
-                }
-              `}
-              onClick={() =>
-                reproducirObjeto(
-                  "racimo"
-                )
-              }
+              key={`racimo-${indiceEscondite}`}
+              className={`${clasesBusqueda} escena-3-racimo-boton`}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top
+              }}
+              onClick={() => reproducirObjeto("racimo")}
               aria-label="Explorar racimo"
             >
-
               <img
                 src={Es3racimo}
-                alt="Racimo"
-                className="
-                  escena-3-racimo
-                "
+                alt="Racimo de uvas"
+                className="escena-3-racimo"
               />
-
             </button>
-
           )}
 
 
-          {/* =================================================
-             BOTÓN CONTINUAR
-          ================================================= */}
+          {/* PIEZAS INDEPENDIENTES DEL ESCENARIO */}
 
-          {mostrarContinuar && (
+          <img
+            src="/Escenarios/EsquinaEsc2.svg"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            className="escena-3-pieza-frontal escena-3-esquina2"
+          />
 
-            <div
-              className="
-                escena-1-continuar-contenedor
-              "
-            >
+          <img
+            src="/Escenarios/techo.svg"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            className="escena-3-pieza-frontal escena-3-techo"
+          />
 
+          <img
+            src="/Escenarios/estatua.svg"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            className="escena-3-pieza-frontal escena-3-estatua"
+          />
+
+          <img
+            src="/Escenarios/estatuabajo.svg"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            className="escena-3-pieza-frontal escena-3-estatuabajo"
+          />
+
+          <img
+            src="/Escenarios/esquinaEsc.svg"
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+            className="escena-3-pieza-frontal escena-3-esquina"
+          />
+
+
+          {/* ADRIÁN + RESPLANDOR */}
+          {adrianVisible && (
+            <div className="escena-3-adrian-aparicion">
+              {mostrarResplandor && (
+                <div className="escena-3-resplandor-adrian" />
+              )}
+
+              <div className="escena-3-adrian-hablando">
+                <Lottie
+                  animationData={AdrianHablando}
+                  loop
+                  autoplay
+                />
+              </div>
+            </div>
+          )}
+
+
+          {/* SUBTÍTULOS */}
+          {textoNarracionActivo &&
+            momentoTexto !== null &&
+            subtitulosEscena3[momentoTexto] && (
               <div
-                className="
-                  escena-1-continuar-texto
-                "
+                className="escena-3-subtitulos"
+                key={momentoTexto}
               >
+                {subtitulosEscena3[momentoTexto]}
+              </div>
+            )}
 
-                <span>
-                  CONTINUAR AL CAPÍTULO 4
-                </span>
+
+          {/* CONTINUAR AL CAPÍTULO 4 */}
+          {mostrarContinuar && (
+            <div className="escena-1-continuar-contenedor escena-3-continuar-contenedor">
+              <div className="escena-1-continuar-texto">
+                <span>CONTINUAR AL CAPÍTULO 4</span>
 
                 <button
-                  className="
-                    escena-1-continuar-boton
-                  "
-                  onClick={
-                    continuarCapitulo4
-                  }
+                  className="escena-1-continuar-boton"
+                  onClick={continuarCapitulo4}
                 >
                   CONTINUAR →
                 </button>
-
               </div>
-
             </div>
-
           )}
 
 
-          {/* =================================================
-             MODAL
-          ================================================= */}
-
+          {/* MODAL */}
           {objetoActivo && (
-
             <div
-              className="
-                escena-3-modal-fondo
-              "
-              onClick={
-                cerrarModal
-              }
+              className="escena-3-modal-fondo"
+              onClick={cerrarModal}
             >
-
               <div
-                className="
-                  escena-3-modal
-                "
-                onClick={(evento) =>
-                  evento.stopPropagation()
-                }
+                className="escena-3-modal"
+                onClick={(evento) => evento.stopPropagation()}
               >
-
-                <div
-                  className="
-                    escena-3-modal-imagen
-                  "
-                >
-
+                <div className="escena-3-modal-imagen">
                   {objetoActivo === "corona" && (
-
-                    <img
-                      src={Es3corona}
-                      alt="Corona"
-                    />
-
+                    <img src={Es3corona} alt="Corona" />
                   )}
 
                   {objetoActivo === "campana" && (
-
-                    <img
-                      src={Es3Campana}
-                      alt="Campana"
-                    />
-
+                    <img src={Es3Campana} alt="Campana" />
                   )}
 
                   {objetoActivo === "racimo" && (
-
-                    <img
-                      src={Es3racimo}
-                      alt="Racimo"
-                    />
-
+                    <img src={Es3racimo} alt="Racimo" />
                   )}
-
                 </div>
 
-
-                <div
-                  className="
-                    escena-3-modal-info
-                  "
-                >
+                <div className="escena-3-modal-info">
 
                   {objetoActivo === "corona" && (
-
                     <>
-
-                      <h2>
-                        CORONA
-                      </h2>
-
+                      <h2>CORONA</h2>
                       <p>
-                        Llevarla puesta durante las
-                        reuniones daba una protección
-                        especial, por lo que nadie podía
-                        atacar ni callar a esa persona
-                        mientras daba su discurso.
-                        También se usaba como premio
-                        para los ganadores de los
-                        concursos de poesía y talento
-                        que se hacían en la plaza.
+                        Llevarla puesta durante las reuniones daba una
+                        protección especial, por lo que nadie podía atacar
+                        ni callar a esa persona mientras daba su discurso.
+                        También se usaba como premio para los ganadores de
+                        los concursos de poesía y talento que se hacían
+                        en la plaza.
                       </p>
-
                     </>
-
                   )}
-
 
                   {objetoActivo === "campana" && (
-
                     <>
-
-                      <h2>
-                        Balanza de bronce
-                      </h2>
-
+                      <h2>Balanza de bronce</h2>
                       <p>
-                        La balanza de bronce del Ágora,
-                        revisada por el inspector
-                        oficial llamado Metronomos con
-                        pesas de piedra selladas con la
-                        lechuza de Atenas, era obligatoria
-                        para todos los comerciantes y
-                        debían pesar sus productos frente
-                        al cliente.
+                        La balanza de bronce del Ágora, revisada por el
+                        inspector oficial llamado Metronomos con pesas
+                        de piedra selladas con la lechuza de Atenas, era
+                        obligatoria para todos los comerciantes y debían
+                        pesar sus productos frente al cliente.
                       </p>
-
                     </>
-
                   )}
 
-
                   {objetoActivo === "racimo" && (
-
                     <>
-
-                      <h2>
-                        RACIMO
-                      </h2>
-
+                      <h2>RACIMO</h2>
                       <p>
-                        En una plaza donde todo se
-                        negociaba y se debatía, vender
-                        uvas frescas o pasas significaba
-                        mover el comercio diario y
-                        alimentar a los ciudadanos que
-                        pasaban horas arreglando la
-                        política de la ciudad.
+                        En una plaza donde todo se negociaba y se debatía,
+                        vender uvas frescas o pasas significaba mover el
+                        comercio diario y alimentar a los ciudadanos que
+                        pasaban horas arreglando la política de la ciudad.
                       </p>
-
                     </>
-
                   )}
 
                 </div>
-
 
                 <button
-                  className="
-                    escena-3-modal-cerrar
-                  "
-                  onClick={
-                    cerrarModal
-                  }
+                  className="escena-3-modal-cerrar"
+                  onClick={cerrarModal}
                   aria-label="Cerrar información"
                 >
                   ×
                 </button>
-
               </div>
-
             </div>
-
           )}
-
-
-          {/* =================================================
-             AUDIO
-          ================================================= */}
 
           <audio
             ref={audioRef}
-            onEnded={
-              manejarFinAudio
-            }
+            onEnded={manejarFinAudio}
             preload="auto"
           />
 
         </div>
-
       </div>
-
     );
-
   }
 );
 
-
-Escena3.displayName =
-  "Escena3";
+Escena3.displayName = "Escena3";
 
 export default Escena3;
