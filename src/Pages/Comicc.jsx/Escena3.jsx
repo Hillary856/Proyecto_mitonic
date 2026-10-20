@@ -23,55 +23,50 @@ import "./Escenas.css";
 
 const Lottie = lottieReact.default;
 
-
 /* =========================================================
-   POSICIONES DE BÚSQUEDA DE LOS ASSETS
+   POSICIONES DE LOS ESCONDITES
 
-   Estos puntos son una primera distribución alrededor de
-   las piezas del escenario. Puedes corregirlos aquí.
-
-   Los objetos cambian de posición cuando están ocultos.
+   Puedes ajustar left y top sin modificar la lógica.
+   Los assets cambian de posición cuando están ocultos.
 ========================================================= */
 
 const POSICIONES_ESCONDITE_ESCENA3 = {
   corona: [
-    { left: "7%", top: "39%" },
-    { left: "28%", top: "25%" },
-    { left: "49%", top: "29%" },
-    { left: "72%", top: "47%" },
-    { left: "75%", top: "63%" },
-    { left: "61%", top: "76%" },
-    { left: "17%", top: "43%" },
-    { left: "87%", top: "48%" }
+    { left: "7%", top: "35%" },
+    { left: "18%", top: "36%" },
+    { left: "32%", top: "32%" },
+    { left: "52%", top: "32%" },
+    { left: "66%", top: "36%" },
+    { left: "79%", top: "43%" },
+    { left: "88%", top: "51%" },
+    { left: "84%", top: "67%" },
+    { left: "72%", top: "69%" }
   ],
 
   campana: [
-    { left: "16%", top: "39%" },
-    { left: "37%", top: "29%" },
-    { left: "54%", top: "30%" },
-    { left: "68%", top: "46%" },
-    { left: "79%", top: "62%" },
-    { left: "57%", top: "77%" },
-    { left: "8%", top: "42%" },
-    { left: "88%", top: "52%" }
+    { left: "11%", top: "38%" },
+    { left: "23%", top: "36%" },
+    { left: "39%", top: "32%" },
+    { left: "58%", top: "34%" },
+    { left: "70%", top: "39%" },
+    { left: "82%", top: "45%" },
+    { left: "91%", top: "53%" },
+    { left: "80%", top: "67%" },
+    { left: "68%", top: "70%" }
   ],
 
   racimo: [
-    { left: "10%", top: "41%" },
-    { left: "31%", top: "27%" },
-    { left: "46%", top: "31%" },
-    { left: "73%", top: "45%" },
-    { left: "82%", top: "64%" },
-    { left: "63%", top: "77%" },
-    { left: "21%", top: "46%" },
-    { left: "91%", top: "49%" }
+    { left: "6%", top: "42%" },
+    { left: "16%", top: "38%" },
+    { left: "29%", top: "34%" },
+    { left: "45%", top: "32%" },
+    { left: "62%", top: "36%" },
+    { left: "76%", top: "44%" },
+    { left: "89%", top: "48%" },
+    { left: "86%", top: "68%" },
+    { left: "73%", top: "72%" }
   ]
 };
-
-
-/* =========================================================
-   TIEMPOS DE LA BÚSQUEDA
-========================================================= */
 
 const TIEMPOS_BUSQUEDA_ESCENA3 = {
   entrada: 220,
@@ -79,7 +74,6 @@ const TIEMPOS_BUSQUEDA_ESCENA3 = {
   salida: 240,
   oculto: 130
 };
-
 
 const Escena3 = forwardRef(
   (
@@ -92,7 +86,7 @@ const Escena3 = forwardRef(
     ref
   ) => {
 
-    /* ========================== AUDIOS ===================== */
+    /* ======================== AUDIOS ======================== */
 
     const audiosEscena3 = {
       1: Esc3Audio1,
@@ -102,8 +96,7 @@ const Escena3 = forwardRef(
       5: Esc3Audio5
     };
 
-
-    /* ======================== SUBTÍTULOS =================== */
+    /* ====================== SUBTÍTULOS ====================== */
 
     const subtitulosEscena3 = {
       1: "El Ágora. Este lugar es mucho más que una plaza. Aquí nos reunimos para comerciar, conversar y discutir sobre los asuntos que afectan a nuestra ciudad. Si prestan atención, pueden escuchar cómo las personas intercambian ideas, opiniones y argumentos. La vida pública de Atenas ocurre aquí, frente a todos.",
@@ -117,62 +110,32 @@ const Escena3 = forwardRef(
       5: "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios."
     };
 
+    /* ========================== ESTADOS ===================== */
 
-    /* =========================== ESTADOS =================== */
+    const [adrianVisible, setAdrianVisible] = useState(false);
+    const [mostrarResplandor, setMostrarResplandor] = useState(false);
 
-    const [adrianVisible, setAdrianVisible] =
-      useState(false);
+    const [audioActual, setAudioActual] = useState(0);
+    const [tipoAudio, setTipoAudio] = useState("espera");
+    const [narradorActivo, setNarradorActivo] = useState(true);
 
-    const [mostrarResplandor, setMostrarResplandor] =
-      useState(false);
+    const [objetoVisible, setObjetoVisible] = useState(null);
+    const [objetoDescubierto, setObjetoDescubierto] = useState(null);
+    const [objetoPulsando, setObjetoPulsando] = useState(null);
+    const [objetoActivo, setObjetoActivo] = useState(null);
+    const [objetoEnAudio, setObjetoEnAudio] = useState(null);
+    const [objetosDescubiertos, setObjetosDescubiertos] = useState([]);
 
-    const [audioActual, setAudioActual] =
-      useState(0);
+    const [faseBusqueda, setFaseBusqueda] = useState("entrada");
+    const [indiceEscondite, setIndiceEscondite] = useState(0);
 
-    const [tipoAudio, setTipoAudio] =
-      useState("espera");
-
-    const [narradorActivo, setNarradorActivo] =
-      useState(true);
-
-    const [objetoVisible, setObjetoVisible] =
-      useState(null);
-
-    const [objetoDescubierto, setObjetoDescubierto] =
-      useState(null);
-
-    const [objetoPulsando, setObjetoPulsando] =
-      useState(null);
-
-    const [objetoActivo, setObjetoActivo] =
-      useState(null);
-
-    const [objetoEnAudio, setObjetoEnAudio] =
-      useState(null);
-
-    const [objetosDescubiertos, setObjetosDescubiertos] =
-      useState([]);
-
-    const [faseBusqueda, setFaseBusqueda] =
-      useState("entrada");
-
-    const [indiceEscondite, setIndiceEscondite] =
-      useState(0);
-
-    const [momentoTexto, setMomentoTexto] =
-      useState(null);
-
-    const [mostrarContinuar, setMostrarContinuar] =
-      useState(false);
-
-
-    /* ========================= REFERENCIAS ================= */
+    const [momentoTexto, setMomentoTexto] = useState(null);
+    const [mostrarContinuar, setMostrarContinuar] = useState(false);
 
     const audioRef = useRef(null);
     const busquedaTimerRef = useRef(null);
 
-
-    /* ====================== ENTRADA ESCENA ================= */
+    /* ====================== ENTRADA DE ESCENA ================ */
 
     useEffect(() => {
       setAdrianVisible(true);
@@ -185,18 +148,13 @@ const Escena3 = forwardRef(
       return () => clearTimeout(timer);
     }, []);
 
-
-    /* =================== ESTADO DEL NARRADOR =============== */
+    /* =================== ESTADO DEL NARRADOR ================= */
 
     useEffect(() => {
       onNarradorEstadoChange?.(narradorActivo);
-    }, [
-      narradorActivo,
-      onNarradorEstadoChange
-    ]);
+    }, [narradorActivo, onNarradorEstadoChange]);
 
-
-    /* ====================== REPRODUCIR AUDIO =============== */
+    /* ====================== REPRODUCIR AUDIO ================= */
 
     const reproducirAudio = (
       audio,
@@ -230,8 +188,7 @@ const Escena3 = forwardRef(
       });
     };
 
-
-    /* ======================== AUDIO INICIAL ================ */
+    /* ======================== AUDIO INICIAL ================== */
 
     useEffect(() => {
       if (!adrianVisible) return;
@@ -247,8 +204,7 @@ const Escena3 = forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [adrianVisible]);
 
-
-    /* =========================== LIMPIEZA ================== */
+    /* =========================== LIMPIEZA ==================== */
 
     useEffect(() => {
       return () => {
@@ -264,21 +220,15 @@ const Escena3 = forwardRef(
       };
     }, []);
 
-
-    /* ======================= CICLO DE BÚSQUEDA =============
-       El asset se mueve solo mientras está oculto.
-    ========================================================= */
+    /* ======================= CICLO DE BÚSQUEDA =============== */
 
     useEffect(() => {
       const posiciones =
         POSICIONES_ESCONDITE_ESCENA3[objetoVisible];
 
-      const estaBuscando = Boolean(
-        objetoVisible && posiciones
-      );
-
       if (
-        !estaBuscando ||
+        !objetoVisible ||
+        !posiciones ||
         objetoDescubierto ||
         objetoActivo
       ) {
@@ -326,8 +276,7 @@ const Escena3 = forwardRef(
       faseBusqueda
     ]);
 
-
-    /* =================== REGISTRAR OBJETO ================== */
+    /* =================== REGISTRAR OBJETO ==================== */
 
     const registrarObjetoEncontrado = (objeto) => {
       setObjetosDescubiertos((anteriores) =>
@@ -337,8 +286,7 @@ const Escena3 = forwardRef(
       );
     };
 
-
-    /* ================= MOSTRAR OBJETO EN BÚSQUEDA ========== */
+    /* ================= MOSTRAR OBJETO EN BÚSQUEDA ============ */
 
     const mostrarObjetoEnBusqueda = (objeto) => {
       setObjetoActivo(null);
@@ -353,12 +301,11 @@ const Escena3 = forwardRef(
       setNarradorActivo(false);
     };
 
-
-    /* =========================== FIN AUDIO ================= */
+    /* =========================== FIN AUDIO ================== */
 
     const manejarFinAudio = () => {
 
-      // AUDIO 2 TERMINA: esconder corona y pasar al audio 3.
+      // Audio 2 termina: se oculta la corona y continúa el audio 3.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "corona"
@@ -381,8 +328,7 @@ const Escena3 = forwardRef(
         return;
       }
 
-
-      // AUDIO 4 TERMINA: esconder campana y buscar racimo.
+      // Audio 4 termina: se oculta la campana y aparece el racimo.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "campana"
@@ -391,8 +337,7 @@ const Escena3 = forwardRef(
         return;
       }
 
-
-      // AUDIO 5 TERMINA: mostrar botón para continuar.
+      // Audio 5 termina: aparece el botón para continuar.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "racimo"
@@ -410,8 +355,7 @@ const Escena3 = forwardRef(
         return;
       }
 
-
-      // AUDIO 1 TERMINA: aparece corona.
+      // Audio 1 termina: aparece la corona.
       if (
         tipoAudio === "principal" &&
         audioActual === 1
@@ -420,8 +364,7 @@ const Escena3 = forwardRef(
         return;
       }
 
-
-      // AUDIO 3 TERMINA: aparece campana.
+      // Audio 3 termina: aparece la campana.
       if (
         tipoAudio === "principal" &&
         audioActual === 3
@@ -430,8 +373,7 @@ const Escena3 = forwardRef(
       }
     };
 
-
-    /* ======================== CLIC EN OBJETO =============== */
+    /* ======================== CLIC EN OBJETO ================= */
 
     const reproducirObjeto = (objeto) => {
       const configuracion = {
@@ -477,8 +419,7 @@ const Escena3 = forwardRef(
       );
     };
 
-
-    /* ======================== CERRAR MODAL ================= */
+    /* ======================== CERRAR MODAL =================== */
 
     const cerrarModal = () => {
       setObjetoActivo(null);
@@ -488,16 +429,14 @@ const Escena3 = forwardRef(
       }
     };
 
-
-    /* ===================== CONTINUAR CAPÍTULO 4 ============ */
+    /* ===================== CONTINUAR CAPÍTULO 4 ============== */
 
     const continuarCapitulo4 = () => {
       setMostrarContinuar(false);
       onEscenaTerminada?.();
     };
 
-
-    /* ======================= BOTÓN NARRADOR ================ */
+    /* ======================= BOTÓN NARRADOR ================== */
 
     const toggleNarracion = () => {
       const audio = audioRef.current;
@@ -526,8 +465,7 @@ const Escena3 = forwardRef(
       [tipoAudio, narradorActivo]
     );
 
-
-    /* ===================== POSICIÓN ACTUAL ================= */
+    /* ===================== POSICIÓN ACTUAL =================== */
 
     const posicionesActuales =
       POSICIONES_ESCONDITE_ESCENA3[objetoVisible];
@@ -549,25 +487,26 @@ const Escena3 = forwardRef(
           : ""
       }`;
 
-
-    /* ============================ RENDER =================== */
+    /* ============================ RENDER ==================== */
 
     return (
       <div className="escena-3">
         <div className="escena-3-contenido">
 
-          {/* FONDO BASE */}
+          {/* FONDO */}
+
           <img
             src="/Escenarios/FondoAgora.svg"
             alt="Ágora"
             className="escena-3-fondo"
           />
 
-
           {/* CORONA */}
+
           {objetoVisible === "corona" && (
             <button
               key={`corona-${indiceEscondite}`}
+              type="button"
               className={`${clasesBusqueda} escena-3-corona-boton`}
               style={{
                 left: posicionActual.left,
@@ -580,15 +519,17 @@ const Escena3 = forwardRef(
                 src={Es3corona}
                 alt="Corona"
                 className="escena-3-corona"
+                draggable="false"
               />
             </button>
           )}
 
-
           {/* CAMPANA */}
+
           {objetoVisible === "campana" && (
             <button
               key={`campana-${indiceEscondite}`}
+              type="button"
               className={`${clasesBusqueda} escena-3-campana-boton`}
               style={{
                 left: posicionActual.left,
@@ -601,15 +542,17 @@ const Escena3 = forwardRef(
                 src={Es3Campana}
                 alt="Campana"
                 className="escena-3-campana"
+                draggable="false"
               />
             </button>
           )}
 
-
           {/* RACIMO */}
+
           {objetoVisible === "racimo" && (
             <button
               key={`racimo-${indiceEscondite}`}
+              type="button"
               className={`${clasesBusqueda} escena-3-racimo-boton`}
               style={{
                 left: posicionActual.left,
@@ -622,12 +565,12 @@ const Escena3 = forwardRef(
                 src={Es3racimo}
                 alt="Racimo de uvas"
                 className="escena-3-racimo"
+                draggable="false"
               />
             </button>
           )}
 
-
-          {/* PIEZAS INDEPENDIENTES DEL ESCENARIO */}
+          {/* PIEZAS DEL ESCENARIO: SE CONSERVAN TUS CLASES */}
 
           <img
             src="/Escenarios/EsquinaEsc2.svg"
@@ -669,8 +612,8 @@ const Escena3 = forwardRef(
             className="escena-3-pieza-frontal escena-3-esquina"
           />
 
+          {/* ADRIÁN Y RESPLANDOR */}
 
-          {/* ADRIÁN + RESPLANDOR */}
           {adrianVisible && (
             <div className="escena-3-adrian-aparicion">
               {mostrarResplandor && (
@@ -687,8 +630,8 @@ const Escena3 = forwardRef(
             </div>
           )}
 
-
           {/* SUBTÍTULOS */}
+
           {textoNarracionActivo &&
             momentoTexto !== null &&
             subtitulosEscena3[momentoTexto] && (
@@ -700,14 +643,15 @@ const Escena3 = forwardRef(
               </div>
             )}
 
-
           {/* CONTINUAR AL CAPÍTULO 4 */}
+
           {mostrarContinuar && (
             <div className="escena-1-continuar-contenedor escena-3-continuar-contenedor">
               <div className="escena-1-continuar-texto">
                 <span>CONTINUAR AL CAPÍTULO 4</span>
 
                 <button
+                  type="button"
                   className="escena-1-continuar-boton"
                   onClick={continuarCapitulo4}
                 >
@@ -717,8 +661,8 @@ const Escena3 = forwardRef(
             </div>
           )}
 
-
           {/* MODAL */}
+
           {objetoActivo && (
             <div
               className="escena-3-modal-fondo"
@@ -743,7 +687,6 @@ const Escena3 = forwardRef(
                 </div>
 
                 <div className="escena-3-modal-info">
-
                   {objetoActivo === "corona" && (
                     <>
                       <h2>CORONA</h2>
@@ -782,10 +725,10 @@ const Escena3 = forwardRef(
                       </p>
                     </>
                   )}
-
                 </div>
 
                 <button
+                  type="button"
                   className="escena-3-modal-cerrar"
                   onClick={cerrarModal}
                   aria-label="Cerrar información"
