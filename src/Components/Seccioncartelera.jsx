@@ -13,39 +13,39 @@ import "./styleHillary.css";
 
 const CARAS = {
   1: {
-    cifra: "1",
-    etiqueta: "dios principal que, según el mito, fue criado en una cueva",
-    dato: "Según una leyenda griega, Rea escondió al bebé Zeus en una cueva de Creta para protegerlo de su padre, Cronos, quien temía que uno de sus hijos lo destronara. La cueva se convirtió en un lugar sagrado."
+   
+    etiqueta: "El rey de los dioses se escondió en una cueva",
+    dato: "Según el mito griego, la diosa Rea escondió al bebé Zeus en una cueva de Creta para que su padre, Cronos, no lo devorara. Por eso los griegos consideraron sagradas varias cuevas de la isla y les llevaban ofrendas."
   },
   2: {
-    cifra: "6,000+",
-    etiqueta: "Años de historia tiene Atenas",
-    dato: "En la antigua Atenas nació una de las primeras formas de democracia. Sin embargo, las mujeres, las personas esclavizadas y los extranjeros no podían participar como ciudadanos en las decisiones políticas."
+  
+    etiqueta: "Las leyes de Atenas se decidían a mano alzada",
+    dato: "En la Asamblea, que se reunía al aire libre en la colina de la Pnyx, cualquier ciudadano varón podía hablar y votar levantando la mano. Allí se decidían la guerra, la paz y las leyes de la ciudad. Las mujeres, los extranjeros y las personas esclavizadas no podían participar."
   },
   3: {
-    cifra: "50,000+",
-    etiqueta: "Espectadores podían asistir al Coliseo romano",
-    dato: "La entrada a los espectáculos era gratuita, pero los asientos dependían de la posición social. Los más poderosos se sentaban cerca de la arena y los ciudadanos más humildes ocupaban las zonas superiores."
+   
+    etiqueta: "Sócrates no daba clases: se pasaba el día conversando en el Ágora",
+    dato: "El filósofo recorría la plaza haciéndole preguntas difíciles a quien se cruzara, desde artesanos hasta políticos. Nunca escribió un libro. Lo que sabemos de su forma de pensar viene de sus discípulos, sobre todo de Platón."
   },
   4: {
-    cifra: "100,000+ km",
-    etiqueta: "De caminos llegó a tener la red vial romana, según estimaciones históricas",
-    dato: "Los romanos construyeron caminos para mover ejércitos, comerciantes y mensajes por enormes territorios. Algunas rutas fueron tan importantes que ayudaron a conectar Europa, el norte de África y partes de Asia durante siglos."
+   
+    etiqueta: "En los juicios del Ágora, el tiempo para hablar se medía con agua",
+    dato: "Un reloj de agua llamado clepsidra marcaba cuánto podía hablar cada persona en el tribunal. Cuando se vaciaba, había que callar, aunque el discurso no hubiera terminado. En las excavaciones del Ágora se encontró uno."
   },
   5: {
-    cifra: "30,000+",
-    etiqueta: "años tienen las pinturas de la cueva Chauvet, en Francia",
-    dato: "Dato de ejemplo: cámbialo cuando tengas el capítulo 5."
+   
+    etiqueta: "Cada espectador del Coliseo tenía una entrada numerada",
+    dato: "Para llenar el edificio sin caos, cada persona recibía una ficha con su puerta, su sección y su asiento. Tenía unas 80 entradas, y se calcula que podía caber y vaciarse con mucha rapidez para su época. El lugar dependía de la clase social."
   },
   6: {
-    cifra: "000",
-    etiqueta: "texto de ejemplo del capítulo 6",
-    dato: "Dato de ejemplo: cámbialo cuando tengas el capítulo 6."
+   
+    etiqueta: "Los romanos calentaban el suelo de sus casas y baños",
+    dato: "Usaban un sistema llamado hipocausto: el aire caliente de un horno circulaba bajo el piso, sostenido por pequeños pilares de ladrillo, y subía por conductos dentro de las paredes. Se usaba en baños públicos y en casas de gente adinerada. Quedan restos en muchas ciudades del antiguo Imperio, de Italia a Britania."
   },
   7: {
-    cifra: "000",
-    etiqueta: "texto de ejemplo del capítulo 7",
-    dato: "Dato de ejemplo: cámbialo cuando tengas el capítulo 7."
+
+    etiqueta: "Los romanos tumbaban montañas con agua para sacar oro",
+    dato: "En Las Médulas, al noroeste de España, los romanos cavaban túneles dentro de la montaña y los llenaban de agua traída por canales desde lejos. La presión derrumbaba la roca y el agua arrastraba el oro."
   }
 };
 
@@ -134,10 +134,7 @@ export const Seccioncartelera = () => {
 
     <div className="cara-atras">
 
-      <span className="atras-pregunta">
-        ¿SABÍAS QUE…?
-      </span>
-
+     
       <strong className="atras-cifra">
         {CARAS[numero].cifra}
       </strong>
@@ -331,71 +328,74 @@ export const Seccioncartelera = () => {
             </div>
 
 
+{/* =========================================
+    FONDO 3 (CERCA)
+========================================= */}
 
-            {/* =========================================
-                FONDO 3
-            ========================================= */}
+<div
+  className={`cartelera fondo-3 ${volteada === 3 ? "volteada" : ""}`}
+  onClick={() => manejarClick(3)}
+>
 
-            <div
-              className={`cartelera fondo-3 ${volteada === 3 ? "volteada" : ""}`}
-              onClick={() => manejarClick(3)}
-            >
+  <div
+    className="imagen-cartelera"
+    style={{ overflow: "hidden" }}
+  >
 
-              <div className="imagen-cartelera">
+    <span className="etiqueta-capitulo">
+      CAPÍTULO 03
+    </span>
 
-                <span className="etiqueta-capitulo">
-                  CAPÍTULO 03
-                </span>
+    <img
+      src="/agoranormal.png"
+      alt="Ágora de cerca"
+      style={{
+        transform: "scale(1.8)",
+        transformOrigin: "100% 55%"
+      }}
+    />
 
-                <img
-                  src="/coliseo1.png"
-                  alt="Coliseo"
-                />
+    <h3>
+      ÁGORA
+    </h3>
 
-                <h3>
-                  COLISEO
-                </h3>
+  </div>
 
-              </div>
+  {reverso(3)}
 
-              {reverso(3)}
-
-            </div>
-
-
-
-            {/* =========================================
-                FONDO 4
-            ========================================= */}
-
-            <div
-              className={`cartelera fondo-4 ${volteada === 4 ? "volteada" : ""}`}
-              onClick={() => manejarClick(4)}
-            >
-
-              <div className="imagen-cartelera">
-
-                <span className="etiqueta-capitulo">
-                  CAPÍTULO 04
-                </span>
-
-                <img
-                  src="/imperio1.png"
-                  alt="Imperio"
-                />
-
-                <h3>
-                  IMPERIO
-                </h3>
-
-              </div>
-
-              {reverso(4)}
-
-            </div>
+</div>
 
 
 
+{/* =========================================
+    FONDO 4 (AMPLIADO)
+========================================= */}
+
+<div
+  className={`cartelera fondo-4 ${volteada === 4 ? "volteada" : ""}`}
+  onClick={() => manejarClick(4)}
+>
+
+  <div className="imagen-cartelera">
+
+    <span className="etiqueta-capitulo">
+      CAPÍTULO 04
+    </span>
+
+    <img
+      src="/ágora(ampliado).png"
+      alt="Ágora ampliado"
+    />
+
+    <h3>
+      ÁGORA II
+    </h3>
+
+  </div>
+
+  {reverso(4)}
+
+</div>
             {/* =========================================
                 FONDO 5
             ========================================= */}
@@ -412,12 +412,12 @@ export const Seccioncartelera = () => {
                 </span>
 
                 <img
-                  src="/cueva1.png"
-                  alt="Atenas"
+                  src="coliseo.png"
+                  alt="Coliseo"
                 />
 
                 <h3>
-                  CUEVA
+                Coliseo
                 </h3>
 
               </div>
@@ -444,12 +444,12 @@ export const Seccioncartelera = () => {
                 </span>
 
                 <img
-                  src="/cueva1.png"
+                  src="/imperio1.png"
                   alt="Capítulo 6"
                 />
 
                 <h3>
-                  NOMBRE 6
+                Imperio
                 </h3>
 
               </div>
@@ -481,7 +481,7 @@ export const Seccioncartelera = () => {
                 />
 
                 <h3>
-                  CUEVA
+                  CUEVA II
                 </h3>
 
               </div>
