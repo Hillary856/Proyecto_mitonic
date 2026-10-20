@@ -13,37 +13,30 @@ import "./styleHillary.css";
 
 const CARAS = {
   1: {
-   
     etiqueta: "El rey de los dioses se escondió en una cueva",
     dato: "Según el mito griego, la diosa Rea escondió al bebé Zeus en una cueva de Creta para que su padre, Cronos, no lo devorara. Por eso los griegos consideraron sagradas varias cuevas de la isla y les llevaban ofrendas."
   },
   2: {
-  
     etiqueta: "Las leyes de Atenas se decidían a mano alzada",
     dato: "En la Asamblea, que se reunía al aire libre en la colina de la Pnyx, cualquier ciudadano varón podía hablar y votar levantando la mano. Allí se decidían la guerra, la paz y las leyes de la ciudad. Las mujeres, los extranjeros y las personas esclavizadas no podían participar."
   },
   3: {
-   
     etiqueta: "Sócrates no daba clases: se pasaba el día conversando en el Ágora",
     dato: "El filósofo recorría la plaza haciéndole preguntas difíciles a quien se cruzara, desde artesanos hasta políticos. Nunca escribió un libro. Lo que sabemos de su forma de pensar viene de sus discípulos, sobre todo de Platón."
   },
   4: {
-   
     etiqueta: "En los juicios del Ágora, el tiempo para hablar se medía con agua",
     dato: "Un reloj de agua llamado clepsidra marcaba cuánto podía hablar cada persona en el tribunal. Cuando se vaciaba, había que callar, aunque el discurso no hubiera terminado. En las excavaciones del Ágora se encontró uno."
   },
   5: {
-   
     etiqueta: "Cada espectador del Coliseo tenía una entrada numerada",
     dato: "Para llenar el edificio sin caos, cada persona recibía una ficha con su puerta, su sección y su asiento. Tenía unas 80 entradas, y se calcula que podía caber y vaciarse con mucha rapidez para su época. El lugar dependía de la clase social."
   },
   6: {
-   
     etiqueta: "Los romanos calentaban el suelo de sus casas y baños",
     dato: "Usaban un sistema llamado hipocausto: el aire caliente de un horno circulaba bajo el piso, sostenido por pequeños pilares de ladrillo, y subía por conductos dentro de las paredes. Se usaba en baños públicos y en casas de gente adinerada. Quedan restos en muchas ciudades del antiguo Imperio, de Italia a Britania."
   },
   7: {
-
     etiqueta: "Los romanos tumbaban montañas con agua para sacar oro",
     dato: "En Las Médulas, al noroeste de España, los romanos cavaban túneles dentro de la montaña y los llenaban de agua traída por canales desde lejos. La presión derrumbaba la roca y el agua arrastraba el oro."
   }
@@ -134,10 +127,12 @@ export const Seccioncartelera = () => {
 
     <div className="cara-atras">
 
-     
-      <strong className="atras-cifra">
-        {CARAS[numero].cifra}
-      </strong>
+      
+      {CARAS[numero].cifra && (
+        <strong className="atras-cifra">
+          {CARAS[numero].cifra}
+        </strong>
+      )}
 
       <p className="atras-etiqueta">
         {CARAS[numero].etiqueta}
@@ -193,8 +188,6 @@ export const Seccioncartelera = () => {
         ========================================= */}
 
         <div className="controles-cartelera">
-    
-
 
 
           {/* BOTÓN IZQUIERDO */}
@@ -328,74 +321,78 @@ export const Seccioncartelera = () => {
             </div>
 
 
-{/* =========================================
-    FONDO 3 (CERCA)
-========================================= */}
 
-<div
-  className={`cartelera fondo-3 ${volteada === 3 ? "volteada" : ""}`}
-  onClick={() => manejarClick(3)}
->
+            {/* =========================================
+                FONDO 3 (ÁGORA DE CERCA)
+            ========================================= */}
 
-  <div
-    className="imagen-cartelera"
-    style={{ overflow: "hidden" }}
-  >
+            <div
+              className={`cartelera fondo-3 ${volteada === 3 ? "volteada" : ""}`}
+              onClick={() => manejarClick(3)}
+            >
 
-    <span className="etiqueta-capitulo">
-      CAPÍTULO 03
-    </span>
+              <div
+                className="imagen-cartelera"
+                style={{ overflow: "hidden" }}
+              >
 
-    <img
-      src="/agoranormal.png"
-      alt="Ágora de cerca"
-      style={{
-        transform: "scale(1.8)",
-        transformOrigin: "100% 55%"
-      }}
-    />
+                <span className="etiqueta-capitulo">
+                  CAPÍTULO 03
+                </span>
 
-    <h3>
-      ÁGORA
-    </h3>
+                <img
+                  src="/agoranormal.png"
+                  alt="Ágora de cerca"
+                  style={{
+                    transform: "scale(1.8)",
+                    transformOrigin: "100% 55%"
+                  }}
+                />
 
-  </div>
+                <h3>
+                  ÁGORA
+                </h3>
 
-  {reverso(3)}
+              </div>
 
-</div>
+              {reverso(3)}
+
+            </div>
 
 
 
-{/* =========================================
-    FONDO 4 (AMPLIADO)
-========================================= */}
+            {/* =========================================
+                FONDO 4 (ÁGORA AMPLIADA)
+            ========================================= */}
 
-<div
-  className={`cartelera fondo-4 ${volteada === 4 ? "volteada" : ""}`}
-  onClick={() => manejarClick(4)}
->
+            <div
+              className={`cartelera fondo-4 ${volteada === 4 ? "volteada" : ""}`}
+              onClick={() => manejarClick(4)}
+            >
 
-  <div className="imagen-cartelera">
+              <div className="imagen-cartelera">
 
-    <span className="etiqueta-capitulo">
-      CAPÍTULO 04
-    </span>
+                <span className="etiqueta-capitulo">
+                  CAPÍTULO 04
+                </span>
 
-    <img
-      src="/ágora(ampliado).png"
-      alt="Ágora ampliado"
-    />
+                <img
+                  src="/ágora(ampliado).png"
+                  alt="Ágora ampliado"
+                />
 
-    <h3>
-      ÁGORA II
-    </h3>
+                <h3>
+                  ÁGORA II
+                </h3>
 
-  </div>
+              </div>
 
-  {reverso(4)}
+              {reverso(4)}
 
-</div>
+            </div>
+
+
+
             {/* =========================================
                 FONDO 5
             ========================================= */}
@@ -412,12 +409,12 @@ export const Seccioncartelera = () => {
                 </span>
 
                 <img
-                  src="coliseo.png"
+                  src="/coliseo.png"
                   alt="Coliseo"
                 />
 
                 <h3>
-                Coliseo
+                  COLISEO
                 </h3>
 
               </div>
@@ -445,11 +442,11 @@ export const Seccioncartelera = () => {
 
                 <img
                   src="/imperio1.png"
-                  alt="Capítulo 6"
+                  alt="Imperio"
                 />
 
                 <h3>
-                Imperio
+                  IMPERIO
                 </h3>
 
               </div>
@@ -477,7 +474,7 @@ export const Seccioncartelera = () => {
 
                 <img
                   src="/cueva2.png"
-                  alt="Capítulo 7"
+                  alt="Cueva II"
                 />
 
                 <h3>
