@@ -9,6 +9,7 @@ import Escena1 from "./Comicc.jsx/Escena1";
 import Escena2 from "./Comicc.jsx/Escena2";
 import Escena3 from "./Comicc.jsx/Escena3";
 import Escena4 from "./Comicc.jsx/Escena4";
+import Escena5 from "./Comicc.jsx/Escena5";
 
 import {
   FaVolumeUp,
@@ -65,7 +66,8 @@ export const EscenaPortada = () => {
   /* =====================================================
      CAPÍTULOS DESBLOQUEADOS
 
-     SOLO EL 1 COMIENZA DESBLOQUEADO.
+     (Ahora están todos abiertos para poder probar.
+      Para el lanzamiento, deja solo [1].)
   ===================================================== */
 
   const [
@@ -73,7 +75,6 @@ export const EscenaPortada = () => {
     setCapitulosDesbloqueados
 
   ] = useState([1, 2, 3, 4, 5, 6, 7]);
-
 
 
   /* =====================================================
@@ -154,7 +155,7 @@ export const EscenaPortada = () => {
 
     {
       numero: "05",
-      titulo: "PRÓXIMAMENTE"
+      titulo: "EL COLISEO"
     },
 
     {
@@ -387,7 +388,7 @@ export const EscenaPortada = () => {
 
   /* =====================================================
      PASAR A CAPÍTULO 2
-     
+
      SOLO SE EJECUTA DESPUÉS DEL CLIC
      EN "CONTINUAR".
   ===================================================== */
@@ -479,6 +480,11 @@ export const EscenaPortada = () => {
       transicionBlanca
     ]);
 
+
+  /* =====================================================
+     PASAR A CAPÍTULO 3
+  ===================================================== */
+
   const pasarACapitulo3 =
     useCallback(() => {
 
@@ -539,6 +545,12 @@ export const EscenaPortada = () => {
     }, [
       transicionBlanca
     ]);
+
+
+  /* =====================================================
+     PASAR A CAPÍTULO 4
+  ===================================================== */
+
   const pasarACapitulo4 =
     useCallback(() => {
 
@@ -810,7 +822,7 @@ export const EscenaPortada = () => {
 
           {/* =================================================
               MENSAJE DE OBJETOS ENCONTRADOS
-              
+
               ESTÁ DENTRO DEL RECUADRO DEL CÓMIC.
           ================================================= */}
 
@@ -1059,6 +1071,7 @@ export const EscenaPortada = () => {
 
               )}
 
+
               {/* =================================================
                   ESCENA 3
               ================================================= */}
@@ -1077,6 +1090,53 @@ export const EscenaPortada = () => {
 
                   onEscenaTerminada={
                     pasarACapitulo4
+                  }
+                />
+              )}
+
+
+              {/* =================================================
+                  ESCENA 5 (EL COLISEO)
+              ================================================= */}
+
+              {capituloActivo === 5 && (
+                <Escena5
+                  ref={escenaRef}
+
+                  textoNarracionActivo={
+                    textoNarracionActivo
+                  }
+
+                  onNarradorEstadoChange={
+                    actualizarEstadoNarrador
+                  }
+
+                  /*
+                    SOLO MUESTRA EL MENSAJE.
+                    NO DESBLOQUEA.
+                  */
+
+                  onObjetosEncontrados={
+                    mostrarMensajeObjetos
+                  }
+
+                  /*
+                    DESBLOQUEA DE VERDAD
+                    CUANDO SE PULSA CONTINUAR.
+                  */
+
+                  onCapituloDesbloqueado={
+                    desbloquearCapitulo
+                  }
+
+                  /*
+                    PASA AL CAPÍTULO 6.
+                    (La Escena 6 todavía no existe: si no la
+                    quieres usar aún, borra esta prop.)
+                  */
+
+                  onEscenaTerminada={
+                    pasarACapitulo6
                   }
                 />
               )}

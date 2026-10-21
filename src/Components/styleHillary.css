@@ -1092,6 +1092,112 @@ body {
   background-color: #FFFFFF;
 }
 
+/* =========================================
+   MÁS LUZ EN EL TELÓN
+========================================= */
+
+/* 1) Fondo más claro y brillante */
+
+.telon-fondo {
+  background-color: #FCE9D5;
+}
+
+.telon-fondo img {
+  opacity: 0.95;
+}
+
+
+/* 2) Foco de escenario: luz cálida que cae desde arriba */
+
+.telon-fondo::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse 75% 85% at 50% 0%,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(245, 166, 35, 0.35) 45%,
+      rgba(245, 166, 35, 0) 80%
+    );
+
+  opacity: 0.8;
+
+  transition: opacity 0.6s ease;
+}
+
+/* La luz se intensifica al pasar el mouse y al abrir */
+
+.telon-escenario:hover .telon-fondo::before,
+.telon-escenario.abierto .telon-fondo::before {
+  opacity: 1;
+}
+
+
+/* 3) Resplandor cálido alrededor del escenario */
+
+.telon-escenario {
+  box-shadow:
+    0 14px 28px rgba(74, 40, 23, 0.3),
+    0 0 36px rgba(245, 166, 35, 0.45);
+
+  transition: box-shadow 0.6s ease;
+}
+
+.telon-escenario.abierto {
+  box-shadow:
+    0 14px 28px rgba(74, 40, 23, 0.3),
+    0 0 60px rgba(245, 166, 35, 0.7);
+}
+
+
+/* 4) Cortinas más luminosas: menos sombra, con brillo de tela */
+
+.telon-cortina {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 65%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.16) 8px,
+      rgba(74, 40, 23, 0) 20px,
+      rgba(74, 40, 23, 0.14) 34px,
+      rgba(74, 40, 23, 0) 48px
+    ),
+    #D2693A;
+
+  box-shadow: inset 0 -20px 30px rgba(74, 40, 23, 0.1);
+}
+
+
+/* 5) Cenefa con brillo */
+
+.telon-cenefa {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.16) 0,
+      rgba(255, 255, 255, 0.16) 8px,
+      rgba(74, 40, 23, 0) 20px,
+      rgba(74, 40, 23, 0.14) 34px,
+      rgba(74, 40, 23, 0) 48px
+    ),
+    #D2693A;
+}
+
 
 /* =========================================
    CELULAR
@@ -1176,103 +1282,580 @@ body {
   }
 }
 
+/* =========================================
+   RESTAURAR BOTÓN CERRAR DEL TELÓN
+   (en tu archivo solo quedó el :hover)
+========================================= */
 
-/* ============================= */
-/* CELULAR */
-/* ============================= */
+.telon-cerrar {
+  position: absolute;
 
-@media (max-width: 650px) {
+  top: 50px;
+  right: 10px;
+
+  z-index: 5;
+
+  padding: 6px 14px;
+
+  border: none;
+  border-radius: 20px;
+
+  background-color: #FCE9D5;
+
+  color: #4A2817;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+
+  transition: background-color 0.25s ease;
+}
+
+
+/* =========================================
+   MAC / PANTALLAS GRANDES  (1700px o más)
+   MacBook Pro 16" (1728), monitores de 1920
+========================================= */
+
+@media (min-width: 1700px) {
+
+  /* ---------- HEADER ---------- */
 
   .header-mitonic {
-    height: 64px;
-    padding: 0 20px;
+    height: 84px;
   }
 
   .logo-mitonic img {
-    width: 55px;
+    width: 84px;
   }
 
   .nav-mitonic {
-    gap: 14px;
+    gap: 90px;
   }
 
   .nav-mitonic a {
-    font-size: 9px;
+    font-size: 17px;
   }
+
+
+  /* ---------- HERO ---------- */
 
   .hero-mitonic {
-    min-height: calc(100vh - 64px);
-
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-
-    gap: 40px;
-
-    padding: 50px 25px;
-  }
-
-  .hero-texto {
-    width: 100%;
+    min-height: calc(100vh - 84px);
   }
 
   .hero-texto h1 {
-    font-size: clamp(42px, 12vw, 64px);
-    letter-spacing: -2px;
+    font-size: clamp(100px, 5.4vw, 124px);
+    letter-spacing: -4px;
   }
+
+  .telon-escenario {
+    max-width: 760px;
+    top: -110px;
+  }
+
+  .telon-cenefa {
+    height: 42px;
+  }
+
+  .telon-video {
+    top: 48px;
+    height: calc(100% - 48px);
+  }
+
+  .telon-abrir-texto {
+    padding: 16px 32px;
+    font-size: 19px;
+  }
+
+  .telon-cerrar {
+    top: 58px;
+    font-size: 14px;
+  }
+
+
+  /* ---------- INFO COMIC ---------- */
+
+  .info-comic {
+    min-height: 900px;
+  }
+
+  .info-comic-titulo {
+    padding-top: 90px;
+  }
+
+  .info-comic-titulo h2 {
+    font-size: clamp(62px, 4vw, 84px);
+  }
+
+  .info-comic-contenido {
+    max-width: 1600px;
+    margin-top: 175px;
+    gap: 40px;
+  }
+
+  .info-item h3 {
+    font-size: clamp(42px, 2.6vw, 56px);
+  }
+
+  .info-item p {
+    max-width: 800px;
+    font-size: clamp(22px, 1.45vw, 29px);
+  }
+
+
+  /* ---------- CARTELERA (CAPÍTULOS) ---------- */
+
+  .fondos-cartelera {
+    height: 560px;
+  }
+
+  .fondos-track {
+    gap: 50px;
+  }
+
+  .cartelera {
+    flex: 0 0 350px;
+    width: 350px;
+  }
+
+  .etiqueta-capitulo {
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+
+  .imagen-cartelera h3 {
+    left: 24px;
+    bottom: 20px;
+    font-size: 33px;
+  }
+
+  .boton-cartelera {
+    width: 100px;
+    height: 100px;
+  }
+
+  .atras-pregunta {
+    font-size: 15px;
+  }
+
+  .atras-etiqueta {
+    font-size: 22px;
+  }
+
+  .atras-dato {
+    font-size: 16px;
+  }
+
+  .atras-volver {
+    font-size: 13px;
+  }
+
+
+  /* ---------- ADRIÁN ---------- */
+
+  .adrian-curva {
+    max-width: 1800px;
+  }
+
+  .adrian-foto {
+    width: min(680px, 62vh);
+  }
+
+
+  /* ---------- EQUIPO ---------- */
+
+  .equipo-titulo {
+    top: 30px;
+    font-size: clamp(75px, 5vw, 100px);
+  }
+
+  .equipo-integrantes {
+    width: 85%;
+    max-width: 2000px;
+  }
+
+  .integrante img,
+  .integrante-interior {
+    max-width: 460px;
+  }
+
+  .integrante:nth-child(2) img,
+  .integrante:nth-child(2) .integrante-interior {
+    max-width: 380px;
+  }
+
+  .integrante-reverso h3 {
+    font-size: 2.3rem;
+  }
+
+  .integrante-reverso p {
+    font-size: 1.2rem;
+  }
+
+
+  /* ---------- FOOTER ---------- */
+
+  .seccion-footer {
+    height: 520px;
+  }
+
+  .footer-logo img {
+    width: 440px;
+  }
+
+  .footer-redes {
+    bottom: 30px;
+    gap: 40px;
+  }
+
+  .footer-icono {
+    width: 52px;
+    height: 52px;
+    font-size: 64px;
+  }
+
+  .indicador-footer {
+    font-size: 16px;
+  }
+
+
+  /* ---------- PÁGINA DE PERSONAJE ---------- */
+
+  .personaje-header {
+    height: 96px;
+  }
+
+  .personaje-logo img {
+    width: 92px;
+  }
+
+  .personaje-nav {
+    gap: 48px;
+  }
+
+  .personaje-nav a {
+    font-size: 15px;
+  }
+
+  .personaje-ficha {
+    min-height: calc(100vh - 96px);
+  }
+
+  .personaje-ficha-info h1 {
+    font-size: clamp(105px, 6.4vw, 135px);
+  }
+
+  .personaje-profesion {
+    font-size: 28px;
+  }
+
+  .personaje-frase {
+    width: 540px;
+    font-size: 24px;
+  }
+
+  .personaje-cuerpo {
+    width: 520px;
+    height: 880px;
+  }
+
+  .personaje-conoce {
+    padding: 110px 8%;
+  }
+
+  .personaje-conoce-titulo h2 {
+    font-size: clamp(75px, 4.6vw, 96px);
+  }
+
+  .personaje-conoce-texto {
+    max-width: 820px;
+  }
+
+  .personaje-conoce-texto p {
+    font-size: 24px;
+  }
+
+}
+
+
+/* =========================================
+   iMAC 24", iMAC 27", STUDIO DISPLAY
+   (2200px o más)
+========================================= */
+
+@media (min-width: 2200px) {
+
+  /* ---------- HEADER ---------- */
+
+  .header-mitonic {
+    height: 96px;
+  }
+
+  .logo-mitonic img {
+    width: 96px;
+  }
+
+  .nav-mitonic {
+    gap: 110px;
+  }
+
+  .nav-mitonic a {
+    font-size: 20px;
+  }
+
+
+  /* ---------- HERO ---------- */
+
+  .hero-mitonic {
+    min-height: calc(100vh - 96px);
+  }
+
+  .hero-texto h1 {
+    font-size: clamp(124px, 5.4vw, 160px);
+    letter-spacing: -5px;
+  }
+
+  .telon-escenario {
+    max-width: 880px;
+    top: -130px;
+  }
+
+  .telon-cenefa {
+    height: 48px;
+  }
+
+  .telon-video {
+    top: 54px;
+    height: calc(100% - 54px);
+  }
+
+  .telon-abrir-texto {
+    padding: 18px 36px;
+    font-size: 22px;
+  }
+
+  .telon-cerrar {
+    top: 64px;
+    font-size: 15px;
+  }
+
+
+  /* ---------- INFO COMIC ---------- */
+
+  .info-comic {
+    min-height: 1000px;
+  }
+
+  .info-comic-titulo h2 {
+    font-size: clamp(84px, 3.8vw, 104px);
+  }
+
+  .info-comic-contenido {
+    max-width: 1900px;
+  }
+
+  .info-item h3 {
+    font-size: clamp(56px, 2.6vw, 66px);
+  }
+
+  .info-item p {
+    max-width: 950px;
+    font-size: clamp(29px, 1.45vw, 34px);
+  }
+
+
+  /* ---------- CARTELERA (CAPÍTULOS) ---------- */
+
+  .fondos-cartelera {
+    height: 640px;
+    top: 18%;
+  }
+
+  .fondos-track {
+    gap: 56px;
+  }
+
+  .cartelera {
+    flex: 0 0 400px;
+    width: 400px;
+  }
+
+  .etiqueta-capitulo {
+    top: 22px;
+    left: 22px;
+    font-size: 18px;
+  }
+
+  .imagen-cartelera h3 {
+    left: 28px;
+    bottom: 24px;
+    font-size: 38px;
+  }
+
+  .boton-cartelera {
+    width: 112px;
+    height: 112px;
+  }
+
+  .atras-pregunta {
+    font-size: 17px;
+  }
+
+  .atras-etiqueta {
+    font-size: 25px;
+  }
+
+  .atras-dato {
+    font-size: 18px;
+  }
+
+  .atras-volver {
+    font-size: 14px;
+  }
+
+
+  /* ---------- ADRIÁN ---------- */
+
+  .adrian-curva {
+    max-width: 2000px;
+  }
+
+  .adrian-foto {
+    width: min(780px, 60vh);
+  }
+
+
+  /* ---------- EQUIPO ---------- */
+
+  .equipo-titulo {
+    font-size: clamp(100px, 4.6vw, 120px);
+  }
+
+  .integrante img,
+  .integrante-interior {
+    max-width: 540px;
+  }
+
+  .integrante:nth-child(2) img,
+  .integrante:nth-child(2) .integrante-interior {
+    max-width: 440px;
+  }
+
+  .integrante-reverso h3 {
+    font-size: 2.6rem;
+  }
+
+  .integrante-reverso p {
+    font-size: 1.4rem;
+  }
+
+
+  /* ---------- FOOTER ---------- */
+
+  .seccion-footer {
+    height: 600px;
+  }
+
+  .footer-logo img {
+    width: 520px;
+  }
+
+  .footer-redes {
+    gap: 48px;
+  }
+
+  .footer-icono {
+    width: 60px;
+    height: 60px;
+    font-size: 72px;
+  }
+
+
+  /* ---------- PÁGINA DE PERSONAJE ---------- */
+
+  .personaje-header {
+    height: 108px;
+  }
+
+  .personaje-logo img {
+    width: 104px;
+  }
+
+  .personaje-nav a {
+    font-size: 17px;
+  }
+
+  .personaje-ficha {
+    min-height: calc(100vh - 108px);
+  }
+
+  .personaje-ficha-info h1 {
+    font-size: clamp(135px, 6vw, 170px);
+  }
+
+  .personaje-profesion {
+    font-size: 32px;
+  }
+
+  .personaje-frase {
+    width: 640px;
+    font-size: 28px;
+  }
+
+  .personaje-cuerpo {
+    width: 600px;
+    height: 1000px;
+  }
+
+  .personaje-conoce-titulo h2 {
+    font-size: clamp(96px, 4.4vw, 112px);
+  }
+
+  .personaje-conoce-texto {
+    max-width: 960px;
+  }
+
+  .personaje-conoce-texto p {
+    font-size: 28px;
+  }
+
+}
+
+
+/* =========================================
+   CORRECCIONES DE TABLET Y CELULAR
+   (el telón ya controla su altura solo)
+========================================= */
+
+@media (max-width: 900px) {
 
   .trailer-mitonic {
-    width: 100%;
-    height: 280px;
-
-    border-radius: 18px;
+    height: auto;
   }
 
-  .indicador-seccion {
-    left: 25px;
+  .telon-escenario {
+    top: -30px;
   }
-}
-
-
-/* ============================= */
-/* CELULAR PEQUEÑO */
-/* ============================= */
-
-@media (max-width: 450px) {
-
-  .nav-mitonic {
-    gap: 9px;
-  }
-
-  .nav-mitonic a {
-    font-size: 8px;
-  }
-
-  .hero-mitonic {
-    padding: 40px 20px;
-  }
-
-  .hero-texto h1 {
-    font-size: 42px;
-  }
-
- .trailer-mitonic {
-
-  width: 100%;
-  height: 280px;
 
 }
 
-.trailer-contenedor {
+@media (max-width: 650px) {
 
-  width: 100%;
-  height: 100%;
+  .trailer-mitonic {
+    height: auto;
+  }
 
-  border-radius: 18px;
+  .telon-escenario {
+    top: 0;
+  }
 
 }
-}
-
 
 /* =========================================================
    ANIMACIONES HERO
