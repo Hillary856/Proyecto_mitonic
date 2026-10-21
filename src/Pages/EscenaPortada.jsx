@@ -73,7 +73,6 @@ export const EscenaPortada = () => {
   const [
     capitulosDesbloqueados,
     setCapitulosDesbloqueados
-
   ] = useState([1, 2, 3, 4, 5, 6, 7]);
 
 
@@ -626,27 +625,72 @@ export const EscenaPortada = () => {
       transicionBlanca
     ]);
 
-  const pasarACapitulo5 = useCallback(() => {
-    if (transicionBlanca) return;
 
-    setNarradorActivo(false);
-    setTextoNarracionActivo(false);
-    setMensajeDesbloqueo(null);
+  /* =====================================================
+     PASAR A CAPÍTULO 6
+     (se usa al terminar la Escena 5)
+  ===================================================== */
 
-    setTransicionBlanca("entrando");
+  const pasarACapitulo6 =
+    useCallback(() => {
 
-    transicionTimerRef.current = setTimeout(() => {
-      setCapituloActivo(5);
-      setEscenaIniciada(true);
-      setTextoNarracionActivo(true);
+      if (
+        transicionBlanca
+      ) {
+        return;
+      }
 
-      setTransicionBlanca("saliendo");
+      setNarradorActivo(
+        false
+      );
 
-      ocultarTransicionTimerRef.current = setTimeout(() => {
-        setTransicionBlanca(null);
-      }, 900);
-    }, 1250);
-  }, [transicionBlanca]);
+      setTextoNarracionActivo(
+        false
+      );
+
+      setMensajeDesbloqueo(
+        null
+      );
+
+      setTransicionBlanca(
+        "entrando"
+      );
+
+
+      transicionTimerRef.current =
+        setTimeout(() => {
+
+          setCapituloActivo(
+            6
+          );
+
+          setEscenaIniciada(
+            true
+          );
+
+          setTextoNarracionActivo(
+            true
+          );
+
+          setTransicionBlanca(
+            "saliendo"
+          );
+
+
+          ocultarTransicionTimerRef.current =
+            setTimeout(() => {
+
+              setTransicionBlanca(
+                null
+              );
+
+            }, 900);
+
+        }, 1250);
+
+    }, [
+      transicionBlanca
+    ]);
 
 
   /* =====================================================
@@ -1146,9 +1190,7 @@ export const EscenaPortada = () => {
           )}
 
           {capituloActivo === 4 && (
-            <Escena4
-              onEscenaTerminada={pasarACapitulo5}
-            />
+            <Escena4 />
           )}
 
         </section>
