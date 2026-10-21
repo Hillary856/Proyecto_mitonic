@@ -1,5 +1,4 @@
 import {
-   
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -59,14 +58,13 @@ const FONDO_ESCENA5 = "/Escenarios/coliseoo.svg";
 const SIGUIENTE_OBJETO = {
   espada: "casco",
   casco: "escudo",
-  escudo: null
+  escudo: "reloj"
 };
 
 
 /* =====================================================
    POSICIONES DONDE APARECE CADA OBJETO
    (porcentajes del recuadro de la escena).
-   Son de PRUEBA: cámbialas según tu fondo.
 ===================================================== */
 
 const POSICIONES_ESCENA5 = {
@@ -121,6 +119,8 @@ const Escena5 = forwardRef(
 
     /* =====================================================
        AUDIOS
+       5 = gladius, 6 = casco, 7 = escudo
+       8 = cierre, 9 = reloj cerrado, 10 = reloj abierto
     ===================================================== */
 
     const audiosEscena5 = {
@@ -192,14 +192,13 @@ const Escena5 = forwardRef(
 
     /* =====================================================
        ESTADOS DE ADRIÁN Y AUDIO
+       Al inicio no suena nada: primero Adrián camina.
     ===================================================== */
 
     const [adrianHabla, setAdrianHabla] = useState(false);
-    const [caminataTerminada, setCaminataTerminada] = useState(false);
-    const [audio1Terminado, setAudio1Terminado] = useState(false);
     const [audioActual, setAudioActual] = useState(1);
-    const [tipoAudio, setTipoAudio] = useState("principal");
-    const [narradorActivo, setNarradorActivo] = useState(true);
+    const [tipoAudio, setTipoAudio] = useState("espera");
+    const [narradorActivo, setNarradorActivo] = useState(false);
 
 
     /* =====================================================
@@ -220,7 +219,7 @@ const Escena5 = forwardRef(
        TEXTO, RELOJ Y CONTINUAR
     ===================================================== */
 
-    const [momentoTexto, setMomentoTexto] = useState(1);
+    const [momentoTexto, setMomentoTexto] = useState(null);
     const [relojVisible, setRelojVisible] = useState(false);
     const [relojDescubierto, setRelojDescubierto] = useState(false);
     const [relojMoviendose, setRelojMoviendose] = useState(false);
@@ -235,7 +234,6 @@ const Escena5 = forwardRef(
 
     const audioRef = useRef(null);
     const escenaIniciadaRef = useRef(false);
-    const audio2IniciadoRef = useRef(false);
     const relojTimerRef = useRef(null);
     const busquedaTimerRef = useRef(null);
 
@@ -273,11 +271,14 @@ const Escena5 = forwardRef(
 
     /* =====================================================
        REPRODUCIR AUDIO
+       (el console.log te dice qué audio suena en cada momento)
     ===================================================== */
 
     const reproducirAudio = (audio, numero, tipo) => {
       const reproductor = audioRef.current;
       if (!reproductor || !audio) return;
+
+      console.log(`Escena 5 → audio ${numero} (${tipo})`);
 
       reproductor.pause();
       reproductor.src = audio;
@@ -292,33 +293,6 @@ const Escena5 = forwardRef(
         console.error("No se pudo reproducir el audio de Escena 5:", error);
       });
     };
-
-
-    /* =====================================================
-       INICIAR AUDIO 1 (mientras Adrián camina)
-    ===================================================== */
-
-    useEffect(() => {
-      if (escenaIniciadaRef.current) return;
-      escenaIniciadaRef.current = true;
-      reproducirAudio(audiosEscena5[1], 1, "principal");
-    }, []);
-
-
-    /* =====================================================
-       AUDIO 2: ESPERA A QUE TERMINEN LA CAMINATA Y EL AUDIO 1
-    ===================================================== */
-
-    useEffect(() => {
-      if (!caminataTerminada || !audio1Terminado || audio2IniciadoRef.current) {
-        return;
-      }
-
-      audio2IniciadoRef.current = true;
-      setAudio1Terminado(false);
-      setMomentoTexto(2);
-      reproducirAudio(audiosEscena5[2], 2, "principal");
-    }, [caminataTerminada, audio1Terminado]);
 
 
     /* =====================================================
@@ -402,14 +376,21 @@ const Escena5 = forwardRef(
 
     /* =====================================================
        FINAL DE LA CAMINATA
+       Adrián termina de entrar caminando, cambia a la
+       animación de hablar y recién ahí empieza el audio 1
+       con su subtítulo.
     ===================================================== */
 
     const terminarCaminata = (evento) => {
-      if (evento?.animationName && evento.animationName !== "entradaAdrian") {
-        return;
-      }
-      setCaminataTerminada(true);
+      if (evento.target !== evento.currentTarget) return;
+      if (evento.animationName !== "entradaAdrianEscena5") return;
+      if (escenaIniciadaRef.current) return;
+
+      escenaIniciadaRef.current = true;
+
       setAdrianHabla(true);
+      setMomentoTexto(1);
+      reproducirAudio(audiosEscena5[1], 1, "principal");
     };
 
 
@@ -485,10 +466,10 @@ const Escena5 = forwardRef(
 
       /* ---------- audios principales ---------- */
 
-      // AUDIO 1: el audio 2 espera también a que termine la caminata
+      // AUDIO 1 → AUDIO 2
       if (audioActual === 1) {
-        setAudio1Terminado(true);
-        setNarradorActivo(false);
+        setMomentoTexto(2);
+        reproducirAudio(audiosEscena5[2], 2, "principal");
         return;
       }
 
@@ -643,20 +624,20 @@ const Escena5 = forwardRef(
     ===================================================== */
 
     return (
-      <div className="escena-1">
-        <div className="escena-1-contenido">
+      <div className="escena-5">
+        <div className="escena-5-contenido">
 
           {/* FONDO */}
           <img
             src={FONDO_ESCENA5}
             alt="Coliseo romano"
-            className="escena-1-fondo"
+            className="escena-5-fondo"
           />
 
           {/* ADRIÁN CAMINANDO */}
           {!adrianHabla && (
             <div
-              className="escena-1-adrian-prueba"
+              className="escena-5-adrian-prueba"
               onAnimationEnd={terminarCaminata}
             >
               <Lottie
@@ -669,7 +650,7 @@ const Escena5 = forwardRef(
 
           {/* ADRIÁN HABLANDO */}
           {adrianHabla && (
-            <div className="escena-1-adrian-hablando">
+            <div className="escena-5-adrian-hablando">
               <Lottie
                 animationData={AdrianHablando}
                 loop
@@ -689,7 +670,7 @@ const Escena5 = forwardRef(
           {textoNarracionActivo &&
             momentoTexto !== null &&
             textosEscena5[momentoTexto] && (
-              <div className="escena-1-texto-narracion">
+              <div className="escena-5-texto-narracion">
                 {textosEscena5[momentoTexto]}
               </div>
             )}
@@ -716,7 +697,7 @@ const Escena5 = forwardRef(
           {/* RELOJ CERRADO */}
           {relojVisible && !relojAbierto && (
             <button
-              className={`escena-1-reloj-boton ${
+              className={`escena-5-reloj-boton ${
                 relojMoviendose ? "moviendose" : ""
               } ${relojEnCentro ? "en-centro" : ""} ${
                 relojDescubierto ? "descubierto" : ""
@@ -727,29 +708,29 @@ const Escena5 = forwardRef(
               <img
                 src={RelojCerrado}
                 alt="Reloj cerrado"
-                className="escena-1-reloj-cerrado"
+                className="escena-5-reloj-cerrado"
               />
             </button>
           )}
 
           {/* RELOJ ABIERTO */}
           {relojAbierto && (
-            <div className="escena-1-reloj-abierto">
+            <div className="escena-5-reloj-abierto">
               <img
                 src={reloj}
                 alt="Reloj abierto"
-                className="escena-1-reloj"
+                className="escena-5-reloj"
               />
             </div>
           )}
 
           {/* CONTINUAR AL CAPÍTULO 6 */}
           {mostrarContinuar && (
-            <div className="escena-1-continuar-contenedor">
-              <div className="escena-1-continuar-texto">
+            <div className="escena-5-continuar-contenedor">
+              <div className="escena-5-continuar-texto">
                 <span>CONTINUAR AL CAPÍTULO 6</span>
                 <button
-                  className="escena-1-continuar-boton"
+                  className="escena-5-continuar-boton"
                   onClick={continuarCapitulo6}
                   disabled={objetosDescubiertos.length < 3}
                 >
@@ -762,27 +743,27 @@ const Escena5 = forwardRef(
           {/* MODAL DE INFORMACIÓN */}
           {objetoActivo && OBJETOS[objetoActivo] && (
             <div
-              className="escena-1-modal-fondo"
+              className="escena-5-modal-fondo"
               onClick={cerrarModal}
             >
               <div
-                className="escena-1-modal"
+                className="escena-5-modal"
                 onClick={(evento) => evento.stopPropagation()}
               >
-                <div className="escena-1-modal-imagen">
+                <div className="escena-5-modal-imagen">
                   <img
                     src={OBJETOS[objetoActivo].imagen}
                     alt={OBJETOS[objetoActivo].alt}
                   />
                 </div>
 
-                <div className="escena-1-modal-info">
+                <div className="escena-5-modal-info">
                   <h2>{OBJETOS[objetoActivo].titulo}</h2>
                   <p>{OBJETOS[objetoActivo].texto}</p>
                 </div>
 
                 <button
-                  className="escena-1-modal-cerrar"
+                  className="escena-5-modal-cerrar"
                   onClick={cerrarModal}
                   aria-label="Cerrar información"
                 >
