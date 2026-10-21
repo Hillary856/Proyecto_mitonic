@@ -1,10 +1,17 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+
+import { createPortal } from "react-dom";
 import lottieReact from "lottie-react";
 
 import CicloAdrianBody from "../../assets/CicloAdrianBody.json";
 import AdrianHablando from "../../assets/AdrianHablando.json";
 
-/* Imágenes utilizadas por el Lottie de caminata. */
 import img0 from "../../assets/AdrianBody/img_0.png";
 import img1 from "../../assets/AdrianBody/img_1.png";
 import img2 from "../../assets/AdrianBody/img_2.png";
@@ -14,12 +21,9 @@ import img5 from "../../assets/AdrianBody/img_5.png";
 import img6 from "../../assets/AdrianBody/img_6.png";
 import img7 from "../../assets/AdrianBody/img_7.png";
 
-/* Apariencia quieta de Adrián y rostros expresivos. */
-
-/* Recursos de la escena. */
 import Reloj from "../../AssetsNuevos/reloj.svg";
+import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
 
-/* Audios originales de Adrián. */
 import Esc4Audio1 from "../../Audios/Esc4Audio1.mp3";
 import Esc4Audio2 from "../../Audios/Esc4Audio2.mp3";
 import Esc4Audio3 from "../../Audios/Esc4Audio3.mp3";
@@ -29,7 +33,6 @@ import Esc4Audio8 from "../../Audios/Esc4Audio8.mp3";
 import Esc4Audio9 from "../../Audios/Esc4Audio9.mp3";
 import Esc4Audio10 from "../../Audios/Esc4Audio10.mp3";
 
-/* Voces de Efraín (comercio) y Martín (leyes). */
 import Esc4ComercioDialogo from "../../Audios/Esc4ComercioDialogo.mp3";
 import Esc4LeyesDialogo from "../../Audios/Esc4LeyesDialogo.mp3";
 import Esc4ComercioRespuesta from "../../Audios/Esc4ComercioRespuesta.mp3";
@@ -39,22 +42,26 @@ import "./Escenas.css";
 
 const Lottie = lottieReact.default || lottieReact;
 
-/* Los PNG y SVG dentro de public/ se cargan desde la raíz del sitio. */
+/* Recursos ubicados en public/. */
 const Comerciante = "/comerciante.png";
 const Leyes = "/leyes.png";
 
-/* Estos SVG están en public/, por eso se referencian desde la raíz del sitio.
-   Respeta exactamente las mayúsculas y minúsculas de los nombres de archivo. */
 const Feliz = "/Feliz.svg";
 const PensativoS = "/pensativoS.svg";
 const SorprendidoS = "/SorprendidoS.svg";
 
-const IMAGENES_ADRIAN = [img0, img1, img2, img3, img4, img5, img6, img7];
+const IMAGENES_ADRIAN = [
+  img0,
+  img1,
+  img2,
+  img3,
+  img4,
+  img5,
+  img6,
+  img7,
+];
 
-/*
- * CicloAdrianBody.json referencia ocho imágenes externas.
- * Se reemplazan esas rutas por las imágenes importadas, igual que en Escena 1.
- */
+/* Se conectan las imágenes externas al Lottie de caminata. */
 const ANIMACION_ADRIAN_CAMINANDO = {
   ...CicloAdrianBody,
   assets: CicloAdrianBody.assets.map((asset, index) => ({
@@ -66,15 +73,21 @@ const ANIMACION_ADRIAN_CAMINANDO = {
 
 const AUDIOS_ESCENA_4 = {
   introduccion: Esc4Audio1,
+
   comercioInicial: Esc4ComercioDialogo,
   leyesInicial: Esc4LeyesDialogo,
+
   pregunta: Esc4Audio2,
+
   vistaPreviaComercio: Esc4Audio3,
   vistaPreviaLeyes: Esc4Audio4,
+
   respuestaComercio: Esc4ComercioRespuesta,
   respuestaLeyes: Esc4LeyesRespuesta,
+
   adrianComercio: Esc4Audio6,
   adrianLeyes: Esc4Audio8,
+
   reflexion: Esc4Audio9,
   reloj: Esc4Audio10,
 };
@@ -82,32 +95,44 @@ const AUDIOS_ESCENA_4 = {
 const DIALOGOS = {
   introduccion:
     "Vaya, parece que hoy hay un debate interesante en el Ágora.",
+
   comercio:
-    "Si queremos que nuestra ciudad prospere, debemos apoyar a los comerciantes. Gracias a ellos conseguimos productos, intercambiamos mercancías y mantenemos activa gran parte de nuestra vida cotidiana.",
+    "Si queremos que nuestra ciudad prospere, debemos apoyar a los comerciantes. Gracias a ellos conseguimos productos e intercambiamos mercancías.",
+
   leyes:
-    "¿Y de qué sirve impulsar el comercio si no existen reglas claras? Sin acuerdos que se respeten, las disputas aumentarán y algunos terminarán aprovechándose de los demás.",
+    "¿De qué sirve impulsar el comercio si no existen reglas claras? Sin acuerdos que se respeten, las disputas aumentarán y algunos se aprovecharán de los demás.",
+
   pregunta:
     "Los dos tienen buenos argumentos. ¿Tú a quién apoyarías?",
-  vistaPreviaComercio: "Apoyar a los comerciantes.",
-  vistaPreviaLeyes: "Apoyar las leyes y los acuerdos.",
+
+  vistaPreviaComercio:
+    "Apoyar a los comerciantes.",
+
+  vistaPreviaLeyes:
+    "Apoyar las leyes y los acuerdos.",
+
   respuestaComercio:
-    "Me alegra que comprendas la importancia de esta propuesta. Si facilitamos los intercambios, más personas podrán beneficiarse de los productos que llegan a nuestra ciudad.",
+    "Me alegra que comprendas la importancia de esta propuesta. Facilitar los intercambios beneficia a más personas.",
+
   adrianComercio:
-    "Tiene sentido. Si el comercio prospera, muchas personas se benefician. El comercio es fundamental para nuestra ciudad.",
+    "Tiene sentido. Si el comercio prospera, muchas personas se benefician.",
+
   respuestaLeyes:
-    "Es importante que lo comprendas. Una ciudad necesita normas claras para resolver sus disputas y evitar que los desacuerdos se conviertan en problemas mayores.",
+    "Una ciudad necesita normas claras para resolver sus disputas y evitar problemas mayores.",
+
   adrianLeyes:
-    "Es cierto. Necesitamos reglas para resolver nuestros conflictos. Los acuerdos nos ayudan a convivir, aunque no siempre pensemos igual.",
+    "Es cierto. Necesitamos reglas para resolver nuestros conflictos.",
+
   reflexion:
-    "Cada propuesta responde a una necesidad diferente. ¡Vaya decisión!",
-  reloj: "¡Otra vez esa luz! ¿A dónde me llevará ahora?",
+    "Cada propuesta responde a una necesidad diferente.",
+
+  reloj:
+    "¡Otra vez esa luz! ¿A dónde me llevará ahora?",
 };
 
 const MOMENTOS_CAMINANDO = {
   entrada: "entrada",
   caminaDecision: "decision",
-  caminaComercio: "comercio",
-  caminaLeyes: "leyes",
 };
 
 const MOMENTOS_ADRIAN_HABLANDO = new Set([
@@ -116,7 +141,6 @@ const MOMENTOS_ADRIAN_HABLANDO = new Set([
   "adrianComercio",
   "adrianLeyes",
   "reflexion",
-  "reloj",
 ]);
 
 const Escena4 = ({ onEscenaTerminada }) => {
@@ -124,27 +148,48 @@ const Escena4 = ({ onEscenaTerminada }) => {
   const momentoRef = useRef("entrada");
 
   const [posicionAdrian, setPosicionAdrian] = useState("inicio");
-  const [mostrarComerciante, setMostrarComerciante] = useState(false);
+
+  const [mostrarComerciante, setMostrarComerciante] =
+    useState(false);
+
   const [mostrarLeyes, setMostrarLeyes] = useState(false);
-  const [ramaTerminada, setRamaTerminada] = useState(false);
+
   const [puedeContinuar, setPuedeContinuar] = useState(false);
+
+  const [relojActivado, setRelojActivado] = useState(false);
+  const [relojMoviendose, setRelojMoviendose] = useState(false);
+
+  const [destelloRelojGlobal, setDestelloRelojGlobal] =
+    useState(false);
+
+  const [iniciandoFundido, setIniciandoFundido] = useState(false);
+
   const [audioError, setAudioError] = useState(false);
   const [subtitulo, setSubtitulo] = useState("");
 
   const audioRef = useRef(null);
   const numeroAudioRef = useRef(null);
   const ultimoAudioRequestRef = useRef(null);
+  const destelloTimerRef = useRef(null);
 
-  const animacionCaminando = useMemo(() => ANIMACION_ADRIAN_CAMINANDO, []);
+  const animacionCaminando = useMemo(
+    () => ANIMACION_ADRIAN_CAMINANDO,
+    []
+  );
+
   const estaCaminando = Object.prototype.hasOwnProperty.call(
     MOMENTOS_CAMINANDO,
     momento
   );
-  const adrianHabla = MOMENTOS_ADRIAN_HABLANDO.has(momento);
+
+  const adrianHabla =
+    MOMENTOS_ADRIAN_HABLANDO.has(momento) ||
+    (momento === "reloj" && relojActivado);
+
   const expresionRostro =
     momento === "pregunta"
       ? "pensativo"
-      : momento === "reloj"
+      : momento === "reloj" && relojActivado
         ? "sorprendido"
         : null;
 
@@ -172,38 +217,55 @@ const Escena4 = ({ onEscenaTerminada }) => {
       detenerAudio();
       setAudioError(false);
 
-      ultimoAudioRequestRef.current = { claveAudio, alTerminar };
+      ultimoAudioRequestRef.current = {
+        claveAudio,
+        alTerminar,
+      };
+
       const fuente = AUDIOS_ESCENA_4[claveAudio];
+
       if (!fuente) {
-        console.error(`No se encontró el audio de Escena 4: ${claveAudio}`);
+        console.error(
+          `No se encontró el audio de Escena 4: ${claveAudio}`
+        );
         setAudioError(true);
         return;
       }
 
       const audio = new Audio(fuente);
+
       audio.preload = "auto";
       audioRef.current = audio;
       numeroAudioRef.current = claveAudio;
 
       audio.onended = () => {
         if (audioRef.current !== audio) return;
+
         audioRef.current = null;
         numeroAudioRef.current = null;
+
         alTerminar?.();
       };
 
       audio.onerror = () => {
         if (audioRef.current !== audio) return;
+
         audioRef.current = null;
         numeroAudioRef.current = null;
         setAudioError(true);
       };
 
       const promesa = audio.play();
+
       if (promesa && typeof promesa.catch === "function") {
         promesa.catch((error) => {
           if (audioRef.current !== audio) return;
-          console.warn(`No se pudo reproducir ${claveAudio}.`, error);
+
+          console.warn(
+            `No se pudo reproducir ${claveAudio}.`,
+            error
+          );
+
           audio.pause();
           audioRef.current = null;
           numeroAudioRef.current = null;
@@ -214,7 +276,8 @@ const Escena4 = ({ onEscenaTerminada }) => {
     [detenerAudio]
   );
 
-  /* Se inicia cuando termina la caminata de entrada. */
+  /* INTRODUCCIÓN Y DEBATE INICIAL */
+
   const iniciarDialogoIntroduccion = () => {
     cambiarMomento("introduccion");
     setSubtitulo(DIALOGOS.introduccion);
@@ -222,11 +285,13 @@ const Escena4 = ({ onEscenaTerminada }) => {
     reproducirAudio("introduccion", () => {
       setMostrarComerciante(true);
       setMostrarLeyes(false);
+
       cambiarMomento("comercioInicial");
       setSubtitulo(DIALOGOS.comercio);
 
       reproducirAudio("comercioInicial", () => {
         setMostrarLeyes(true);
+
         cambiarMomento("leyesInicial");
         setSubtitulo(DIALOGOS.leyes);
 
@@ -235,9 +300,9 @@ const Escena4 = ({ onEscenaTerminada }) => {
           setSubtitulo(DIALOGOS.pregunta);
 
           reproducirAudio("pregunta", () => {
-            /* Para la decisión desaparecen los dos ciudadanos. */
             setMostrarComerciante(false);
             setMostrarLeyes(false);
+
             cambiarMomento("caminaDecision");
           });
         });
@@ -245,30 +310,48 @@ const Escena4 = ({ onEscenaTerminada }) => {
     });
   };
 
+  /* RESPUESTA DE ADRIÁN DESPUÉS DEL CIUDADANO ELEGIDO */
+
   const mostrarRespuestaDeAdrian = (opcion) => {
+    setMostrarComerciante(false);
+    setMostrarLeyes(false);
+
     const esComercio = opcion === "comercio";
-    const claveAudio = esComercio ? "adrianComercio" : "adrianLeyes";
-    const texto = esComercio ? DIALOGOS.adrianComercio : DIALOGOS.adrianLeyes;
+
+    const claveAudio = esComercio
+      ? "adrianComercio"
+      : "adrianLeyes";
+
+    const texto = esComercio
+      ? DIALOGOS.adrianComercio
+      : DIALOGOS.adrianLeyes;
+
+    cambiarMomento(claveAudio);
+    setSubtitulo(texto);
+
+    reproducirAudio(claveAudio, iniciarTransicion);
+  };
+
+  const reproducirRespuestaCiudadano = (opcion) => {
+    const esComercio = opcion === "comercio";
+
+    const claveAudio = esComercio
+      ? "respuestaComercio"
+      : "respuestaLeyes";
+
+    const texto = esComercio
+      ? DIALOGOS.respuestaComercio
+      : DIALOGOS.respuestaLeyes;
 
     cambiarMomento(claveAudio);
     setSubtitulo(texto);
 
     reproducirAudio(claveAudio, () => {
-      setRamaTerminada(true);
-      cambiarMomento("resultadoListo");
+      mostrarRespuestaDeAdrian(opcion);
     });
   };
 
-  const reproducirRespuestaCiudadano = (opcion) => {
-    const esComercio = opcion === "comercio";
-    const claveAudio = esComercio ? "respuestaComercio" : "respuestaLeyes";
-    const texto = esComercio ? DIALOGOS.respuestaComercio : DIALOGOS.respuestaLeyes;
-
-    cambiarMomento(claveAudio);
-    setSubtitulo(texto);
-
-    reproducirAudio(claveAudio, () => mostrarRespuestaDeAdrian(opcion));
-  };
+  /* FIN DE LAS ANIMACIONES DE CAMINATA */
 
   const manejarFinCaminata = (evento) => {
     if (evento.target !== evento.currentTarget) return;
@@ -276,11 +359,14 @@ const Escena4 = ({ onEscenaTerminada }) => {
     const animacionesEsperadas = {
       entrada: "escena4EntradaAdrian",
       caminaDecision: "escena4CaminaDecision",
-      caminaComercio: "escena4CaminaComercio",
-      caminaLeyes: "escena4CaminaLeyes",
     };
 
-    if (evento.animationName !== animacionesEsperadas[momentoRef.current]) return;
+    if (
+      evento.animationName !==
+      animacionesEsperadas[momentoRef.current]
+    ) {
+      return;
+    }
 
     switch (momentoRef.current) {
       case "entrada":
@@ -294,30 +380,21 @@ const Escena4 = ({ onEscenaTerminada }) => {
         setSubtitulo(DIALOGOS.pregunta);
         break;
 
-      case "caminaComercio":
-        setPosicionAdrian("inicio");
-        setMostrarComerciante(true);
-        setMostrarLeyes(false);
-        reproducirRespuestaCiudadano("comercio");
-        break;
-
-      case "caminaLeyes":
-        setPosicionAdrian("leyes");
-        setMostrarComerciante(false);
-        setMostrarLeyes(true);
-        reproducirRespuestaCiudadano("leyes");
-        break;
-
       default:
         break;
     }
   };
 
+  /* AUDIO DE VISTA PREVIA AL PASAR EL CURSOR */
+
   const previsualizarPropuesta = (opcion) => {
     if (momentoRef.current !== "decision") return;
 
     const claveAudio =
-      opcion === "comercio" ? "vistaPreviaComercio" : "vistaPreviaLeyes";
+      opcion === "comercio"
+        ? "vistaPreviaComercio"
+        : "vistaPreviaLeyes";
+
     const texto =
       opcion === "comercio"
         ? DIALOGOS.vistaPreviaComercio
@@ -332,54 +409,132 @@ const Escena4 = ({ onEscenaTerminada }) => {
     }
 
     setSubtitulo(texto);
+
     reproducirAudio(claveAudio, () => {
-      if (momentoRef.current === "decision") setSubtitulo(DIALOGOS.pregunta);
+      if (momentoRef.current === "decision") {
+        setSubtitulo(DIALOGOS.pregunta);
+      }
     });
   };
+
+  /* SELECCIÓN DE A O B */
 
   const elegirPropuesta = (opcion) => {
     if (momentoRef.current !== "decision") return;
 
     detenerAudio();
-    setRamaTerminada(false);
     setPuedeContinuar(false);
-    setMostrarComerciante(false);
-    setMostrarLeyes(false);
-    setSubtitulo("");
+
+    /* Adrián no vuelve a caminar hacia atrás. */
 
     if (opcion === "comercio") {
-      cambiarMomento("caminaComercio");
+      setPosicionAdrian("inicio");
+      setMostrarComerciante(true);
+      setMostrarLeyes(false);
     } else {
-      cambiarMomento("caminaLeyes");
+      setPosicionAdrian("leyes");
+      setMostrarComerciante(false);
+      setMostrarLeyes(true);
     }
+
+    reproducirRespuestaCiudadano(opcion);
   };
 
+  /* REFLEXIÓN FINAL */
+
   const iniciarTransicion = () => {
-    setMostrarComerciante(true);
-    setMostrarLeyes(true);
+    setMostrarComerciante(false);
+    setMostrarLeyes(false);
+
     cambiarMomento("reflexion");
     setSubtitulo(DIALOGOS.reflexion);
 
     reproducirAudio("reflexion", () => {
       cambiarMomento("reloj");
       setPuedeContinuar(false);
-      setSubtitulo(DIALOGOS.reloj);
-
-      reproducirAudio("reloj", () => setPuedeContinuar(true));
+      setRelojActivado(false);
+      setRelojMoviendose(false);
+      setSubtitulo("");
     });
   };
 
-  const continuarAlColiseo = () => {
+  /* CLIC SOBRE EL RELOJ CERRADO: INICIA SU MOVIMIENTO */
+
+  const activarRelojFinal = () => {
+    if (
+      momentoRef.current !== "reloj" ||
+      relojActivado ||
+      relojMoviendose
+    ) {
+      return;
+    }
+
+    setRelojMoviendose(true);
+  };
+
+  /* EL RELOJ TERMINA DE MOVERSE, SE ABRE Y PROVOCA EL DESTELLO */
+
+  const terminarMovimientoReloj = (evento) => {
+    if (evento.target !== evento.currentTarget) return;
+
+    if (
+      !evento.animationName.startsWith("escena4MoverReloj")
+    ) {
+      return;
+    }
+
+    setRelojMoviendose(false);
+    setRelojActivado(true);
+    setDestelloRelojGlobal(true);
+    setSubtitulo(DIALOGOS.reloj);
+
+    if (destelloTimerRef.current) {
+      clearTimeout(destelloTimerRef.current);
+    }
+
+    destelloTimerRef.current = setTimeout(() => {
+      setDestelloRelojGlobal(false);
+    }, 1100);
+
+    reproducirAudio("reloj", () => {
+      setSubtitulo("");
+      setPuedeContinuar(true);
+    });
+  };
+
+  /* CLIC EN CONTINUAR: PIDE AL COMPONENTE PADRE EL CAMBIO DE CAPÍTULO */
+
+  const comenzarFundidoBlanco = () => {
+    if (!puedeContinuar || iniciandoFundido) return;
+
+    setIniciandoFundido(true);
     detenerAudio();
-    if (onEscenaTerminada) onEscenaTerminada();
+
+    if (onEscenaTerminada) {
+      onEscenaTerminada();
+    }
   };
 
   const reintentarAudio = () => {
     const ultimaSolicitud = ultimoAudioRequestRef.current;
-    if (ultimaSolicitud) reproducirAudio(ultimaSolicitud.claveAudio, ultimaSolicitud.alTerminar);
+
+    if (ultimaSolicitud) {
+      reproducirAudio(
+        ultimaSolicitud.claveAudio,
+        ultimaSolicitud.alTerminar
+      );
+    }
   };
 
-  useEffect(() => () => detenerAudio(), [detenerAudio]);
+  useEffect(() => {
+    return () => {
+      detenerAudio();
+
+      if (destelloTimerRef.current) {
+        clearTimeout(destelloTimerRef.current);
+      }
+    };
+  }, [detenerAudio]);
 
   const clasesCaminata = estaCaminando
     ? `escena-4-adrian-caminando escena-4-caminata-${MOMENTOS_CAMINANDO[momento]}`
@@ -388,7 +543,6 @@ const Escena4 = ({ onEscenaTerminada }) => {
   return (
     <div className={`escena-4 escena-4-momento-${momento}`}>
       <div className="escena-4-contenido">
-        {/* Fondo de la ampliación del Ágora. */}
         <img
           src="/Escenarios/FondoAgora2.svg"
           alt="Ampliación del Ágora de Atenas"
@@ -396,44 +550,71 @@ const Escena4 = ({ onEscenaTerminada }) => {
           draggable="false"
         />
 
-        {/* Comerciante: aparece con resplandor y se mantiene visible. */}
+        {/* CIUDADANO DEL COMERCIO */}
+
         {mostrarComerciante && (
           <div className="escena-4-ciudadano escena-4-ciudadano--comercio">
-            <div className="escena-4-ciudadano-resplandor" aria-hidden="true" />
-            <img src={Comerciante} alt="Defensor del comercio" draggable="false" />
+            <div
+              className="escena-4-ciudadano-resplandor"
+              aria-hidden="true"
+            />
+            <img
+              src={Comerciante}
+              alt="Defensor del comercio"
+              draggable="false"
+            />
           </div>
         )}
 
-        {/* Defensor de las leyes: aparece después del comerciante. */}
+        {/* CIUDADANO DE LAS LEYES */}
+
         {mostrarLeyes && (
           <div className="escena-4-ciudadano escena-4-ciudadano--leyes">
-            <div className="escena-4-ciudadano-resplandor" aria-hidden="true" />
-            <img src={Leyes} alt="Defensor de las leyes y los acuerdos" draggable="false" />
+            <div
+              className="escena-4-ciudadano-resplandor"
+              aria-hidden="true"
+            />
+            <img
+              src={Leyes}
+              alt="Defensor de las leyes y los acuerdos"
+              draggable="false"
+            />
           </div>
         )}
 
-        {/* Caminata de entrada y desplazamientos entre posiciones. */}
+        {/* ADRIÁN CAMINANDO */}
+
         {estaCaminando && (
           <div
             className={clasesCaminata}
             onAnimationEnd={manejarFinCaminata}
             aria-hidden="true"
           >
-            <Lottie animationData={animacionCaminando} loop autoplay />
+            <Lottie
+              animationData={animacionCaminando}
+              loop
+              autoplay
+            />
           </div>
         )}
 
-        {/* Adrián hablando: solo se renderiza durante sus diálogos. */}
+        {/* ADRIÁN HABLANDO */}
+
         {!estaCaminando && adrianHabla && (
           <div
             className={`escena-4-adrian-hablando escena-4-adrian--${posicionAdrian}`}
             aria-hidden="true"
           >
-            <Lottie animationData={AdrianHablando} loop autoplay />
+            <Lottie
+              animationData={AdrianHablando}
+              loop
+              autoplay
+            />
           </div>
         )}
 
-        {/* Adrián quieto: Feliz.svg se usa cuando no está hablando. */}
+        {/* ADRIÁN QUIETO */}
+
         {!estaCaminando && !adrianHabla && (
           <img
             src={Feliz}
@@ -443,7 +624,8 @@ const Escena4 = ({ onEscenaTerminada }) => {
           />
         )}
 
-        {/* Solo el rostro: pensativo al preguntar y sorprendido ante el reloj. */}
+        {/* EXPRESIÓN PENSATIVA */}
+
         {expresionRostro === "pensativo" && (
           <img
             src={PensativoS}
@@ -452,6 +634,8 @@ const Escena4 = ({ onEscenaTerminada }) => {
             draggable="false"
           />
         )}
+
+        {/* EXPRESIÓN DE SORPRESA */}
 
         {expresionRostro === "sorprendido" && (
           <img
@@ -462,9 +646,13 @@ const Escena4 = ({ onEscenaTerminada }) => {
           />
         )}
 
-        {/* Opciones: A a la izquierda y B a la derecha. */}
+        {/* PROPUESTAS: A A LA IZQUIERDA, B A LA DERECHA */}
+
         {momento === "decision" && (
-          <div className="escena-4-opciones" aria-label="Elige qué propuesta apoyar">
+          <div
+            className="escena-4-opciones"
+            aria-label="Elige qué propuesta apoyar"
+          >
             <button
               type="button"
               className="escena-4-opcion"
@@ -475,8 +663,8 @@ const Escena4 = ({ onEscenaTerminada }) => {
             >
               <strong>A. Apoyar a los comerciantes</strong>
               <span>
-                Dar prioridad al intercambio de mercancías y a la actividad
-                económica de la ciudad.
+                Dar prioridad al intercambio de mercancías y a la
+                actividad económica de la ciudad.
               </span>
               <small>Escuchar propuesta</small>
             </button>
@@ -491,51 +679,114 @@ const Escena4 = ({ onEscenaTerminada }) => {
             >
               <strong>B. Apoyar las leyes y los acuerdos</strong>
               <span>
-                Dar prioridad a las reglas claras y a la resolución de conflictos.
+                Dar prioridad a las reglas claras y a la resolución
+                de conflictos.
               </span>
               <small>Escuchar propuesta</small>
             </button>
           </div>
         )}
 
-        {/* Continuación después de la respuesta de la ruta elegida. */}
-        {momento === "resultadoListo" && ramaTerminada && (
-          <div className="escena-4-control escena-4-control-resultado">
-            <button type="button" className="escena-4-accion" onClick={iniciarTransicion}>
-              Continuar →
-            </button>
+        {/* RELOJ CERRADO: SOLO SE ACTIVA AL HACER CLIC */}
+
+        {momento === "reloj" && !relojActivado && (
+          <button
+            type="button"
+            className={[
+              "escena-4-reloj-boton",
+              `escena-4-reloj-boton--${posicionAdrian}`,
+              relojMoviendose ? "moviendose" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            onClick={activarRelojFinal}
+            onAnimationEnd={terminarMovimientoReloj}
+            disabled={relojMoviendose}
+            aria-label="Activar el reloj de Adrián"
+          >
+            <img
+              src={RelojCerrado}
+              alt="Reloj cerrado"
+              draggable="false"
+            />
+          </button>
+        )}
+
+        {/* RELOJ ABIERTO, COLOCADO CERCA DE ADRIÁN */}
+
+        {momento === "reloj" && relojActivado && (
+          <div
+            className={[
+              "escena-4-reloj-contenedor",
+              `escena-4-reloj-contenedor--${posicionAdrian}`,
+            ].join(" ")}
+            aria-hidden="true"
+          >
+            <div className="escena-4-reloj-resplandor" />
+
+            <img
+              src={Reloj}
+              alt=""
+              className="escena-4-reloj"
+              draggable="false"
+            />
           </div>
         )}
 
-        {/* Reloj brillante: aparece después de la reflexión común. */}
-        {momento === "reloj" && (
-          <>
-            <div className="escena-4-reloj-contenedor" aria-hidden="true">
-              <div className="escena-4-reloj-resplandor" />
-              <img src={Reloj} alt="" className="escena-4-reloj" />
-            </div>
+        {/* DESTELLO BLANCO EN TODA LA PÁGINA */}
 
-            {puedeContinuar && (
-              <div className="escena-4-control escena-4-control-reloj">
-                <button type="button" className="escena-4-accion" onClick={continuarAlColiseo}>
-                  Continuar al Coliseo romano →
+        {destelloRelojGlobal &&
+          typeof document !== "undefined" &&
+          createPortal(
+            <div
+              className="escena-4-destello-blanco-global"
+              aria-hidden="true"
+            />,
+            document.body
+          )}
+
+        {/* BOTÓN DE CONTINUAR: REUTILIZA LOS ESTILOS DE ESCENA 1 */}
+
+        {momento === "reloj" &&
+          puedeContinuar &&
+          !iniciandoFundido && (
+            <div className="escena-1-continuar-contenedor escena-4-continuar-contenedor">
+              <div className="escena-1-continuar-texto escena-4-continuar-texto">
+                <span>CONTINUAR AL CAPÍTULO 5</span>
+
+                <button
+                  type="button"
+                  className="escena-1-continuar-boton"
+                  onClick={comenzarFundidoBlanco}
+                >
+                  CONTINUAR →
                 </button>
               </div>
-            )}
-          </>
-        )}
+            </div>
+          )}
 
-        {/* Subtítulos inferiores con el mismo tratamiento visual de las escenas 1–3. */}
+        {/* SUBTÍTULOS */}
+
         {subtitulo && (
-          <div className="escena-4-subtitulos" key={subtitulo} aria-live="polite" aria-atomic="true">
+          <div
+            className="escena-4-subtitulos"
+            key={subtitulo}
+            aria-live="polite"
+            aria-atomic="true"
+          >
             {subtitulo}
           </div>
         )}
 
-        {/* Si el navegador bloquea un audio automático, permite reintentarlo. */}
+        {/* RECUPERAR AUDIO SI EL NAVEGADOR LO BLOQUEA */}
+
         {audioError && (
           <div className="escena-4-control escena-4-control-error">
-            <button type="button" className="escena-4-accion" onClick={reintentarAudio}>
+            <button
+              type="button"
+              className="escena-4-accion"
+              onClick={reintentarAudio}
+            >
               Reproducir audio de nuevo ↻
             </button>
           </div>

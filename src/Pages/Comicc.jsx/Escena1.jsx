@@ -3,7 +3,7 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState
+  useState,
 } from "react";
 
 import lottieReact from "lottie-react";
@@ -37,36 +37,33 @@ import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
 
 import "./Escenas.css";
 
-
 const Lottie = lottieReact.default;
 
-/*
-  Cada objeto tiene varios escondites asociados a las piedras.
-  El centro del botón usa porcentajes relativos al recuadro de la escena.
-  El cambio de posición ocurre únicamente cuando el asset está oculto.
-*/
+/* Expresiones faciales ubicadas en public/. */
+const EXPRESION_SORPRENDIDO = "/SorprendidoS.svg";
+const EXPRESION_PENSATIVO = "/pensativoS.svg";
+const ADRIAN_QUIETO = "/Feliz.svg";
+
+/* Posiciones de escondite de los objetos. */
 const POSICIONES_ESCONDITES_ESCENA1 = {
   moneda: [
     { left: "8.5%", top: "62%" },
     { left: "24%", top: "68%" },
-    { left: "90%", top: "62%" }
+    { left: "90%", top: "62%" },
   ],
-  jarron: [
 
+  jarron: [
     { left: "92%", top: "60%" },
     { left: "11%", top: "63%" },
     { left: "24%", top: "69%" },
     { left: "65%", top: "65%" },
-    
   ],
+
   lanza: [
-    { left: "8%", top: "66%" },
-    { left: "16%", top: "64%" },
-    { left: "23%", top: "71%" },
-    { left: "29%", top: "75%" },
-    { left: "71%", top: "77%" },
-    { left: "88%", top: "59%" }
-  ]
+    { left: "8%", top: "65%" },
+    { left: "25%", top: "65%" },
+    { left: "88%", top: "59%" },
+  ],
 };
 
 const Escena1 = forwardRef(
@@ -76,13 +73,11 @@ const Escena1 = forwardRef(
       onNarradorEstadoChange,
       onEscenaTerminada,
       onObjetosEncontrados,
-      onCapituloDesbloqueado
+      onCapituloDesbloqueado,
     },
     ref
   ) => {
-    /* =====================================================
-       PREPARAR ASSETS DE ADRIÁN CAMINANDO
-    ===================================================== */
+    /* Preparar las imágenes de Adrián caminando. */
     const imagenesAdrian = [
       img0,
       img1,
@@ -91,7 +86,7 @@ const Escena1 = forwardRef(
       img4,
       img5,
       img6,
-      img7
+      img7,
     ];
 
     const animacionAdrian = {
@@ -99,13 +94,11 @@ const Escena1 = forwardRef(
       assets: CicloAdrianBody.assets.map((asset, index) => ({
         ...asset,
         u: "",
-        p: imagenesAdrian[index] || asset.p
-      }))
+        p: imagenesAdrian[index] || asset.p,
+      })),
     };
 
-    /* =====================================================
-       AUDIOS
-    ===================================================== */
+    /* Audios de la escena. */
     const audiosEscena1 = {
       1: Esc1Audio1,
       2: Esc1Audio2,
@@ -114,12 +107,10 @@ const Escena1 = forwardRef(
       5: Esc1Audio5,
       6: Esc1Audio6,
       7: Esc1Audio7,
-      8: Esc1Audio8
+      8: Esc1Audio8,
     };
 
-    /* =====================================================
-       SUBTÍTULOS
-    ===================================================== */
+    /* Subtítulos originales. */
     const textosEscena1 = {
       1: "Un nuevo día de investigación. Nunca sé qué voy a encontrar cuando entro en una cueva como esta... y eso es justamente lo que hace interesante mi trabajo.",
       2: "Por lo que puedo ver, este lugar lleva bastante tiempo sin ser explorado. Quizás todavía quede algo entre estos escombros.",
@@ -128,22 +119,31 @@ const Escena1 = forwardRef(
       5: "Y aquí tenemos un jarrón. Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. A veces, para conocer una época, no hace falta encontrar un gran tesoro. Un objeto como este puede contar una historia completa.",
       6: "Una lanza. Esta sí es fácil de reconocer.",
       7: "",
-      8: ""
+      8: "",
     };
 
-    /* =====================================================
-       ESTADOS DE ADRIÁN Y AUDIOS
-    ===================================================== */
-    const [adrianHabla, setAdrianHabla] = useState(false);
+    /* Estados de caminata y narración. */
     const [caminataTerminada, setCaminataTerminada] = useState(false);
     const [audio1Terminado, setAudio1Terminado] = useState(false);
     const [audioActual, setAudioActual] = useState(1);
     const [tipoAudio, setTipoAudio] = useState("principal");
     const [narradorActivo, setNarradorActivo] = useState(true);
 
-    /* =====================================================
-       ESTADOS DE OBJETOS Y BÚSQUEDA
-    ===================================================== */
+
+    /*
+     * Adrián habla solo mientras hay narración activa.
+     * Si el audio termina o queda en espera, se muestra feliz.svg.
+     * Durante la entrada inicial prevalece la animación de caminar.
+     */
+    const adrianEstaHablando =
+      caminataTerminada &&
+      narradorActivo &&
+      tipoAudio !== "espera";
+
+    const adrianEstaQuieto =
+      caminataTerminada && !adrianEstaHablando;
+
+    /* Estados de objetos y búsqueda. */
     const [objetoVisible, setObjetoVisible] = useState(null);
     const [objetoDescubierto, setObjetoDescubierto] = useState(null);
     const [objetoPulsando, setObjetoPulsando] = useState(null);
@@ -153,9 +153,7 @@ const Escena1 = forwardRef(
     const [objetoEnAudio, setObjetoEnAudio] = useState(null);
     const [objetosDescubiertos, setObjetosDescubiertos] = useState([]);
 
-    /* =====================================================
-       TEXTO, RELOJ Y CONTINUAR
-    ===================================================== */
+    /* Estados del texto, reloj y botón continuar. */
     const [momentoTexto, setMomentoTexto] = useState(1);
     const [relojVisible, setRelojVisible] = useState(false);
     const [relojDescubierto, setRelojDescubierto] = useState(false);
@@ -163,48 +161,99 @@ const Escena1 = forwardRef(
     const [relojEnCentro, setRelojEnCentro] = useState(false);
     const [relojAbierto, setRelojAbierto] = useState(false);
     const [mostrarContinuar, setMostrarContinuar] = useState(false);
+    const [fuegoActivacion, setFuegoActivacion] = useState(0);
 
-    /* =====================================================
-       REFERENCIAS PARA AUDIO Y TEMPORIZADORES
-    ===================================================== */
+    /* Estado para mostrar expresiones temporales. */
+    const [expresionRostro, setExpresionRostro] = useState(null);
+    const [versionExpresion, setVersionExpresion] = useState(0);
+
+    /* Referencias de audio y temporizadores. */
     const audioRef = useRef(null);
     const escenaIniciadaRef = useRef(false);
     const audio2IniciadoRef = useRef(false);
     const relojTimerRef = useRef(null);
     const busquedaTimerRef = useRef(null);
+    const expresionTimerRef = useRef(null);
 
-    /* =====================================================
-       AVISAR AL PADRE DEL ESTADO DEL NARRADOR
-    ===================================================== */
+    /*
+     * Garantiza que un mismo objeto no genere dos expresiones
+     * al cerrarse el modal y terminar el audio.
+     */
+    const expresionObjetoRef = useRef({
+      objeto: null,
+      disparada: false,
+    });
+
+    /* Comunicar el estado del narrador al componente padre. */
     useEffect(() => {
       if (onNarradorEstadoChange) {
         onNarradorEstadoChange(narradorActivo);
       }
     }, [narradorActivo, onNarradorEstadoChange]);
 
-    /* =====================================================
-       LIMPIAR AUDIO Y TEMPORIZADORES AL SALIR
-    ===================================================== */
+    /* Mostrar expresión con animación reiniciable. */
+    const mostrarExpresion = (tipo, lado = "derecha") => {
+      if (expresionTimerRef.current) {
+        clearTimeout(expresionTimerRef.current);
+      }
+
+      setVersionExpresion((actual) => actual + 1);
+      setExpresionRostro({ tipo, lado });
+
+      expresionTimerRef.current = setTimeout(() => {
+        setExpresionRostro(null);
+        expresionTimerRef.current = null;
+      }, 4400);
+    };
+
+    /* Seleccionar expresión según el objeto descubierto. */
+    const mostrarExpresionObjeto = (objeto) => {
+      const registro = expresionObjetoRef.current;
+
+      if (
+        registro.objeto !== objeto ||
+        registro.disparada
+      ) {
+        return;
+      }
+
+      registro.disparada = true;
+
+      if (objeto === "moneda") {
+        mostrarExpresion("sorprendido", "derecha");
+      } else if (objeto === "jarron") {
+        mostrarExpresion("pensativo", "izquierda");
+      } else if (objeto === "lanza") {
+        mostrarExpresion("sorprendido", "derecha");
+      }
+    };
+
+    /* Limpiar audio y temporizadores al abandonar la escena. */
     useEffect(() => {
       return () => {
         if (audioRef.current) {
           audioRef.current.pause();
           audioRef.current.currentTime = 0;
         }
+
         if (relojTimerRef.current) {
           clearTimeout(relojTimerRef.current);
         }
+
         if (busquedaTimerRef.current) {
           clearTimeout(busquedaTimerRef.current);
+        }
+
+        if (expresionTimerRef.current) {
+          clearTimeout(expresionTimerRef.current);
         }
       };
     }, []);
 
-    /* =====================================================
-       REPRODUCIR AUDIO
-    ===================================================== */
+    /* Reproducir audio. */
     const reproducirAudio = (audio, numero, tipo) => {
       const reproductor = audioRef.current;
+
       if (!reproductor || !audio) return;
 
       reproductor.pause();
@@ -217,26 +266,28 @@ const Escena1 = forwardRef(
       setNarradorActivo(true);
 
       reproductor.play().catch((error) => {
-        console.error("No se pudo reproducir el audio de Escena 1:", error);
+        console.error(
+          "No se pudo reproducir el audio de Escena 1:",
+          error
+        );
       });
     };
 
-    /* =====================================================
-       INICIAR AUDIO 1
-    ===================================================== */
+    /* Iniciar el audio 1 una sola vez. */
     useEffect(() => {
       if (escenaIniciadaRef.current) return;
+
       escenaIniciadaRef.current = true;
       reproducirAudio(audiosEscena1[1], 1, "principal");
-      // Se inicia también la caminata; el audio 2 espera a que terminen ambos.
     }, []);
 
-    /* =====================================================
-       COMENZAR AUDIO 2 SOLO CUANDO TERMINARON CAMINATA Y AUDIO 1
-       Esto evita que uno se adelante al otro.
-    ===================================================== */
+    /* El audio 2 espera al audio 1 y a la caminata. */
     useEffect(() => {
-      if (!caminataTerminada || !audio1Terminado || audio2IniciadoRef.current) {
+      if (
+        !caminataTerminada ||
+        !audio1Terminado ||
+        audio2IniciadoRef.current
+      ) {
         return;
       }
 
@@ -246,20 +297,22 @@ const Escena1 = forwardRef(
       reproducirAudio(audiosEscena1[2], 2, "principal");
     }, [caminataTerminada, audio1Terminado]);
 
-    /* =====================================================
-       BÚSQUEDA DE ASSETS
-       El objeto aparece, permanece visible, se desvanece y
-       cambia de ubicación solo cuando ya está oculto.
-    ===================================================== */
+    /* Búsqueda de objetos. Se mueven únicamente cuando están ocultos. */
     useEffect(() => {
       const objeto = objetoVisible;
       const objetoYaEncontrado = objetoDescubierto === objeto;
 
-      if (!objeto || objeto === "reloj" || objetoYaEncontrado || objetoActivo) {
+      if (
+        !objeto ||
+        objeto === "reloj" ||
+        objetoYaEncontrado ||
+        objetoActivo
+      ) {
         if (busquedaTimerRef.current) {
           clearTimeout(busquedaTimerRef.current);
           busquedaTimerRef.current = null;
         }
+
         return;
       }
 
@@ -279,13 +332,14 @@ const Escena1 = forwardRef(
           busquedaTimerRef.current = null;
         }
       };
-    }, [objetoVisible, objetoDescubierto, objetoActivo, faseBusqueda]);
+    }, [
+      objetoVisible,
+      objetoDescubierto,
+      objetoActivo,
+      faseBusqueda,
+    ]);
 
-    /* =====================================================
-       FIN DE ANIMACIÓN DE BÚSQUEDA
-       La posición cambia después de terminar la animación
-       de salida, cuando el objeto ya está transparente.
-    ===================================================== */
+    /* Fin de la animación de búsqueda. */
     const manejarAnimacionBusqueda = (evento) => {
       if (evento.target !== evento.currentTarget) return;
 
@@ -295,43 +349,47 @@ const Escena1 = forwardRef(
       }
 
       if (evento.animationName === "salidaEsconditeEscena1") {
-        const posiciones = POSICIONES_ESCONDITES_ESCENA1[objetoVisible];
+        const posiciones =
+          POSICIONES_ESCONDITES_ESCENA1[objetoVisible];
+
         if (posiciones?.length) {
-          setPosicionEscondite((actual) => (actual + 1) % posiciones.length);
+          setPosicionEscondite(
+            (actual) => (actual + 1) % posiciones.length
+          );
         }
+
         setFaseBusqueda("oculto");
       }
     };
 
-    /* =====================================================
-       REGISTRAR OBJETO ENCONTRADO
-       Los tres objetos muestran el aviso del capítulo 2,
-       pero el capítulo solo se desbloquea al pulsar CONTINUAR.
-    ===================================================== */
+    /* Registrar objetos encontrados. */
     const registrarObjetoEncontrado = (objeto) => {
       if (objetosDescubiertos.includes(objeto)) return;
 
       const nuevosObjetos = [...objetosDescubiertos, objeto];
       setObjetosDescubiertos(nuevosObjetos);
 
-      if (nuevosObjetos.length === 3 && onObjetosEncontrados) {
+      if (
+        nuevosObjetos.length === 3 &&
+        onObjetosEncontrados
+      ) {
         onObjetosEncontrados(2);
       }
     };
 
-    /* =====================================================
-       FINAL DE LA CAMINATA
-    ===================================================== */
+    /* Fin de la caminata inicial. */
     const terminarCaminata = (evento) => {
-      // Ignora cualquier animationend que no sea la entrada de Adrián.
-      if (evento?.animationName && evento.animationName !== "entradaAdrian") return;
+      if (
+        evento?.animationName &&
+        evento.animationName !== "entradaAdrian"
+      ) {
+        return;
+      }
+
       setCaminataTerminada(true);
-      setAdrianHabla(true);
     };
 
-    /* =====================================================
-       ANIMACIÓN ESPECIAL DEL RELOJ
-    ===================================================== */
+    /* Movimiento del reloj, apertura y narración final. */
     const iniciarMovimientoReloj = () => {
       setRelojMoviendose(true);
 
@@ -343,31 +401,37 @@ const Escena1 = forwardRef(
           setRelojEnCentro(false);
           setRelojAbierto(true);
           setMostrarContinuar(true);
+
+          /* La sorpresa aparece desde el lado izquierdo. */
+          mostrarExpresion("sorprendido", "izquierda");
+
           reproducirAudio(audiosEscena1[8], 8, "principal");
         }, 1800);
       }, 1400);
     };
 
-    /* =====================================================
-       FIN DE AUDIO: MANTIENE LA SECUENCIA ORIGINAL
-    ===================================================== */
+    /* Gestionar el final de cada audio. */
     const manejarFinAudio = () => {
       if (tipoAudio === "objeto") {
-        // AUDIO 3: moneda → audio 4
         if (objetoEnAudio === "moneda") {
+          mostrarExpresionObjeto("moneda");
+
           setObjetoActivo(null);
           setObjetoEnAudio(null);
           setObjetoPulsando("moneda");
           setMomentoTexto(4);
+
           reproducirAudio(audiosEscena1[4], 4, "principal");
           return;
         }
 
-        // AUDIO 5: jarrón → aparece la lanza
         if (objetoEnAudio === "jarron") {
+          mostrarExpresionObjeto("jarron");
+
           setObjetoActivo(null);
           setObjetoEnAudio(null);
           setObjetoPulsando(null);
+
           setObjetoVisible("lanza");
           setObjetoDescubierto(null);
           setPosicionEscondite(0);
@@ -378,11 +442,13 @@ const Escena1 = forwardRef(
           return;
         }
 
-        // AUDIO 6: lanza → reloj cerrado
         if (objetoEnAudio === "lanza") {
+          mostrarExpresionObjeto("lanza");
+
           setObjetoActivo(null);
           setObjetoEnAudio(null);
           setObjetoPulsando(null);
+
           setObjetoVisible(null);
           setObjetoDescubierto(null);
           setFaseBusqueda("oculto");
@@ -394,7 +460,6 @@ const Escena1 = forwardRef(
           return;
         }
 
-        // AUDIO 7: reloj → movimiento al centro y apertura
         if (objetoEnAudio === "reloj") {
           setObjetoEnAudio(null);
           setMomentoTexto(null);
@@ -405,14 +470,12 @@ const Escena1 = forwardRef(
         }
       }
 
-      // AUDIO 1: el audio 2 espera también a que termine la caminata.
       if (audioActual === 1) {
         setAudio1Terminado(true);
         setNarradorActivo(false);
         return;
       }
 
-      // AUDIO 2: aparece la moneda.
       if (audioActual === 2) {
         setObjetoVisible("moneda");
         setObjetoDescubierto(null);
@@ -425,7 +488,6 @@ const Escena1 = forwardRef(
         return;
       }
 
-      // AUDIO 4: aparece el jarrón.
       if (audioActual === 4) {
         setObjetoVisible("jarron");
         setObjetoDescubierto(null);
@@ -438,37 +500,56 @@ const Escena1 = forwardRef(
         return;
       }
 
-      // AUDIO 8: la narración termina y queda el botón Continuar.
       if (audioActual === 8) {
         setTipoAudio("espera");
         setNarradorActivo(false);
       }
     };
 
-    /* =====================================================
-       CLIC EN LOS OBJETOS
-    ===================================================== */
+    /* Clic en los objetos. */
     const reproducirObjeto = (objeto) => {
       const audiosObjeto = {
-        moneda: { audio: audiosEscena1[3], numero: 3, momento: 3 },
-        jarron: { audio: audiosEscena1[5], numero: 5, momento: 5 },
-        lanza: { audio: audiosEscena1[6], numero: 6, momento: 6 },
-        reloj: { audio: audiosEscena1[7], numero: 7, momento: 7 }
+        moneda: {
+          audio: audiosEscena1[3],
+          numero: 3,
+          momento: 3,
+        },
+        jarron: {
+          audio: audiosEscena1[5],
+          numero: 5,
+          momento: 5,
+        },
+        lanza: {
+          audio: audiosEscena1[6],
+          numero: 6,
+          momento: 6,
+        },
+        reloj: {
+          audio: audiosEscena1[7],
+          numero: 7,
+          momento: 7,
+        },
       };
 
       const configuracion = audiosObjeto[objeto];
       if (!configuracion) return;
 
-      // Detiene inmediatamente la búsqueda al hacer clic.
       if (objeto !== "reloj") {
         if (busquedaTimerRef.current) {
           clearTimeout(busquedaTimerRef.current);
           busquedaTimerRef.current = null;
         }
+
         setFaseBusqueda("visible");
         registrarObjetoEncontrado(objeto);
         setObjetoDescubierto(objeto);
         setObjetoActivo(objeto);
+
+        /* La expresión se prepara para este descubrimiento. */
+        expresionObjetoRef.current = {
+          objeto,
+          disparada: false,
+        };
       } else {
         setRelojDescubierto(true);
       }
@@ -476,12 +557,15 @@ const Escena1 = forwardRef(
       setObjetoPulsando(null);
       setObjetoEnAudio(objeto);
       setMomentoTexto(configuracion.momento);
-      reproducirAudio(configuracion.audio, configuracion.numero, "objeto");
+
+      reproducirAudio(
+        configuracion.audio,
+        configuracion.numero,
+        "objeto"
+      );
     };
 
-    /* =====================================================
-       CONTINUAR AL CAPÍTULO 2
-    ===================================================== */
+    /* Continuar al capítulo 2. */
     const continuarCapitulo2 = () => {
       if (objetosDescubiertos.length < 3) return;
 
@@ -494,11 +578,10 @@ const Escena1 = forwardRef(
       }
     };
 
-    /* =====================================================
-       CONTROL DEL NARRADOR DESDE EL PADRE
-    ===================================================== */
+    /* Control del narrador desde el componente padre. */
     const toggleNarracion = () => {
       const reproductor = audioRef.current;
+
       if (!reproductor || tipoAudio === "espera") return;
 
       if (!reproductor.paused) {
@@ -507,66 +590,73 @@ const Escena1 = forwardRef(
         return;
       }
 
-      reproductor.play()
+      reproductor
+        .play()
         .then(() => setNarradorActivo(true))
         .catch((error) => {
-          console.error("No se pudo reanudar la narración:", error);
+          console.error(
+            "No se pudo reanudar la narración:",
+            error
+          );
         });
     };
 
     useImperativeHandle(ref, () => ({ toggleNarracion }));
 
-    /* =====================================================
-       CERRAR MODAL Y ACTIVAR PULSO
-    ===================================================== */
+    /* Cerrar modal y mostrar la expresión del objeto encontrado. */
     const cerrarModal = () => {
       const objetoModal = objetoActivo;
       setObjetoActivo(null);
 
       if (objetoModal && objetoModal !== "reloj") {
         setObjetoPulsando(objetoModal);
+        mostrarExpresionObjeto(objetoModal);
       }
     };
 
-    /* =====================================================
-       POSICIÓN DEL ASSET ACTUAL
-    ===================================================== */
-    const posicionesActuales = POSICIONES_ESCONDITES_ESCENA1[objetoVisible];
+    /* Posición actual del objeto escondido. */
+    const posicionesActuales =
+      POSICIONES_ESCONDITES_ESCENA1[objetoVisible];
+
     const posicionActual = posicionesActuales?.length
-      ? posicionesActuales[posicionEscondite % posicionesActuales.length]
+      ? posicionesActuales[
+      posicionEscondite % posicionesActuales.length
+      ]
       : { left: "50%", top: "60%" };
 
-    /* =====================================================
-       RENDER
-    ===================================================== */
     return (
       <div className="escena-1">
         <div className="escena-1-contenido">
-          {/* FONDO DE LA CUEVA */}
+          {/* Fondo de la cueva. */}
           <img
             src="/Escenarios/FondoCueva.svg"
             alt="Cueva"
             className="escena-1-fondo"
           />
 
-          {/* FUEGO DEL ESCENARIO */}
-          <svg
-            className="escena-1-overlay"
-            viewBox="0 0 1024 598"
-            preserveAspectRatio="none"
-            aria-hidden="true"
+          {/* FUEGO INTERACTIVO */}
+          <button
+            key={fuegoActivacion}
+            type="button"
+            className="escena-1-fuego-boton"
+            onClick={() =>
+              setFuegoActivacion((actual) => actual + 1)
+            }
+            aria-label="Interactuar con el fuego"
+            title="Haz clic en el fuego"
           >
-            <image
-              href="/Escenarios/fuegoAnto.svg"
-              x="302"
-              y="185"
-              width="35"
-              height="75"
+            <img
+              src="/Escenarios/fuegoAnto.svg"
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+              className={`escena-1-fuego-svg ${fuegoActivacion > 0 ? "activado" : ""
+                }`}
             />
-          </svg>
+          </button>
 
-          {/* ADRIÁN CAMINANDO */}
-          {!adrianHabla && (
+          {/* Adrián caminando: permanece así durante la entrada. */}
+          {!caminataTerminada && (
             <div
               className="escena-1-adrian-prueba"
               onAnimationEnd={terminarCaminata}
@@ -579,8 +669,8 @@ const Escena1 = forwardRef(
             </div>
           )}
 
-          {/* ADRIÁN HABLANDO */}
-          {adrianHabla && (
+          {/* Adrián hablando: únicamente cuando hay narración activa. */}
+          {adrianEstaHablando && (
             <div className="escena-1-adrian-hablando">
               <Lottie
                 animationData={AdrianHablando}
@@ -590,14 +680,24 @@ const Escena1 = forwardRef(
             </div>
           )}
 
-          {/* AUDIO ÚNICO DE LA ESCENA */}
+          {/* Adrián quieto: durante la búsqueda y los tiempos de espera. */}
+          {adrianEstaQuieto && (
+            <img
+              src={ADRIAN_QUIETO}
+              alt="Adrián esperando"
+              className="escena-1-adrian-quieto"
+              draggable="false"
+            />
+          )}
+
+          {/* Audio único de la escena. */}
           <audio
             ref={audioRef}
             onEnded={manejarFinAudio}
             preload="auto"
           />
 
-          {/* SUBTÍTULOS */}
+          {/* Subtítulos. */}
           {textoNarracionActivo &&
             momentoTexto !== null &&
             textosEscena1[momentoTexto] && (
@@ -606,13 +706,16 @@ const Escena1 = forwardRef(
               </div>
             )}
 
-          {/* MONEDA: APARECE DETRÁS DE LAS PIEDRAS */}
+          {/* Moneda. */}
           {objetoVisible === "moneda" && posicionActual && (
             <button
-              className={`escena-1-moneda-boton escena-1-objeto-busqueda ${faseBusqueda} ${
-                objetoDescubierto === "moneda" ? "descubierto" : ""
-              } ${objetoPulsando === "moneda" ? "pulsando" : ""}`}
-              style={{ left: posicionActual.left, top: posicionActual.top }}
+              className={`escena-1-moneda-boton escena-1-objeto-busqueda ${faseBusqueda} ${objetoDescubierto === "moneda" ? "descubierto" : ""
+                } ${objetoPulsando === "moneda" ? "pulsando" : ""
+                }`}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top,
+              }}
               onClick={() => reproducirObjeto("moneda")}
               onAnimationEnd={manejarAnimacionBusqueda}
               aria-label="Encontrar moneda"
@@ -625,13 +728,16 @@ const Escena1 = forwardRef(
             </button>
           )}
 
-          {/* JARRÓN: APARECE DETRÁS DE LAS PIEDRAS */}
+          {/* Jarrón. */}
           {objetoVisible === "jarron" && posicionActual && (
             <button
-              className={`escena-1-jarron-boton escena-1-objeto-busqueda ${faseBusqueda} ${
-                objetoDescubierto === "jarron" ? "descubierto" : ""
-              } ${objetoPulsando === "jarron" ? "pulsando" : ""}`}
-              style={{ left: posicionActual.left, top: posicionActual.top }}
+              className={`escena-1-jarron-boton escena-1-objeto-busqueda ${faseBusqueda} ${objetoDescubierto === "jarron" ? "descubierto" : ""
+                } ${objetoPulsando === "jarron" ? "pulsando" : ""
+                }`}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top,
+              }}
               onClick={() => reproducirObjeto("jarron")}
               onAnimationEnd={manejarAnimacionBusqueda}
               aria-label="Encontrar jarrón"
@@ -644,13 +750,16 @@ const Escena1 = forwardRef(
             </button>
           )}
 
-          {/* LANZA: APARECE DETRÁS DE LAS PIEDRAS */}
+          {/* Lanza. */}
           {objetoVisible === "lanza" && posicionActual && (
             <button
-              className={`escena-1-lanza-boton escena-1-objeto-busqueda ${faseBusqueda} ${
-                objetoDescubierto === "lanza" ? "descubierto" : ""
-              } ${objetoPulsando === "lanza" ? "pulsando" : ""}`}
-              style={{ left: posicionActual.left, top: posicionActual.top }}
+              className={`escena-1-lanza-boton escena-1-objeto-busqueda ${faseBusqueda} ${objetoDescubierto === "lanza" ? "descubierto" : ""
+                } ${objetoPulsando === "lanza" ? "pulsando" : ""
+                }`}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top,
+              }}
               onClick={() => reproducirObjeto("lanza")}
               onAnimationEnd={manejarAnimacionBusqueda}
               aria-label="Encontrar lanza"
@@ -663,7 +772,7 @@ const Escena1 = forwardRef(
             </button>
           )}
 
-          {/* PIEDRAS EN PRIMER PLANO: TAPAN PARTE DE LOS ASSETS */}
+          {/* Piedras en primer plano. */}
           <img
             src="/Escenarios/ForegroundCueva.svg"
             alt=""
@@ -671,14 +780,33 @@ const Escena1 = forwardRef(
             className="escena-1-foreground-cueva"
           />
 
-          {/* RELOJ CERRADO */}
+          {/* Expresión temporal: aparece a un lado de Adrián. */}
+          {expresionRostro && (
+            <img
+              key={versionExpresion}
+              src={
+                expresionRostro.tipo === "pensativo"
+                  ? EXPRESION_PENSATIVO
+                  : EXPRESION_SORPRENDIDO
+              }
+              alt={
+                expresionRostro.tipo === "pensativo"
+                  ? "Adrián pensativo"
+                  : "Adrián sorprendido"
+              }
+              className={`escena-1-expresion escena-1-expresion--${expresionRostro.tipo} escena-1-expresion--${expresionRostro.lado}`}
+              draggable="false"
+              aria-hidden="true"
+            />
+          )}
+
+          {/* Reloj cerrado. */}
           {relojVisible && !relojAbierto && (
             <button
-              className={`escena-1-reloj-boton ${
-                relojMoviendose ? "moviendose" : ""
-              } ${relojEnCentro ? "en-centro" : ""} ${
-                relojDescubierto ? "descubierto" : ""
-              }`}
+              className={`escena-1-reloj-boton ${relojMoviendose ? "moviendose" : ""
+                } ${relojEnCentro ? "en-centro" : ""
+                } ${relojDescubierto ? "descubierto" : ""
+                }`}
               onClick={() => reproducirObjeto("reloj")}
               aria-label="Activar reloj"
             >
@@ -690,7 +818,7 @@ const Escena1 = forwardRef(
             </button>
           )}
 
-          {/* RELOJ ABIERTO */}
+          {/* Reloj abierto, por delante de Adrián y más hacia la derecha. */}
           {relojAbierto && (
             <div className="escena-1-reloj-abierto">
               <img
@@ -701,11 +829,12 @@ const Escena1 = forwardRef(
             </div>
           )}
 
-          {/* CONTINUAR AL CAPÍTULO 2 */}
+          {/* Continuar al capítulo 2. */}
           {mostrarContinuar && (
             <div className="escena-1-continuar-contenedor">
               <div className="escena-1-continuar-texto">
                 <span>CONTINUAR AL CAPÍTULO 2</span>
+
                 <button
                   className="escena-1-continuar-boton"
                   onClick={continuarCapitulo2}
@@ -717,7 +846,7 @@ const Escena1 = forwardRef(
             </div>
           )}
 
-          {/* MODAL DE INFORMACIÓN */}
+          {/* Modal de información. */}
           {objetoActivo && (
             <div
               className="escena-1-modal-fondo"
@@ -727,15 +856,31 @@ const Escena1 = forwardRef(
                 className="escena-1-modal"
                 onClick={(evento) => evento.stopPropagation()}
               >
-                <div className="escena-1-modal-imagen">
+                <div
+                  className={`escena-1-modal-imagen ${objetoActivo === "lanza"
+                      ? "escena-1-modal-imagen--lanza"
+                      : ""
+                    }`}
+                >
                   {objetoActivo === "moneda" && (
-                    <img src={Es1Moneda} alt="Moneda antigua" />
+                    <img
+                      src={Es1Moneda}
+                      alt="Moneda antigua"
+                    />
                   )}
+
                   {objetoActivo === "jarron" && (
-                    <img src={Es1Jarron} alt="Jarrón antiguo" />
+                    <img
+                      src={Es1Jarron}
+                      alt="Jarrón antiguo"
+                    />
                   )}
+
                   {objetoActivo === "lanza" && (
-                    <img src={Es1Lanza} alt="Lanza antigua" />
+                    <img
+                      src={Es1Lanza}
+                      alt="Lanza antigua"
+                    />
                   )}
                 </div>
 
@@ -744,9 +889,9 @@ const Escena1 = forwardRef(
                     <>
                       <h2>MONEDA</h2>
                       <p>
-                        Las monedas son mucho más que una forma de pagar. Gracias a ellas podemos
-                        comerciar con mayor facilidad y conocer quién tiene el poder en una
-                        determinada época.
+                        Las monedas son mucho más que una forma de pagar.
+                        Gracias a ellas podemos comerciar con mayor facilidad
+                        y conocer quién tiene el poder en una determinada época.
                       </p>
                     </>
                   )}
@@ -755,8 +900,9 @@ const Escena1 = forwardRef(
                     <>
                       <h2>JARRÓN</h2>
                       <p>
-                        Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo
-                        sobre nosotros. Podemos encontrar escenas de nuestras costumbres, guerras,
+                        Aunque parece un objeto cotidiano, estos jarrones
+                        pueden contar muchísimo sobre nosotros. Podemos
+                        encontrar escenas de nuestras costumbres, guerras,
                         creencias y hasta momentos de nuestra vida diaria.
                       </p>
                     </>
@@ -766,8 +912,9 @@ const Escena1 = forwardRef(
                     <>
                       <h2>LANZA</h2>
                       <p>
-                        Es una de las armas principales de nuestros guerreros. Los hoplitas la
-                        utilizan junto con su escudo para enfrentarse al enemigo y proteger su ciudad.
+                        Es una de las armas principales de nuestros guerreros.
+                        Los hoplitas la utilizan junto con su escudo para
+                        enfrentarse al enemigo y proteger su ciudad.
                       </p>
                     </>
                   )}

@@ -72,7 +72,7 @@ export const EscenaPortada = () => {
     capitulosDesbloqueados,
     setCapitulosDesbloqueados
 
-  ] = useState([1,2,3,4,5,6,7]);
+  ] = useState([1, 2, 3, 4, 5, 6, 7]);
 
 
 
@@ -613,6 +613,30 @@ export const EscenaPortada = () => {
     }, [
       transicionBlanca
     ]);
+
+  const pasarACapitulo5 = useCallback(() => {
+    if (transicionBlanca) return;
+
+    setNarradorActivo(false);
+    setTextoNarracionActivo(false);
+    setMensajeDesbloqueo(null);
+
+    setTransicionBlanca("entrando");
+
+    transicionTimerRef.current = setTimeout(() => {
+      setCapituloActivo(5);
+      setEscenaIniciada(true);
+      setTextoNarracionActivo(true);
+
+      setTransicionBlanca("saliendo");
+
+      ocultarTransicionTimerRef.current = setTimeout(() => {
+        setTransicionBlanca(null);
+      }, 900);
+    }, 1250);
+  }, [transicionBlanca]);
+
+
   /* =====================================================
      MÚSICA
   ===================================================== */
@@ -1062,7 +1086,9 @@ export const EscenaPortada = () => {
           )}
 
           {capituloActivo === 4 && (
-            <Escena4 />
+            <Escena4
+              onEscenaTerminada={pasarACapitulo5}
+            />
           )}
 
         </section>
