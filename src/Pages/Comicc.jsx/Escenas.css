@@ -1077,19 +1077,17 @@
   position: absolute;
   display: block;
   box-sizing: border-box;
+  margin: 0;
   padding: 0;
   border: none;
   outline: none;
   background: transparent;
+  appearance: none;
+  line-height: 0;
   cursor: pointer;
   pointer-events: auto;
   transform-origin: bottom center;
   -webkit-tap-highlight-color: transparent;
-
-  /*
-   * Parpadeo suave para indicar que el elemento
-   * puede recibir clics.
-   */
   animation: brilloDecorativoEscena2 2.4s ease-in-out infinite;
 }
 
@@ -1103,7 +1101,25 @@
   transform-origin: bottom center;
 }
 
-/* Resplandor que se intensifica durante el ciclo. */
+.escena-2 .escena-2-decorativo-boton:hover {
+  filter:
+    drop-shadow(0 0 6px rgba(255, 220, 160, 0.8))
+    drop-shadow(0 0 10px rgba(233, 120, 19, 0.3));
+}
+
+.escena-2 .escena-2-decorativo--arbol.animando img {
+  animation: balanceoArbolEscena2 0.95s ease-in-out both;
+}
+
+.escena-2 .escena-2-decorativo--arbusto.animando img {
+  animation: movimientoArbustoEscena2 0.95s ease-in-out both;
+}
+
+.escena-2 .escena-2-decorativo-boton:focus-visible {
+  outline: 2px solid #b76a27;
+  outline-offset: 3px;
+}
+
 @keyframes brilloDecorativoEscena2 {
   0%,
   100% {
@@ -1115,23 +1131,6 @@
       drop-shadow(0 0 4px rgba(255, 216, 140, 0.6))
       drop-shadow(0 0 7px rgba(233, 120, 19, 0.22));
   }
-}
-
-/* Al pasar el cursor se reconoce mejor la zona interactiva. */
-.escena-2 .escena-2-decorativo-boton:hover {
-  filter:
-    drop-shadow(0 0 6px rgba(255, 220, 160, 0.8))
-    drop-shadow(0 0 10px rgba(233, 120, 19, 0.3));
-}
-
-/* Al pulsar un árbol, se balancea ligeramente. */
-.escena-2 .escena-2-decorativo--arbol.animando img {
-  animation: balanceoArbolEscena2 0.95s ease-in-out both;
-}
-
-/* Al pulsar un arbusto, se mueve y recupera su posición. */
-.escena-2 .escena-2-decorativo--arbusto.animando img {
-  animation: movimientoArbustoEscena2 0.95s ease-in-out both;
 }
 
 @keyframes balanceoArbolEscena2 {
@@ -1182,13 +1181,6 @@
   }
 }
 
-/* Indicador de teclado accesible. */
-.escena-2 .escena-2-decorativo-boton:focus-visible {
-  outline: 2px solid #b76a27;
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
 /* =========================================================
    OBJETOS DE BÚSQUEDA
 ========================================================= */
@@ -1197,6 +1189,7 @@
   position: absolute;
   z-index: 16;
   height: auto;
+  margin: 0;
   padding: 0;
   border: 0;
   background: transparent;
@@ -1234,11 +1227,6 @@
   pointer-events: none;
 }
 
-/*
- * Durante la entrada y la aparición, el objeto mantiene
- * su zona de clic por encima de las decoraciones y los techos.
- * Esto evita que los elementos de fondo intercepten el clic.
- */
 .escena-2 .escena-2-objeto-busqueda.entrada {
   z-index: 30;
   opacity: 0;
@@ -1274,7 +1262,6 @@
   transform: translate(-50%, -50%) scale(0.82);
 }
 
-/* Los objetos encontrados permanecen visibles y se pueden repetir. */
 .escena-2 .escena-2-objeto-busqueda.encontrado,
 .escena-2 .escena-2-objeto-busqueda.descubierto {
   z-index: 38 !important;
@@ -1288,9 +1275,9 @@
   animation: none;
 }
 
-.escena-2 .escena-2-objeto-busqueda:hover {
-  filter:
-    drop-shadow(0 0 8px rgba(252, 233, 213, 0.9));
+.escena-2 .escena-2-objeto-busqueda:hover,
+.escena-2 .escena-2-objeto-busqueda:focus-visible {
+  filter: drop-shadow(0 0 8px rgba(252, 233, 213, 0.9));
 }
 
 .escena-2 .escena-2-objeto-busqueda.pulsando img {
@@ -1338,8 +1325,7 @@
 }
 
 /* =========================================================
-   TECHOS INDEPENDIENTES
-   Se conservan los valores actuales del archivo.
+   TECHOS — CONSERVAR LAS POSICIONES AJUSTADAS
 ========================================================= */
 
 .escena-2 .escena-2-techo {
@@ -1351,7 +1337,6 @@
   z-index: 24;
 }
 
-/* Techo 1. */
 .escena-2 .escena-2-techo1 {
   left: -8%;
   top: 24%;
@@ -1359,7 +1344,6 @@
   height: 20%;
 }
 
-/* Techo 2: conserva la posición que ajustaste. */
 .escena-2 .escena-2-techo2 {
   left: 8%;
   top: 9.4%;
@@ -1367,7 +1351,6 @@
   height: 22.5%;
 }
 
-/* Techo 3: queda detrás de los árboles y arbustos. */
 .escena-2 .escena-2-techo3 {
   left: 59%;
   top: 31%;
@@ -1377,7 +1360,7 @@
 }
 
 /* =========================================================
-   ADRIÁN
+   ADRIÁN — CONTENEDOR Y LOTTIE
 ========================================================= */
 
 .escena-2 .escena-2-adrian-aparicion {
@@ -1385,55 +1368,77 @@
   left: 22%;
   bottom: -10%;
   width: 40%;
-  height: auto;
+
+  /* Corrección: altura explícita para que el Lottie no colapse. */
+  height: 86%;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
   z-index: 32;
   transform: translateX(3%);
   animation: aparecerAdrianEscena2 0.7s ease-out forwards;
   pointer-events: none;
 }
 
-/* Propiedades compartidas, sin fijar el ancho. */
-.escena-2 .escena-2-adrian-hablando,
-.escena-2 .escena-2-adrian-sorprendido-completo {
-  position: relative;
-  display: block;
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Adrián hablando: conserva el ancho del contenedor. */
+/* Adrián hablando ocupa el contenedor completo. */
 .escena-2 .escena-2-adrian-hablando {
+  position: relative;
+  flex: 0 0 100%;
+  display: block;
   width: 100%;
+  height: 100%;
+  min-height: 1px;
   z-index: 2;
+  pointer-events: none;
+  overflow: visible;
 }
 
+/* Contenedor interno de lottie-react. */
+.escena-2 .escena-2-adrian-hablando > div {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 1px;
+}
+
+/* SVG real de la animación. */
 .escena-2 .escena-2-adrian-hablando svg {
   display: block;
-  width: 100%;
-  height: auto;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none;
+  overflow: visible;
 }
 
-/* Adrián sorprendido: tamaño independiente actual. */
+/* Adrián sorprendido: tamaño independiente. */
 .escena-2 .escena-2-adrian-sorprendido-completo {
+  position: relative;
+  flex: 0 0 56%;
+  display: block;
   width: 56%;
-  margin-left: 20%;
+  height: auto;
+  margin: 0;
+  object-fit: contain;
   z-index: 2;
+  pointer-events: none;
+  user-select: none;
   transform-origin: bottom center;
   animation:
     escena2SorpresaCuerpo 0.62s
     cubic-bezier(0.2, 0.55, 0.25, 1) both;
 }
 
-/* Adrián quieto: se conserva tu tamaño y desplazamiento actual. */
+/* Adrián quieto: mantenemos el tamaño que habías ajustado. */
 .escena-2 .escena-2-adrian-quieto {
   position: relative;
+  flex: 0 0 60%;
   display: block;
   width: 60%;
   max-width: none;
   height: auto;
-  margin-left: 18.75%;
+  margin: 0;
   object-fit: contain;
   z-index: 2;
   pointer-events: none;
@@ -1441,29 +1446,7 @@
   transform: translateY(-60px);
 }
 
-@keyframes escena2SorpresaCuerpo {
-  0% {
-    opacity: 0;
-    transform: scale(0.82) translateY(8px);
-  }
-
-  30% {
-    opacity: 1;
-    transform: scale(1.04) translateY(-2px);
-  }
-
-  55% {
-    opacity: 1;
-    transform: scale(0.98) translateY(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-/* Resplandor de entrada de Adrián. */
+/* Resplandor detrás de Adrián durante la entrada. */
 .escena-2 .escena-2-resplandor-adrian {
   position: absolute;
   left: 50%;
@@ -1503,6 +1486,28 @@
   }
 }
 
+@keyframes escena2SorpresaCuerpo {
+  0% {
+    opacity: 0;
+    transform: scale(0.82) translateY(8px);
+  }
+
+  30% {
+    opacity: 1;
+    transform: scale(1.04) translateY(-2px);
+  }
+
+  55% {
+    opacity: 1;
+    transform: scale(0.98) translateY(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 @keyframes resplandorAdrianEscena2 {
   0% {
     opacity: 0;
@@ -1521,7 +1526,7 @@
 }
 
 /* =========================================================
-   EXPRESIONES FACIALES
+   EXPRESIONES FACIALES — NO MODIFICAR LAS POSICIONES
 ========================================================= */
 
 .escena-2 .escena-2-expresion {
@@ -1585,7 +1590,7 @@
 }
 
 /* =========================================================
-   SUBTÍTULOS: SIN BARRA DE DESPLAZAMIENTO
+   SUBTÍTULOS
 ========================================================= */
 
 .escena-2 .escena-2-subtitulos {
@@ -1632,7 +1637,7 @@
 }
 
 /* =========================================================
-   RELOJ CERRADO E INTERACTIVO
+   RELOJ CERRADO — SE PUEDE PULSAR
 ========================================================= */
 
 .escena-2 .escena-2-reloj {
@@ -1641,6 +1646,7 @@
   top: 46%;
   width: 12%;
   height: auto;
+  margin: 0;
   padding: 0;
   border: none;
   background: transparent;
@@ -1669,6 +1675,32 @@
   border-radius: 50%;
 }
 
+/* =========================================================
+   RELOJ ABIERTO — APARECE AL TERMINAR EL AUDIO 8
+========================================================= */
+
+.escena-2 .escena-2-reloj-abierto {
+  position: absolute;
+  left: 70%;
+  top: 46%;
+  width: 16%;
+  height: auto;
+  z-index: 42;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: abrirRelojEscena2 1s ease-out both;
+}
+
+.escena-2 .escena-2-reloj-abierto img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 0 8px rgba(255, 255, 220, 0.9))
+    drop-shadow(0 0 18px rgba(255, 210, 100, 0.65));
+}
+
 @keyframes aparecerRelojEscena2 {
   from {
     opacity: 0;
@@ -1691,6 +1723,23 @@
     filter:
       drop-shadow(0 0 7px rgba(255, 220, 150, 0.85))
       drop-shadow(0 0 13px rgba(233, 120, 19, 0.35));
+  }
+}
+
+@keyframes abrirRelojEscena2 {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.65) rotate(-8deg);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08) rotate(2deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0);
   }
 }
 
@@ -1779,7 +1828,7 @@
 }
 
 /* =========================================================
-   MODAL DE OBJETOS: SIN BARRA DE DESPLAZAMIENTO
+   MODAL DE OBJETOS
 ========================================================= */
 
 .escena-2 .escena-2-modal-fondo {
@@ -1915,11 +1964,13 @@
     left: 22%;
     bottom: -10%;
     width: 40%;
+    height: 86%;
   }
 
   .escena-2 .escena-2-adrian-quieto {
     width: 60%;
-    margin-left: 18.75%;
+    flex-basis: 60%;
+    transform: translateY(-30px);
   }
 
   .escena-2 .escena-2-expresion {
@@ -1942,6 +1993,18 @@
     overflow: visible;
     padding: 9px 12px;
     font-size: clamp(12px, 2.3vw, 15px);
+  }
+
+  .escena-2 .escena-2-reloj {
+    width: 20%;
+    left: 70%;
+    top: 45%;
+  }
+
+  .escena-2 .escena-2-reloj-abierto {
+    width: 24%;
+    left: 70%;
+    top: 45%;
   }
 
   .escena-2 .escena-2-modal {
@@ -1974,14 +2037,7 @@
   .escena-2 .escena-2-continuar-texto {
     width: 86%;
   }
-
-  .escena-2 .escena-2-reloj {
-    width: 20%;
-    left: 70%;
-    top: 45%;
-  }
 }
-
 /* =========================================================
    ESCENA 3
 ========================================================= */

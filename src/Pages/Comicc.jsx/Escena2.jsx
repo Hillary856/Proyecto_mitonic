@@ -22,21 +22,19 @@ import Es1Platon from "../../AssetsNuevos/Es1Platon.svg";
 import Es1Pergamino from "../../AssetsNuevos/Es1Pergamino.svg";
 import Es1copa from "../../AssetsNuevos/Es1copa.svg";
 import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
+import RelojAbierto from "../../AssetsNuevos/reloj.svg";
 
 import "./Escenas.css";
 
 const Lottie = lottieReact.default || lottieReact;
 
-/* SVG que están dentro de public/. */
+/* Expresiones ubicadas dentro de public/. */
 const ADRIAN_QUIETO = "/Feliz.svg";
 const ADRIAN_SORPRENDIDO_COMPLETO = "/sorprendido.svg";
 const EXPRESION_PENSATIVO = "/pensativoS.svg";
 const EXPRESION_FELIZ = "/FelizS.svg";
 
-/*
- * Decoraciones con las posiciones que tienes actualmente.
- * Las coordenadas originales estaban en un viewBox de 1024 x 598.
- */
+/* Posiciones actuales de los árboles y arbustos. */
 const DECORATIVOS_ESCENA2 = [
   {
     id: "arbol1",
@@ -85,7 +83,7 @@ const DECORATIVOS_ESCENA2 = [
   },
 ];
 
-/* Tiempos de búsqueda: se conserva tu ritmo actual. */
+/* Ritmo actual de la búsqueda. */
 const TIEMPOS_BUSQUEDA = {
   entrada: 100,
   visible: 500,
@@ -93,7 +91,7 @@ const TIEMPOS_BUSQUEDA = {
   oculto: 110,
 };
 
-/* Escondites actuales de los objetos. */
+/* Escondites actuales de cada objeto. */
 const POSICIONES_ESCONDITE_ESCENA2 = {
   platon: [
     { left: "9%", top: "39%" },
@@ -101,14 +99,12 @@ const POSICIONES_ESCONDITE_ESCENA2 = {
     { left: "36%", top: "26%" },
     { left: "24%", top: "55%" },
   ],
-
   pergamino: [
     { left: "17%", top: "40%" },
     { left: "53%", top: "55%" },
     { left: "38%", top: "28%" },
     { left: "85%", top: "55%" },
   ],
-
   copa: [
     { left: "27%", top: "40%" },
     { left: "83%", top: "53%" },
@@ -141,24 +137,17 @@ const Escena2 = forwardRef(
 
     const subtitulosEscena2 = {
       1: "Estoy en Atenas... Pero este no es el lugar donde estaba hace un momento. Ese extraño objeto me ha traído hasta aquí. Estamos en una de las zonas donde se concentra gran parte de nuestra vida cultural e intelectual. Atenas es hogar de pensadores que cuestionan, enseñan y buscan comprender el mundo que nos rodea. Y si el reloj me ha traído hasta aquí, quizás haya una razón.",
-
       2: "Reconozco este libro. Es La República, de Platón. Platón reflexiona aquí sobre la justicia, la educación y la manera en que debería organizarse una sociedad.",
-
       3: "Sus ideas generan debates que siguen muy presentes entre quienes buscan comprender cómo debería funcionar nuestra ciudad.",
-
       4: "Y este pergamino pertenece a Aristóteles. Él estudia prácticamente todo lo que despierta su curiosidad: la filosofía, la política, la naturaleza y la lógica.",
-
       5: "Su objetivo es comprender cómo funciona el mundo, no simplemente aceptar las cosas como son.",
-
       6: "Esta copa tiene una historia mucho más difícil. Está relacionada con Sócrates y con uno de los momentos más recordados de nuestra historia.",
-
       7: "Después de ser condenado a muerte en Atenas, Sócrates bebe la cicuta y permanece fiel a sus principios hasta el final. Su historia nos recuerda que cuestionar lo que creemos saber también puede tener consecuencias.",
-
       8: "Otra vez... Cada vez que este objeto se activa, me lleva a otro lugar. Pero ¿por qué me está mostrando estos momentos?",
     };
 
-    /* Entrada y apariencia de Adrián. */
-    const [adrianVisible, setAdrianVisible] = useState(false);
+    /* Adrián: entrada, sorpresa y conversación. */
+    const [adrianVisible, setAdrianVisible] = useState(true);
     const [mostrarResplandor, setMostrarResplandor] = useState(false);
     const [mostrarAdrianSorprendido, setMostrarAdrianSorprendido] =
       useState(false);
@@ -178,9 +167,12 @@ const Escena2 = forwardRef(
     const [faseBusqueda, setFaseBusqueda] = useState("entrada");
     const [indiceEscondite, setIndiceEscondite] = useState(0);
 
-    /* Subtítulos y botón de continuar. */
+    /* Subtítulos y botón final. */
     const [momentoTexto, setMomentoTexto] = useState(null);
     const [mostrarContinuar, setMostrarContinuar] = useState(false);
+
+    /* El reloj abierto solo aparece al terminar el audio 8. */
+    const [relojAbierto, setRelojAbierto] = useState(false);
 
     /* Expresiones faciales. */
     const [expresionAdrian, setExpresionAdrian] = useState(null);
@@ -196,18 +188,15 @@ const Escena2 = forwardRef(
     const expresionTimerRef = useRef(null);
     const decorativoTimerRef = useRef(null);
 
-    /* Evita repetir expresiones para el mismo objeto. */
     const expresionesMostradasRef = useRef(new Set());
-
-    /* Evita que el reloj inicie el audio final más de una vez por clic. */
     const relojAudioIniciadoRef = useRef(false);
 
-    /* Informar al componente padre del estado de narración. */
+    /* Sincronizar el estado de narración con EscenaPortada. */
     useEffect(() => {
       onNarradorEstadoChange?.(narradorActivo);
     }, [narradorActivo, onNarradorEstadoChange]);
 
-    /* Reproducir un audio y sincronizar su subtítulo. */
+    /* Reproducir audio y mostrar el subtítulo correspondiente. */
     const reproducirAudio = (
       audio,
       numero,
@@ -238,7 +227,7 @@ const Escena2 = forwardRef(
       });
     };
 
-    /* Entrada breve de Adrián sorprendido; después comienza el audio 1. */
+    /* Entrada de Adrián; después empieza el audio 1. */
     useEffect(() => {
       setAdrianVisible(true);
       setMostrarResplandor(true);
@@ -258,11 +247,11 @@ const Escena2 = forwardRef(
         clearTimeout(timerEntrada);
       };
 
-      // El audio inicial comienza una sola vez al montar la escena.
+      // La introducción debe ejecutarse una sola vez al montar la escena.
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    /* Limpiar audio y temporizadores al abandonar la escena. */
+    /* Limpieza al salir de la escena. */
     useEffect(() => {
       return () => {
         if (audioRef.current) {
@@ -284,17 +273,14 @@ const Escena2 = forwardRef(
       };
     }, []);
 
-    /*
-     * Los objetos cambian de escondite cuando están ocultos.
-     * En la fase visible, su zona de clic permanece habilitada.
-     */
+    /* Búsqueda: el objeto se mueve mientras está oculto. */
     useEffect(() => {
       const posiciones = POSICIONES_ESCONDITE_ESCENA2[objetoVisible];
 
       const objetoEnBusqueda = Boolean(
         objetoVisible &&
-        objetoVisible !== "reloj" &&
-        posiciones
+          objetoVisible !== "reloj" &&
+          posiciones
       );
 
       if (!objetoEnBusqueda || objetoDescubierto || objetoActivo) {
@@ -302,7 +288,6 @@ const Escena2 = forwardRef(
           clearTimeout(busquedaTimerRef.current);
           busquedaTimerRef.current = null;
         }
-
         return undefined;
       }
 
@@ -342,7 +327,7 @@ const Escena2 = forwardRef(
       faseBusqueda,
     ]);
 
-    /* Registrar los objetos que ya se encontraron. */
+    /* Registrar los objetos que el usuario ha encontrado. */
     const registrarObjetoEncontrado = (objeto) => {
       if (objetosDescubiertos.includes(objeto)) return;
 
@@ -368,7 +353,7 @@ const Escena2 = forwardRef(
       setNarradorActivo(false);
     };
 
-    /* Animar árboles y arbustos cuando el usuario los pulsa. */
+    /* Animar árboles y arbustos cuando se pulsan. */
     const animarDecorativo = (id) => {
       if (decorativoTimerRef.current) {
         clearTimeout(decorativoTimerRef.current);
@@ -383,23 +368,14 @@ const Escena2 = forwardRef(
       }, 950);
     };
 
-    /* Mostrar la expresión correspondiente a cada objeto una sola vez. */
+    /* Mostrar cada expresión facial una sola vez por objeto. */
     const mostrarExpresionObjeto = (objeto) => {
       if (expresionesMostradasRef.current.has(objeto)) return;
 
       const expresiones = {
-        platon: {
-          tipo: "pensativo",
-          lado: "derecha",
-        },
-        pergamino: {
-          tipo: "feliz",
-          lado: "izquierda",
-        },
-        copa: {
-          tipo: "pensativo",
-          lado: "izquierda",
-        },
+        platon: { tipo: "pensativo", lado: "derecha" },
+        pergamino: { tipo: "feliz", lado: "izquierda" },
+        copa: { tipo: "pensativo", lado: "izquierda" },
       };
 
       const expresion = expresiones[objeto];
@@ -420,21 +396,14 @@ const Escena2 = forwardRef(
       }, 3800);
     };
 
-    /* Al terminar cada audio, pasa al siguiente momento de la escena. */
+    /* Gestionar el final de cada audio. */
     const manejarFinAudio = () => {
       if (tipoAudio === "objeto") {
         if (objetoEnAudio === "platon") {
           mostrarExpresionObjeto("platon");
           setObjetoActivo(null);
           setObjetoPulsando(null);
-
-          reproducirAudio(
-            audiosEscena2[3],
-            3,
-            "principal",
-            null,
-            3
-          );
+          reproducirAudio(audiosEscena2[3], 3, "principal", null, 3);
           return;
         }
 
@@ -442,14 +411,7 @@ const Escena2 = forwardRef(
           mostrarExpresionObjeto("pergamino");
           setObjetoActivo(null);
           setObjetoPulsando(null);
-
-          reproducirAudio(
-            audiosEscena2[5],
-            5,
-            "principal",
-            null,
-            5
-          );
+          reproducirAudio(audiosEscena2[5], 5, "principal", null, 5);
           return;
         }
 
@@ -457,14 +419,7 @@ const Escena2 = forwardRef(
           mostrarExpresionObjeto("copa");
           setObjetoActivo(null);
           setObjetoPulsando(null);
-
-          reproducirAudio(
-            audiosEscena2[7],
-            7,
-            "principal",
-            null,
-            7
-          );
+          reproducirAudio(audiosEscena2[7], 7, "principal", null, 7);
           return;
         }
       }
@@ -484,19 +439,15 @@ const Escena2 = forwardRef(
         return;
       }
 
-      /*
-       * El audio 7 termina y aparece el reloj cerrado.
-       * El audio 8 ya no se reproduce automáticamente.
-       */
+      /* Final del audio 7: mostrar reloj cerrado. */
       if (tipoAudio === "principal" && audioActual === 7) {
         relojAudioIniciadoRef.current = false;
-
+        setRelojAbierto(false);
         setObjetoVisible("reloj");
         setObjetoDescubierto(null);
         setObjetoPulsando(null);
         setObjetoActivo(null);
         setObjetoEnAudio(null);
-
         setMomentoTexto(null);
         setTipoAudio("espera");
         setNarradorActivo(false);
@@ -504,23 +455,21 @@ const Escena2 = forwardRef(
         return;
       }
 
-      /*
-       * El usuario ha pulsado el reloj y ha terminado el audio 8.
-       * Quitamos el último subtítulo antes de mostrar el botón.
-       */
+      /* Final del audio 8: abrir reloj y mostrar continuar. */
       if (tipoAudio === "principal" && audioActual === 8) {
         setMomentoTexto(null);
         setNarradorActivo(false);
         setTipoAudio("espera");
-
         setObjetoVisible(null);
         setObjetoDescubierto(null);
         setObjetoPulsando(null);
+        setObjetoActivo(null);
+        setRelojAbierto(true);
         setMostrarContinuar(true);
       }
     };
 
-    /* Activar el reloj cerrado y reproducir el audio final. */
+    /* Clic en el reloj cerrado: reproduce el audio 8. */
     const activarReloj = () => {
       if (relojAudioIniciadoRef.current) return;
       if (tipoAudio !== "espera" || narradorActivo) return;
@@ -536,7 +485,7 @@ const Escena2 = forwardRef(
       );
     };
 
-    /* Pulsar un objeto y reproducir su audio. */
+    /* Clic en un objeto de la búsqueda. */
     const reproducirObjeto = (objeto) => {
       const configuracion = {
         platon: {
@@ -564,7 +513,6 @@ const Escena2 = forwardRef(
       }
 
       registrarObjetoEncontrado(objeto);
-
       setObjetoDescubierto(objeto);
       setFaseBusqueda("encontrado");
       setObjetoPulsando(null);
@@ -579,10 +527,7 @@ const Escena2 = forwardRef(
       );
     };
 
-    /*
-     * Cerrar el modal solo lo cierra.
-     * La expresión se activa al terminar el audio, una sola vez.
-     */
+    /* Cerrar el modal no vuelve a activar la expresión. */
     const cerrarModal = () => {
       const objetoCerrado = objetoActivo;
       setObjetoActivo(null);
@@ -592,19 +537,18 @@ const Escena2 = forwardRef(
       }
     };
 
-    /* Continuar al capítulo 3. */
+    /* Al continuar, EscenaPortada activa el destello blanco global. */
     const continuarCapitulo3 = () => {
       if (objetosDescubiertos.length < 3) return;
 
-      onCapituloDesbloqueado?.(3);
       setMostrarContinuar(false);
+      onCapituloDesbloqueado?.(3);
       onEscenaTerminada?.();
     };
 
-    /* Control del narrador desde el componente padre. */
+    /* Control de narración desde el componente padre. */
     const toggleNarracion = () => {
       const audio = audioRef.current;
-
       if (!audio || tipoAudio === "espera") return;
 
       if (!audio.paused) {
@@ -635,13 +579,15 @@ const Escena2 = forwardRef(
 
     const posicionActual = posicionesActuales?.length
       ? posicionesActuales[
-      indiceEscondite % posicionesActuales.length
-      ]
+          indiceEscondite % posicionesActuales.length
+        ]
       : { left: "50%", top: "50%" };
 
-    const clasesBusqueda = `escena-2-objeto-busqueda ${faseBusqueda} ${objetoDescubierto === objetoVisible ? "descubierto" : ""
-      } ${objetoPulsando === objetoVisible ? "pulsando" : ""
-      }`;
+    const clasesBusqueda = `escena-2-objeto-busqueda ${faseBusqueda} ${
+      objetoDescubierto === objetoVisible ? "descubierto" : ""
+    } ${
+      objetoPulsando === objetoVisible ? "pulsando" : ""
+    }`;
 
     const adrianHabla =
       narradorActivo && tipoAudio !== "espera";
@@ -660,10 +606,11 @@ const Escena2 = forwardRef(
           <div className="escena-2-decoraciones">
             {DECORATIVOS_ESCENA2.map((decorativo) => (
               <button
-                key={`${decorativo.id}-${decorativoAnimando === decorativo.id
+                key={`${decorativo.id}-${
+                  decorativoAnimando === decorativo.id
                     ? versionDecorativo
                     : "quieto"
-                  }`}
+                }`}
                 type="button"
                 className={[
                   "escena-2-decorativo-boton",
@@ -738,7 +685,7 @@ const Escena2 = forwardRef(
             </button>
           )}
 
-          {/* Copa de Sócrates. */}
+          {/* Copa relacionada con Sócrates. */}
           {objetoVisible === "copa" && (
             <button
               key={`copa-${indiceEscondite}`}
@@ -760,7 +707,7 @@ const Escena2 = forwardRef(
             </button>
           )}
 
-          {/* Techos: se mantienen separados para que puedas posicionarlos. */}
+          {/* Techos: se conservan tus clases y posiciones CSS. */}
           <img
             src="/Escenarios/techo1.svg"
             alt=""
@@ -768,7 +715,6 @@ const Escena2 = forwardRef(
             draggable="false"
             className="escena-2-techo escena-2-techo1"
           />
-
           <img
             src="/Escenarios/techo2.svg"
             alt=""
@@ -776,7 +722,6 @@ const Escena2 = forwardRef(
             draggable="false"
             className="escena-2-techo escena-2-techo2"
           />
-
           <img
             src="/Escenarios/techo3.svg"
             alt=""
@@ -785,7 +730,7 @@ const Escena2 = forwardRef(
             className="escena-2-techo escena-2-techo3"
           />
 
-          {/* Adrián: sorpresa, hablando o quieto. */}
+          {/* Adrián: sorprendido al entrar, hablando o quieto. */}
           {adrianVisible && (
             <div className="escena-2-adrian-aparicion">
               {mostrarResplandor && (
@@ -805,6 +750,7 @@ const Escena2 = forwardRef(
                     animationData={AdrianHablando}
                     loop
                     autoplay
+                    style={{ width: "100%", height: "100%" }}
                   />
                 </div>
               ) : (
@@ -818,7 +764,7 @@ const Escena2 = forwardRef(
             </div>
           )}
 
-          {/* Expresión facial: se muestra una sola vez por objeto. */}
+          {/* Expresiones faciales de Adrián. */}
           {expresionAdrian && (
             <img
               key={versionExpresionAdrian}
@@ -854,8 +800,8 @@ const Escena2 = forwardRef(
               </div>
             )}
 
-          {/* Reloj cerrado: se pulsa para reproducir el audio final. */}
-          {objetoVisible === "reloj" && (
+          {/* Reloj cerrado: se pulsa para reproducir el audio 8. */}
+          {objetoVisible === "reloj" && !relojAbierto && (
             <button
               type="button"
               className="escena-2-reloj"
@@ -872,12 +818,21 @@ const Escena2 = forwardRef(
             </button>
           )}
 
-          {/* Continuar aparece después de que termina el audio 8. */}
+          {/* Reloj abierto: aparece al terminar el audio 8. */}
+          {relojAbierto && (
+            <div
+              className="escena-2-reloj-abierto"
+              aria-hidden="true"
+            >
+              <img src={RelojAbierto} alt="" draggable="false" />
+            </div>
+          )}
+
+          {/* El subtítulo final desaparece antes de mostrar continuar. */}
           {mostrarContinuar && (
             <div className="escena-2-continuar-contenedor">
               <div className="escena-2-continuar-texto">
                 <span>CONTINUAR AL CAPÍTULO 3</span>
-
                 <button
                   type="button"
                   className="escena-2-continuar-boton"
@@ -890,7 +845,7 @@ const Escena2 = forwardRef(
             </div>
           )}
 
-          {/* Modal de objetos. */}
+          {/* Modal de los objetos. */}
           {objetoActivo && (
             <div
               className="escena-2-modal-fondo"
@@ -904,11 +859,9 @@ const Escena2 = forwardRef(
                   {objetoActivo === "platon" && (
                     <img src={Es1Platon} alt="Platón" />
                   )}
-
                   {objetoActivo === "pergamino" && (
                     <img src={Es1Pergamino} alt="Pergamino" />
                   )}
-
                   {objetoActivo === "copa" && (
                     <img src={Es1copa} alt="Copa" />
                   )}
