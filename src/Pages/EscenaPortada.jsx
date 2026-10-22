@@ -1,3 +1,4 @@
+// EscenaPortada: conserva la navegación, los controles y el desbloqueo de capítulos.
 import {
   useCallback,
   useEffect,
@@ -10,11 +11,6 @@ import Escena2 from "./Comicc.jsx/Escena2";
 import Escena3 from "./Comicc.jsx/Escena3";
 import Escena4 from "./Comicc.jsx/Escena4";
 import Escena5 from "./Comicc.jsx/Escena5";
-
-/*
- * Importación compatible con export default o export nombrado.
- * Esto evita el error que aparece en tu captura con Escena6.
- */
 import * as Escena6Module from "./Comicc.jsx/Escena6";
 
 import {
@@ -27,78 +23,50 @@ import {
 
 import "./EscenaPortada.css";
 
-/* Obtiene el componente independientemente del tipo de exportación. */
 const Escena6Component =
   Escena6Module.default ?? Escena6Module.Escena6;
 
 export const EscenaPortada = () => {
-  /* =====================================================
-     ESTADOS GENERALES
-  ===================================================== */
-
   const [capituloActivo, setCapituloActivo] = useState(1);
   const [escenaIniciada, setEscenaIniciada] = useState(false);
   const [musicaActiva, setMusicaActiva] = useState(false);
   const [narradorActivo, setNarradorActivo] = useState(true);
 
-  /* Los subtítulos comienzan activados. */
   const [textoNarracionActivo, setTextoNarracionActivo] =
     useState(true);
-
-  /* =====================================================
-     CAPÍTULOS DESBLOQUEADOS
-
-     Todos están abiertos para poder probar.
-     Para el lanzamiento, cambia el estado inicial a [1].
-  ===================================================== */
 
   const [
     capitulosDesbloqueados,
     setCapitulosDesbloqueados,
-  ] = useState([1, 2, 3, 4, 5, 6, 7]);
+  ] = useState([1,2,3,4,5,6,7]);
 
-  /* Capítulo que hace el efecto PUM. */
   const [capituloDesbloqueando, setCapituloDesbloqueando] =
     useState(null);
 
-  /* Mensaje de objetos encontrados. */
   const [mensajeDesbloqueo, setMensajeDesbloqueo] =
     useState(null);
 
-  /* Transición blanca entre capítulos. */
   const [transicionBlanca, setTransicionBlanca] =
     useState(null);
 
-  /* =====================================================
-     REFERENCIAS
-  ===================================================== */
-
   const audioMusicaRef = useRef(null);
   const escenaRef = useRef(null);
-
   const mensajeTimerRef = useRef(null);
   const transicionTimerRef = useRef(null);
   const ocultarTransicionTimerRef = useRef(null);
   const desbloqueoTimerRef = useRef(null);
 
-  /* =====================================================
-     CAPÍTULOS
-  ===================================================== */
-
   const capitulos = [
-    { numero: "01", titulo: "EL COMIENZO" },
-    { numero: "02", titulo: "PRÓXIMAMENTE" },
-    { numero: "03", titulo: "PRÓXIMAMENTE" },
-    { numero: "04", titulo: "PRÓXIMAMENTE" },
+    { numero: "01", titulo: "CUEVA" },
+    { numero: "02", titulo: "ATENAS" },
+    { numero: "03", titulo: "ÁGORA" },
+    { numero: "04", titulo: "EL DEBATE" },
     { numero: "05", titulo: "EL COLISEO" },
     { numero: "06", titulo: "EL IMPERIO" },
-    { numero: "07", titulo: "PRÓXIMAMENTE" },
+    { numero: "07", titulo: "DE VUELTA" },
   ];
 
-  /* =====================================================
-     LIMPIAR TEMPORIZADORES
-  ===================================================== */
-
+  // Limpiar temporizadores al desmontar el componente.
   useEffect(() => {
     return () => {
       if (mensajeTimerRef.current) {
@@ -119,12 +87,7 @@ export const EscenaPortada = () => {
     };
   }, []);
 
-  /* =====================================================
-     MOSTRAR MENSAJE DE OBJETOS ENCONTRADOS
-
-     No desbloquea capítulos por sí solo.
-  ===================================================== */
-
+  // Mensaje de objetos encontrados.
   const mostrarMensajeObjetos = useCallback((numero) => {
     setMensajeDesbloqueo(numero);
 
@@ -138,12 +101,7 @@ export const EscenaPortada = () => {
     }, 5000);
   }, []);
 
-  /* =====================================================
-     DESBLOQUEAR CAPÍTULO
-
-     Esta función se llama cuando la escena lo solicita.
-  ===================================================== */
-
+  // Desbloquear capítulo.
   const desbloquearCapitulo = useCallback((numero) => {
     setCapitulosDesbloqueados((anteriores) => {
       if (anteriores.includes(numero)) {
@@ -165,10 +123,7 @@ export const EscenaPortada = () => {
     }, 900);
   }, []);
 
-  /* =====================================================
-     SELECCIONAR CAPÍTULO
-  ===================================================== */
-
+  // Seleccionar capítulo.
   const seleccionarCapitulo = useCallback(
     (capitulo) => {
       const numero = Number(capitulo.numero);
@@ -185,13 +140,9 @@ export const EscenaPortada = () => {
     [capitulosDesbloqueados]
   );
 
-  /* =====================================================
-     TRANSICIÓN BLANCA ENTRE CAPÍTULOS
-  ===================================================== */
-
+  // Transición blanca entre capítulos.
   const irACapitulo = useCallback(
     (numero) => {
-      /* Evitar activar dos transiciones al mismo tiempo. */
       if (transicionBlanca !== null) {
         return;
       }
@@ -199,7 +150,6 @@ export const EscenaPortada = () => {
       setNarradorActivo(false);
       setTextoNarracionActivo(false);
       setMensajeDesbloqueo(null);
-
       setTransicionBlanca("entrando");
 
       transicionTimerRef.current = setTimeout(() => {
@@ -207,7 +157,6 @@ export const EscenaPortada = () => {
         setEscenaIniciada(true);
         setTextoNarracionActivo(true);
         setNarradorActivo(false);
-
         setTransicionBlanca("saliendo");
 
         ocultarTransicionTimerRef.current = setTimeout(() => {
@@ -221,10 +170,7 @@ export const EscenaPortada = () => {
     [transicionBlanca]
   );
 
-  /* =====================================================
-     FUNCIONES DE TRANSICIÓN
-  ===================================================== */
-
+  // Funciones para pasar al siguiente capítulo.
   const pasarACapitulo2 = useCallback(
     () => irACapitulo(2),
     [irACapitulo]
@@ -255,10 +201,7 @@ export const EscenaPortada = () => {
     [irACapitulo]
   );
 
-  /* =====================================================
-     MÚSICA
-  ===================================================== */
-
+  // Música de fondo.
   const alternarMusica = () => {
     if (!audioMusicaRef.current) {
       return;
@@ -282,10 +225,7 @@ export const EscenaPortada = () => {
     }
   };
 
-  /* =====================================================
-     NARRADOR
-  ===================================================== */
-
+  // Control del narrador.
   const alternarNarrador = () => {
     if (!escenaRef.current) {
       return;
@@ -298,48 +238,35 @@ export const EscenaPortada = () => {
     }
   };
 
-  /* =====================================================
-     ESTADO DEL NARRADOR
-  ===================================================== */
-
   const actualizarEstadoNarrador = useCallback((activo) => {
     setNarradorActivo(activo);
   }, []);
 
-  /* =====================================================
-     SUBTÍTULOS
-  ===================================================== */
-
+  // Mostrar u ocultar subtítulos.
   const alternarTextoNarracion = () => {
     setTextoNarracionActivo((activo) => !activo);
   };
 
-  /* =====================================================
-     RENDER
-  ===================================================== */
-
   return (
     <main className="comic-interface">
-      {/* Música de fondo. */}
       <audio
         ref={audioMusicaRef}
         loop
         src="/BOMBIS.mp3"
       />
 
-      {/* Logo: los recursos de public se usan desde la raíz. */}
+      {/* Logo MITONIC */}
       <a href="/" className="comic-logo">
         <img src="/Logo.png" alt="Mitonic" />
       </a>
 
-      {/* Contenedor principal. */}
       <div className="comic-layout">
+        {/* PANTALLA PRINCIPAL DEL CÓMIC */}
         <section
-          className={`comic-pantalla ${
-            escenaIniciada ? "escena-activa" : ""
-          }`}
+          className={`comic-pantalla ${escenaIniciada ? "escena-activa" : ""
+            }`}
         >
-          {/* Mensaje de objetos encontrados. */}
+          {/* Mensaje de objetos encontrados */}
           {mensajeDesbloqueo && (
             <div className="comic-mensaje-desbloqueo">
               <div className="comic-mensaje-desbloqueo-superior">
@@ -354,7 +281,7 @@ export const EscenaPortada = () => {
             </div>
           )}
 
-          {/* Controles globales. */}
+          {/* Controles globales */}
           <div className="comic-controles">
             <button
               type="button"
@@ -384,9 +311,8 @@ export const EscenaPortada = () => {
 
             <button
               type="button"
-              className={`comic-control ${
-                textoNarracionActivo ? "activo" : ""
-              }`}
+              className={`comic-control ${textoNarracionActivo ? "activo" : ""
+                }`}
               onClick={alternarTextoNarracion}
               aria-label={
                 textoNarracionActivo
@@ -398,7 +324,7 @@ export const EscenaPortada = () => {
             </button>
           </div>
 
-          {/* Portada inicial. */}
+          {/* Portada inicial */}
           {!escenaIniciada ? (
             <div className="comic-pantalla-contenido">
               <h1 className="comic-titulo">
@@ -484,13 +410,11 @@ export const EscenaPortada = () => {
                   onEscenaTerminada={pasarACapitulo7}
                 />
               )}
-
-              {/* La escena 7 todavía no está conectada. */}
             </div>
           )}
         </section>
 
-        {/* Panel de capítulos. */}
+        {/* PANEL DE CAPÍTULOS */}
         <aside className="comic-capitulos">
           <h2 className="comic-capitulos-titulo">
             CAPÍTULOS
@@ -527,7 +451,10 @@ export const EscenaPortada = () => {
                     <span>
                       CAPÍTULO {capitulo.numero}
                     </span>
-                    <strong>{capitulo.titulo}</strong>
+
+                    <strong>
+                      {desbloqueado ? capitulo.titulo : "POR DESCUBRIR"}
+                    </strong>
                   </div>
                 </button>
               );
@@ -536,7 +463,7 @@ export const EscenaPortada = () => {
         </aside>
       </div>
 
-      {/* Destello blanco global: cubre toda la interfaz. */}
+      {/* Destello blanco global entre capítulos */}
       {transicionBlanca && (
         <div
           className={[

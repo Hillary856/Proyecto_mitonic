@@ -4,47 +4,28 @@
 
 .comic-interface {
   width: 100%;
-
   min-height: 100vh;
-
   position: relative;
-
   background: #fce9d5;
-
   overflow-x: hidden;
-
   box-sizing: border-box;
-
   padding: 35px 4%;
 }
 
-/* =========================================================
-   LOGO
-========================================================= */
-
 .comic-logo {
   position: absolute;
-
   top: 8px;
-
   left: 5%;
-
   z-index: 20;
-
   display: block;
-
   text-decoration: none;
 }
 
-
 .comic-logo img {
   width: 105px;
-
   height: auto;
-
   display: block;
 }
-
 
 /* =========================================================
    CONTENEDOR PRINCIPAL
@@ -52,60 +33,34 @@
 
 .comic-layout {
   width: 100%;
-
   display: grid;
-
-  grid-template-columns:
-    minmax(0, 1fr) clamp(250px, 20vw, 320px);
-
+  grid-template-columns: minmax(0, 1fr) clamp(250px, 20vw, 320px);
   align-items: start;
-
   gap: 35px;
-
   box-sizing: border-box;
-
   padding-top: 70px;
 }
 
-
 /* =========================================================
-   PANTALLA PRINCIPAL
-
-   BASE DE COMPOSICIÓN:
-   1024 × 598
+   PANTALLA PRINCIPAL DEL CÓMIC
 ========================================================= */
 
 .comic-pantalla {
   width: 100%;
-
   max-width: none;
-
   aspect-ratio: 1024 / 598;
-
   height: auto;
-
   min-height: 0;
-
   position: relative;
-
   overflow: hidden;
-
   box-sizing: border-box;
-
   background-color: #fce9d5;
-
   border: 4px solid #650000;
-
   border-radius: 34px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  box-shadow:
-    0 12px 30px rgba(101, 0, 0, 0.18);
+  box-shadow: 0 12px 30px rgba(101, 0, 0, 0.18);
 }
 
 /* =========================================================
@@ -114,45 +69,31 @@
 
 .comic-pantalla-contenido {
   position: absolute;
-
   top: 50%;
   left: 50%;
-
   transform: translate(-50%, -50%);
-
   width: 80%;
   max-width: 900px;
-
   text-align: center;
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
   gap: 30px;
-
   z-index: 2;
 }
 
 /* =========================================================
-   TÍTULO DE PORTADA
+   TÍTULO
 ========================================================= */
 
 .comic-titulo {
   margin: 0;
-
   color: #650000;
-
   font-family: Arial, Helvetica, sans-serif;
-
   font-size: clamp(48px, 5vw, 82px);
-
   line-height: 0.98;
-
   font-weight: 900;
-
   letter-spacing: -2px;
-
   text-align: center;
 }
 
@@ -162,80 +103,53 @@
 
 .comic-boton-comenzar {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 12px;
-
   padding: 15px 32px;
-
   border: 3px solid #650000;
-
   border-radius: 14px;
-
   background-color: #650000;
-
   color: #fce9d5;
-
   font-family: Arial, Helvetica, sans-serif;
-
   font-size: 16px;
-
   font-weight: 800;
-
   letter-spacing: 1.5px;
-
   cursor: pointer;
-
-  box-shadow:
-    0 8px 20px rgba(101, 0, 0, 0.20);
-
+  box-shadow: 0 8px 20px rgba(101, 0, 0, 0.2);
   transition:
     transform 0.25s ease,
     background-color 0.25s ease,
     box-shadow 0.25s ease;
 }
 
-
 .comic-boton-comenzar span {
   font-size: 14px;
 }
 
-
 .comic-boton-comenzar:hover {
   transform: translateY(-3px);
-
   background-color: #4d0000;
-
-  box-shadow:
-    0 12px 24px rgba(101, 0, 0, 0.28);
+  box-shadow: 0 12px 24px rgba(101, 0, 0, 0.28);
 }
-
 
 .comic-boton-comenzar:active {
   transform: translateY(0);
 }
 
 /* =========================================================
-   ESCENA
+   ESCENAS
 ========================================================= */
 
 .comic-escena {
   position: absolute;
-
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   overflow: hidden;
-
   background-color: #000;
-
   animation: aparecerEscena 0.8s ease forwards;
 }
-
 
 /* =========================================================
    CONTROLES
@@ -243,72 +157,40 @@
 
 .comic-controles {
   position: absolute;
-
   top: 18px;
-
   right: 25px;
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
   z-index: 200;
 }
 
-
-/* =========================================================
-   BOTONES
-========================================================= */
-
 .comic-control {
   width: 45px;
-
   height: 45px;
-
   border: none;
-
   border-radius: 50%;
-
   background-color: rgba(101, 0, 0, 0.95);
-
   color: #ffffff;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   font-size: 17px;
-
   cursor: pointer;
-
-  box-shadow:
-    0 5px 15px rgba(101, 0, 0, 0.18);
-
+  box-shadow: 0 5px 15px rgba(101, 0, 0, 0.18);
   transition:
     transform 0.25s ease,
     background-color 0.25s ease;
 }
 
-
 .comic-control:hover {
   transform: scale(1.1);
-
   background-color: #4d0000;
 }
-
-
-/* =========================================================
-   BOTÓN ACTIVO
-========================================================= */
 
 .comic-control.activo {
   background-color: #4d0000;
 }
-
 
 /* =========================================================
    PANEL DE CAPÍTULOS
@@ -316,547 +198,367 @@
 
 .comic-capitulos {
   width: 100%;
-
   min-width: 0;
-
   box-sizing: border-box;
-
   padding: 15px 15px 15px 30px;
-
   position: relative;
 }
 
-
-/* =========================================================
-   LÍNEA DE SEPARACIÓN
-========================================================= */
+/* Línea vertical que separa la pantalla del panel */
 
 .comic-capitulos::before {
   content: "";
-
   position: absolute;
-
   left: 0;
-
   top: 5%;
-
   width: 3px;
-
   height: 90%;
-
   border-radius: 10px;
-
-  background-color: #650000;
+  background-color: #78552e;
 }
 
-
-/* =========================================================
-   TÍTULO
-========================================================= */
+/* Título de capítulos */
 
 .comic-capitulos-titulo {
   margin: 0 0 28px;
-
   color: #650000;
-
   font-family: Arial, Helvetica, sans-serif;
-
   font-size: 21px;
-
   font-weight: 900;
-
   letter-spacing: 4px;
 }
 
-
-/* =========================================================
-   LISTA
-========================================================= */
+/* Lista desplazable */
 
 .comic-capitulos-lista {
   display: flex;
-
   flex-direction: column;
-
   gap: 23px;
-
   max-height: 540px;
-
   overflow-y: auto;
-
   padding-right: 5px;
 }
-
 
 .comic-capitulos-lista::-webkit-scrollbar {
   width: 5px;
 }
 
-
 .comic-capitulos-lista::-webkit-scrollbar-track {
   background: transparent;
 }
 
-
 .comic-capitulos-lista::-webkit-scrollbar-thumb {
-  background-color: rgba(101, 0, 0, 0.3);
-
+  background-color: rgba(120, 85, 46, 0.4);
   border-radius: 10px;
 }
 
-
 /* =========================================================
-   CAPÍTULO
+   BOTÓN DE CADA CAPÍTULO
 ========================================================= */
 
 .comic-capitulo {
   width: 100%;
-
   padding: 0;
-
   border: none;
-
   background: transparent;
-
   text-align: left;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 8px;
-
   position: relative;
-
   cursor: pointer;
-
   transition:
     transform 0.25s ease,
     opacity 0.25s ease;
 }
 
+/* =========================================================
+   HOJA VERDE CON NÚMERO
+========================================================= */
 
 .comic-capitulo-numero {
+  position: relative;
+  isolation: isolate;
   width: 100%;
-
   height: 135px;
-
   box-sizing: border-box;
-
-  border-radius: 22px;
-
-  background-color: #f4dfc9;
-
-  border: 3px solid #650000;
-
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
-  color: #650000;
-
+  padding-bottom: 20px;
+  color: #fce9d5;
   font-family: Arial, Helvetica, sans-serif;
-
   font-size: 45px;
-
   font-weight: 900;
-
+  text-shadow: 0 2px 3px rgba(28, 54, 12, 0.85);
   transition:
     transform 0.3s ease,
-    background-color 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+    filter 0.3s ease;
 }
 
+/* Imagen de la hoja separada del número para poder orientarla */
+
+.comic-capitulo-numero::before {
+  content: "";
+  position: absolute;
+  inset: -12% -2%;
+  z-index: -1;
+  background-image: url("/Hojaverde.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 135% 135%;
+  transform: rotate(-40deg);
+  filter: drop-shadow(0 5px 5px rgba(45, 55, 24, 0.16));
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+/* Información textual debajo de la hoja */
 
 .comic-capitulo-info {
   display: flex;
-
   flex-direction: column;
-
   gap: 4px;
-
   padding-left: 5px;
 }
 
-
 .comic-capitulo-info span {
   color: #650000;
-
   font-family: Arial, Helvetica, sans-serif;
-
   font-size: 10px;
-
   font-weight: 700;
-
   letter-spacing: 1.5px;
 }
 
-
 .comic-capitulo-info strong {
-  color: #650000;
-
+  color: #3b2811;
   font-family: Arial, Helvetica, sans-serif;
-
   font-size: 15px;
-
   font-weight: 900;
-
   letter-spacing: 0.5px;
 }
 
+/* Capítulo seleccionado */
 
-.comic-capitulo.seleccionado .comic-capitulo-numero {
-  background-color: #eed4b5;
-
-  border-color: #650000;
-
-  box-shadow:
-    0 8px 18px rgba(101, 0, 0, 0.15);
+.comic-capitulo.seleccionado .comic-capitulo-numero::before {
+  filter: drop-shadow(0 7px 8px rgba(45, 55, 24, 0.28));
 }
 
+/* Efecto al pasar el cursor */
 
 .comic-capitulo.disponible:hover {
   transform: translateX(-5px);
 }
 
-
-.comic-capitulo.disponible:hover .comic-capitulo-numero {
-  transform: scale(1.02);
-
-  background-color: #f8e8d8;
-
-  box-shadow:
-    0 8px 18px rgba(101, 0, 0, 0.15);
+.comic-capitulo.disponible:hover .comic-capitulo-numero::before {
+  transform: rotate(-40deg) scale(1.045);
+  filter: drop-shadow(0 8px 9px rgba(45, 55, 24, 0.32));
 }
 
+/* Capítulos bloqueados */
 
 .comic-capitulo.bloqueado {
   cursor: not-allowed;
-
   opacity: 0.55;
 }
 
+.comic-capitulo.bloqueado .comic-capitulo-numero::before {
+  filter: grayscale(0.35)
+    drop-shadow(0 3px 4px rgba(45, 55, 24, 0.12));
+}
+
+/* =========================================================
+   RESPONSIVE: TABLET
+========================================================= */
 
 @media (max-width: 1100px) {
-
   .comic-layout {
-    grid-template-columns:
-      minmax(0, 1fr) 260px;
-
+    grid-template-columns: minmax(0, 1fr) 260px;
     gap: 25px;
   }
 
-
   .comic-control {
     width: 42px;
-
     height: 42px;
   }
 
+  .comic-capitulo-numero {
+    height: 120px;
+    font-size: 40px;
+  }
 }
 
-@media (max-width: 700px) {
+/* =========================================================
+   RESPONSIVE: MÓVIL
+========================================================= */
 
+@media (max-width: 700px) {
   .comic-interface {
     padding: 20px 5%;
+    background-size: auto 100%;
+    background-position: center top;
   }
-
 
   .comic-logo {
     position: relative;
-
     top: auto;
-
     left: auto;
-
     margin: 0 0 25px;
   }
 
-
   .comic-layout {
     grid-template-columns: 1fr;
-
     gap: 35px;
   }
 
-
   .comic-pantalla {
     width: 100%;
-
     aspect-ratio: 1024 / 598;
-
+    border-width: 3px;
     border-radius: 25px;
   }
 
-
   .comic-capitulos {
     width: 100%;
-
     padding: 30px 0 10px;
   }
 
-
   .comic-capitulos::before {
     left: 0;
-
     top: 0;
-
     width: 100%;
-
     height: 3px;
   }
 
-
   .comic-capitulos-lista {
     max-height: none;
-
     display: grid;
-
-    grid-template-columns:
-      repeat(2, 1fr);
-
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 25px 15px;
   }
 
-
   .comic-capitulo-numero {
-    height: 120px;
-
-    border-radius: 18px;
-
-    font-size: 38px;
+    height: 105px;
+    font-size: 34px;
   }
 
+  .comic-controles {
+    top: 10px;
+    right: 10px;
+    gap: 7px;
+  }
+
+  .comic-control {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .comic-titulo {
+    font-size: clamp(27px, 7vw, 48px);
+    letter-spacing: -1px;
+  }
+
+  .comic-boton-comenzar {
+    padding: 11px 20px;
+    font-size: 13px;
+  }
 }
 
 /* =========================================================
-   CAPÍTULO RECIÉN DESBLOQUEADO
+   ANIMACIÓN PUM AL DESBLOQUEAR UN CAPÍTULO
 ========================================================= */
 
-.comic-capitulo.desbloqueando .comic-capitulo-numero {
-
-  animation:
-    pumDesbloqueo 0.9s cubic-bezier(0.34,
-      1.56,
-      0.64,
-      1) both;
+.comic-capitulo.desbloqueando .comic-capitulo-numero::before {
+  animation: pumDesbloqueoHoja 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
-
-@keyframes pumDesbloqueo {
-
+@keyframes pumDesbloqueoHoja {
   0% {
-
-    transform:
-      scale(1);
-
-    box-shadow:
-      0 8px 18px rgba(101, 0, 0, 0.15);
-
+    transform: rotate(-40deg) scale(1);
+    filter: drop-shadow(0 5px 5px rgba(45, 55, 24, 0.16));
   }
 
   35% {
-
-    transform:
-      scale(1.16);
-
-    box-shadow:
-      0 0 0 8px rgba(101, 0, 0, 0.08),
-
-      0 12px 30px rgba(101, 0, 0, 0.28);
-
+    transform: rotate(-40deg) scale(1.13);
+    filter: drop-shadow(0 0 12px rgba(106, 140, 40, 0.5));
   }
 
   65% {
-
-    transform:
-      scale(0.96);
-
+    transform: rotate(-40deg) scale(0.97);
   }
 
   100% {
-
-    transform:
-      scale(1);
-
-    box-shadow:
-      0 8px 18px rgba(101, 0, 0, 0.15);
-
+    transform: rotate(-40deg) scale(1);
   }
-
 }
-
 
 /* =========================================================
    MENSAJE DE DESBLOQUEO
-   ESTILO VIDEOJUEGO
-
-   ENTRA DESDE LA DERECHA
-   HACIA LA ESQUINA SUPERIOR IZQUIERDA
 ========================================================= */
 
 .comic-mensaje-desbloqueo {
   position: absolute;
-
   top: 25px;
   left: 25px;
-
   z-index: 300;
-
   width: 330px;
   max-width: calc(100% - 50px);
-
   box-sizing: border-box;
-
   overflow: hidden;
-
   border-radius: 10px;
-
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.22);
-
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
   animation: entrarMensajeDesbloqueo 1s ease-out both;
 }
 
-
-
-
-/* =========================================================
-   FRANJA SUPERIOR
-========================================================= */
-
 .comic-mensaje-desbloqueo-superior {
-
   width: 100%;
-
   min-height: 48px;
-
-  padding:
-    9px 15px;
-
-  box-sizing:
-    border-box;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  gap:
-    10px;
-
-  background:
-    rgba(101,
-      0,
-      0,
-      0.88);
-
-  color:
-    #ffffff;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
+  padding: 9px 15px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(101, 0, 0, 0.88);
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
 }
-
 
 .comic-mensaje-desbloqueo-superior span {
-
-  width:
-    27px;
-
-  height:
-    27px;
-
-  flex:
-    0 0 27px;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  border-radius:
-    5px;
-
-  background:
-    rgba(252,
-      233,
-      213,
-      0.9);
-
-  color:
-    #650000;
-
-  font-size:
-    15px;
-
-  font-weight:
-    900;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  background: rgba(252, 233, 213, 0.9);
+  color: #650000;
+  font-size: 15px;
+  font-weight: 900;
 }
-
 
 .comic-mensaje-desbloqueo-superior strong {
-
-  font-size:
-    13px;
-
-  font-weight:
-    900;
-
-  letter-spacing:
-    1px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
 }
-
-
-/* =========================================================
-   FRANJA INFERIOR
-========================================================= */
 
 .comic-mensaje-desbloqueo-inferior {
-
   width: 100%;
-
-  padding:
-    11px 15px;
-
-  box-sizing:
-    border-box;
-
-  background:
-    rgba(252,
-      233,
-      213,
-      0.84);
-
-  color:
-    #650000;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size:
-    14px;
-
-  font-weight:
-    900;
-
-  letter-spacing:
-    0.7px;
+  padding: 11px 15px;
+  box-sizing: border-box;
+  background: rgba(252, 233, 213, 0.84);
+  color: #650000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.7px;
 }
-
 
 @keyframes entrarMensajeDesbloqueo {
   from {
@@ -871,141 +573,108 @@
 }
 
 /* =========================================================
-   DESTELLO BLANCO GLOBAL
-   CUBRE TODA LA VENTANA
+   TRANSICIÓN BLANCA ENTRE CAPÍTULOS
 ========================================================= */
 
 .comic-transicion-blanca {
-
-  position:
-    fixed;
-
-  inset:
-    0;
-
-  width:
-    100vw;
-
-  height:
-    100vh;
-
-  background:
-    #ffffff;
-
-  z-index:
-    999999;
-
-  pointer-events:
-    all;
-
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 999999;
+  pointer-events: all;
 }
-
-
-/* =========================================================
-   ENTRADA DEL BLANCO
-========================================================= */
 
 .comic-transicion-blanca.entrando {
-
-  animation:
-    destelloBlancoEntrada 1.05s ease-in both;
+  animation: destelloBlancoEntrada 1.05s ease-in both;
 }
 
-
 @keyframes destelloBlancoEntrada {
-
   0% {
-
-    opacity:
-      0;
-
+    opacity: 0;
   }
 
   70% {
-
-    opacity:
-      0.92;
-
+    opacity: 0.92;
   }
 
   100% {
-
-    opacity:
-      1;
-
+    opacity: 1;
   }
-
 }
-
-
-/* =========================================================
-   SALIDA DEL BLANCO
-   REVELA ESCENA 2
-========================================================= */
 
 .comic-transicion-blanca.saliendo {
-
-  opacity:
-    1;
-
-  animation:
-    destelloBlancoSalida 0.9s ease-out both;
+  opacity: 1;
+  animation: destelloBlancoSalida 0.9s ease-out both;
 }
 
-
 @keyframes destelloBlancoSalida {
-
   from {
-
-    opacity:
-      1;
-
+    opacity: 1;
   }
 
   to {
-
-    opacity:
-      0;
-
+    opacity: 0;
   }
-
 }
 
-
 /* =========================================================
-   RESPONSIVE DEL MENSAJE
+   FONDO DE PERGAMINO
+   Guardar PergaInterfaz.svg dentro de public.
 ========================================================= */
 
+/* FONDO DE PERGAMINO AMPLIADO */
+
+.comic-interface {
+  background-color: #f1dbb0;
+  background-image: url("/PergaInterfaz.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% auto;
+}
+
+/* Borde café del recuadro del cómic */
+
+.comic-pantalla {
+  border-color: #78552e;
+  background-color: rgba(252, 233, 213, 0.94);
+  box-shadow: 0 12px 30px rgba(89, 59, 29, 0.22);
+}
+
+/* Ajustes del número cuando se selecciona el capítulo */
+
+.comic-capitulo.seleccionado .comic-capitulo-numero {
+  color: #fce9d5;
+}
+
+/* Ajustes de las hojas para pantallas pequeñas */
+
 @media (max-width: 700px) {
+  .comic-capitulo-numero::before {
+    inset: -8% 0;
+  }
+}
 
-  .comic-mensaje-desbloqueo {
-
-    top:
-      80px;
-
-    left:
-      15px;
-
-    width:
-      310px;
-
-    max-width:
-      calc(100vw - 30px);
-
+@media (max-width: 400px) {
+  .comic-capitulo-numero {
+    height: 90px;
+    font-size: 30px;
   }
 
-  .comic-mensaje-desbloqueo-superior strong {
-
-    font-size:
-      11px;
-
+  .comic-capitulo-info strong {
+    font-size: 13px;
   }
+}
 
-  .comic-mensaje-desbloqueo-inferior {
+/* Ajustes para usuarios que prefieren menos animaciones */
 
-    font-size:
-      12px;
-
+@media (prefers-reduced-motion: reduce) {
+  .comic-capitulo,
+  .comic-capitulo-numero,
+  .comic-capitulo-numero::before,
+  .comic-capitulo.desbloqueando .comic-capitulo-numero::before {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
-
 }

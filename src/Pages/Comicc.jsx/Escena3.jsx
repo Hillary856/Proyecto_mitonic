@@ -5,73 +5,53 @@ import {
   useRef,
   useState
 } from "react";
-
 import lottieReact from "lottie-react";
 import AdrianHablando from "../../assets/AdrianHablando.json";
-
 import Esc3Audio1 from "../../Audios/Esc3Audio1.mp3";
 import Esc3Audio2 from "../../Audios/Esc3Audio2.mp3";
 import Esc3Audio3 from "../../Audios/Esc3Audio3.mp3";
 import Esc3Audio4 from "../../Audios/Esc3Audio4.mp3";
 import Esc3Audio5 from "../../Audios/Esc3Audio5.mp3";
-
 import Es3Campana from "../../AssetsNuevos/Es3Campana.svg";
 import Es3corona from "../../AssetsNuevos/Es3corona.svg";
 import Es3racimo from "../../AssetsNuevos/Es3racimo.svg";
-
 import "./Escenas.css";
+
 
 const Lottie = lottieReact.default;
 
-/* =========================================================
-   POSICIONES DE LOS ESCONDITES
-
-   Puedes ajustar left y top sin modificar la lógica.
-   Los assets cambian de posición cuando están ocultos.
-========================================================= */
+// Pose quieta y expresiones ubicadas en la carpeta public.
+const ADRIAN_QUIETO = "/Feliz.svg";
+const EXPRESION_PENSATIVO = "/pensativoS.svg";
+const EXPRESION_FELIZ = "/FelizS.svg";
 
 const POSICIONES_ESCONDITE_ESCENA3 = {
+  // 1. CORONA: esquina → parte inferior de la estatua → techo
   corona: [
-    { left: "7%", top: "35%" },
-    { left: "18%", top: "36%" },
-    { left: "32%", top: "32%" },
-    { left: "52%", top: "32%" },
-    { left: "66%", top: "36%" },
-    { left: "79%", top: "43%" },
-    { left: "88%", top: "51%" },
-    { left: "84%", top: "67%" },
-    { left: "72%", top: "69%" }
+    { left: "9%", top: "43%" },   // Esquina / columna
+    { left: "86%", top: "76%" },  // Parte inferior de la estatua
+    { left: "50%", top: "12%" }   // Techo
   ],
 
+  // 2. BALANZA DE BRONCE: estatua → esquina → techo
   campana: [
-    { left: "11%", top: "38%" },
-    { left: "23%", top: "36%" },
-    { left: "39%", top: "32%" },
-    { left: "58%", top: "34%" },
-    { left: "70%", top: "39%" },
-    { left: "82%", top: "45%" },
-    { left: "91%", top: "53%" },
-    { left: "80%", top: "67%" },
-    { left: "68%", top: "70%" }
+    { left: "86%", top: "76%" },  // Parte inferior de la estatua
+    { left: "9%", top: "43%" },   // Esquina / columna
+    { left: "50%", top: "12%" }   // Techo
   ],
 
+  // 3. RACIMO DE UVAS: techo → estatua → esquina
   racimo: [
-    { left: "6%", top: "42%" },
-    { left: "16%", top: "38%" },
-    { left: "29%", top: "34%" },
-    { left: "45%", top: "32%" },
-    { left: "62%", top: "36%" },
-    { left: "76%", top: "44%" },
-    { left: "89%", top: "48%" },
-    { left: "86%", top: "68%" },
-    { left: "73%", top: "72%" }
+    { left: "50%", top: "12%" },  // Techo
+    { left: "86%", top: "76%" },  // Parte inferior de la estatua
+    { left: "9%", top: "43%" }    // Esquina / columna
   ]
 };
 
 const TIEMPOS_BUSQUEDA_ESCENA3 = {
-  entrada: 220,
-  visible: 750,
-  salida: 240,
+  entrada: 120,
+  visible: 650,
+  salida: 140,
   oculto: 130
 };
 
@@ -85,7 +65,6 @@ const Escena3 = forwardRef(
     },
     ref
   ) => {
-
     /* ======================== AUDIOS ======================== */
 
     const audiosEscena3 = {
@@ -100,13 +79,9 @@ const Escena3 = forwardRef(
 
     const subtitulosEscena3 = {
       1: "El Ágora. Este lugar es mucho más que una plaza. Aquí nos reunimos para comerciar, conversar y discutir sobre los asuntos que afectan a nuestra ciudad. Si prestan atención, pueden escuchar cómo las personas intercambian ideas, opiniones y argumentos. La vida pública de Atenas ocurre aquí, frente a todos.",
-
       2: "Servía para premiar y dar la máxima distinción de respeto a los líderes, jueces y sabios.",
-
       3: "Cada cosa que encontramos aquí parece mostrarnos una parte diferente de cómo funciona nuestra sociedad.",
-
       4: "Era obligatoria para todos los comerciantes y debían pesar sus productos frente al cliente, ya fueran sacos de trigo, olivas o polvo de oro.",
-
       5: "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios."
     };
 
@@ -114,10 +89,18 @@ const Escena3 = forwardRef(
 
     const [adrianVisible, setAdrianVisible] = useState(false);
     const [mostrarResplandor, setMostrarResplandor] = useState(false);
-
     const [audioActual, setAudioActual] = useState(0);
     const [tipoAudio, setTipoAudio] = useState("espera");
     const [narradorActivo, setNarradorActivo] = useState(true);
+    const [expresionAdrian, setExpresionAdrian] = useState(null);
+    const [versionExpresionAdrian, setVersionExpresionAdrian] = useState(0);
+
+    // Adrián habla mientras el audio está reproduciéndose.
+    // Cuando el audio termina o está pausado, aparece su pose quieta.
+    const adrianEstaHablando =
+      narradorActivo && tipoAudio !== "espera";
+
+    const adrianEstaQuieto = !adrianEstaHablando;
 
     const [objetoVisible, setObjetoVisible] = useState(null);
     const [objetoDescubierto, setObjetoDescubierto] = useState(null);
@@ -125,17 +108,20 @@ const Escena3 = forwardRef(
     const [objetoActivo, setObjetoActivo] = useState(null);
     const [objetoEnAudio, setObjetoEnAudio] = useState(null);
     const [objetosDescubiertos, setObjetosDescubiertos] = useState([]);
-
     const [faseBusqueda, setFaseBusqueda] = useState("entrada");
     const [indiceEscondite, setIndiceEscondite] = useState(0);
-
     const [momentoTexto, setMomentoTexto] = useState(null);
     const [mostrarContinuar, setMostrarContinuar] = useState(false);
 
     const audioRef = useRef(null);
     const busquedaTimerRef = useRef(null);
+    const expresionTimerRef = useRef(null);
+    const expresionObjetoRef = useRef({
+      objeto: null,
+      disparada: false
+    });
 
-    /* ====================== ENTRADA DE ESCENA ================ */
+    /* ====================== ENTRADA DE ESCENA ================= */
 
     useEffect(() => {
       setAdrianVisible(true);
@@ -216,6 +202,11 @@ const Escena3 = forwardRef(
         if (busquedaTimerRef.current) {
           clearTimeout(busquedaTimerRef.current);
           busquedaTimerRef.current = null;
+        }
+
+        if (expresionTimerRef.current) {
+          clearTimeout(expresionTimerRef.current);
+          expresionTimerRef.current = null;
         }
       };
     }, []);
@@ -301,15 +292,54 @@ const Escena3 = forwardRef(
       setNarradorActivo(false);
     };
 
+    /* ================= EXPRESIONES DE ADRIÁN ================= */
+
+    const mostrarExpresion = (tipo, lado = "derecha") => {
+      if (expresionTimerRef.current) {
+        clearTimeout(expresionTimerRef.current);
+      }
+
+      setVersionExpresionAdrian((actual) => actual + 1);
+      setExpresionAdrian({ tipo, lado });
+
+      expresionTimerRef.current = setTimeout(() => {
+        setExpresionAdrian(null);
+        expresionTimerRef.current = null;
+      }, 4400);
+    };
+
+    const mostrarExpresionObjeto = (objeto) => {
+      const registro = expresionObjetoRef.current;
+
+      if (
+        registro.objeto !== objeto ||
+        registro.disparada
+      ) {
+        return;
+      }
+
+      registro.disparada = true;
+
+      // Adrián conoce estos objetos: no reacciona con sorpresa.
+      if (objeto === "corona") {
+        mostrarExpresion("pensativo", "izquierda");
+      } else if (objeto === "campana") {
+        mostrarExpresion("pensativo", "derecha");
+      } else if (objeto === "racimo") {
+        mostrarExpresion("feliz", "derecha");
+      }
+    };
+
     /* =========================== FIN AUDIO ================== */
 
     const manejarFinAudio = () => {
-
-      // Audio 2 termina: se oculta la corona y continúa el audio 3.
+      // Audio de la corona terminado: continuar con la narración del Ágora.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "corona"
       ) {
+        mostrarExpresionObjeto("corona");
+
         setObjetoActivo(null);
         setObjetoVisible(null);
         setObjetoDescubierto(null);
@@ -328,20 +358,23 @@ const Escena3 = forwardRef(
         return;
       }
 
-      // Audio 4 termina: se oculta la campana y aparece el racimo.
+      // Audio de la balanza terminado: mostrar el siguiente objeto.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "campana"
       ) {
+        mostrarExpresionObjeto("campana");
         mostrarObjetoEnBusqueda("racimo");
         return;
       }
 
-      // Audio 5 termina: aparece el botón para continuar.
+      // Audio del racimo terminado: habilitar el botón para continuar.
       if (
         tipoAudio === "objeto" &&
         objetoEnAudio === "racimo"
       ) {
+        mostrarExpresionObjeto("racimo");
+
         setObjetoActivo(null);
         setObjetoVisible(null);
         setObjetoDescubierto(null);
@@ -355,7 +388,7 @@ const Escena3 = forwardRef(
         return;
       }
 
-      // Audio 1 termina: aparece la corona.
+      // Audio inicial terminado: mostrar la corona.
       if (
         tipoAudio === "principal" &&
         audioActual === 1
@@ -364,7 +397,7 @@ const Escena3 = forwardRef(
         return;
       }
 
-      // Audio 3 termina: aparece la campana.
+      // Narración del Ágora terminada: mostrar la balanza.
       if (
         tipoAudio === "principal" &&
         audioActual === 3
@@ -382,13 +415,11 @@ const Escena3 = forwardRef(
           numero: 2,
           momento: 2
         },
-
         campana: {
           audio: audiosEscena3[4],
           numero: 4,
           momento: 4
         },
-
         racimo: {
           audio: audiosEscena3[5],
           numero: 5,
@@ -404,6 +435,11 @@ const Escena3 = forwardRef(
       }
 
       registrarObjetoEncontrado(objeto);
+
+      expresionObjetoRef.current = {
+        objeto,
+        disparada: false
+      };
 
       setObjetoDescubierto(objeto);
       setFaseBusqueda("encontrado");
@@ -492,9 +528,7 @@ const Escena3 = forwardRef(
     return (
       <div className="escena-3">
         <div className="escena-3-contenido">
-
           {/* FONDO */}
-
           <img
             src="/Escenarios/FondoAgora.svg"
             alt="Ágora"
@@ -502,7 +536,6 @@ const Escena3 = forwardRef(
           />
 
           {/* CORONA */}
-
           {objetoVisible === "corona" && (
             <button
               key={`corona-${indiceEscondite}`}
@@ -524,8 +557,7 @@ const Escena3 = forwardRef(
             </button>
           )}
 
-          {/* CAMPANA */}
-
+          {/* CAMPANA / BALANZA */}
           {objetoVisible === "campana" && (
             <button
               key={`campana-${indiceEscondite}`}
@@ -536,11 +568,11 @@ const Escena3 = forwardRef(
                 top: posicionActual.top
               }}
               onClick={() => reproducirObjeto("campana")}
-              aria-label="Explorar campana"
+              aria-label="Explorar balanza de bronce"
             >
               <img
                 src={Es3Campana}
-                alt="Campana"
+                alt="Balanza de bronce"
                 className="escena-3-campana"
                 draggable="false"
               />
@@ -548,7 +580,6 @@ const Escena3 = forwardRef(
           )}
 
           {/* RACIMO */}
-
           {objetoVisible === "racimo" && (
             <button
               key={`racimo-${indiceEscondite}`}
@@ -559,7 +590,7 @@ const Escena3 = forwardRef(
                 top: posicionActual.top
               }}
               onClick={() => reproducirObjeto("racimo")}
-              aria-label="Explorar racimo"
+              aria-label="Explorar racimo de uvas"
             >
               <img
                 src={Es3racimo}
@@ -570,8 +601,7 @@ const Escena3 = forwardRef(
             </button>
           )}
 
-          {/* PIEZAS DEL ESCENARIO: SE CONSERVAN TUS CLASES */}
-
+          {/* PIEZAS DEL ESCENARIO */}
           <img
             src="/Escenarios/EsquinaEsc2.svg"
             alt=""
@@ -613,25 +643,58 @@ const Escena3 = forwardRef(
           />
 
           {/* ADRIÁN Y RESPLANDOR */}
-
           {adrianVisible && (
-            <div className="escena-3-adrian-aparicion">
+            <div
+              className={`escena-3-adrian-aparicion ${
+                adrianEstaHablando
+                  ? "escena-3-adrian--hablando"
+                  : "escena-3-adrian--quieto"
+              }`}
+            >
               {mostrarResplandor && (
                 <div className="escena-3-resplandor-adrian" />
               )}
 
-              <div className="escena-3-adrian-hablando">
-                <Lottie
-                  animationData={AdrianHablando}
-                  loop
-                  autoplay
+              {adrianEstaHablando ? (
+                <div className="escena-3-adrian-hablando">
+                  <Lottie
+                    animationData={AdrianHablando}
+                    loop
+                    autoplay
+                  />
+                </div>
+              ) : adrianEstaQuieto ? (
+                <img
+                  src={ADRIAN_QUIETO}
+                  alt="Adrián esperando"
+                  className="escena-3-adrian-quieto"
+                  draggable="false"
                 />
-              </div>
+              ) : null}
             </div>
           )}
 
-          {/* SUBTÍTULOS */}
+          {/* EXPRESIÓN TEMPORAL DE ADRIÁN */}
+          {expresionAdrian && (
+            <img
+              key={versionExpresionAdrian}
+              src={
+                expresionAdrian.tipo === "pensativo"
+                  ? EXPRESION_PENSATIVO
+                  : EXPRESION_FELIZ
+              }
+              alt={
+                expresionAdrian.tipo === "pensativo"
+                  ? "Adrián pensativo"
+                  : "Adrián feliz"
+              }
+              className={`escena-3-expresion escena-3-expresion--${expresionAdrian.tipo} escena-3-expresion--${expresionAdrian.lado}`}
+              draggable="false"
+              aria-hidden="true"
+            />
+          )}
 
+          {/* SUBTÍTULOS */}
           {textoNarracionActivo &&
             momentoTexto !== null &&
             subtitulosEscena3[momentoTexto] && (
@@ -644,12 +707,10 @@ const Escena3 = forwardRef(
             )}
 
           {/* CONTINUAR AL CAPÍTULO 4 */}
-
           {mostrarContinuar && (
             <div className="escena-1-continuar-contenedor escena-3-continuar-contenedor">
               <div className="escena-1-continuar-texto">
                 <span>CONTINUAR AL CAPÍTULO 4</span>
-
                 <button
                   type="button"
                   className="escena-1-continuar-boton"
@@ -661,8 +722,7 @@ const Escena3 = forwardRef(
             </div>
           )}
 
-          {/* MODAL */}
-
+          {/* MODAL DE LOS OBJETOS */}
           {objetoActivo && (
             <div
               className="escena-3-modal-fondo"
@@ -678,11 +738,17 @@ const Escena3 = forwardRef(
                   )}
 
                   {objetoActivo === "campana" && (
-                    <img src={Es3Campana} alt="Campana" />
+                    <img
+                      src={Es3Campana}
+                      alt="Balanza de bronce"
+                    />
                   )}
 
                   {objetoActivo === "racimo" && (
-                    <img src={Es3racimo} alt="Racimo" />
+                    <img
+                      src={Es3racimo}
+                      alt="Racimo de uvas"
+                    />
                   )}
                 </div>
 
@@ -744,7 +810,6 @@ const Escena3 = forwardRef(
             onEnded={manejarFinAudio}
             preload="auto"
           />
-
         </div>
       </div>
     );
