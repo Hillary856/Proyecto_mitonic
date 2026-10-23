@@ -55,7 +55,6 @@
   overflow: hidden;
   box-sizing: border-box;
   background-color: #fce9d5;
-  border: 4px solid #650000;
   border-radius: 34px;
   display: flex;
   align-items: center;
@@ -88,7 +87,7 @@
 
 .comic-titulo {
   margin: 0;
-  color: #650000;
+  color: #78552e;
   font-family: Arial, Helvetica, sans-serif;
   font-size: clamp(48px, 5vw, 82px);
   line-height: 0.98;
@@ -129,7 +128,6 @@
 
 .comic-boton-comenzar:hover {
   transform: translateY(-3px);
-  background-color: #4d0000;
   box-shadow: 0 12px 24px rgba(101, 0, 0, 0.28);
 }
 
@@ -170,7 +168,6 @@
   height: 45px;
   border: none;
   border-radius: 50%;
-  background-color: rgba(101, 0, 0, 0.95);
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -185,11 +182,6 @@
 
 .comic-control:hover {
   transform: scale(1.1);
-  background-color: #4d0000;
-}
-
-.comic-control.activo {
-  background-color: #4d0000;
 }
 
 /* =========================================================
@@ -221,7 +213,7 @@
 
 .comic-capitulos-titulo {
   margin: 0 0 28px;
-  color: #650000;
+  color: #634625;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 21px;
   font-weight: 900;
@@ -631,7 +623,7 @@
   background-image: url("/PergaInterfaz.svg");
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: 100% auto;
+  background-size: 105% auto;
 }
 
 /* Borde café del recuadro del cómic */
@@ -676,5 +668,663 @@
   .comic-capitulo.desbloqueando .comic-capitulo-numero::before {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   CORRECCIONES VISUALES DE LA PORTADA
+========================================================= */
+
+/* -------- PORTADA EN IMAGEN -------- */
+
+.comic-pantalla-contenido {
+  width: 94%;
+  max-width: none;
+  gap: 16px;
+}
+
+.comic-portada-imagen {
+  display: block;
+  width: min(100%, 880px);
+  height: auto;
+  max-height: min(62vh, 520px);
+  object-fit: contain;
+  object-position: center;
+  flex-shrink: 1;
+  user-select: none;
+}
+
+/* -------- BOTÓN COMENZAR EN CAFÉ -------- */
+
+.comic-boton-comenzar {
+  border-color: #78552e;
+  background-color: #78552e;
+  color: #fff5e7;
+  box-shadow: 0 8px 20px rgba(89, 59, 29, 0.24);
+}
+
+.comic-boton-comenzar:hover {
+  background-color: #5b3d20;
+  border-color: #5b3d20;
+  box-shadow: 0 12px 24px rgba(89, 59, 29, 0.3);
+}
+
+/* -------- QUITAR LA LÍNEA ENTRE EL CÓMIC Y CAPÍTULOS -------- */
+
+.comic-capitulos::before {
+  content: none;
+  display: none;
+}
+
+.comic-layout {
+  gap: 20px;
+}
+
+.comic-capitulos {
+  padding: 15px 0;
+}
+
+/* -------- LISTA DE CAPÍTULOS -------- */
+
+/* Dejamos espacio alrededor de las hojas para que no se corten
+   al acercar el cursor. */
+
+.comic-capitulos-lista {
+  padding: 12px 24px 12px 16px;
+  box-sizing: border-box;
+}
+
+/* El botón no debe desplazarse horizontalmente al pasar el cursor. */
+
+.comic-capitulo {
+  overflow: visible;
+}
+
+.comic-capitulo.disponible:hover {
+  transform: none;
+}
+
+/* -------- HOJAS COMPLETAS, SIN CUADRADOS NI RECORTES -------- */
+
+.comic-capitulo-numero {
+  overflow: visible;
+}
+
+/* Se conserva el fondo transparente y la imagen de la hoja.
+   "contain" permite ver la imagen completa dentro de su área. */
+
+.comic-capitulo-numero::before {
+  inset: -18% -13%;
+  background-image: url("/Hojaverde.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: rotate(-40deg);
+  filter: drop-shadow(0 5px 5px rgba(45, 55, 24, 0.16));
+  transition: filter 0.3s ease;
+}
+
+/* El cursor ilumina la hoja, pero no la agranda ni la recorta. */
+
+.comic-capitulo.disponible:hover .comic-capitulo-numero::before {
+  transform: rotate(-40deg);
+  filter: drop-shadow(0 8px 10px rgba(45, 55, 24, 0.32));
+}
+
+/* El desbloqueo conserva su animación. */
+
+.comic-capitulo.desbloqueando .comic-capitulo-numero::before {
+  animation: pumDesbloqueoHoja 0.9s
+    cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* -------- NOMBRES DE CAPÍTULOS EN CAFÉ Y MÁS GRANDES -------- */
+
+.comic-capitulo-info span {
+  color: #78552e;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+.comic-capitulo-info strong {
+  color: #78552e;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+/* El número permanece centrado en la hoja. */
+
+.comic-capitulo-numero {
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------- AJUSTES PARA PANTALLAS PEQUEÑAS -------- */
+
+@media (max-width: 700px) {
+  .comic-pantalla-contenido {
+    width: 94%;
+    gap: 10px;
+  }
+
+  .comic-portada-imagen {
+    width: 100%;
+    max-height: 48vh;
+  }
+
+  .comic-capitulos {
+    padding: 15px 0;
+  }
+
+  .comic-capitulos::before {
+    display: none;
+  }
+
+  .comic-capitulos-lista {
+    padding: 12px 16px;
+  }
+
+  .comic-capitulo-numero::before {
+    inset: -10% -8%;
+    background-size: contain;
+  }
+
+  .comic-capitulo-info span {
+    font-size: 11px;
+  }
+
+  .comic-capitulo-info strong {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comic-capitulo,
+  .comic-capitulo-numero,
+  .comic-capitulo-numero::before {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   PORTADA: OCUPAR TODO EL RECUADRO DEL CÓMIC
+========================================================= */
+
+.comic-pantalla {
+  position: relative;
+  overflow: hidden;
+}
+
+/* El contenedor ocupa toda la pantalla */
+
+.comic-pantalla-contenido {
+  position: absolute;
+  inset: 0;
+
+  top: 0;
+  left: 0;
+  transform: none;
+
+  width: 100%;
+  height: 100%;
+  max-width: none;
+
+  display: block;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+
+  z-index: 1;
+}
+
+/* La imagen cubre toda la superficie */
+
+.comic-portada-imagen {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  max-width: none;
+  max-height: none;
+
+  object-fit: cover;
+  object-position: center;
+
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Botón COMENZAR por encima de la imagen */
+
+.comic-pantalla .comic-boton-comenzar {
+  position: absolute;
+
+  left: 50%;
+  bottom: 6%;
+
+  transform: translateX(-50%);
+  z-index: 5;
+
+  background-color: #78552e;
+  border-color: #78552e;
+  color: #fff5e7;
+
+  white-space: nowrap;
+}
+
+.comic-pantalla .comic-boton-comenzar:hover {
+  background-color: #5b3d20;
+  border-color: #5b3d20;
+  transform: translate(-50%, -3px);
+}
+
+.comic-pantalla .comic-boton-comenzar:active {
+  transform: translate(-50%, 0);
+}
+
+/* Los controles de audio quedan por encima de la portada */
+
+.comic-controles {
+  z-index: 200;
+}
+
+
+/* =========================================================
+   DISTRIBUCIÓN GENERAL
+========================================================= */
+
+.comic-layout {
+  grid-template-columns:
+    minmax(0, 1fr)
+    clamp(300px, 22vw, 380px);
+
+  gap: clamp(20px, 1.8vw, 32px);
+}
+
+/* Recuperar la línea vertical separadora */
+
+.comic-capitulos::before {
+  content: "";
+
+  display: block;
+  position: absolute;
+
+  left: 0;
+  top: 5%;
+
+  width: 3px;
+  height: 90%;
+
+  border-radius: 10px;
+  background-color: #78552e;
+}
+
+/* Panel de capítulos */
+
+.comic-capitulos {
+  min-width: 0;
+  box-sizing: border-box;
+
+  padding: 15px 0 15px 28px;
+}
+
+/* Lista y espacio para que las hojas no se corten */
+
+.comic-capitulos-lista {
+  box-sizing: border-box;
+
+  max-height: calc(100vh - 240px);
+
+  padding: 18px 30px 20px 20px;
+
+  gap: clamp(16px, 1.5vw, 24px);
+
+  overflow-y: auto;
+  scroll-padding-block: 18px;
+}
+
+/* Mantener la barra de desplazamiento discreta */
+
+.comic-capitulos-lista::-webkit-scrollbar {
+  width: 5px;
+}
+
+.comic-capitulos-lista::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.comic-capitulos-lista::-webkit-scrollbar-thumb {
+  background-color: rgba(120, 85, 46, 0.4);
+  border-radius: 10px;
+}
+
+
+/* =========================================================
+   HOJAS DE LOS CAPÍTULOS
+========================================================= */
+
+.comic-capitulo {
+  width: 100%;
+  overflow: visible;
+}
+
+/* Área del número */
+
+.comic-capitulo-numero {
+  width: 100%;
+  height: clamp(135px, 8vw, 165px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: visible;
+
+  font-size: clamp(42px, 2.5vw, 54px);
+  color: #fff5e7;
+
+  box-sizing: border-box;
+}
+
+/* Imagen de la hoja */
+
+.comic-capitulo-numero::before {
+  content: "";
+
+  position: absolute;
+  inset: -13% -4%;
+
+  z-index: -1;
+
+  background-image: url("/Hojaverde.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 140% 140%;
+
+  transform: rotate(-40deg);
+
+  filter: drop-shadow(
+    0 5px 6px rgba(45, 55, 24, 0.18)
+  );
+
+  transition: filter 0.3s ease;
+}
+
+/* Al pasar el cursor, la hoja completa sigue visible */
+
+.comic-capitulo.disponible:hover {
+  transform: none;
+}
+
+.comic-capitulo.disponible:hover
+.comic-capitulo-numero::before {
+  transform: rotate(-40deg);
+
+  filter: drop-shadow(
+    0 8px 10px rgba(45, 55, 24, 0.3)
+  );
+}
+
+/* Título de capítulos */
+
+.comic-capitulos-titulo {
+  font-size: clamp(22px, 1.4vw, 28px);
+  margin-bottom: clamp(22px, 2.2vh, 32px);
+}
+
+/* Nombres de los capítulos */
+
+.comic-capitulo-info span {
+  color: #78552e;
+  font-size: clamp(11px, 0.8vw, 13px);
+}
+
+.comic-capitulo-info strong {
+  color: #78552e;
+  font-size: clamp(16px, 1vw, 20px);
+  line-height: 1.25;
+}
+
+
+/* =========================================================
+   ESCRITORIO MAC Y PANTALLAS GRANDES
+========================================================= */
+
+@media (min-width: 1440px) {
+  .comic-layout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      clamp(360px, 23vw, 450px);
+
+    gap: clamp(24px, 2vw, 38px);
+  }
+
+  .comic-capitulos {
+    padding-left: 30px;
+  }
+
+  .comic-capitulos-lista {
+    max-height: calc(100vh - 250px);
+
+    padding: 20px 32px 24px 22px;
+
+    gap: clamp(18px, 1.7vh, 28px);
+  }
+
+  .comic-capitulo-numero {
+    height: clamp(150px, 8.5vw, 190px);
+    font-size: clamp(48px, 2.5vw, 60px);
+  }
+
+  .comic-capitulo-numero::before {
+    inset: -14% -4%;
+    background-size: 140% 140%;
+  }
+
+  .comic-capitulos-titulo {
+    font-size: clamp(24px, 1.3vw, 30px);
+    letter-spacing: 3px;
+  }
+
+  .comic-capitulo-info span {
+    font-size: 13px;
+  }
+
+  .comic-capitulo-info strong {
+    font-size: clamp(18px, 1vw, 22px);
+  }
+}
+
+
+/* =========================================================
+   PANTALLAS EXTRA GRANDES
+========================================================= */
+
+@media (min-width: 2000px) {
+  .comic-interface {
+    padding-left: 4%;
+    padding-right: 4%;
+  }
+
+  .comic-layout {
+    grid-template-columns:
+      minmax(0, 1fr)
+      clamp(420px, 22vw, 500px);
+
+    gap: 40px;
+  }
+
+  .comic-capitulos {
+    padding-left: 36px;
+  }
+
+  .comic-capitulos-lista {
+    max-height: calc(100vh - 280px);
+
+    padding: 24px 38px 28px 26px;
+
+    gap: 28px;
+  }
+
+  .comic-capitulo-numero {
+    height: clamp(180px, 8vw, 220px);
+    font-size: clamp(58px, 2.4vw, 68px);
+  }
+
+  .comic-capitulos-titulo {
+    font-size: 30px;
+  }
+
+  .comic-capitulo-info span {
+    font-size: 14px;
+  }
+
+  .comic-capitulo-info strong {
+    font-size: 22px;
+  }
+}
+
+
+/* =========================================================
+   MÓVIL
+========================================================= */
+
+@media (max-width: 700px) {
+  /* La portada sigue ocupando todo el recuadro */
+
+  .comic-pantalla-contenido {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .comic-portada-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .comic-pantalla .comic-boton-comenzar {
+    bottom: 5%;
+    padding: 10px 18px;
+    font-size: 12px;
+  }
+
+  .comic-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .comic-capitulos {
+    padding: 25px 0 10px;
+  }
+
+  /* En móvil la separación pasa a ser horizontal */
+
+  .comic-capitulos::before {
+    content: "";
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 3px;
+  }
+
+  .comic-capitulos-lista {
+    max-height: none;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 22px 16px;
+
+    padding: 18px 22px;
+  }
+
+  .comic-capitulo-numero {
+    height: clamp(105px, 25vw, 135px);
+    font-size: clamp(32px, 8vw, 42px);
+  }
+
+  .comic-capitulo-numero::before {
+    inset: -12% -4%;
+    background-size: 140% 140%;
+  }
+
+  .comic-capitulos-titulo {
+    font-size: 22px;
+  }
+
+  .comic-capitulo-info span {
+    font-size: 11px;
+  }
+
+  .comic-capitulo-info strong {
+    font-size: 15px;
+  }
+}
+
+
+/* =========================================================
+   MÓVILES MUY PEQUEÑOS
+========================================================= */
+
+@media (max-width: 400px) {
+  .comic-capitulos-lista {
+    gap: 18px 12px;
+    padding: 14px 16px;
+  }
+
+  .comic-capitulo-numero {
+    height: 100px;
+    font-size: 30px;
+  }
+
+  .comic-capitulo-info strong {
+    font-size: 13px;
+  }
+}
+
+/* BOTÓN COMENZAR */
+.comic-pantalla .comic-boton-comenzar {
+  background-color: #78552e;
+  border-color: #78552e;
+  color: #fff5e7;
+}
+
+.comic-pantalla .comic-boton-comenzar:hover {
+  background-color: #5b3d20;
+  border-color: #5b3d20;
+}
+
+/* BOTONES CIRCULARES: música, narrador y subtítulos */
+.comic-control {
+  background-color: #78552e;
+  color: #fff5e7;
+}
+
+.comic-control:hover,
+.comic-control.activo {
+  background-color: #5b3d20;
+}
+
+/* RECUPERAR EL BORDE DE LA PANTALLA DEL CÓMIC */
+.comic-pantalla {
+  border: 4px solid #78552e !important;
+  border-radius: 34px;
+  box-sizing: border-box;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 700px) {
+  .comic-pantalla {
+    border-width: 3px !important;
+    border-radius: 25px;
   }
 }
