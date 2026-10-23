@@ -5329,3 +5329,261 @@ body {
 
 
 
+/* =========================================
+   MAC DE ESCRITORIO (iMac 24", iMac 27",
+   Studio Display)  →  2200px o más
+========================================= */
+
+@media (min-width: 2200px) {
+
+  /* ---------- HEADER ---------- */
+
+  .header-mitonic {
+    height: 96px;
+  }
+
+  .logo-mitonic img {
+    width: 96px;
+  }
+
+  .nav-mitonic {
+    gap: 110px;
+  }
+
+  .nav-mitonic a {
+    font-size: 20px;
+  }
+
+
+  /* ---------- HERO ---------- */
+
+  .hero-mitonic {
+    min-height: calc(100vh - 96px);
+    padding: 16vh 8% 6vh;
+  }
+
+  .hero-texto h1 {
+    font-size: clamp(124px, 5.4vw, 160px);
+    letter-spacing: -5px;
+  }
+
+  .trailer-mitonic {
+    width: 45%;
+    flex: 0 1 45%;
+    height: auto;
+  }
+
+  .telon-escenario {
+    max-width: 880px;
+    top: -130px;
+  }
+
+  .telon-cenefa {
+    height: 48px;
+  }
+
+  .telon-video {
+    top: 54px;
+    height: calc(100% - 54px);
+  }
+
+  .telon-abrir-texto {
+    padding: 18px 36px;
+    font-size: 22px;
+  }
+
+  .telon-cerrar {
+    top: 64px;
+    font-size: 15px;
+  }
+
+
+  /* ---------- INFO COMIC ---------- */
+
+  .info-comic {
+    min-height: 1000px;
+  }
+
+  .info-comic-titulo {
+    padding-top: 100px;
+  }
+
+  .info-comic-titulo h2 {
+    font-size: clamp(84px, 3.8vw, 104px);
+  }
+
+  .info-comic-contenido {
+    max-width: 1900px;
+    margin-top: 190px;
+    gap: 44px;
+  }
+
+  .info-item h3 {
+    font-size: clamp(56px, 2.6vw, 66px);
+  }
+
+  .info-item p {
+    max-width: 950px;
+    font-size: clamp(29px, 1.45vw, 34px);
+  }
+
+
+  /* ---------- CAPÍTULOS (CARTELERA) ---------- */
+
+  .fondos-cartelera {
+    height: 640px;
+    top: 18%;
+  }
+
+  .fondos-track {
+    gap: 56px;
+  }
+
+  .cartelera {
+    flex: 0 0 400px;
+    width: 400px;
+  }
+
+  .etiqueta-capitulo {
+    top: 22px;
+    left: 22px;
+    font-size: 18px;
+  }
+
+  .imagen-cartelera h3 {
+    left: 28px;
+    bottom: 24px;
+    font-size: 38px;
+  }
+
+  .boton-cartelera {
+    width: 112px;
+    height: 112px;
+  }
+
+  .atras-pregunta { font-size: 17px; }
+  .atras-etiqueta { font-size: 25px; }
+  .atras-dato     { font-size: 18px; }
+  .atras-volver   { font-size: 14px; }
+
+
+  /* ---------- ADRIÁN ---------- */
+
+  .adrian-curva {
+    max-width: 2000px;
+  }
+
+  .adrian-foto {
+    width: min(780px, 60vh);
+  }
+
+
+  /* ---------- EQUIPO ---------- */
+
+  .equipo-titulo {
+    top: 30px;
+    font-size: clamp(100px, 4.6vw, 120px);
+  }
+
+  .equipo-integrantes {
+    width: 85%;
+    max-width: 2000px;
+  }
+
+  .integrante img,
+  .integrante-interior {
+    max-width: 540px;
+  }
+
+  .integrante:nth-child(2) img,
+  .integrante:nth-child(2) .integrante-interior {
+    max-width: 440px;
+  }
+
+  .integrante-reverso h3 { font-size: 2.6rem; }
+  .integrante-reverso p  { font-size: 1.4rem; }
+
+
+  /* ---------- FOOTER ---------- */
+
+  .seccion-footer {
+    height: 600px;
+  }
+
+  .footer-logo img {
+    width: 520px;
+  }
+
+  .footer-redes {
+    gap: 48px;
+  }
+
+  .footer-icono {
+    width: 60px;
+    height: 60px;
+    font-size: 72px;
+  }
+
+}
+
+
+/* =========================================
+   MAC DE ESCRITORIO MÁS PEQUEÑO
+   (iMac antiguo, monitor de 1920px)
+   →  de 1700px a 2199px
+========================================= */
+
+@media (min-width: 1700px) and (max-width: 2199px) {
+
+  .header-mitonic { height: 84px; }
+  .logo-mitonic img { width: 84px; }
+
+  .nav-mitonic { gap: 90px; }
+  .nav-mitonic a { font-size: 17px; }
+
+  .hero-mitonic {
+    min-height: calc(100vh - 84px);
+  }
+
+  .hero-texto h1 {
+    font-size: clamp(100px, 5.4vw, 124px);
+    letter-spacing: -4px;
+  }
+
+  .telon-escenario {
+    max-width: 760px;
+    top: -110px;
+  }
+
+  .info-comic { min-height: 900px; }
+
+  .info-comic-contenido {
+    max-width: 1600px;
+    margin-top: 175px;
+  }
+
+  .info-item p {
+    max-width: 800px;
+    font-size: clamp(22px, 1.45vw, 29px);
+  }
+
+  .fondos-cartelera { height: 800px; }
+
+  .cartelera {
+    flex: 0 0 350px;
+    width: 350px;
+  }
+
+  .adrian-foto {
+    width: min(680px, 62vh);
+  }
+
+  .integrante img,
+  .integrante-interior {
+    max-width: 460px;
+  }
+
+  .seccion-footer { height: 520px; }
+  .footer-logo img { width: 440px; }
+
+}

@@ -3763,9 +3763,7 @@
 
 /* 5 */
 /* =========================================================
-   ESTILOS ESPECÍFICOS DE ESCENA 5 — COLISEO ROMANO
-   Este bloque está limitado a las clases .escena-5.
-   Puede pegarse al final de Escenas.css sin borrar escenas 1–4.
+   ESCENA 5 — COLISEO ROMANO
 ========================================================= */
 
 .escena-5 {
@@ -3774,11 +3772,11 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: aparecerEscena5 1s ease-out both;
+  background: #000;
+  animation: aparecerEscena5 0.7s ease-out both;
 }
 
 .escena-5-contenido {
@@ -3793,17 +3791,17 @@
 .escena-5-fondo {
   position: absolute;
   inset: 0;
+  z-index: 1;
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
   object-fit: cover;
   object-position: center;
-  z-index: 1;
   pointer-events: none;
 }
 
 /* =========================================================
-   ADRIÁN CAMINANDO
+   ADRIÁN CAMINANDO, HABLANDO Y QUIETO
 ========================================================= */
 
 .escena-5-adrian-prueba {
@@ -3819,24 +3817,15 @@
 }
 
 .escena-5-adrian-prueba svg {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
 }
 
 @keyframes entradaAdrianEscena5 {
-  from {
-    left: -65%;
-  }
-
-  to {
-    left: 3%;
-  }
+  from { left: -65%; }
+  to { left: 3%; }
 }
-
-/* =========================================================
-   ADRIÁN HABLANDO Y QUIETO
-========================================================= */
 
 .escena-5-adrian-hablando {
   position: absolute;
@@ -3850,9 +3839,9 @@
 }
 
 .escena-5-adrian-hablando svg {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
 }
 
 .escena-5-adrian-quieto {
@@ -3861,26 +3850,28 @@
   bottom: -0.1%;
   width: 23%;
   height: auto;
-  transform: translateX(3%);
   z-index: 35;
   display: block;
   object-fit: contain;
+  transform: translateX(3%);
   pointer-events: none;
   user-select: none;
 }
 
 /* =========================================================
-   CAPAS DEL PRIMER PLANO
+   ÁRBOL, ARBUSTO Y BLOQUE DEL COLISEO
+
+   Modifica left/right, bottom y width para mover cada pieza.
 ========================================================= */
 
 .escena-5-elementos-frontales {
   position: absolute;
   inset: 0;
+  z-index: 30;
   width: 100%;
   height: 100%;
-  z-index: 30;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .escena-5-pieza-frontal {
@@ -3892,38 +3883,49 @@
   user-select: none;
 }
 
+/* Árbol: zona inferior izquierda, cerca de Adrián. */
 .escena-5-arbol-coliseo {
   left: 18%;
-  bottom: -1%;
-  width: 19%;
+  bottom: 0;
+  width: 17%;
   z-index: 1;
 }
 
+/* Arbusto: esquina inferior izquierda. */
 .escena-5-arbusto-coliseo {
-  left: -1%;
+  left: 0;
   bottom: -1%;
-  width: 28%;
+  width: 25%;
   z-index: 2;
 }
 
+/* Bloque: zona inferior derecha, apoyado en el suelo. */
 .escena-5-bloque-coliseo {
-  right: -1%;
-  bottom: -0.5%;
-  width: 23%;
+  right: 1.5%;
+  bottom: 0;
+  width: 18%;
   z-index: 3;
 }
 
 /* =========================================================
    ESPADA, CASCO Y ESCUDO
+   Los tres comparten la misma caja de visualización.
 ========================================================= */
 
 .escena-5-objeto-boton {
   position: absolute;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(78px, 7.8vw, 112px);
+  height: clamp(82px, 13vh, 112px);
+  box-sizing: border-box;
   padding: 0;
-  border: none;
+  overflow: visible;
+  border: 0;
   background: transparent;
   cursor: pointer;
-  z-index: 25;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -3932,22 +3934,14 @@
   will-change: opacity, transform;
 }
 
-.escena-5-objeto-boton[data-objeto="espada"] {
-  width: 10%;
-}
-
-.escena-5-objeto-boton[data-objeto="casco"] {
-  width: 8%;
-}
-
-.escena-5-objeto-boton[data-objeto="escudo"] {
-  width: 9%;
-}
-
 .escena-5-objeto-boton img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
   pointer-events: none;
   user-select: none;
 }
@@ -3963,8 +3957,8 @@
   opacity: 0.68;
   visibility: visible;
   pointer-events: auto;
-  animation: entradaEsconditeEscena5
-    0.22s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  animation: entradaEsconditeEscena5 0.22s
+    cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
 
 .escena-5-objeto-boton.fase-visible {
@@ -3978,8 +3972,8 @@
   opacity: 0;
   visibility: visible;
   pointer-events: auto;
-  animation: salidaEsconditeEscena5
-    0.24s cubic-bezier(0.55, 0, 0.8, 0.35) both;
+  animation: salidaEsconditeEscena5 0.24s
+    cubic-bezier(0.55, 0, 0.8, 0.35) both;
 }
 
 .escena-5-objeto-boton:hover {
@@ -4038,71 +4032,70 @@
 
 @keyframes pulsoObjetoEscena5 {
   0%,
-  100% {
-    transform: scale(1);
-  }
+  100% { transform: scale(1); }
 
-  50% {
-    transform: scale(1.07);
-  }
+  50% { transform: scale(1.07); }
 }
 
 /* =========================================================
-   EXPRESIONES DE ADRIÁN
+   EXPRESIONES FACIALES DE ADRIÁN
+   Se activan en momentos específicos desde el JSX y permanecen
+   visibles durante 2,8 segundos.
 ========================================================= */
 
-.escena-5-expresion {
-  position: absolute;
-  top: 5%;
-  z-index: 48;
-  display: block;
-  width: clamp(110px, 13vw, 180px);
-  max-height: 22vh;
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-  filter: drop-shadow(0 5px 8px rgba(45, 24, 12, 0.2));
-  transform-origin: center;
-  animation: entradaExpresionEscena5
-    4.4s cubic-bezier(0.2, 0.75, 0.25, 1) both;
-}
-
-.escena-5-expresion--derecha {
-  right: 7.5%;
+.escena-5 .escena-5-contenido .escena-5-expresion {
+  position: absolute !important;
+  top: 3% !important;
   left: auto;
-}
-
-.escena-5-expresion--izquierda {
-  left: 7.5%;
   right: auto;
+  z-index: 90 !important;
+  display: block !important;
+  visibility: visible !important;
+  width: clamp(100px, 10.5vw, 150px) !important;
+  max-width: 22% !important;
+  max-height: 19vh !important;
+  height: auto !important;
+  object-fit: contain !important;
+  object-position: center;
+  pointer-events: none !important;
+  user-select: none !important;
+  opacity: 1;
+  transform-origin: center center;
+  filter: drop-shadow(0 5px 8px rgba(45, 24, 12, 0.2));
+  animation: aparecerExpresionEscena5 2.8s
+    cubic-bezier(0.2, 0.75, 0.25, 1) both !important;
 }
 
-@keyframes entradaExpresionEscena5 {
+.escena-5 .escena-5-contenido .escena-5-expresion--izquierda {
+  left: 27% !important;
+  right: auto !important;
+}
+
+.escena-5 .escena-5-contenido .escena-5-expresion--derecha {
+  left: 47% !important;
+  right: auto !important;
+}
+
+@keyframes aparecerExpresionEscena5 {
   0% {
     opacity: 0;
-    transform: translateY(8px) scale(0.35);
+    transform: translateY(12px) scale(0.5) rotate(-4deg);
   }
 
-  22% {
+  14% {
     opacity: 1;
-    transform: translateY(0) scale(1.08);
+    transform: translateY(0) scale(1.06) rotate(1deg);
   }
 
-  35% {
+  28%,
+  78% {
     opacity: 1;
-    transform: scale(0.96);
-  }
-
-  48%,
-  73% {
-    opacity: 1;
-    transform: scale(1);
+    transform: scale(1) rotate(0);
   }
 
   100% {
     opacity: 0;
-    transform: translateY(6px) scale(0.75);
+    transform: translateY(-6px) scale(0.84);
   }
 }
 
@@ -4114,23 +4107,23 @@
   position: absolute;
   left: 70%;
   top: 46%;
+  z-index: 33;
   width: 12%;
   height: auto;
   padding: 0;
-  border: none;
+  border: 0;
   background: transparent;
   cursor: pointer;
-  z-index: 33;
-  transform: translate(-50%, -50%) scale(1);
   opacity: 0.45;
+  transform: translate(-50%, -50%) scale(1);
   transition: opacity 0.25s ease, filter 0.25s ease;
   animation: aparecerRelojEscena5 0.6s ease-out both;
 }
 
 .escena-5-reloj-cerrado {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
 }
 
 .escena-5-reloj-boton:hover,
@@ -4146,13 +4139,8 @@
 }
 
 @keyframes aparecerRelojEscena5 {
-  from {
-    transform: translate(-50%, -50%) scale(0.5);
-  }
-
-  to {
-    transform: translate(-50%, -50%) scale(1);
-  }
+  from { transform: translate(-50%, -50%) scale(0.5); }
+  to { transform: translate(-50%, -50%) scale(1); }
 }
 
 .escena-5-reloj-boton.moviendose {
@@ -4182,31 +4170,27 @@
 
 @keyframes latidoRelojEscena5 {
   0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1.08);
-  }
+  100% { transform: translate(-50%, -50%) scale(1.08); }
 
-  50% {
-    transform: translate(-50%, -50%) scale(1.17);
-  }
+  50% { transform: translate(-50%, -50%) scale(1.17); }
 }
 
 .escena-5-reloj-abierto {
   position: absolute;
   left: 50%;
   top: 50%;
+  z-index: 42;
   width: 22%;
   height: auto;
-  z-index: 42;
   transform: translate(-50%, -50%);
   animation: aparecerRelojAbiertoEscena5 0.8s ease-out both;
   pointer-events: none;
 }
 
 .escena-5-reloj {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
   filter: drop-shadow(0 0 12px rgba(252, 233, 213, 0.5));
 }
 
@@ -4230,10 +4214,14 @@
   position: absolute;
   left: 50%;
   bottom: 8%;
+  z-index: 60;
   width: 55%;
   max-width: 700px;
-  transform: translateX(-50%);
+  max-height: 25%;
+  overflow-y: auto;
+  box-sizing: border-box;
   padding: 12px 20px;
+  transform: translateX(-50%);
   background: linear-gradient(
     135deg,
     rgba(252, 233, 213, 0.96),
@@ -4247,22 +4235,427 @@
   font-weight: 600;
   line-height: 1.35;
   text-align: center;
-  box-sizing: border-box;
-  z-index: 60;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  animation: aparecerSubtituloEscena5 0.4s ease-out both;
+  pointer-events: none;
+  animation: aparecerSubtituloEscena5 0.35s ease-out both;
 }
 
 @keyframes aparecerSubtituloEscena5 {
   from {
     opacity: 0;
+    transform: translateX(-50%) translateY(10px);
   }
 
   to {
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 }
 
+/* =========================================================
+   CONTINUAR AL CAPÍTULO 6
+========================================================= */
+
+.escena-5-continuar-contenedor {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding-bottom: 8%;
+  pointer-events: none;
+}
+
+.escena-5-continuar-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-width: 280px;
+  max-width: 90%;
+  box-sizing: border-box;
+  padding: 16px 25px;
+  background: linear-gradient(
+    135deg,
+    rgba(252, 233, 213, 0.97),
+    rgba(239, 210, 180, 0.96)
+  );
+  border: 2px solid #650000;
+  border-radius: 18px;
+  color: #650000;
+  font-family: Arial, Helvetica, sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  animation: aparecerContinuarEscena5 0.6s ease-out both;
+  pointer-events: auto;
+}
+
+.escena-5-continuar-texto span {
+  font-size: clamp(15px, 1.4vw, 21px);
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.escena-5-continuar-boton {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 22px;
+  background: #650000;
+  color: #fce9d5;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.escena-5-continuar-boton:hover {
+  background: #4d0000;
+  transform: translateY(-2px);
+}
+
+.escena-5-continuar-boton:disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+@keyframes aparecerContinuarEscena5 {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   MODAL DE INFORMACIÓN
+========================================================= */
+
+.escena-5-modal-fondo {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 3%;
+  background: rgba(30, 15, 8, 0.65);
+  animation: aparecerModalEscena5 0.25s ease-out both;
+}
+
+.escena-5-modal {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5%;
+  width: min(72%, 740px);
+  max-height: 82%;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+  padding: clamp(24px, 2.4vw, 34px);
+  background: linear-gradient(135deg, #fce9d5, #eed4b5);
+  border: 3px solid #650000;
+  border-radius: 22px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  animation: aparecerModalContenidoEscena5 0.3s ease-out both;
+}
+
+.escena-5-modal-imagen {
+  display: flex;
+  flex: 0 0 28%;
+  align-items: center;
+  justify-content: center;
+  width: 28%;
+  min-width: 0;
+  max-height: 52vh;
+}
+
+.escena-5-modal-imagen img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 46vh;
+  height: auto;
+  object-fit: contain;
+}
+
+.escena-5-modal-info {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+}
+
+.escena-5-modal-info h2 {
+  margin: 0 0 12px;
+  color: #650000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(22px, 2vw, 34px);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.escena-5-modal-info p {
+  margin: 0;
+  color: #4d2b1d;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(14px, 1.1vw, 18px);
+  line-height: 1.5;
+}
+
+.escena-5-modal-cerrar {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: #650000;
+  color: #fff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.escena-5-modal-cerrar:hover {
+  background: #4d0000;
+  transform: scale(1.05);
+}
+
+@keyframes aparecerModalEscena5 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes aparecerModalContenidoEscena5 {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes aparecerEscena5 {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* =========================================================
+   RESPONSIVE: TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+  .escena-5-modal {
+    width: min(82%, 700px);
+    padding: 28px;
+  }
+
+  .escena-5-modal-imagen {
+    flex-basis: 26%;
+    width: 26%;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE: MÓVIL
+========================================================= */
+
+@media (max-width: 700px) {
+  .escena-5-adrian-hablando {
+    left: 17%;
+    bottom: -7%;
+    width: 48%;
+  }
+
+  .escena-5-adrian-quieto {
+    left: 28%;
+    bottom: 0;
+    width: 28%;
+  }
+
+  .escena-5-arbol-coliseo {
+    left: 13%;
+    bottom: 0;
+    width: 19%;
+  }
+
+  .escena-5-arbusto-coliseo {
+    left: 0;
+    bottom: -1%;
+    width: 29%;
+  }
+
+  .escena-5-bloque-coliseo {
+    right: 1%;
+    bottom: 0;
+    width: 21%;
+  }
+
+  .escena-5-objeto-boton {
+    width: clamp(58px, 13vw, 86px);
+    height: clamp(62px, 12vh, 86px);
+  }
+
+  .escena-5 .escena-5-contenido .escena-5-expresion {
+    top: 3% !important;
+    width: clamp(85px, 17vw, 125px) !important;
+    max-width: 25% !important;
+    max-height: 17vh !important;
+  }
+
+  .escena-5 .escena-5-contenido .escena-5-expresion--izquierda {
+    left: 22% !important;
+  }
+
+  .escena-5 .escena-5-contenido .escena-5-expresion--derecha {
+    left: 45% !important;
+  }
+
+  .escena-5-reloj-abierto {
+    width: 27%;
+  }
+
+  .escena-5-texto-narracion {
+    bottom: 4%;
+    width: 86%;
+    max-width: none;
+    padding: 9px 12px;
+    font-size: clamp(12px, 2.5vw, 16px);
+  }
+
+  .escena-5-modal-fondo {
+    padding: 4%;
+  }
+
+  .escena-5-modal {
+    width: 94%;
+    max-height: 88%;
+    padding: 42px 18px 22px;
+    gap: 14px;
+    border-radius: 18px;
+  }
+
+  .escena-5-modal-imagen {
+    flex-basis: 28%;
+    width: 28%;
+    max-height: 44vh;
+  }
+
+  .escena-5-modal-imagen img {
+    max-height: 40vh;
+  }
+
+  .escena-5-modal-info h2 {
+    font-size: clamp(18px, 4vw, 27px);
+  }
+
+  .escena-5-modal-info p {
+    font-size: clamp(12px, 2.5vw, 16px);
+    line-height: 1.4;
+  }
+
+  .escena-5-modal-cerrar {
+    top: 7px;
+    right: 8px;
+    width: 33px;
+    height: 33px;
+    font-size: 24px;
+  }
+
+  .escena-5-continuar-texto {
+    min-width: 0;
+    max-width: 90%;
+    padding: 12px 16px;
+  }
+}
+
+/* Móviles estrechos: modal en columna. */
+
+@media (max-width: 480px) {
+  .escena-5-modal {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    overflow-y: auto;
+  }
+
+  .escena-5-modal-imagen {
+    flex: 0 0 auto;
+    width: 30%;
+    max-height: 20vh;
+  }
+
+  .escena-5-modal-imagen img {
+    max-height: 18vh;
+  }
+
+  .escena-5-modal-info {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+/* Móvil horizontal con poca altura. */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .escena-5-modal {
+    max-height: 92%;
+    padding: 32px 24px 18px;
+  }
+
+  .escena-5-modal-imagen,
+  .escena-5-modal-imagen img {
+    max-height: 38vh;
+  }
+
+  .escena-5 .escena-5-contenido .escena-5-expresion {
+    width: clamp(75px, 13vh, 120px) !important;
+    max-height: 18vh !important;
+  }
+}
+
+/* Accesibilidad: respetar la preferencia de movimiento reducido. */
+
+@media (prefers-reduced-motion: reduce) {
+  .escena-5 .escena-5-contenido .escena-5-expresion {
+    animation: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+
+  .escena-5,
+  .escena-5-adrian-prueba,
+  .escena-5-texto-narracion,
+  .escena-5-modal-fondo,
+  .escena-5-modal,
+  .escena-5-continuar-texto {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 /* =========================================================
    CONTINUAR AL CAPÍTULO 6
 ========================================================= */
