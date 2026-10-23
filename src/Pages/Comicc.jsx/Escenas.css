@@ -3763,34 +3763,29 @@
 
 /* 5 */
 /* =========================================================
-   ESCENA 5 — EL COLISEO ROMANO
+   ESTILOS ESPECÍFICOS DE ESCENA 5 — COLISEO ROMANO
+   Este bloque está limitado a las clases .escena-5.
+   Puede pegarse al final de Escenas.css sin borrar escenas 1–4.
 ========================================================= */
 
 .escena-5 {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   overflow: hidden;
-
   background-color: #000;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  animation: aparecerEscena 1.2s ease-out both;
+  animation: aparecerEscena5 1s ease-out both;
 }
 
 .escena-5-contenido {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   overflow: hidden;
   isolation: isolate;
 }
@@ -3798,17 +3793,14 @@
 .escena-5-fondo {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   display: block;
-
   object-fit: cover;
-
+  object-position: center;
   z-index: 1;
+  pointer-events: none;
 }
-
 
 /* =========================================================
    ADRIÁN CAMINANDO
@@ -3816,18 +3808,14 @@
 
 .escena-5-adrian-prueba {
   position: absolute;
-
   left: 22%;
   bottom: -10%;
-
   width: 180%;
   height: auto;
-
   z-index: 35;
-
   transform: translateX(-22.7%);
-
   animation: entradaAdrianEscena5 4s ease-out forwards;
+  pointer-events: none;
 }
 
 .escena-5-adrian-prueba svg {
@@ -3837,27 +3825,28 @@
 }
 
 @keyframes entradaAdrianEscena5 {
-  from { left: -65%; }
-  to   { left: 3%; }
+  from {
+    left: -65%;
+  }
+
+  to {
+    left: 3%;
+  }
 }
 
-
 /* =========================================================
-   ADRIÁN HABLANDO
+   ADRIÁN HABLANDO Y QUIETO
 ========================================================= */
 
 .escena-5-adrian-hablando {
   position: absolute;
-
   left: 22%;
   bottom: -10%;
-
   width: 40%;
   height: auto;
-
   z-index: 35;
-
   transform: translateX(3%);
+  pointer-events: none;
 }
 
 .escena-5-adrian-hablando svg {
@@ -3866,100 +3855,102 @@
   display: block;
 }
 
-
-/* =========================================================
-   SUBTÍTULOS
-========================================================= */
-
-.escena-5-texto-narracion {
+.escena-5-adrian-quieto {
   position: absolute;
-
-  left: 50%;
-  bottom: 8%;
-
-  width: 55%;
-  max-width: 700px;
-
-  transform: translateX(-50%);
-
-  padding: 12px 20px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(252, 233, 213, 0.96),
-      rgba(239, 210, 180, 0.94)
-    );
-
-  border: 2px solid #650000;
-  border-radius: 18px;
-
-  color: #650000;
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(13px, 1.1vw, 18px);
-  font-weight: 600;
-  line-height: 1.35;
-
-  text-align: center;
-
-  box-sizing: border-box;
-
-  z-index: 60;
-
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-
-  animation: aparecerTextoNarracion 0.4s ease-out both;
+  left: 33%;
+  bottom: -0.1%;
+  width: 23%;
+  height: auto;
+  transform: translateX(3%);
+  z-index: 35;
+  display: block;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
 }
 
+/* =========================================================
+   CAPAS DEL PRIMER PLANO
+========================================================= */
+
+.escena-5-elementos-frontales {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.escena-5-pieza-frontal {
+  position: absolute;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.escena-5-arbol-coliseo {
+  left: 18%;
+  bottom: -1%;
+  width: 19%;
+  z-index: 1;
+}
+
+.escena-5-arbusto-coliseo {
+  left: -1%;
+  bottom: -1%;
+  width: 28%;
+  z-index: 2;
+}
+
+.escena-5-bloque-coliseo {
+  right: -1%;
+  bottom: -0.5%;
+  width: 23%;
+  z-index: 3;
+}
 
 /* =========================================================
-   OBJETOS: ESPADA, CASCO Y ESCUDO
-   Cada objeto entra, se queda un instante, se desvanece y
-   cambia de lugar cuando ya está oculto.
+   ESPADA, CASCO Y ESCUDO
 ========================================================= */
 
 .escena-5-objeto-boton {
   position: absolute;
-
   padding: 0;
-
   border: none;
-
   background: transparent;
-
   cursor: pointer;
-
   z-index: 25;
-
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
   transform: translate(-50%, -50%) scale(1);
-
   transition: filter 0.18s ease;
-
   will-change: opacity, transform;
 }
 
-/* tamaño de cada objeto (porcentaje del ancho de la escena) */
+.escena-5-objeto-boton[data-objeto="espada"] {
+  width: 10%;
+}
 
-.escena-5-objeto-boton[data-objeto="espada"] { width: 10%; }
-.escena-5-objeto-boton[data-objeto="casco"]  { width: 8%; }
-.escena-5-objeto-boton[data-objeto="escudo"] { width: 9%; }
+.escena-5-objeto-boton[data-objeto="casco"] {
+  width: 8%;
+}
+
+.escena-5-objeto-boton[data-objeto="escudo"] {
+  width: 9%;
+}
 
 .escena-5-objeto-boton img {
   display: block;
-
   width: 100%;
   height: auto;
-
   pointer-events: none;
+  user-select: none;
 }
-
-
-/* ---------- fases de la búsqueda ---------- */
 
 .escena-5-objeto-boton.fase-oculto {
   opacity: 0;
@@ -3972,7 +3963,8 @@
   opacity: 0.68;
   visibility: visible;
   pointer-events: auto;
-  animation: entradaEsconditeEscena5 0.22s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  animation: entradaEsconditeEscena5
+    0.22s cubic-bezier(0.2, 0.75, 0.25, 1) both;
 }
 
 .escena-5-objeto-boton.fase-visible {
@@ -3986,10 +3978,9 @@
   opacity: 0;
   visibility: visible;
   pointer-events: auto;
-  animation: salidaEsconditeEscena5 0.24s cubic-bezier(0.55, 0, 0.8, 0.35) both;
+  animation: salidaEsconditeEscena5
+    0.24s cubic-bezier(0.55, 0, 0.8, 0.35) both;
 }
-
-/* al pasar el mouse se ilumina */
 
 .escena-5-objeto-boton:hover {
   filter:
@@ -3997,30 +3988,27 @@
     drop-shadow(0 0 12px rgba(252, 233, 213, 0.45));
 }
 
-/* ya encontrado: queda fijo y brillando
-   (va después de las fases para que gane sobre ellas) */
-
 .escena-5-objeto-boton.descubierto {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
   animation: none;
-
   filter:
     drop-shadow(0 0 6px rgba(252, 233, 213, 0.8))
     drop-shadow(0 0 12px rgba(252, 233, 213, 0.45));
 }
-
 
 @keyframes entradaEsconditeEscena5 {
   0% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.76) translateY(8px);
   }
+
   70% {
     opacity: 0.68;
     transform: translate(-50%, -50%) scale(1.025) translateY(-1px);
   }
+
   100% {
     opacity: 0.68;
     transform: translate(-50%, -50%) scale(1) translateY(0);
@@ -4032,61 +4020,110 @@
     opacity: 0.68;
     transform: translate(-50%, -50%) scale(1) translateY(0);
   }
+
   55% {
     opacity: 0.35;
     transform: translate(-50%, -50%) scale(0.94) translateY(3px);
   }
+
   100% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.78) translateY(8px);
   }
 }
 
-
-/* ---------- pulso después de cerrar el modal ----------
-   Se aplica a la imagen, así el botón conserva su posición. */
-
 .escena-5-objeto-boton.pulsando img {
   animation: pulsoObjetoEscena5 1.45s ease-in-out infinite;
 }
 
 @keyframes pulsoObjetoEscena5 {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.07); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.07);
+  }
 }
 
+/* =========================================================
+   EXPRESIONES DE ADRIÁN
+========================================================= */
+
+.escena-5-expresion {
+  position: absolute;
+  top: 5%;
+  z-index: 48;
+  display: block;
+  width: clamp(110px, 13vw, 180px);
+  max-height: 22vh;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 5px 8px rgba(45, 24, 12, 0.2));
+  transform-origin: center;
+  animation: entradaExpresionEscena5
+    4.4s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+.escena-5-expresion--derecha {
+  right: 7.5%;
+  left: auto;
+}
+
+.escena-5-expresion--izquierda {
+  left: 7.5%;
+  right: auto;
+}
+
+@keyframes entradaExpresionEscena5 {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.35);
+  }
+
+  22% {
+    opacity: 1;
+    transform: translateY(0) scale(1.08);
+  }
+
+  35% {
+    opacity: 1;
+    transform: scale(0.96);
+  }
+
+  48%,
+  73% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(6px) scale(0.75);
+  }
+}
 
 /* =========================================================
-   RELOJ CERRADO
+   RELOJ CERRADO Y ABIERTO
 ========================================================= */
 
 .escena-5-reloj-boton {
   position: absolute;
-
   left: 70%;
   top: 46%;
-
   width: 12%;
   height: auto;
-
   padding: 0;
-
   border: none;
-
   background: transparent;
-
   cursor: pointer;
-
-  z-index: 30;
-
+  z-index: 33;
   transform: translate(-50%, -50%) scale(1);
-
   opacity: 0.45;
-
-  transition:
-    opacity 0.25s ease,
-    filter 0.25s ease;
-
+  transition: opacity 0.25s ease, filter 0.25s ease;
   animation: aparecerRelojEscena5 0.6s ease-out both;
 }
 
@@ -4096,31 +4133,27 @@
   display: block;
 }
 
-.escena-5-reloj-boton:hover {
+.escena-5-reloj-boton:hover,
+.escena-5-reloj-boton.descubierto {
   opacity: 1;
-
   filter:
     drop-shadow(0 0 7px rgba(252, 233, 213, 0.85))
     drop-shadow(0 0 14px rgba(252, 233, 213, 0.45));
 }
 
 .escena-5-reloj-boton.descubierto {
-  opacity: 1;
-
-  filter:
-    drop-shadow(0 0 7px rgba(252, 233, 213, 0.85))
-    drop-shadow(0 0 14px rgba(252, 233, 213, 0.45));
-
   animation: none;
 }
 
 @keyframes aparecerRelojEscena5 {
-  from { transform: translate(-50%, -50%) scale(0.5); }
-  to   { transform: translate(-50%, -50%) scale(1); }
+  from {
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
-
-
-/* ---------- el reloj viaja al centro ---------- */
 
 .escena-5-reloj-boton.moviendose {
   animation: moverRelojCentroEscena5 1.4s ease-in-out forwards;
@@ -4132,6 +4165,7 @@
     top: 46%;
     transform: translate(-50%, -50%) scale(1);
   }
+
   to {
     left: 50%;
     top: 50%;
@@ -4139,48 +4173,40 @@
   }
 }
 
-
-/* ---------- late en el centro ---------- */
-
 .escena-5-reloj-boton.en-centro {
   left: 50%;
   top: 50%;
-
   transform: translate(-50%, -50%);
-
   animation: latidoRelojEscena5 0.65s ease-in-out infinite;
 }
 
 @keyframes latidoRelojEscena5 {
-  0%   { transform: translate(-50%, -50%) scale(1.08); }
-  50%  { transform: translate(-50%, -50%) scale(1.17); }
-  100% { transform: translate(-50%, -50%) scale(1.08); }
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.17);
+  }
 }
-
-
-/* ---------- reloj abierto ---------- */
 
 .escena-5-reloj-abierto {
   position: absolute;
-
   left: 50%;
   top: 50%;
-
   width: 22%;
   height: auto;
-
-  z-index: 32;
-
+  z-index: 42;
   transform: translate(-50%, -50%);
-
   animation: aparecerRelojAbiertoEscena5 0.8s ease-out both;
+  pointer-events: none;
 }
 
 .escena-5-reloj {
   width: 100%;
   height: auto;
   display: block;
-
   filter: drop-shadow(0 0 12px rgba(252, 233, 213, 0.5));
 }
 
@@ -4189,12 +4215,53 @@
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.65);
   }
+
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
 }
 
+/* =========================================================
+   SUBTÍTULOS
+========================================================= */
+
+.escena-5-texto-narracion {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  width: 55%;
+  max-width: 700px;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(252, 233, 213, 0.96),
+    rgba(239, 210, 180, 0.94)
+  );
+  border: 2px solid #650000;
+  border-radius: 18px;
+  color: #650000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(13px, 1.1vw, 18px);
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  box-sizing: border-box;
+  z-index: 60;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  animation: aparecerSubtituloEscena5 0.4s ease-out both;
+}
+
+@keyframes aparecerSubtituloEscena5 {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
 /* =========================================================
    CONTINUAR AL CAPÍTULO 6
@@ -4203,20 +4270,14 @@
 .escena-5-continuar-contenedor {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   display: flex;
   align-items: flex-end;
   justify-content: center;
-
   padding-bottom: 8%;
-
   box-sizing: border-box;
-
   z-index: 70;
-
   pointer-events: none;
 }
 
@@ -4225,31 +4286,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   gap: 12px;
-
   padding: 16px 25px;
-
   min-width: 280px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(252, 233, 213, 0.97),
-      rgba(239, 210, 180, 0.96)
-    );
-
+  background: linear-gradient(
+    135deg,
+    rgba(252, 233, 213, 0.97),
+    rgba(239, 210, 180, 0.96)
+  );
   border: 2px solid #650000;
   border-radius: 18px;
-
   color: #650000;
-
   font-family: Arial, Helvetica, sans-serif;
-
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-
-  animation: aparecerContinuar 0.6s ease-out both;
-
+  animation: aparecerContinuarEscena5 0.6s ease-out both;
   pointer-events: auto;
 }
 
@@ -4263,22 +4313,15 @@
 .escena-5-continuar-boton {
   border: none;
   border-radius: 10px;
-
   padding: 10px 22px;
-
   background-color: #650000;
   color: #fce9d5;
-
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 1px;
-
   cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .escena-5-continuar-boton:hover {
@@ -4291,123 +4334,114 @@
   opacity: 0.8;
 }
 
+@keyframes aparecerContinuarEscena5 {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /* =========================================================
-   MODAL DE INFORMACIÓN
+   MODAL DE INFORMACIÓN — MÁS COMPACTO
 ========================================================= */
 
 .escena-5-modal-fondo {
   position: absolute;
   inset: 0;
-
   width: 100%;
   height: 100%;
-
   background: rgba(30, 15, 8, 0.65);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   z-index: 100;
-
-  padding: 5%;
-
+  padding: 3%;
   box-sizing: border-box;
-
-  animation: aparecerModal 0.3s ease-out both;
+  animation: aparecerModalEscena5 0.25s ease-out both;
 }
 
 .escena-5-modal {
   position: relative;
-
-  width: min(80%, 850px);
-  min-height: 45%;
-
+  width: min(72%, 740px);
+  max-height: 82%;
+  min-height: 0;
   display: flex;
   align-items: center;
-
-  gap: 8%;
-
-  padding: 45px;
-
+  gap: 5%;
+  padding: clamp(24px, 2.4vw, 34px);
   box-sizing: border-box;
-
+  overflow-y: auto;
   background: linear-gradient(135deg, #fce9d5, #eed4b5);
-
   border: 3px solid #650000;
-  border-radius: 25px;
-
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.45);
-
-  animation: aparecerModalContenido 0.35s ease-out both;
+  border-radius: 22px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  animation: aparecerModalContenidoEscena5 0.3s ease-out both;
 }
 
 .escena-5-modal-imagen {
-  width: 35%;
-
+  flex: 0 0 28%;
+  width: 28%;
+  max-height: 52vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
 }
 
 .escena-5-modal-imagen img {
-  width: 100%;
-  height: auto;
   display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 50vh;
+  height: auto;
+  object-fit: contain;
 }
 
 .escena-5-modal-info {
-  width: 55%;
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
 }
 
 .escena-5-modal-info h2 {
-  margin: 0 0 18px;
-
+  margin: 0 0 12px;
   color: #650000;
-
   font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(28px, 3vw, 48px);
+  font-size: clamp(22px, 2vw, 34px);
+  line-height: 1.1;
   font-weight: 800;
 }
 
 .escena-5-modal-info p {
   margin: 0;
-
   color: #4d2b1d;
-
   font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(15px, 1.4vw, 22px);
-  line-height: 1.55;
+  font-size: clamp(14px, 1.1vw, 18px);
+  line-height: 1.5;
 }
 
 .escena-5-modal-cerrar {
   position: absolute;
-
-  top: 15px;
-  right: 20px;
-
-  width: 42px;
-  height: 42px;
-
+  top: 9px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
   border: none;
   border-radius: 50%;
-
   background: #650000;
-  color: white;
-
-  font-size: 30px;
+  color: #fff;
+  font-size: 26px;
   line-height: 1;
-
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .escena-5-modal-cerrar:hover {
@@ -4415,12 +4449,66 @@
   transform: scale(1.05);
 }
 
+@keyframes aparecerModalEscena5 {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes aparecerModalContenidoEscena5 {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes aparecerEscena5 {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
 
 /* =========================================================
-   PANTALLAS ESTRECHAS
+   RESPONSIVE
 ========================================================= */
 
+@media (max-width: 1000px) {
+  .escena-5-modal {
+    width: min(82%, 700px);
+    padding: 28px;
+  }
+
+  .escena-5-modal-imagen {
+    flex-basis: 26%;
+    width: 26%;
+  }
+}
+
 @media (max-width: 700px) {
+  .escena-5-adrian-hablando {
+    left: 17%;
+    bottom: -7%;
+    width: 48%;
+  }
+
+  .escena-5-adrian-quieto {
+    left: 28%;
+    bottom: 0;
+    width: 28%;
+  }
 
   .escena-5-texto-narracion {
     width: 86%;
@@ -4430,32 +4518,239 @@
     font-size: clamp(12px, 2.5vw, 16px);
   }
 
+  .escena-5-expresion {
+    top: 4%;
+    width: clamp(85px, 17vw, 135px);
+    max-height: 18vh;
+  }
+
+  .escena-5-expresion--derecha {
+    right: 4%;
+  }
+
+  .escena-5-expresion--izquierda {
+    left: 4%;
+  }
+
+  .escena-5-objeto-boton[data-objeto="espada"] {
+    width: 14%;
+  }
+
+  .escena-5-objeto-boton[data-objeto="casco"] {
+    width: 12%;
+  }
+
+  .escena-5-objeto-boton[data-objeto="escudo"] {
+    width: 13%;
+  }
+
+  .escena-5-reloj-abierto {
+    width: 27%;
+  }
+
+  .escena-5-modal-fondo {
+    padding: 4%;
+  }
+
   .escena-5-modal {
-    width: 92%;
-    min-height: 0;
-    padding: 42px 18px 24px;
-    gap: 16px;
+    width: 94%;
+    max-height: 88%;
+    padding: 42px 18px 22px;
+    gap: 14px;
+    border-radius: 18px;
   }
 
   .escena-5-modal-imagen {
-    width: 30%;
+    flex: 0 0 28%;
+    width: 28%;
+    max-height: 44vh;
   }
 
-  .escena-5-modal-info {
-    width: 70%;
+  .escena-5-modal-imagen img {
+    max-height: 42vh;
   }
 
   .escena-5-modal-info h2 {
-    font-size: clamp(20px, 4vw, 30px);
+    font-size: clamp(18px, 4vw, 27px);
   }
 
   .escena-5-modal-info p {
     font-size: clamp(12px, 2.5vw, 16px);
+    line-height: 1.4;
   }
 
+  .escena-5-modal-cerrar {
+    top: 7px;
+    right: 8px;
+    width: 33px;
+    height: 33px;
+    font-size: 24px;
+  }
+
+  .escena-5-continuar-texto {
+    min-width: 0;
+    max-width: 90%;
+    padding: 12px 16px;
+  }
+
+  .escena-5-arbol-coliseo {
+    left: 12%;
+    width: 22%;
+  }
+
+  .escena-5-arbusto-coliseo {
+    width: 30%;
+  }
+
+  .escena-5-bloque-coliseo {
+    width: 25%;
+  }
 }
-/* 6 */
-/* 6 */
+
+@media (max-width: 480px) {
+  .escena-5-modal {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    overflow-y: auto;
+  }
+
+  .escena-5-modal-imagen {
+    flex: 0 0 auto;
+    width: 28%;
+    max-height: 20vh;
+  }
+
+  .escena-5-modal-imagen img {
+    max-height: 18vh;
+  }
+
+  .escena-5-modal-info {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .escena-5-modal {
+    max-height: 92%;
+    padding: 32px 24px 18px;
+  }
+
+  .escena-5-modal-imagen,
+  .escena-5-modal-imagen img {
+    max-height: 38vh;
+  }
+
+  .escena-5-expresion {
+    width: clamp(75px, 13vh, 120px);
+    max-height: 18vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .escena-5,
+  .escena-5-adrian-prueba,
+  .escena-5-expresion,
+  .escena-5-texto-narracion,
+  .escena-5-modal-fondo,
+  .escena-5-modal,
+  .escena-5-continuar-texto {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================
+   CORRECCIÓN PRIORITARIA: EXPRESIONES FACIALES
+========================================================= */
+
+.escena-5 .escena-5-contenido .escena-5-expresion {
+  position: absolute !important;
+  top: 3% !important;
+  display: block !important;
+  visibility: visible !important;
+  width: clamp(100px, 10.5vw, 150px) !important;
+  max-width: 22% !important;
+  max-height: 19vh !important;
+  height: auto !important;
+  object-fit: contain !important;
+  pointer-events: none !important;
+  user-select: none !important;
+
+  /* Por delante del modal para asegurar que se vean. */
+  z-index: 120 !important;
+
+  opacity: 1;
+  transform-origin: center center;
+  filter: drop-shadow(0 5px 8px rgba(45, 24, 12, 0.2));
+  animation: expresionVisibleEscena5
+    3.6s cubic-bezier(0.2, 0.75, 0.25, 1) both !important;
+}
+
+.escena-5 .escena-5-contenido .escena-5-expresion--izquierda {
+  left: 27% !important;
+  right: auto !important;
+}
+
+.escena-5 .escena-5-contenido .escena-5-expresion--derecha {
+  left: 47% !important;
+  right: auto !important;
+}
+
+@keyframes expresionVisibleEscena5 {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.45) rotate(-5deg);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translateY(0) scale(1.1) rotate(2deg);
+  }
+
+  30% {
+    opacity: 1;
+    transform: scale(0.96) rotate(-1deg);
+  }
+
+  45%,
+  80% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.82);
+  }
+}
+
+@media (max-width: 700px) {
+  .escena-5 .escena-5-contenido .escena-5-expresion {
+    top: 3% !important;
+    width: clamp(85px, 17vw, 125px) !important;
+    max-width: 25% !important;
+    max-height: 17vh !important;
+  }
+
+  .escena-5 .escena-5-contenido .escena-5-expresion--izquierda {
+    left: 22% !important;
+  }
+
+  .escena-5 .escena-5-contenido .escena-5-expresion--derecha {
+    left: 45% !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .escena-5 .escena-5-contenido .escena-5-expresion {
+    animation: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+}
 /* =========================================================
    ESCENA 6 — EL IMPERIO ROMANO
 ========================================================= */

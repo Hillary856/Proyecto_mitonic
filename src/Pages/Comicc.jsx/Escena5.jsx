@@ -3,11 +3,10 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState
+  useState,
 } from "react";
 
 import lottieReact from "lottie-react";
-
 import CicloAdrianBody from "../../assets/CicloAdrianBody.json";
 import AdrianHablando from "../../assets/AdrianHablando.json";
 
@@ -29,7 +28,6 @@ import Esc5Audio6 from "../../Audios/Esc5Audio6.mp3";
 import Esc5Audio7 from "../../Audios/Esc5Audio7.mp3";
 import Esc5Audio8 from "../../Audios/Esc5Audio8.mp3";
 import Esc5Audio9 from "../../Audios/Esc5Audio9.mp3";
-import Esc5Audio10 from "../../Audios/Esc5Audio10.mp3";
 
 import Es5Espada from "../../AssetsNuevos/Es5espada.svg";
 import Es5Casco from "../../AssetsNuevos/Es5casco.svg";
@@ -39,52 +37,44 @@ import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
 
 import "./Escenas.css";
 
-
-const Lottie = lottieReact.default;
-
-
-/* =====================================================
-   FONDO DE LA ESCENA
-===================================================== */
+const Lottie = lottieReact.default || lottieReact;
 
 const FONDO_ESCENA5 = "/Escenarios/coliseoo.svg";
-
+const ADRIAN_QUIETO = "/Feliz.svg";
+const EXPRESION_PENSATIVO = "/pensativoS.svg";
+const EXPRESION_FELIZ = "/FelizS.svg";
 
 /* =====================================================
-   ORDEN DE LOS OBJETOS
-   espada → casco → escudo → (audio 8) → reloj
+   ORDEN DE BÚSQUEDA:
+   Espada → Casco → Escudo → Reloj.
 ===================================================== */
 
 const SIGUIENTE_OBJETO = {
   espada: "casco",
   casco: "escudo",
-  escudo: "reloj"
 };
 
-
-/* =====================================================
-   POSICIONES DONDE APARECE CADA OBJETO
-   (porcentajes del recuadro de la escena).
-===================================================== */
+/* Posiciones provisionales de los objetos. */
 
 const POSICIONES_ESCENA5 = {
   espada: [
     { left: "14%", top: "70%" },
     { left: "48%", top: "74%" },
-    { left: "84%", top: "68%" }
+    { left: "84%", top: "68%" },
   ],
+
   casco: [
     { left: "20%", top: "72%" },
     { left: "56%", top: "70%" },
-    { left: "88%", top: "74%" }
+    { left: "88%", top: "74%" },
   ],
+
   escudo: [
     { left: "12%", top: "74%" },
     { left: "44%", top: "70%" },
-    { left: "80%", top: "72%" }
-  ]
+    { left: "80%", top: "72%" },
+  ],
 };
-
 
 const Escena5 = forwardRef(
   (
@@ -93,18 +83,23 @@ const Escena5 = forwardRef(
       onNarradorEstadoChange,
       onEscenaTerminada,
       onObjetosEncontrados,
-      onCapituloDesbloqueado
+      onCapituloDesbloqueado,
     },
     ref
   ) => {
-
     /* =====================================================
-       ADRIÁN CAMINANDO
+       ANIMACIONES DE ADRIÁN
     ===================================================== */
 
     const imagenesAdrian = [
-      img0, img1, img2, img3,
-      img4, img5, img6, img7
+      img0,
+      img1,
+      img2,
+      img3,
+      img4,
+      img5,
+      img6,
+      img7,
     ];
 
     const animacionAdrian = {
@@ -112,15 +107,13 @@ const Escena5 = forwardRef(
       assets: CicloAdrianBody.assets.map((asset, index) => ({
         ...asset,
         u: "",
-        p: imagenesAdrian[index] || asset.p
-      }))
+        p: imagenesAdrian[index] || asset.p,
+      })),
     };
-
 
     /* =====================================================
        AUDIOS
-       5 = gladius, 6 = casco, 7 = escudo
-       8 = cierre, 9 = reloj cerrado, 10 = reloj abierto
+       Se utiliza la secuencia del 1 al 9.
     ===================================================== */
 
     const audiosEscena5 = {
@@ -133,30 +126,39 @@ const Escena5 = forwardRef(
       7: Esc5Audio7,
       8: Esc5Audio8,
       9: Esc5Audio9,
-      10: Esc5Audio10
     };
 
-
     /* =====================================================
-       SUBTÍTULOS (el número es el del audio)
+       SUBTÍTULOS
     ===================================================== */
 
     const textosEscena5 = {
       1: "Roma. Estamos en el Coliseo, uno de los lugares donde más personas se reúnen para presenciar espectáculos.",
+
       2: "Aquí los espectadores vienen a ver combates de gladiadores, enfrentamientos con animales y otros espectáculos.",
+
       3: "La multitud espera que el espectáculo comience. Para ellos, esto forma parte del entretenimiento de la ciudad.",
+
       4: "Para mí, sin embargo, hay algo mucho más importante: entender por qué el reloj me ha traído hasta aquí.",
-      5: "El gladius romano, una de las armas más importantes del ejército romano, especialmente por su tamaño corto y fácil manejo en combates cercanos.",
-      6: "El casco espartano era una parte fundamental de la protección de los guerreros espartanos. Cubría principalmente la cabeza y ayudaba a protegerlos durante los combates.",
-      7: "El escudo romano fue un icónico escudo semicilíndrico y rectangular utilizado por los legionarios de la antigua Roma.",
-      8: "Roma deja su historia en cada uno de estos objetos.",
+
+      5: "El gladius romano es una espada corta de doble filo. Gracias a su tamaño, los legionarios podían usarla en combates muy cercanos, sin perder el orden de la formación.",
+
+      6: "",
+
+      7: "Los cascos de bronce de los guerreros griegos, como los espartanos, protegían la cabeza y buena parte del rostro. A cambio, limitaban la visión y el oído.",
+
+      8: "El escudo de los legionarios era curvo y rectangular, de madera cubierta de cuero. Juntos, los soldados podían formar la famosa «tortuga» para protegerse de los proyectiles.",
+
       9: "Ya, veamos este objeto. Puede ayudarnos a entender un poco más sobre la vida en Roma.",
-      10: ""
     };
 
-
     /* =====================================================
-       OBJETOS DE LA ESCENA
+       OBJETOS INTERACTIVOS
+
+       Espada: audio 5.
+       Casco: audio 7.
+       Escudo: audio 8.
+       Reloj: audio 9.
     ===================================================== */
 
     const OBJETOS = {
@@ -167,32 +169,32 @@ const Escena5 = forwardRef(
         audio: 5,
         titulo: "GLADIUS",
         texto:
-          "El gladius es una espada corta de doble filo. Gracias a su tamaño, los legionarios podían usarla en combates muy cercanos, sin perder el orden de la formación."
+          "El gladius es una espada corta de doble filo. Gracias a su tamaño, los legionarios podían usarla en combates muy cercanos, sin perder el orden de la formación.",
       },
+
       casco: {
         imagen: Es5Casco,
         alt: "Casco espartano",
         etiqueta: "Encontrar casco",
-        audio: 6,
+        audio: 7,
         titulo: "CASCO ESPARTANO",
         texto:
-          "Los cascos de bronce de los guerreros griegos, como los espartanos, protegían la cabeza y buena parte del rostro. A cambio, limitaban la visión y el oído."
+          "Los cascos de bronce de los guerreros griegos, como los espartanos, protegían la cabeza y buena parte del rostro. A cambio, limitaban la visión y el oído.",
       },
+
       escudo: {
         imagen: Es5Escudo,
         alt: "Escudo romano",
         etiqueta: "Encontrar escudo",
-        audio: 7,
+        audio: 8,
         titulo: "ESCUDO ROMANO",
         texto:
-          "El escudo de los legionarios era curvo y rectangular, de madera cubierta de cuero. Juntos, los soldados podían formar la famosa «tortuga» para protegerse de los proyectiles."
-      }
+          "El escudo de los legionarios era curvo y rectangular, de madera cubierta de cuero. Juntos, los soldados podían formar la famosa «tortuga» para protegerse de los proyectiles.",
+      },
     };
 
-
     /* =====================================================
-       ESTADOS DE ADRIÁN Y AUDIO
-       Al inicio no suena nada: primero Adrián camina.
+       ESTADOS DE ADRIÁN Y DEL AUDIO
     ===================================================== */
 
     const [adrianHabla, setAdrianHabla] = useState(false);
@@ -200,9 +202,12 @@ const Escena5 = forwardRef(
     const [tipoAudio, setTipoAudio] = useState("espera");
     const [narradorActivo, setNarradorActivo] = useState(false);
 
+    const [expresionAdrian, setExpresionAdrian] = useState(null);
+    const [versionExpresionAdrian, setVersionExpresionAdrian] =
+      useState(0);
 
     /* =====================================================
-       ESTADOS DE OBJETOS Y BÚSQUEDA
+       ESTADOS DE LOS OBJETOS
     ===================================================== */
 
     const [objetoVisible, setObjetoVisible] = useState(null);
@@ -214,9 +219,8 @@ const Escena5 = forwardRef(
     const [objetoEnAudio, setObjetoEnAudio] = useState(null);
     const [objetosDescubiertos, setObjetosDescubiertos] = useState([]);
 
-
     /* =====================================================
-       TEXTO, RELOJ Y CONTINUAR
+       RELOJ, SUBTÍTULOS Y CONTINUACIÓN
     ===================================================== */
 
     const [momentoTexto, setMomentoTexto] = useState(null);
@@ -227,7 +231,6 @@ const Escena5 = forwardRef(
     const [relojAbierto, setRelojAbierto] = useState(false);
     const [mostrarContinuar, setMostrarContinuar] = useState(false);
 
-
     /* =====================================================
        REFERENCIAS
     ===================================================== */
@@ -236,22 +239,19 @@ const Escena5 = forwardRef(
     const escenaIniciadaRef = useRef(false);
     const relojTimerRef = useRef(null);
     const busquedaTimerRef = useRef(null);
+    const expresionTimerRef = useRef(null);
 
+    /* Adrián habla mientras se reproduce un audio.
+       En espera o pausa, se muestra su pose quieta. */
 
-    /* =====================================================
-       AVISAR AL PADRE DEL ESTADO DEL NARRADOR
-    ===================================================== */
+    const adrianEstaHablando =
+      adrianHabla && narradorActivo && tipoAudio !== "espera";
 
     useEffect(() => {
-      if (onNarradorEstadoChange) {
-        onNarradorEstadoChange(narradorActivo);
-      }
+      onNarradorEstadoChange?.(narradorActivo);
     }, [narradorActivo, onNarradorEstadoChange]);
 
-
-    /* =====================================================
-       LIMPIAR AUDIO Y TEMPORIZADORES AL SALIR
-    ===================================================== */
+    /* Limpiar audio y temporizadores al desmontar la escena. */
 
     useEffect(() => {
       return () => {
@@ -259,19 +259,41 @@ const Escena5 = forwardRef(
           audioRef.current.pause();
           audioRef.current.currentTime = 0;
         }
+
         if (relojTimerRef.current) {
           clearTimeout(relojTimerRef.current);
         }
+
         if (busquedaTimerRef.current) {
           clearTimeout(busquedaTimerRef.current);
+        }
+
+        if (expresionTimerRef.current) {
+          clearTimeout(expresionTimerRef.current);
         }
       };
     }, []);
 
+    /* =====================================================
+       EXPRESIONES FACIALES
+    ===================================================== */
+
+    const mostrarExpresion = (tipo, lado = "derecha") => {
+      if (expresionTimerRef.current) {
+        clearTimeout(expresionTimerRef.current);
+      }
+
+      setVersionExpresionAdrian((actual) => actual + 1);
+      setExpresionAdrian({ tipo, lado });
+
+      expresionTimerRef.current = setTimeout(() => {
+        setExpresionAdrian(null);
+        expresionTimerRef.current = null;
+      }, 3800);
+    };
 
     /* =====================================================
-       REPRODUCIR AUDIO
-       (el console.log te dice qué audio suena en cada momento)
+       REPRODUCIR AUDIO Y ACTIVAR UNA EXPRESIÓN
     ===================================================== */
 
     const reproducirAudio = (audio, numero, tipo) => {
@@ -289,16 +311,34 @@ const Escena5 = forwardRef(
       setTipoAudio(tipo);
       setNarradorActivo(true);
 
+      const expresionesPorAudio = {
+        1: ["feliz", "izquierda"],
+        2: ["pensativo", "derecha"],
+        3: ["feliz", "izquierda"],
+        4: ["pensativo", "derecha"],
+        5: ["feliz", "izquierda"],
+        7: ["pensativo", "derecha"],
+        8: ["feliz", "izquierda"],
+        9: ["pensativo", "derecha"],
+      };
+
+      const [tipoExpresion, ladoExpresion] =
+        expresionesPorAudio[numero] || ["pensativo", "derecha"];
+
+      mostrarExpresion(tipoExpresion, ladoExpresion);
+
       reproductor.play().catch((error) => {
-        console.error("No se pudo reproducir el audio de Escena 5:", error);
+        console.error(
+          `No se pudo reproducir el audio ${numero} de Escena 5:`,
+          error
+        );
+
+        setNarradorActivo(false);
       });
     };
 
-
     /* =====================================================
-       BÚSQUEDA DE OBJETOS
-       Aparece, se queda un momento, se desvanece y cambia
-       de lugar cuando ya está oculto.
+       BÚSQUEDA: APARICIÓN Y DESAPARICIÓN DE OBJETOS
     ===================================================== */
 
     useEffect(() => {
@@ -310,7 +350,8 @@ const Escena5 = forwardRef(
           clearTimeout(busquedaTimerRef.current);
           busquedaTimerRef.current = null;
         }
-        return;
+
+        return undefined;
       }
 
       if (faseBusqueda === "visible") {
@@ -329,12 +370,12 @@ const Escena5 = forwardRef(
           busquedaTimerRef.current = null;
         }
       };
-    }, [objetoVisible, objetoDescubierto, objetoActivo, faseBusqueda]);
-
-
-    /* =====================================================
-       FIN DE LA ANIMACIÓN DE BÚSQUEDA
-    ===================================================== */
+    }, [
+      objetoVisible,
+      objetoDescubierto,
+      objetoActivo,
+      faseBusqueda,
+    ]);
 
     const manejarAnimacionBusqueda = (evento) => {
       if (evento.target !== evento.currentTarget) return;
@@ -348,18 +389,17 @@ const Escena5 = forwardRef(
         const posiciones = POSICIONES_ESCENA5[objetoVisible];
 
         if (posiciones?.length) {
-          setPosicionEscondite((actual) => (actual + 1) % posiciones.length);
+          setPosicionEscondite(
+            (actual) => (actual + 1) % posiciones.length
+          );
         }
 
         setFaseBusqueda("oculto");
       }
     };
 
-
     /* =====================================================
-       REGISTRAR OBJETO ENCONTRADO
-       Con los 3 se muestra el aviso del capítulo 6, pero el
-       capítulo solo se desbloquea al pulsar CONTINUAR.
+       REGISTRAR OBJETOS ENCONTRADOS
     ===================================================== */
 
     const registrarObjetoEncontrado = (objeto) => {
@@ -373,12 +413,8 @@ const Escena5 = forwardRef(
       }
     };
 
-
     /* =====================================================
-       FINAL DE LA CAMINATA
-       Adrián termina de entrar caminando, cambia a la
-       animación de hablar y recién ahí empieza el audio 1
-       con su subtítulo.
+       FIN DE LA CAMINATA DE ADRIÁN
     ===================================================== */
 
     const terminarCaminata = (evento) => {
@@ -393,9 +429,9 @@ const Escena5 = forwardRef(
       reproducirAudio(audiosEscena5[1], 1, "principal");
     };
 
-
     /* =====================================================
-       ANIMACIÓN DEL RELOJ (se mueve al centro y se abre)
+       MOVER Y ABRIR EL RELOJ
+       No se reproduce un audio 10.
     ===================================================== */
 
     const iniciarMovimientoReloj = () => {
@@ -409,86 +445,97 @@ const Escena5 = forwardRef(
           setRelojEnCentro(false);
           setRelojAbierto(true);
           setMostrarContinuar(true);
-          setMomentoTexto(10);
-          reproducirAudio(audiosEscena5[10], 10, "principal");
+          setMomentoTexto(null);
+          setTipoAudio("espera");
+          setNarradorActivo(false);
+
+          mostrarExpresion("feliz", "derecha");
         }, 1800);
       }, 1400);
     };
 
-
     /* =====================================================
-       FIN DE AUDIO
+       CUANDO TERMINA UN AUDIO
     ===================================================== */
 
     const manejarFinAudio = () => {
-
-      /* ---------- audios de objetos y del reloj ---------- */
+      /* ---------- Audios de objetos y reloj ---------- */
 
       if (tipoAudio === "objeto") {
-
-        // AUDIO 9: reloj → se mueve al centro y se abre
+        // Al terminar el audio 9 del reloj, este se mueve y se abre.
         if (objetoEnAudio === "reloj") {
           setObjetoEnAudio(null);
           setMomentoTexto(null);
           setTipoAudio("espera");
           setNarradorActivo(false);
+
+          mostrarExpresion("pensativo", "derecha");
           iniciarMovimientoReloj();
+
           return;
         }
 
-        // AUDIOS 5, 6, 7: espada, casco, escudo
-        const siguiente = SIGUIENTE_OBJETO[objetoEnAudio];
+        const objetoTerminado = objetoEnAudio;
+        const siguiente = SIGUIENTE_OBJETO[objetoTerminado];
 
         setObjetoActivo(null);
         setObjetoEnAudio(null);
         setObjetoPulsando(null);
         setObjetoDescubierto(null);
 
+        mostrarExpresion(
+          objetoTerminado === "escudo" ? "feliz" : "pensativo",
+          objetoTerminado === "espada" ? "izquierda" : "derecha"
+        );
+
         if (siguiente) {
-          // aparece el siguiente objeto
           setObjetoVisible(siguiente);
           setPosicionEscondite(0);
           setFaseBusqueda("entrada");
           setMomentoTexto(null);
           setTipoAudio("espera");
           setNarradorActivo(false);
+
           return;
         }
 
-        // era el último objeto → audio 8
+        // Después de los tres objetos, aparece el reloj cerrado.
+        // El audio 9 se reproduce cuando se pulsa el reloj.
         setObjetoVisible(null);
         setFaseBusqueda("oculto");
         setPosicionEscondite(0);
-        setMomentoTexto(8);
-        reproducirAudio(audiosEscena5[8], 8, "principal");
+        setMomentoTexto(null);
+        setTipoAudio("espera");
+        setNarradorActivo(false);
+        setRelojVisible(true);
+
         return;
       }
 
-      /* ---------- audios principales ---------- */
+      /* ---------- Audios de introducción: 1 → 2 → 3 → 4 ---------- */
 
-      // AUDIO 1 → AUDIO 2
       if (audioActual === 1) {
         setMomentoTexto(2);
         reproducirAudio(audiosEscena5[2], 2, "principal");
         return;
       }
 
-      // AUDIO 2 → AUDIO 3
       if (audioActual === 2) {
         setMomentoTexto(3);
         reproducirAudio(audiosEscena5[3], 3, "principal");
         return;
       }
 
-      // AUDIO 3 → AUDIO 4
       if (audioActual === 3) {
         setMomentoTexto(4);
         reproducirAudio(audiosEscena5[4], 4, "principal");
         return;
       }
 
-      // AUDIO 4 → aparece la espada
+      // Después de la introducción, comienza la búsqueda de la espada.
       if (audioActual === 4) {
+        mostrarExpresion("pensativo", "derecha");
+
         setObjetoVisible("espada");
         setObjetoDescubierto(null);
         setObjetoPulsando(null);
@@ -497,38 +544,22 @@ const Escena5 = forwardRef(
         setTipoAudio("espera");
         setNarradorActivo(false);
         setMomentoTexto(null);
-        return;
-      }
 
-      // AUDIO 8 → aparece el reloj cerrado
-      if (audioActual === 8) {
-        setMomentoTexto(null);
-        setTipoAudio("espera");
-        setNarradorActivo(false);
-        setRelojVisible(true);
         return;
-      }
-
-      // AUDIO 10 → queda el botón Continuar
-      if (audioActual === 10) {
-        setMomentoTexto(null);
-        setTipoAudio("espera");
-        setNarradorActivo(false);
       }
     };
 
-
     /* =====================================================
-       CLIC EN LOS OBJETOS Y EN EL RELOJ
+       CLIC EN LOS OBJETOS Y EL RELOJ
     ===================================================== */
 
     const reproducirObjeto = (objeto) => {
-
       if (objeto === "reloj") {
         setRelojDescubierto(true);
         setObjetoPulsando(null);
         setObjetoEnAudio("reloj");
         setMomentoTexto(9);
+
         reproducirAudio(audiosEscena5[9], 9, "objeto");
         return;
       }
@@ -536,7 +567,6 @@ const Escena5 = forwardRef(
       const configuracion = OBJETOS[objeto];
       if (!configuracion) return;
 
-      // Detiene la búsqueda al hacer clic
       if (busquedaTimerRef.current) {
         clearTimeout(busquedaTimerRef.current);
         busquedaTimerRef.current = null;
@@ -544,14 +574,19 @@ const Escena5 = forwardRef(
 
       setFaseBusqueda("visible");
       registrarObjetoEncontrado(objeto);
+
       setObjetoDescubierto(objeto);
       setObjetoActivo(objeto);
       setObjetoPulsando(null);
       setObjetoEnAudio(objeto);
       setMomentoTexto(configuracion.audio);
-      reproducirAudio(audiosEscena5[configuracion.audio], configuracion.audio, "objeto");
-    };
 
+      reproducirAudio(
+        audiosEscena5[configuracion.audio],
+        configuracion.audio,
+        "objeto"
+      );
+    };
 
     /* =====================================================
        CONTINUAR AL CAPÍTULO 6
@@ -560,18 +595,12 @@ const Escena5 = forwardRef(
     const continuarCapitulo6 = () => {
       if (objetosDescubiertos.length < 3) return;
 
-      if (onCapituloDesbloqueado) {
-        onCapituloDesbloqueado(6);
-      }
-
-      if (onEscenaTerminada) {
-        onEscenaTerminada();
-      }
+      onCapituloDesbloqueado?.(6);
+      onEscenaTerminada?.();
     };
 
-
     /* =====================================================
-       CONTROL DEL NARRADOR DESDE EL PADRE
+       CONTROL DEL NARRADOR DESDE EL COMPONENTE PADRE
     ===================================================== */
 
     const toggleNarracion = () => {
@@ -584,15 +613,18 @@ const Escena5 = forwardRef(
         return;
       }
 
-      reproductor.play()
+      reproductor
+        .play()
         .then(() => setNarradorActivo(true))
         .catch((error) => {
-          console.error("No se pudo reanudar la narración:", error);
+          console.error(
+            "No se pudo reanudar la narración:",
+            error
+          );
         });
     };
 
     useImperativeHandle(ref, () => ({ toggleNarracion }));
-
 
     /* =====================================================
        CERRAR MODAL
@@ -607,34 +639,80 @@ const Escena5 = forwardRef(
       }
     };
 
-
-    /* =====================================================
-       POSICIÓN DEL OBJETO ACTUAL
-    ===================================================== */
-
     const posicionesActuales = POSICIONES_ESCENA5[objetoVisible];
 
     const posicionActual = posicionesActuales?.length
-      ? posicionesActuales[posicionEscondite % posicionesActuales.length]
+      ? posicionesActuales[
+          posicionEscondite % posicionesActuales.length
+        ]
       : { left: "50%", top: "65%" };
 
-
     /* =====================================================
-       RENDER
+       RENDER DE LA ESCENA
     ===================================================== */
 
     return (
       <div className="escena-5">
         <div className="escena-5-contenido">
-
-          {/* FONDO */}
+          {/* Fondo del Coliseo */}
           <img
             src={FONDO_ESCENA5}
             alt="Coliseo romano"
             className="escena-5-fondo"
           />
 
-          {/* ADRIÁN CAMINANDO */}
+          {/* Objetos interactivos, detrás de las piezas frontales */}
+          {objetoVisible && OBJETOS[objetoVisible] && (
+            <button
+              type="button"
+              className={`escena-5-objeto-boton fase-${faseBusqueda} ${
+                objetoDescubierto === objetoVisible ? "descubierto" : ""
+              } ${objetoPulsando === objetoVisible ? "pulsando" : ""}`}
+              data-objeto={objetoVisible}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top,
+              }}
+              onClick={() => reproducirObjeto(objetoVisible)}
+              onAnimationEnd={manejarAnimacionBusqueda}
+              aria-label={OBJETOS[objetoVisible].etiqueta}
+            >
+              <img
+                src={OBJETOS[objetoVisible].imagen}
+                alt={OBJETOS[objetoVisible].alt}
+                draggable="false"
+              />
+            </button>
+          )}
+
+          {/* Piezas del primer plano */}
+          <div
+            className="escena-5-elementos-frontales"
+            aria-hidden="true"
+          >
+            <img
+              src="/Escenarios/arbolColiseo.svg"
+              alt=""
+              className="escena-5-pieza-frontal escena-5-arbol-coliseo"
+              draggable="false"
+            />
+
+            <img
+              src="/Escenarios/arbustoColiseo.svg"
+              alt=""
+              className="escena-5-pieza-frontal escena-5-arbusto-coliseo"
+              draggable="false"
+            />
+
+            <img
+              src="/Escenarios/bloqueColiseo.svg"
+              alt=""
+              className="escena-5-pieza-frontal escena-5-bloque-coliseo"
+              draggable="false"
+            />
+          </div>
+
+          {/* Adrián caminando al entrar */}
           {!adrianHabla && (
             <div
               className="escena-5-adrian-prueba"
@@ -648,55 +726,78 @@ const Escena5 = forwardRef(
             </div>
           )}
 
-          {/* ADRIÁN HABLANDO */}
-          {adrianHabla && (
-            <div className="escena-5-adrian-hablando">
-              <Lottie
-                animationData={AdrianHablando}
-                loop
-                autoplay
+          {/* Adrián hablando o en su pose quieta */}
+          {adrianHabla &&
+            (adrianEstaHablando ? (
+              <div className="escena-5-adrian-hablando">
+                <Lottie
+                  animationData={AdrianHablando}
+                  loop
+                  autoplay
+                />
+              </div>
+            ) : (
+              <img
+                src={ADRIAN_QUIETO}
+                alt="Adrián esperando"
+                className="escena-5-adrian-quieto"
+                draggable="false"
               />
-            </div>
+            ))}
+
+          {/* Expresiones faciales de Adrián */}
+          {expresionAdrian && (
+            <img
+              key={versionExpresionAdrian}
+              src={
+                expresionAdrian.tipo === "pensativo"
+                  ? EXPRESION_PENSATIVO
+                  : EXPRESION_FELIZ
+              }
+              alt={
+                expresionAdrian.tipo === "pensativo"
+                  ? "Adrián pensativo"
+                  : "Adrián feliz"
+              }
+              className={[
+                "escena-5-expresion",
+                `escena-5-expresion--${expresionAdrian.tipo}`,
+                `escena-5-expresion--${expresionAdrian.lado}`,
+              ].join(" ")}
+              draggable="false"
+              aria-hidden="true"
+              onError={(evento) => {
+                console.error(
+                  "No se pudo cargar el SVG de expresión de Adrián:",
+                  evento.currentTarget.src
+                );
+              }}
+            />
           )}
 
-          {/* AUDIO ÚNICO DE LA ESCENA */}
+          {/* Audio de la escena */}
           <audio
             ref={audioRef}
             onEnded={manejarFinAudio}
             preload="auto"
           />
 
-          {/* SUBTÍTULOS */}
+          {/* Subtítulos */}
           {textoNarracionActivo &&
             momentoTexto !== null &&
             textosEscena5[momentoTexto] && (
-              <div className="escena-5-texto-narracion">
+              <div
+                className="escena-5-texto-narracion"
+                key={momentoTexto}
+              >
                 {textosEscena5[momentoTexto]}
               </div>
             )}
 
-          {/* OBJETO QUE SE ESTÁ BUSCANDO */}
-          {objetoVisible && OBJETOS[objetoVisible] && (
-            <button
-              className={`escena-5-objeto-boton fase-${faseBusqueda} ${
-                objetoDescubierto === objetoVisible ? "descubierto" : ""
-              } ${objetoPulsando === objetoVisible ? "pulsando" : ""}`}
-              data-objeto={objetoVisible}
-              style={{ left: posicionActual.left, top: posicionActual.top }}
-              onClick={() => reproducirObjeto(objetoVisible)}
-              onAnimationEnd={manejarAnimacionBusqueda}
-              aria-label={OBJETOS[objetoVisible].etiqueta}
-            >
-              <img
-                src={OBJETOS[objetoVisible].imagen}
-                alt={OBJETOS[objetoVisible].alt}
-              />
-            </button>
-          )}
-
-          {/* RELOJ CERRADO */}
+          {/* Reloj cerrado */}
           {relojVisible && !relojAbierto && (
             <button
+              type="button"
               className={`escena-5-reloj-boton ${
                 relojMoviendose ? "moviendose" : ""
               } ${relojEnCentro ? "en-centro" : ""} ${
@@ -709,27 +810,31 @@ const Escena5 = forwardRef(
                 src={RelojCerrado}
                 alt="Reloj cerrado"
                 className="escena-5-reloj-cerrado"
+                draggable="false"
               />
             </button>
           )}
 
-          {/* RELOJ ABIERTO */}
+          {/* Reloj abierto */}
           {relojAbierto && (
             <div className="escena-5-reloj-abierto">
               <img
                 src={reloj}
                 alt="Reloj abierto"
                 className="escena-5-reloj"
+                draggable="false"
               />
             </div>
           )}
 
-          {/* CONTINUAR AL CAPÍTULO 6 */}
+          {/* Continuar al capítulo 6 */}
           {mostrarContinuar && (
             <div className="escena-5-continuar-contenedor">
               <div className="escena-5-continuar-texto">
                 <span>CONTINUAR AL CAPÍTULO 6</span>
+
                 <button
+                  type="button"
                   className="escena-5-continuar-boton"
                   onClick={continuarCapitulo6}
                   disabled={objetosDescubiertos.length < 3}
@@ -740,7 +845,7 @@ const Escena5 = forwardRef(
             </div>
           )}
 
-          {/* MODAL DE INFORMACIÓN */}
+          {/* Modal de información */}
           {objetoActivo && OBJETOS[objetoActivo] && (
             <div
               className="escena-5-modal-fondo"
@@ -748,21 +853,29 @@ const Escena5 = forwardRef(
             >
               <div
                 className="escena-5-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="escena-5-modal-titulo"
                 onClick={(evento) => evento.stopPropagation()}
               >
                 <div className="escena-5-modal-imagen">
                   <img
                     src={OBJETOS[objetoActivo].imagen}
                     alt={OBJETOS[objetoActivo].alt}
+                    draggable="false"
                   />
                 </div>
 
                 <div className="escena-5-modal-info">
-                  <h2>{OBJETOS[objetoActivo].titulo}</h2>
+                  <h2 id="escena-5-modal-titulo">
+                    {OBJETOS[objetoActivo].titulo}
+                  </h2>
+
                   <p>{OBJETOS[objetoActivo].texto}</p>
                 </div>
 
                 <button
+                  type="button"
                   className="escena-5-modal-cerrar"
                   onClick={cerrarModal}
                   aria-label="Cerrar información"
@@ -772,7 +885,6 @@ const Escena5 = forwardRef(
               </div>
             </div>
           )}
-
         </div>
       </div>
     );
