@@ -3,99 +3,48 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState
+  useState,
 } from "react";
-
 import lottieReact from "lottie-react";
-
-import CicloAdrianBody from "../../assets/CicloAdrianBody.json";
 import AdrianHablando from "../../assets/AdrianHablando.json";
-
-import img0 from "../../assets/AdrianBody/img_0.png";
-import img1 from "../../assets/AdrianBody/img_1.png";
-import img2 from "../../assets/AdrianBody/img_2.png";
-import img3 from "../../assets/AdrianBody/img_3.png";
-import img4 from "../../assets/AdrianBody/img_4.png";
-import img5 from "../../assets/AdrianBody/img_5.png";
-import img6 from "../../assets/AdrianBody/img_6.png";
-import img7 from "../../assets/AdrianBody/img_7.png";
-
 import "./Escenas.css";
 
+const Lottie = lottieReact.default || lottieReact;
 
-const Lottie = lottieReact.default;
+const IMAGENES = import.meta.glob("../../AssetsNuevos/*.svg", {
+  eager: true,
+  import: "default",
+});
 
-
-/* =====================================================
-   BUSCADOR DE ARCHIVOS
-   Encuentra los assets y audios por su nombre, sin
-   importar mayúsculas ni minúsculas. Si falta alguno,
-   avisa en la consola en vez de romper la página.
-===================================================== */
-
-const IMAGENES = import.meta.glob(
-  "../../AssetsNuevos/*.svg",
-  { eager: true, import: "default" }
-);
-
-const SONIDOS = import.meta.glob(
-  "../../Audios/*.mp3",
-  { eager: true, import: "default" }
-);
+const SONIDOS = import.meta.glob("../../Audios/*.mp3", {
+  eager: true,
+  import: "default",
+});
 
 const nombreSinExtension = (ruta) =>
-  ruta
-    .split("/")
-    .pop()
-    .replace(/\.[^.]+$/, "")
-    .toLowerCase();
+  ruta.split("/").pop().replace(/\.[^.]+$/, "").toLowerCase();
 
 const buscarArchivo = (mapa, ...nombres) => {
-
   const rutas = Object.keys(mapa);
 
   for (const nombre of nombres) {
-
     const ruta = rutas.find(
-      (r) => nombreSinExtension(r) === nombre.toLowerCase()
+      (rutaActual) => nombreSinExtension(rutaActual) === nombre.toLowerCase()
     );
 
-    if (ruta) {
-      return mapa[ruta];
-    }
-
+    if (ruta) return mapa[ruta];
   }
 
-  console.warn(
-    "[Escena 6] No se encontró el archivo:",
-    nombres.join(" / ")
-  );
-
+  console.warn("[Escena 6] No se encontró el archivo:", nombres.join(" / "));
   return null;
-
 };
 
-
-/* =====================================================
-   ASSETS DE LA ESCENA
-===================================================== */
-
 const Es6Cincel = buscarArchivo(IMAGENES, "Es6cincel");
-
-const Es6Amuleto = buscarArchivo(IMAGENES, "Es6amuelto", "Es6amuleto");
-
-// Si todavía no existe el dibujo de la urna, usa el cincel
-// de forma temporal para que la escena no se detenga.
+const Es6Amuleto = buscarArchivo(IMAGENES, "Es6amuleto", "Es6amuelto");
 const Es6Urna =
-  buscarArchivo(IMAGENES, "Es6urna", "Es6urnafuneraria") ||
-  Es6Cincel;
+  buscarArchivo(IMAGENES, "Es6urna", "Es6urnafuneraria") || Es6Cincel;
 
 const RelojCerrado = buscarArchivo(IMAGENES, "RelojCerrado");
-
-
-/* =====================================================
-   AUDIOS DE LA ESCENA (Esc6Audio1 a Esc6Audio8)
-===================================================== */
 
 const AUDIOS_ESCENA6 = {
   1: buscarArchivo(SONIDOS, "Esc6Audio1"),
@@ -105,57 +54,112 @@ const AUDIOS_ESCENA6 = {
   5: buscarArchivo(SONIDOS, "Esc6Audio5"),
   6: buscarArchivo(SONIDOS, "Esc6Audio6"),
   7: buscarArchivo(SONIDOS, "Esc6Audio7"),
-  8: buscarArchivo(SONIDOS, "Esc6Audio8")
+  8: buscarArchivo(SONIDOS, "Esc6Audio8"),
 };
 
-
-/* =====================================================
-   FONDO DE LA ESCENA
-   (si ya pusiste el nombre real, déjalo)
-===================================================== */
-
 const FONDO_ESCENA6 = "/Escenarios/imperio.svg";
+const AGUA_ESCENA6 = "/Escenarios/agua5.svg";
+const COLUMNA_ESCENA6 = "/Escenarios/columna5.svg";
+const HUECO_ESCENA6 = "/Escenarios/hueco5.svg";
+const TECHO_ESCENA6 = "/Escenarios/techo5.svg";
+const FUEGO_ESCENA6 = "/Escenarios/FuegoImpe.svg";
 
+// Cuatro fuegos independientes.
+const FUEGOS_ESCENA6 = [
+  {
+    id: "fuego-1",
+    estilo: {
+      left: "var(--escena6-fuego-left)",
+      bottom: "var(--escena6-fuego-bottom)",
+      width: "var(--escena6-fuego-width)",
+    },
+    humoBottom: "calc(var(--escena6-fuego-bottom) + 8%)",
+  },
+  {
+    id: "fuego-2",
+    estilo: {
+      left: "var(--escena6-fuego-2-left)",
+      bottom: "var(--escena6-fuego-2-bottom)",
+      width: "var(--escena6-fuego-2-width)",
+    },
+    humoBottom: "calc(var(--escena6-fuego-2-bottom) + 8%)",
+  },
+  {
+    id: "fuego-3",
+    estilo: {
+      left: "var(--escena6-fuego-3-left)",
+      bottom: "var(--escena6-fuego-3-bottom)",
+      width: "var(--escena6-fuego-3-width)",
+    },
+    humoBottom: "calc(var(--escena6-fuego-3-bottom) + 8%)",
+  },
+  {
+    id: "fuego-4",
+    estilo: {
+      left: "var(--escena6-fuego-4-left)",
+      bottom: "var(--escena6-fuego-4-bottom)",
+      width: "var(--escena6-fuego-4-width)",
+    },
+    humoBottom: "calc(var(--escena6-fuego-4-bottom) + 8%)",
+  },
+];
 
-/* =====================================================
-   ORDEN DE LOS OBJETOS
-   urna → cincel → amuleto → (el reloj se pierde)
-===================================================== */
+const EXPRESION_PENSATIVO = "/pensativoS.svg";
+const EXPRESION_FELIZ = "/FelizS.svg";
+const EXPRESION_SORPRENDIDO = "/SorprendidoS.svg";
+const EXPRESION_ASUSTADO = "/asustado.svg";
+const ADRIAN_QUIETO = "/Feliz.svg";
 
 const SIGUIENTE_OBJETO = {
   urna: "cincel",
   cincel: "amuleto",
-  amuleto: null
+  amuleto: null,
 };
-
-
-/* =====================================================
-   POSICIONES DE LOS OBJETOS (de PRUEBA)
-   Porcentajes del recuadro de la escena.
-===================================================== */
 
 const POSICIONES_ESCENA6 = {
   urna: [
-    { left: "16%", top: "72%" },
-    { left: "50%", top: "76%" },
-    { left: "86%", top: "70%" }
+    {
+      left: "var(--escena6-punto-columna-left)",
+      top: "var(--escena6-punto-columna-top)",
+    },
+    {
+      left: "var(--escena6-punto-agua-left)",
+      top: "var(--escena6-punto-agua-top)",
+    },
+    {
+      left: "var(--escena6-punto-hueco-left)",
+      top: "var(--escena6-punto-hueco-top)",
+    },
   ],
   cincel: [
-    { left: "22%", top: "74%" },
-    { left: "58%", top: "72%" },
-    { left: "90%", top: "76%" }
+    {
+      left: "var(--escena6-punto-techo-left)",
+      top: "var(--escena6-punto-techo-top)",
+    },
+    {
+      left: "var(--escena6-punto-columna-left)",
+      top: "var(--escena6-punto-columna-top)",
+    },
+    {
+      left: "var(--escena6-punto-hueco-left)",
+      top: "var(--escena6-punto-hueco-top)",
+    },
   ],
   amuleto: [
-    { left: "12%", top: "76%" },
-    { left: "46%", top: "72%" },
-    { left: "82%", top: "74%" }
-  ]
+    {
+      left: "var(--escena6-punto-agua-left)",
+      top: "var(--escena6-punto-agua-top)",
+    },
+    {
+      left: "var(--escena6-punto-techo-left)",
+      top: "var(--escena6-punto-techo-top)",
+    },
+    {
+      left: "var(--escena6-punto-fuego-left)",
+      top: "var(--escena6-punto-fuego-top)",
+    },
+  ],
 };
-
-
-/* =====================================================
-   OBJETOS DE LA ESCENA
-===================================================== */
 
 const OBJETOS = {
   urna: {
@@ -165,7 +169,7 @@ const OBJETOS = {
     audio: 3,
     titulo: "URNA FUNERARIA",
     texto:
-      "Los romanos guardaban las cenizas de sus muertos en urnas. Muchas se colocaban en columbarios, edificios con nichos, y llevaban grabado el nombre de la persona."
+      "Los romanos guardaban las cenizas de sus muertos en urnas. Muchas se colocaban en columbarios, edificios con nichos, y llevaban grabado el nombre de la persona.",
   },
   cincel: {
     imagen: Es6Cincel,
@@ -174,7 +178,7 @@ const OBJETOS = {
     audio: 4,
     titulo: "CINCEL",
     texto:
-      "Con cinceles y martillos, los escultores tallaban estatuas, relieves y monumentos. Aunque hoy las veamos blancas, muchas obras se pintaban con colores vivos."
+      "Con cinceles y martillos, los escultores tallaban estatuas, relieves y monumentos. Aunque hoy las veamos blancas, muchas obras se pintaban con colores vivos.",
   },
   amuleto: {
     imagen: Es6Amuleto,
@@ -183,14 +187,9 @@ const OBJETOS = {
     audio: 5,
     titulo: "AMULETO",
     texto:
-      "Los amuletos se llevaban colgados o en anillos para alejar el mal de ojo y atraer la buena suerte. Los niños romanos usaban uno llamado bulla."
-  }
+      "Los amuletos se llevaban colgados o en anillos para alejar el mal de ojo y atraer la buena suerte. Los niños romanos usaban uno llamado bulla.",
+  },
 };
-
-
-/* =====================================================
-   SUBTÍTULOS (el número es el del audio)
-===================================================== */
 
 const TEXTOS_ESCENA6 = {
   1: "Esto no es un espectáculo. Es una batalla.",
@@ -200,9 +199,8 @@ const TEXTOS_ESCENA6 = {
   5: "Un amuleto. Muchos llevan objetos como este para protegerse y atraer la buena fortuna. Sus símbolos reflejan nuestras creencias y la importancia que damos a la protección de los dioses y de las fuerzas que no podemos controlar.",
   6: "¡Tengo que salir de aquí! ¡Vamos, llévame de vuelta! ¿Por qué no funciona?",
   7: "¡Vamos, haz algo! ¡Sácame de aquí!",
-  8: "¡No! ¡Espera! ¡No puedo dejarlo aquí!"
+  8: "¡No! ¡Espera! ¡No puedo dejarlo aquí!",
 };
-
 
 const Escena6 = forwardRef(
   (
@@ -211,44 +209,14 @@ const Escena6 = forwardRef(
       onNarradorEstadoChange,
       onEscenaTerminada,
       onObjetosEncontrados,
-      onCapituloDesbloqueado
+      onCapituloDesbloqueado,
     },
     ref
   ) => {
-
-    /* =====================================================
-       ADRIÁN CAMINANDO
-    ===================================================== */
-
-    const imagenesAdrian = [
-      img0, img1, img2, img3,
-      img4, img5, img6, img7
-    ];
-
-    const animacionAdrian = {
-      ...CicloAdrianBody,
-      assets: CicloAdrianBody.assets.map((asset, index) => ({
-        ...asset,
-        u: "",
-        p: imagenesAdrian[index] || asset.p
-      }))
-    };
-
-
-    /* =====================================================
-       ESTADOS DE ADRIÁN Y AUDIO
-       Al inicio no suena nada: Adrián solo camina.
-    ===================================================== */
-
     const [adrianHabla, setAdrianHabla] = useState(false);
     const [audioActual, setAudioActual] = useState(0);
     const [tipoAudio, setTipoAudio] = useState("espera");
     const [narradorActivo, setNarradorActivo] = useState(false);
-
-
-    /* =====================================================
-       OBJETOS Y BÚSQUEDA
-    ===================================================== */
 
     const [objetoVisible, setObjetoVisible] = useState(null);
     const [objetoDescubierto, setObjetoDescubierto] = useState(null);
@@ -259,44 +227,37 @@ const Escena6 = forwardRef(
     const [objetoEnAudio, setObjetoEnAudio] = useState(null);
     const [objetosDescubiertos, setObjetosDescubiertos] = useState([]);
 
-
-    /* =====================================================
-       TEXTO, BATALLA, RELOJ Y LUZ
-    ===================================================== */
-
     const [momentoTexto, setMomentoTexto] = useState(null);
     const [batallaIntensa, setBatallaIntensa] = useState(false);
+    const [fuegosApagando, setFuegosApagando] = useState([]);
+    const [fuegosApagados, setFuegosApagados] = useState([]);
+    const [humosVisibles, setHumosVisibles] = useState([]);
+    const [esperandoApagarFuego, setEsperandoApagarFuego] =
+      useState(false);
+
     const [relojVisible, setRelojVisible] = useState(false);
     const [relojDescubierto, setRelojDescubierto] = useState(false);
     const [relojIntentando, setRelojIntentando] = useState(false);
     const [relojCayendo, setRelojCayendo] = useState(false);
     const [luzActiva, setLuzActiva] = useState(false);
 
-
-    /* =====================================================
-       REFERENCIAS
-    ===================================================== */
+    const [expresionAdrian, setExpresionAdrian] = useState(null);
+    const [faseExpresion, setFaseExpresion] = useState("entrada");
+    const [versionExpresion, setVersionExpresion] = useState(0);
 
     const audioRef = useRef(null);
     const habloRef = useRef(false);
     const busquedaTimerRef = useRef(null);
     const luzTimerRef = useRef(null);
+    const humoTimerRef = useRef({});
+    const expresionTimerRef = useRef(null);
 
-
-    /* =====================================================
-       AVISAR AL PADRE DEL ESTADO DEL NARRADOR
-    ===================================================== */
+    const adrianEstaHablando =
+      adrianHabla && narradorActivo && tipoAudio !== "espera";
 
     useEffect(() => {
-      if (onNarradorEstadoChange) {
-        onNarradorEstadoChange(narradorActivo);
-      }
+      onNarradorEstadoChange?.(narradorActivo);
     }, [narradorActivo, onNarradorEstadoChange]);
-
-
-    /* =====================================================
-       LIMPIAR AUDIO Y TEMPORIZADORES AL SALIR
-    ===================================================== */
 
     useEffect(() => {
       return () => {
@@ -304,19 +265,49 @@ const Escena6 = forwardRef(
           audioRef.current.pause();
           audioRef.current.currentTime = 0;
         }
-        if (busquedaTimerRef.current) {
-          clearTimeout(busquedaTimerRef.current);
-        }
-        if (luzTimerRef.current) {
-          clearTimeout(luzTimerRef.current);
-        }
+
+        [busquedaTimerRef, luzTimerRef, expresionTimerRef].forEach(
+          (timerRef) => {
+            if (timerRef.current) clearTimeout(timerRef.current);
+          }
+        );
+
+        Object.values(humoTimerRef.current).forEach((timer) => {
+          if (timer) clearTimeout(timer);
+        });
       };
     }, []);
 
+    const mostrarExpresion = (tipo, lado = "derecha") => {
+      if (expresionTimerRef.current) {
+        clearTimeout(expresionTimerRef.current);
+        expresionTimerRef.current = null;
+      }
 
-    /* =====================================================
-       REPRODUCIR AUDIO
-    ===================================================== */
+      setVersionExpresion((actual) => actual + 1);
+      setFaseExpresion("entrada");
+      setExpresionAdrian({ tipo, lado });
+
+      expresionTimerRef.current = setTimeout(() => {
+        setFaseExpresion("salida");
+      }, 1900);
+    };
+
+    const manejarFinAnimacionExpresion = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
+
+      if (evento.animationName !== "salidaExpresionEscena6") {
+        return;
+      }
+
+      if (expresionTimerRef.current) {
+        clearTimeout(expresionTimerRef.current);
+        expresionTimerRef.current = null;
+      }
+
+      setExpresionAdrian(null);
+      setFaseExpresion("entrada");
+    };
 
     const reproducirAudio = (audio, numero, tipo) => {
       const reproductor = audioRef.current;
@@ -332,35 +323,32 @@ const Escena6 = forwardRef(
       setNarradorActivo(true);
 
       reproductor.play().catch((error) => {
-        console.error("No se pudo reproducir el audio de Escena 6:", error);
+        console.error(
+          "No se pudo reproducir el audio de Escena 6:",
+          error
+        );
+        setNarradorActivo(false);
       });
     };
 
+    // Termina la aparición breve de Adrián asustado y empieza la narración.
+    const terminarEntradaAdrian = (evento) => {
+      if (evento?.target !== evento?.currentTarget) return;
 
-    /* =====================================================
-       FINAL DE LA CAMINATA
-       Adrián se detiene y recién ahí empieza a hablar.
-    ===================================================== */
-
-    const terminarCaminata = (evento) => {
-      if (evento?.animationName && evento.animationName !== "entradaAdrianEscena5") {
+      if (
+        evento?.animationName &&
+        evento.animationName !== "entradaAdrianEscena6"
+      ) {
         return;
       }
 
       if (habloRef.current) return;
-      habloRef.current = true;
 
+      habloRef.current = true;
       setAdrianHabla(true);
       setMomentoTexto(1);
       reproducirAudio(AUDIOS_ESCENA6[1], 1, "principal");
     };
-
-
-    /* =====================================================
-       BÚSQUEDA DE OBJETOS
-       Aparece, se queda un momento, se desvanece y cambia
-       de lugar cuando ya está oculto.
-    ===================================================== */
 
     useEffect(() => {
       const objeto = objetoVisible;
@@ -371,17 +359,29 @@ const Escena6 = forwardRef(
           clearTimeout(busquedaTimerRef.current);
           busquedaTimerRef.current = null;
         }
-        return;
+        return undefined;
       }
 
-      if (faseBusqueda === "visible") {
+      if (faseBusqueda === "entrada" || faseBusqueda === "visible") {
         busquedaTimerRef.current = setTimeout(() => {
           setFaseBusqueda("salida");
-        }, 750);
+        }, 950);
+      } else if (faseBusqueda === "salida") {
+        busquedaTimerRef.current = setTimeout(() => {
+          const posiciones = POSICIONES_ESCENA6[objeto];
+
+          if (posiciones?.length) {
+            setPosicionEscondite(
+              (actual) => (actual + 1) % posiciones.length
+            );
+          }
+
+          setFaseBusqueda("entrada");
+        }, 260);
       } else if (faseBusqueda === "oculto") {
         busquedaTimerRef.current = setTimeout(() => {
           setFaseBusqueda("entrada");
-        }, 120);
+        }, 160);
       }
 
       return () => {
@@ -390,38 +390,12 @@ const Escena6 = forwardRef(
           busquedaTimerRef.current = null;
         }
       };
-    }, [objetoVisible, objetoDescubierto, objetoActivo, faseBusqueda]);
-
-
-    /* =====================================================
-       FIN DE LA ANIMACIÓN DE BÚSQUEDA
-       (usa las animaciones de la Escena 5)
-    ===================================================== */
-
-    const manejarAnimacionBusqueda = (evento) => {
-      if (evento.target !== evento.currentTarget) return;
-
-      if (evento.animationName === "entradaEsconditeEscena5") {
-        setFaseBusqueda("visible");
-        return;
-      }
-
-      if (evento.animationName === "salidaEsconditeEscena5") {
-        const posiciones = POSICIONES_ESCENA6[objetoVisible];
-
-        if (posiciones?.length) {
-          setPosicionEscondite((actual) => (actual + 1) % posiciones.length);
-        }
-
-        setFaseBusqueda("oculto");
-      }
-    };
-
-
-    /* =====================================================
-       REGISTRAR OBJETO ENCONTRADO
-       Con los 3 se muestra el aviso del capítulo 7.
-    ===================================================== */
+    }, [
+      objetoVisible,
+      objetoDescubierto,
+      objetoActivo,
+      faseBusqueda,
+    ]);
 
     const registrarObjetoEncontrado = (objeto) => {
       if (objetosDescubiertos.includes(objeto)) return;
@@ -429,16 +403,66 @@ const Escena6 = forwardRef(
       const nuevosObjetos = [...objetosDescubiertos, objeto];
       setObjetosDescubiertos(nuevosObjetos);
 
-      if (nuevosObjetos.length === 3 && onObjetosEncontrados) {
-        onObjetosEncontrados(7);
+      if (nuevosObjetos.length === 3) {
+        onObjetosEncontrados?.(7);
       }
     };
 
+    const apagarFuego = (fuegoId) => {
+      if (
+        !batallaIntensa ||
+        fuegosApagados.includes(fuegoId) ||
+        fuegosApagando.includes(fuegoId)
+      ) {
+        return;
+      }
 
-    /* =====================================================
-       LA LUZ DEL RELOJ CUBRE LA PANTALLA
-       Luego pasa al capítulo 7.
-    ===================================================== */
+      setFuegosApagando((actuales) =>
+        actuales.includes(fuegoId) ? actuales : [...actuales, fuegoId]
+      );
+    };
+
+    const manejarFinAnimacionFuego = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
+      if (evento.animationName !== "extinguirFuegoEscena6") return;
+
+      const fuegoId = evento.currentTarget.dataset.fuegoId;
+
+      if (!fuegoId || fuegosApagados.includes(fuegoId)) return;
+
+      const nuevosApagados = [
+        ...new Set([...fuegosApagados, fuegoId]),
+      ];
+
+      setFuegosApagando((actuales) =>
+        actuales.filter((id) => id !== fuegoId)
+      );
+      setFuegosApagados(nuevosApagados);
+      setHumosVisibles((actuales) =>
+        [...new Set([...actuales, fuegoId])]
+      );
+
+      if (humoTimerRef.current[fuegoId]) {
+        clearTimeout(humoTimerRef.current[fuegoId]);
+      }
+
+      humoTimerRef.current[fuegoId] = setTimeout(() => {
+        setHumosVisibles((actuales) =>
+          actuales.filter((id) => id !== fuegoId)
+        );
+        delete humoTimerRef.current[fuegoId];
+      }, 1500);
+
+      // El reloj se habilita cuando se apagan los cuatro fuegos.
+      if (
+        esperandoApagarFuego &&
+        nuevosApagados.length === FUEGOS_ESCENA6.length
+      ) {
+        setEsperandoApagarFuego(false);
+        setRelojVisible(true);
+        mostrarExpresion("sorprendido", "derecha");
+      }
+    };
 
     const iniciarLuz = () => {
       setMomentoTexto(null);
@@ -446,28 +470,19 @@ const Escena6 = forwardRef(
       setNarradorActivo(false);
       setLuzActiva(true);
 
+      if (luzTimerRef.current) {
+        clearTimeout(luzTimerRef.current);
+      }
+
       luzTimerRef.current = setTimeout(() => {
-        if (onCapituloDesbloqueado) {
-          onCapituloDesbloqueado(7);
-        }
-        if (onEscenaTerminada) {
-          onEscenaTerminada();
-        }
+        onCapituloDesbloqueado?.(7);
+        onEscenaTerminada?.();
       }, 2200);
     };
 
-
-    /* =====================================================
-       FIN DE AUDIO
-    ===================================================== */
-
     const manejarFinAudio = () => {
-
-      /* ---------- audios de objetos y del reloj ---------- */
-
       if (tipoAudio === "objeto") {
-
-        // AUDIO 7: el reloj se resbala y cae → audio 8
+        // Después del audio del reloj, este cae y comienza el audio 8.
         if (objetoEnAudio === "reloj") {
           setObjetoEnAudio(null);
           setRelojIntentando(false);
@@ -477,13 +492,21 @@ const Escena6 = forwardRef(
           return;
         }
 
-        // AUDIOS 3, 4 y 5: urna, cincel, amuleto
-        const siguiente = SIGUIENTE_OBJETO[objetoEnAudio];
+        const objetoTerminado = objetoEnAudio;
+        const siguiente = SIGUIENTE_OBJETO[objetoTerminado];
 
         setObjetoActivo(null);
         setObjetoEnAudio(null);
         setObjetoPulsando(null);
         setObjetoDescubierto(null);
+
+        if (objetoTerminado === "urna") {
+          mostrarExpresion("pensativo", "derecha");
+        } else if (objetoTerminado === "cincel") {
+          mostrarExpresion("feliz", "izquierda");
+        } else if (objetoTerminado === "amuleto") {
+          mostrarExpresion("sorprendido", "derecha");
+        }
 
         if (siguiente) {
           setObjetoVisible(siguiente);
@@ -495,7 +518,7 @@ const Escena6 = forwardRef(
           return;
         }
 
-        // era el último objeto: la batalla se intensifica
+        // Encontrados los tres objetos, la batalla se intensifica.
         setObjetoVisible(null);
         setFaseBusqueda("oculto");
         setPosicionEscondite(0);
@@ -505,17 +528,16 @@ const Escena6 = forwardRef(
         return;
       }
 
-      /* ---------- audios principales ---------- */
-
-      // AUDIO 1 → AUDIO 2
+      // Audio 1 → audio 2.
       if (audioActual === 1) {
         setMomentoTexto(2);
         reproducirAudio(AUDIOS_ESCENA6[2], 2, "principal");
         return;
       }
 
-      // AUDIO 2 → aparece la urna
+      // Audio 2 terminado: comienza la búsqueda de la urna.
       if (audioActual === 2) {
+        mostrarExpresion("pensativo", "derecha");
         setObjetoVisible("urna");
         setObjetoDescubierto(null);
         setObjetoPulsando(null);
@@ -527,28 +549,27 @@ const Escena6 = forwardRef(
         return;
       }
 
-      // AUDIO 6 → aparece el reloj y espera el clic
+      // Audio 6 terminado: hay que apagar los fuegos para activar el reloj.
       if (audioActual === 6) {
         setMomentoTexto(null);
         setTipoAudio("espera");
         setNarradorActivo(false);
-        setRelojVisible(true);
+
+        if (fuegosApagados.length === FUEGOS_ESCENA6.length) {
+          setRelojVisible(true);
+        } else {
+          setEsperandoApagarFuego(true);
+        }
         return;
       }
 
-      // AUDIO 8 → la luz cubre la pantalla
+      // Audio 8 terminado: la luz cubre la pantalla y termina la escena.
       if (audioActual === 8) {
         iniciarLuz();
       }
     };
 
-
-    /* =====================================================
-       CLIC EN LOS OBJETOS Y EN EL RELOJ
-    ===================================================== */
-
     const reproducirObjeto = (objeto) => {
-
       if (objeto === "reloj") {
         setRelojDescubierto(true);
         setRelojIntentando(true);
@@ -574,17 +595,13 @@ const Escena6 = forwardRef(
       setObjetoPulsando(null);
       setObjetoEnAudio(objeto);
       setMomentoTexto(configuracion.audio);
+
       reproducirAudio(
         AUDIOS_ESCENA6[configuracion.audio],
         configuracion.audio,
         "objeto"
       );
     };
-
-
-    /* =====================================================
-       CONTROL DEL NARRADOR DESDE EL PADRE
-    ===================================================== */
 
     const toggleNarracion = () => {
       const reproductor = audioRef.current;
@@ -596,19 +613,18 @@ const Escena6 = forwardRef(
         return;
       }
 
-      reproductor.play()
+      reproductor
+        .play()
         .then(() => setNarradorActivo(true))
         .catch((error) => {
-          console.error("No se pudo reanudar la narración:", error);
+          console.error(
+            "No se pudo reanudar la narración:",
+            error
+          );
         });
     };
 
     useImperativeHandle(ref, () => ({ toggleNarracion }));
-
-
-    /* =====================================================
-       CERRAR MODAL
-    ===================================================== */
 
     const cerrarModal = () => {
       const objetoModal = objetoActivo;
@@ -619,36 +635,125 @@ const Escena6 = forwardRef(
       }
     };
 
-
-    /* =====================================================
-       POSICIÓN DEL OBJETO ACTUAL
-    ===================================================== */
-
     const posicionesActuales = POSICIONES_ESCENA6[objetoVisible];
 
     const posicionActual = posicionesActuales?.length
-      ? posicionesActuales[posicionEscondite % posicionesActuales.length]
+      ? posicionesActuales[
+          posicionEscondite % posicionesActuales.length
+        ]
       : { left: "50%", top: "65%" };
 
-
-    /* =====================================================
-       RENDER
-    ===================================================== */
+    // Sacudidas y destellos solo durante la desesperación y mientras se apagan los fuegos.
+    const caosActivo =
+      batallaIntensa &&
+      !luzActiva &&
+      (
+        (narradorActivo && audioActual === 6) ||
+        (
+          esperandoApagarFuego &&
+          fuegosApagados.length < FUEGOS_ESCENA6.length
+        )
+      );
 
     return (
-      <div className="escena-5 escena-6">
-        <div className="escena-5-contenido">
-
-          {/* FONDO (tiembla por la batalla) */}
+      <div
+        className={`escena-6 ${
+          batallaIntensa ? "batalla-intensa" : ""
+        }`}
+      >
+        <div
+          className={`escena-6-contenido ${
+            caosActivo ? "caos-activo" : ""
+          }`}
+        >
           <img
             src={FONDO_ESCENA6}
             alt="Campo de batalla del Imperio romano"
-            className={`escena-5-fondo escena-6-fondo-batalla ${
+            className={`escena-6-fondo ${
               batallaIntensa ? "intensa" : ""
             }`}
+            draggable="false"
           />
 
-          {/* AMBIENTE: sombra rojiza que late en la batalla */}
+          <div
+            className="escena-6-elementos-escenario"
+            aria-hidden="true"
+          >
+            <img
+              src={AGUA_ESCENA6}
+              alt=""
+              className="escena-6-pieza escena-6-agua"
+              draggable="false"
+            />
+            <img
+              src={COLUMNA_ESCENA6}
+              alt=""
+              className="escena-6-pieza escena-6-columna"
+              draggable="false"
+            />
+            <img
+              src={HUECO_ESCENA6}
+              alt=""
+              className="escena-6-pieza escena-6-hueco"
+              draggable="false"
+            />
+            <img
+              src={TECHO_ESCENA6}
+              alt=""
+              className="escena-6-pieza escena-6-techo"
+              draggable="false"
+            />
+          </div>
+
+          {/* Cuatro fuegos independientes usando el mismo archivo SVG. */}
+          {FUEGOS_ESCENA6.map((fuego, indice) => {
+            const apagado = fuegosApagados.includes(fuego.id);
+            const apagando = fuegosApagando.includes(fuego.id);
+
+            if (apagado) return null;
+
+            return (
+              <button
+                key={fuego.id}
+                type="button"
+                data-fuego-id={fuego.id}
+                className={`escena-6-fuego-boton escena-6-fuego-boton--${
+                  indice + 1
+                } ${apagando ? "apagando" : ""} ${
+                  batallaIntensa ? "fuego-intenso" : ""
+                }`}
+                style={fuego.estilo}
+                onClick={() => apagarFuego(fuego.id)}
+                onAnimationEnd={manejarFinAnimacionFuego}
+                disabled={!batallaIntensa || apagando}
+                aria-label={`Apagar fuego ${indice + 1}`}
+                title="Toca para apagar este fuego"
+              >
+                <img
+                  src={FUEGO_ESCENA6}
+                  alt={`Fuego ${indice + 1}`}
+                  draggable="false"
+                />
+              </button>
+            );
+          })}
+
+          {/* Cada fuego genera humo en su propia posición. */}
+          {FUEGOS_ESCENA6.map((fuego) =>
+            humosVisibles.includes(fuego.id) ? (
+              <div
+                key={`humo-${fuego.id}`}
+                className="escena-6-humo"
+                style={{
+                  left: fuego.estilo.left,
+                  bottom: fuego.humoBottom,
+                  width: fuego.estilo.width,
+                }}
+                aria-hidden="true"
+              />
+            ) : null
+          )}
+
           <div
             className={`escena-6-ambiente ${
               batallaIntensa ? "intensa" : ""
@@ -656,23 +761,22 @@ const Escena6 = forwardRef(
             aria-hidden="true"
           />
 
-          {/* ADRIÁN CAMINANDO */}
+          {/* Adrián aparece asustado en su posición final y no entra caminando. */}
           {!adrianHabla && (
             <div
-              className="escena-5-adrian-prueba"
-              onAnimationEnd={terminarCaminata}
+              className="escena-6-adrian-entrada"
+              onAnimationEnd={terminarEntradaAdrian}
             >
-              <Lottie
-                animationData={animacionAdrian}
-                loop
-                autoplay
+              <img
+                src={EXPRESION_ASUSTADO}
+                alt="Adrián asustado"
+                draggable="false"
               />
             </div>
           )}
 
-          {/* ADRIÁN HABLANDO */}
           {adrianHabla && (
-            <div className="escena-5-adrian-hablando">
+            <div className="escena-6-adrian-hablando">
               <Lottie
                 animationData={AdrianHablando}
                 loop
@@ -681,101 +785,141 @@ const Escena6 = forwardRef(
             </div>
           )}
 
-          {/* AUDIO ÚNICO DE LA ESCENA */}
+          {expresionAdrian && (
+            <img
+              key={versionExpresion}
+              src={
+                expresionAdrian.tipo === "asustado"
+                  ? EXPRESION_ASUSTADO
+                  : expresionAdrian.tipo === "pensativo"
+                    ? EXPRESION_PENSATIVO
+                    : expresionAdrian.tipo === "feliz"
+                      ? EXPRESION_FELIZ
+                      : EXPRESION_SORPRENDIDO
+              }
+              alt={`Adrián ${expresionAdrian.tipo}`}
+              className={`escena-6-expresion escena-6-expresion--${
+                expresionAdrian.lado
+              } ${
+                faseExpresion === "salida" ? "saliendo" : "entrando"
+              }`}
+              onAnimationEnd={manejarFinAnimacionExpresion}
+              draggable="false"
+              aria-hidden="true"
+            />
+          )}
+
           <audio
             ref={audioRef}
             onEnded={manejarFinAudio}
             preload="auto"
           />
 
-          {/* SUBTÍTULOS */}
           {textoNarracionActivo &&
             momentoTexto !== null &&
             TEXTOS_ESCENA6[momentoTexto] && (
-              <div className="escena-5-texto-narracion">
+              <div
+                className="escena-6-texto-narracion"
+                key={momentoTexto}
+              >
                 {TEXTOS_ESCENA6[momentoTexto]}
               </div>
             )}
 
-          {/* OBJETO QUE SE ESTÁ BUSCANDO */}
+          {esperandoApagarFuego &&
+            fuegosApagados.length < FUEGOS_ESCENA6.length && (
+              <div className="escena-6-instruccion-fuego">
+                ¡Apaga el fuego para que el reloj responda!
+              </div>
+            )}
+
           {objetoVisible && OBJETOS[objetoVisible] && (
             <button
-              className={`escena-5-objeto-boton fase-${faseBusqueda} ${
+              type="button"
+              className={`escena-6-objeto-boton fase-${faseBusqueda} ${
                 objetoDescubierto === objetoVisible ? "descubierto" : ""
-              } ${objetoPulsando === objetoVisible ? "pulsando" : ""}`}
+              } ${
+                objetoActivo === objetoVisible ? "modal-abierto" : ""
+              } ${
+                objetoPulsando === objetoVisible ? "pulsando" : ""
+              }`}
               data-objeto={objetoVisible}
-              style={{ left: posicionActual.left, top: posicionActual.top }}
+              style={{
+                left: posicionActual.left,
+                top: posicionActual.top,
+              }}
               onClick={() => reproducirObjeto(objetoVisible)}
-              onAnimationEnd={manejarAnimacionBusqueda}
               aria-label={OBJETOS[objetoVisible].etiqueta}
             >
               <img
                 src={OBJETOS[objetoVisible].imagen}
                 alt={OBJETOS[objetoVisible].alt}
+                draggable="false"
               />
             </button>
           )}
 
-          {/* RELOJ (espera el clic de Adrián) */}
           {relojVisible && !relojCayendo && (
             <button
-              className={`escena-5-reloj-boton ${
+              type="button"
+              className={`escena-6-reloj-boton ${
                 relojDescubierto ? "descubierto" : ""
-              } ${relojIntentando ? "intentando" : ""}`}
+              } ${
+                relojIntentando ? "intentando" : ""
+              }`}
               onClick={() => reproducirObjeto("reloj")}
               aria-label="Activar reloj"
             >
               <img
                 src={RelojCerrado}
-                alt="Reloj"
-                className="escena-5-reloj-cerrado"
+                alt="Reloj cerrado"
+                className="escena-6-reloj-cerrado"
+                draggable="false"
               />
             </button>
           )}
 
-          {/* RELOJ CAÍDO ENTRE LOS ESCOMBROS */}
           {relojCayendo && (
             <div className="escena-6-reloj-caido">
               <img
                 src={RelojCerrado}
                 alt="Reloj caído entre los escombros"
-                className="escena-5-reloj-cerrado"
+                className="escena-6-reloj-cerrado"
+                draggable="false"
               />
             </div>
           )}
 
-          {/* LUZ INTENSA QUE CUBRE LA PANTALLA */}
-          {luzActiva && (
-            <div
-              className="escena-6-luz"
-              aria-hidden="true"
-            />
-          )}
-
-          {/* MODAL DE INFORMACIÓN */}
           {objetoActivo && OBJETOS[objetoActivo] && (
             <div
-              className="escena-5-modal-fondo"
+              className="escena-6-modal-fondo"
               onClick={cerrarModal}
             >
               <div
-                className="escena-5-modal"
+                className="escena-6-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="escena-6-modal-titulo"
                 onClick={(evento) => evento.stopPropagation()}
               >
-                <div className="escena-5-modal-imagen">
+                <div className="escena-6-modal-imagen">
                   <img
                     src={OBJETOS[objetoActivo].imagen}
                     alt={OBJETOS[objetoActivo].alt}
+                    draggable="false"
                   />
                 </div>
 
-                <div className="escena-5-modal-info">
-                  <h2>{OBJETOS[objetoActivo].titulo}</h2>
+                <div className="escena-6-modal-info">
+                  <h2 id="escena-6-modal-titulo">
+                    {OBJETOS[objetoActivo].titulo}
+                  </h2>
                   <p>{OBJETOS[objetoActivo].texto}</p>
                 </div>
 
                 <button
-                  className="escena-5-modal-cerrar"
+                  type="button"
+                  className="escena-6-modal-cerrar"
                   onClick={cerrarModal}
                   aria-label="Cerrar información"
                 >
@@ -785,6 +929,20 @@ const Escena6 = forwardRef(
             </div>
           )}
 
+          {/* Destellos blancos por encima de toda la escena durante el caos. */}
+          {caosActivo && (
+            <div
+              className="escena-6-destellos"
+              aria-hidden="true"
+            />
+          )}
+
+          {luzActiva && (
+            <div
+              className="escena-6-luz"
+              aria-hidden="true"
+            />
+          )}
         </div>
       </div>
     );

@@ -43,35 +43,30 @@ const ADRIAN_QUIETO = "/Feliz.svg";
 const EXPRESION_PENSATIVO = "/pensativoS.svg";
 const EXPRESION_FELIZ = "/FelizS.svg";
 
-/* =====================================================
-   ORDEN DE BÚSQUEDA:
-   Espada → Casco → Escudo → Reloj.
-===================================================== */
-
+// Orden de búsqueda: espada → casco → escudo → reloj.
 const SIGUIENTE_OBJETO = {
   espada: "casco",
   casco: "escudo",
 };
 
-/* Posiciones iniciales provisionales de los objetos. */
-
+// Posiciones de búsqueda de los objetos.
 const POSICIONES_ESCENA5 = {
   espada: [
-    { left: "14%", top: "70%" },
-    { left: "48%", top: "74%" },
-    { left: "84%", top: "68%" },
+    { left: "10%", top: "76%" },
+    { left: "23%", top: "42%" },
+    { left: "85%", top: "77%" },
   ],
 
   casco: [
-    { left: "20%", top: "72%" },
-    { left: "56%", top: "70%" },
-    { left: "88%", top: "74%" },
+    { left: "12%", top: "74%" },
+    { left: "22%", top: "44%" },
+    { left: "87%", top: "78%" },
   ],
 
   escudo: [
-    { left: "12%", top: "74%" },
-    { left: "44%", top: "70%" },
-    { left: "80%", top: "72%" },
+    { left: "8%", top: "79%" },
+    { left: "25%", top: "40%" },
+    { left: "82%", top: "80%" },
   ],
 };
 
@@ -86,10 +81,6 @@ const Escena5 = forwardRef(
     },
     ref
   ) => {
-    /* =====================================================
-       ANIMACIÓN DE ENTRADA DE ADRIÁN
-    ===================================================== */
-
     const imagenesAdrian = [
       img0,
       img1,
@@ -110,13 +101,6 @@ const Escena5 = forwardRef(
       })),
     };
 
-    /* =====================================================
-       AUDIOS
-       Casco: audio 7.
-       Escudo: audio 8.
-       Reloj: audio 9.
-    ===================================================== */
-
     const audiosEscena5 = {
       1: Esc5Audio1,
       2: Esc5Audio2,
@@ -127,10 +111,6 @@ const Escena5 = forwardRef(
       8: Esc5Audio8,
       9: Esc5Audio9,
     };
-
-    /* =====================================================
-       SUBTÍTULOS
-    ===================================================== */
 
     const textosEscena5 = {
       1: "Roma. Estamos en el Coliseo, uno de los lugares donde más personas se reúnen para presenciar espectáculos.",
@@ -143,16 +123,14 @@ const Escena5 = forwardRef(
 
       5: "El gladius romano es una espada corta de doble filo. Gracias a su tamaño, los legionarios podían usarla en combates muy cercanos, sin perder el orden de la formación.",
 
+      6: "",
+
       7: "Los cascos de bronce de los guerreros griegos, como los espartanos, protegían la cabeza y buena parte del rostro. A cambio, limitaban la visión y el oído.",
 
       8: "El escudo de los legionarios era curvo y rectangular, de madera cubierta de cuero. Juntos, los soldados podían formar la famosa «tortuga» para protegerse de los proyectiles.",
 
       9: "Ya, veamos este objeto. Puede ayudarnos a entender un poco más sobre la vida en Roma.",
     };
-
-    /* =====================================================
-       OBJETOS INTERACTIVOS
-    ===================================================== */
 
     const OBJETOS = {
       espada: {
@@ -187,7 +165,7 @@ const Escena5 = forwardRef(
     };
 
     /* =====================================================
-       ESTADOS DE ADRIÁN Y AUDIO
+       ESTADOS DE ADRIÁN Y DEL AUDIO
     ===================================================== */
 
     const [adrianHabla, setAdrianHabla] = useState(false);
@@ -196,11 +174,12 @@ const Escena5 = forwardRef(
     const [narradorActivo, setNarradorActivo] = useState(false);
 
     const [expresionAdrian, setExpresionAdrian] = useState(null);
+    const [faseExpresion, setFaseExpresion] = useState("entrada");
     const [versionExpresionAdrian, setVersionExpresionAdrian] =
       useState(0);
 
     /* =====================================================
-       ESTADOS DE LOS OBJETOS
+       ESTADOS DE LOS OBJETOS INTERACTIVOS
     ===================================================== */
 
     const [objetoVisible, setObjetoVisible] = useState(null);
@@ -213,7 +192,7 @@ const Escena5 = forwardRef(
     const [objetosDescubiertos, setObjetosDescubiertos] = useState([]);
 
     /* =====================================================
-       ESTADOS DEL RELOJ Y CONTINUACIÓN
+       ESTADOS DEL RELOJ Y DE LA CONTINUACIÓN
     ===================================================== */
 
     const [momentoTexto, setMomentoTexto] = useState(null);
@@ -224,30 +203,20 @@ const Escena5 = forwardRef(
     const [relojAbierto, setRelojAbierto] = useState(false);
     const [mostrarContinuar, setMostrarContinuar] = useState(false);
 
-    /* =====================================================
-       REFERENCIAS
-    ===================================================== */
-
     const audioRef = useRef(null);
     const escenaIniciadaRef = useRef(false);
     const relojTimerRef = useRef(null);
     const busquedaTimerRef = useRef(null);
     const expresionTimerRef = useRef(null);
 
-    /* Adrián habla mientras hay audio.
-       En pausa o espera se muestra su pose quieta. */
-
     const adrianEstaHablando =
-      adrianHabla &&
-      narradorActivo &&
-      tipoAudio !== "espera";
+      adrianHabla && narradorActivo && tipoAudio !== "espera";
 
     useEffect(() => {
       onNarradorEstadoChange?.(narradorActivo);
     }, [narradorActivo, onNarradorEstadoChange]);
 
-    /* Limpiar audio y temporizadores al salir de la escena. */
-
+    /* Limpieza de los temporizadores y del audio al salir de la escena. */
     useEffect(() => {
       return () => {
         if (audioRef.current) {
@@ -270,28 +239,45 @@ const Escena5 = forwardRef(
     }, []);
 
     /* =====================================================
-       EXPRESIONES FACIALES
-       Solo se activan en momentos concretos.
+       EXPRESIONES FACIALES: ENTRADA Y SALIDA
     ===================================================== */
 
     const mostrarExpresion = (tipo, lado = "derecha") => {
       if (expresionTimerRef.current) {
         clearTimeout(expresionTimerRef.current);
+        expresionTimerRef.current = null;
       }
 
       setVersionExpresionAdrian((actual) => actual + 1);
+      setFaseExpresion("entrada");
       setExpresionAdrian({ tipo, lado });
 
+      // Espera mientras la expresión permanece visible.
+      // Después cambia a la fase de salida.
       expresionTimerRef.current = setTimeout(() => {
-        setExpresionAdrian(null);
+        setFaseExpresion("salida");
+      }, 2100);
+    };
+
+    const manejarFinAnimacionExpresion = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
+
+      if (evento.animationName !== "salidaExpresionEscena5") {
+        return;
+      }
+
+      if (expresionTimerRef.current) {
+        clearTimeout(expresionTimerRef.current);
         expresionTimerRef.current = null;
-      }, 2800);
+      }
+
+      // Desmontar la expresión únicamente cuando terminó su salida.
+      setExpresionAdrian(null);
+      setFaseExpresion("entrada");
     };
 
     /* =====================================================
-       REPRODUCIR AUDIO
-       No activa expresiones automáticamente para evitar
-       que se repitan durante toda la narración.
+       REPRODUCCIÓN DE AUDIO
     ===================================================== */
 
     const reproducirAudio = (audio, numero, tipo) => {
@@ -312,7 +298,7 @@ const Escena5 = forwardRef(
 
       reproductor.play().catch((error) => {
         console.error(
-          `No se pudo reproducir el audio ${numero} de Escena 5:`,
+          "No se pudo reproducir el audio de Escena 5:",
           error
         );
 
@@ -321,7 +307,7 @@ const Escena5 = forwardRef(
     };
 
     /* =====================================================
-       APARICIÓN Y DESAPARICIÓN DE OBJETOS
+       APARICIÓN Y DESAPARICIÓN DE LOS OBJETOS
     ===================================================== */
 
     useEffect(() => {
@@ -381,18 +367,13 @@ const Escena5 = forwardRef(
       }
     };
 
-    /* Registrar objetos encontrados una sola vez. */
-
     const registrarObjetoEncontrado = (objeto) => {
       if (objetosDescubiertos.includes(objeto)) return;
 
       const nuevosObjetos = [...objetosDescubiertos, objeto];
       setObjetosDescubiertos(nuevosObjetos);
 
-      if (
-        nuevosObjetos.length === 3 &&
-        onObjetosEncontrados
-      ) {
+      if (nuevosObjetos.length === 3 && onObjetosEncontrados) {
         onObjetosEncontrados(6);
       }
     };
@@ -403,6 +384,7 @@ const Escena5 = forwardRef(
 
     const terminarCaminata = (evento) => {
       if (evento.target !== evento.currentTarget) return;
+
       if (evento.animationName !== "entradaAdrianEscena5") return;
       if (escenaIniciadaRef.current) return;
 
@@ -418,32 +400,63 @@ const Escena5 = forwardRef(
     ===================================================== */
 
     const iniciarMovimientoReloj = () => {
+      if (relojTimerRef.current) {
+        clearTimeout(relojTimerRef.current);
+        relojTimerRef.current = null;
+      }
+
+      // El reloj comienza cerca de Adrián y viaja hacia arriba.
+      setRelojDescubierto(false);
+      setRelojEnCentro(false);
       setRelojMoviendose(true);
+    };
+
+    const manejarAnimacionReloj = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
+
+      // Solo reaccionar al final de la trayectoria del reloj.
+      if (evento.animationName !== "moverRelojCentroEscena5") {
+        return;
+      }
+
+      setRelojMoviendose(false);
+      setRelojEnCentro(true);
+
+      // El reloj permanece un instante en su destino antes de abrirse.
+      if (relojTimerRef.current) {
+        clearTimeout(relojTimerRef.current);
+      }
 
       relojTimerRef.current = setTimeout(() => {
-        setRelojMoviendose(false);
-        setRelojEnCentro(true);
+        setRelojEnCentro(false);
+        setRelojAbierto(true);
 
-        relojTimerRef.current = setTimeout(() => {
-          setRelojEnCentro(false);
-          setRelojAbierto(true);
-          setMostrarContinuar(true);
-          setMomentoTexto(null);
-          setTipoAudio("espera");
-          setNarradorActivo(false);
-        }, 1800);
-      }, 1400);
+        setMomentoTexto(null);
+        setTipoAudio("espera");
+        setNarradorActivo(false);
+
+        relojTimerRef.current = null;
+      }, 700);
+    };
+
+    const manejarFinAnimacionRelojAbierto = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
+
+      // El botón aparece después de terminar la animación de apertura.
+      if (evento.animationName !== "abrirRelojEscena5") {
+        return;
+      }
+
+      setMostrarContinuar(true);
     };
 
     /* =====================================================
-       FINAL DE AUDIO
+       FINALIZACIÓN DE LOS AUDIOS
     ===================================================== */
 
     const manejarFinAudio = () => {
-      /* Audios de los objetos y del reloj. */
-
       if (tipoAudio === "objeto") {
-        // Al terminar el audio 9 del reloj, este se mueve y se abre.
+        // El audio del reloj termina y comienza su traslado.
         if (objetoEnAudio === "reloj") {
           setObjetoEnAudio(null);
           setMomentoTexto(null);
@@ -464,7 +477,6 @@ const Escena5 = forwardRef(
         setObjetoPulsando(null);
         setObjetoDescubierto(null);
 
-        // Mostrar expresión después de terminar la explicación.
         if (objetoTerminado === "escudo") {
           mostrarExpresion("feliz", "derecha");
         } else {
@@ -474,6 +486,7 @@ const Escena5 = forwardRef(
           );
         }
 
+        // Continuar con el siguiente objeto.
         if (siguiente) {
           setObjetoVisible(siguiente);
           setPosicionEscondite(0);
@@ -485,8 +498,7 @@ const Escena5 = forwardRef(
           return;
         }
 
-        // Terminaron espada, casco y escudo: mostrar reloj cerrado.
-        // El audio 9 empieza solo al hacer clic en el reloj.
+        // Los tres objetos ya fueron encontrados: habilitar el reloj.
         setObjetoVisible(null);
         setFaseBusqueda("oculto");
         setPosicionEscondite(0);
@@ -498,8 +510,7 @@ const Escena5 = forwardRef(
         return;
       }
 
-      /* Secuencia de introducción: audio 1 → 2 → 3 → 4. */
-
+      // Secuencia de introducción: audios 1 → 2 → 3 → 4.
       if (audioActual === 1) {
         setMomentoTexto(2);
         reproducirAudio(audiosEscena5[2], 2, "principal");
@@ -518,7 +529,7 @@ const Escena5 = forwardRef(
         return;
       }
 
-      // Al terminar la introducción, comienza la búsqueda de la espada.
+      // Al acabar la introducción, aparece la expresión y se busca la espada.
       if (audioActual === 4) {
         mostrarExpresion("pensativo", "derecha");
 
@@ -545,12 +556,10 @@ const Escena5 = forwardRef(
         setMomentoTexto(9);
 
         reproducirAudio(audiosEscena5[9], 9, "objeto");
-
         return;
       }
 
       const configuracion = OBJETOS[objeto];
-
       if (!configuracion) return;
 
       if (busquedaTimerRef.current) {
@@ -573,10 +582,6 @@ const Escena5 = forwardRef(
         "objeto"
       );
     };
-
-    /* =====================================================
-       CONTINUAR AL CAPÍTULO 6
-    ===================================================== */
 
     const continuarCapitulo6 = () => {
       if (objetosDescubiertos.length < 3) return;
@@ -613,23 +618,14 @@ const Escena5 = forwardRef(
 
     useImperativeHandle(ref, () => ({ toggleNarracion }));
 
-    /* =====================================================
-       CERRAR MODAL
-    ===================================================== */
-
     const cerrarModal = () => {
       const objetoModal = objetoActivo;
-
       setObjetoActivo(null);
 
       if (objetoModal) {
         setObjetoPulsando(objetoModal);
       }
     };
-
-    /* =====================================================
-       POSICIÓN ACTUAL DEL OBJETO
-    ===================================================== */
 
     const posicionesActuales = POSICIONES_ESCENA5[objetoVisible];
 
@@ -646,7 +642,6 @@ const Escena5 = forwardRef(
     return (
       <div className="escena-5">
         <div className="escena-5-contenido">
-
           {/* Fondo del Coliseo */}
           <img
             src={FONDO_ESCENA5}
@@ -654,7 +649,7 @@ const Escena5 = forwardRef(
             className="escena-5-fondo"
           />
 
-          {/* Objetos interactivos, debajo de las piezas frontales. */}
+          {/* Objetos interactivos bajo los elementos frontales */}
           {objetoVisible && OBJETOS[objetoVisible] && (
             <button
               type="button"
@@ -680,7 +675,7 @@ const Escena5 = forwardRef(
             </button>
           )}
 
-          {/* Piezas frontales del escenario. */}
+          {/* Piezas del primer plano */}
           <div
             className="escena-5-elementos-frontales"
             aria-hidden="true"
@@ -721,7 +716,7 @@ const Escena5 = forwardRef(
             </div>
           )}
 
-          {/* Adrián hablando o en pose quieta */}
+          {/* Adrián hablando o quieto */}
           {adrianHabla &&
             (adrianEstaHablando ? (
               <div className="escena-5-adrian-hablando">
@@ -740,7 +735,7 @@ const Escena5 = forwardRef(
               />
             ))}
 
-          {/* Expresiones faciales de Adrián */}
+          {/* Expresiones faciales con entrada y salida separadas */}
           {expresionAdrian && (
             <img
               key={versionExpresionAdrian}
@@ -754,11 +749,10 @@ const Escena5 = forwardRef(
                   ? "Adrián pensativo"
                   : "Adrián feliz"
               }
-              className={[
-                "escena-5-expresion",
-                `escena-5-expresion--${expresionAdrian.tipo}`,
-                `escena-5-expresion--${expresionAdrian.lado}`,
-              ].join(" ")}
+              className={`escena-5-expresion escena-5-expresion--${expresionAdrian.tipo} escena-5-expresion--${expresionAdrian.lado} ${
+                faseExpresion === "salida" ? "saliendo" : "entrando"
+              }`}
+              onAnimationEnd={manejarFinAnimacionExpresion}
               draggable="false"
               aria-hidden="true"
               onError={(evento) => {
@@ -789,7 +783,7 @@ const Escena5 = forwardRef(
               </div>
             )}
 
-          {/* Reloj cerrado */}
+          {/* Reloj cerrado: parpadea hasta que se toca */}
           {relojVisible && !relojAbierto && (
             <button
               type="button"
@@ -801,6 +795,7 @@ const Escena5 = forwardRef(
                 relojDescubierto ? "descubierto" : ""
               }`}
               onClick={() => reproducirObjeto("reloj")}
+              onAnimationEnd={manejarAnimacionReloj}
               aria-label="Activar reloj"
             >
               <img
@@ -814,7 +809,10 @@ const Escena5 = forwardRef(
 
           {/* Reloj abierto */}
           {relojAbierto && (
-            <div className="escena-5-reloj-abierto">
+            <div
+              className="escena-5-reloj-abierto"
+              onAnimationEnd={manejarFinAnimacionRelojAbierto}
+            >
               <img
                 src={reloj}
                 alt="Reloj abierto"
@@ -824,12 +822,11 @@ const Escena5 = forwardRef(
             </div>
           )}
 
-          {/* Continuar al capítulo 6 */}
+          {/* Continuar al capítulo 6: aparece después de abrirse el reloj */}
           {mostrarContinuar && (
             <div className="escena-5-continuar-contenedor">
               <div className="escena-5-continuar-texto">
                 <span>CONTINUAR AL CAPÍTULO 6</span>
-
                 <button
                   type="button"
                   className="escena-5-continuar-boton"
@@ -867,7 +864,6 @@ const Escena5 = forwardRef(
                   <h2 id="escena-5-modal-titulo">
                     {OBJETOS[objetoActivo].titulo}
                   </h2>
-
                   <p>{OBJETOS[objetoActivo].texto}</p>
                 </div>
 
