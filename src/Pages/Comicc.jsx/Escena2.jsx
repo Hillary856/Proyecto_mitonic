@@ -18,7 +18,7 @@ import Esc2Audio6 from "../../Audios/Esc2Audio6.mp3";
 import Esc2Audio7 from "../../Audios/Esc2Audio7.mp3";
 import Esc2Audio8 from "../../Audios/Esc2Audio8.mp3";
 
-import Es1Platon from "../../AssetsNuevos/Es1Platon.svg";
+import Es1Platon from "../../AssetsNuevos/Es1platon.svg";
 import Es1Pergamino from "../../AssetsNuevos/Es1Pergamino.svg";
 import Es1copa from "../../AssetsNuevos/Es1copa.svg";
 import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
