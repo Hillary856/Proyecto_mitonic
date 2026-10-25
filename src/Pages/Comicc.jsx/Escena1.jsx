@@ -114,12 +114,11 @@ const Escena1 = forwardRef(
     const textosEscena1 = {
       1: "Un nuevo día de investigación. Nunca sé qué voy a encontrar cuando entro en una cueva como esta... y eso es justamente lo que hace interesante mi trabajo.",
       2: "Por lo que puedo ver, este lugar lleva bastante tiempo sin ser explorado. Quizás todavía quede algo entre estos escombros.",
-      3: "Ve una moneda. Parece bastante antigua. Además, sus figuras y símbolos nos hablan de nuestras creencias, nuestros dioses y hasta de la identidad de nuestras ciudades.",
+      3: "Ve una moneda. Parece bastante antigua. Las monedas son mucho más que una forma de pagar, gracias a ellas podemos comerciar con mayor facilidad y conocer quién tiene poder en una determinada época. Además, sus figuras y símbolos nos hablan de nuestras creencias, nuestros dioses y hasta de la identidad de nuestras ciudades.",
       4: "",
-      5: "Y aquí tenemos un jarrón. Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. A veces, para conocer una época, no hace falta encontrar un gran tesoro. Un objeto como este puede contar una historia completa.",
-      6: "Una lanza. Esta sí es fácil de reconocer.",
+      5: "Y aquí tenemos un jarrón. Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. Miren sus representaciones en ellas podemos encontrar escenas de nuestras costumbres, guerras, creencias y hasta momentos de nuestra vida diaria.",
       7: "",
-      8: "",
+      8: "¿y esto? ",
     };
 
     /* Estados de caminata y narración. */

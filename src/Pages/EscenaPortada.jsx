@@ -11,6 +11,7 @@ import Escena3 from "./Comicc.jsx/Escena3";
 import Escena4 from "./Comicc.jsx/Escena4";
 import Escena5 from "./Comicc.jsx/Escena5";
 import * as Escena6Module from "./Comicc.jsx/Escena6";
+import Escena7 from "./Comicc.jsx/Escena7";
 
 import {
   FaVolumeUp,
@@ -146,9 +147,6 @@ export const EscenaPortada = () => {
       const numero = Number(capitulo.numero);
 
       if (!capitulosDesbloqueados.includes(numero)) {
-      
-      
-      
         return;
       }
 
@@ -388,14 +386,13 @@ export const EscenaPortada = () => {
                 />
               )}
 
-              {/* ESCENA 7 */}
+              {/* ESCENA 7 — REGRESO A LA CUEVA */}
               {capituloActivo === 7 && (
-                <div className="comic-escena-final">
-                  <p>
-                    El capítulo 7 todavía no está conectado
-                    en este componente.
-                  </p>
-                </div>
+                <Escena7
+                  ref={escenaRef}
+                  textoNarracionActivo={textoNarracionActivo}
+                  onNarradorEstadoChange={actualizarEstadoNarrador}
+                />
               )}
 
             </div>
