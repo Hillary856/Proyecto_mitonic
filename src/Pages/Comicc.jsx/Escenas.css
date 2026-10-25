@@ -5309,7 +5309,7 @@
   position: absolute;
   left: 22%;
   bottom: -10%;
-  width: 40%;
+  width: 22%;
   height: auto;
   z-index: 35;
   transform: translateX(3%);
@@ -6207,95 +6207,484 @@
 
 /* =========================================================
    ESCENA 7 — REGRESO A LA CUEVA
-========================================================= */
+   ========================================================= */
 
-/* ---------- la cámara (fondo + Adrián) ---------- */
+/* Mantener el fondo estable, sin alejar la cámara */
 
 .escena-7-camara {
   position: absolute;
   inset: 0;
-
   z-index: 1;
-
   transform-origin: 50% 60%;
-
-  transition: transform 9s ease-in-out;
 }
 
-/* al final, la cámara se aleja lentamente de Adrián */
+/* Ocultar cualquier desplazamiento dentro de la escena 7 */
 
-.escena-7-camara.alejando {
-  transform: scale(0.9);
+.escena-7,
+.escena-7 .escena-5-contenido {
+  overflow: hidden !important;
+  scrollbar-width: none !important;
 }
 
+.escena-7 .escena-5-contenido::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
 
-/* ---------- fundido a negro ---------- */
+/* =========================================================
+   RELÁMPAGOS DE ENTRADA
+   ========================================================= */
 
-.escena-7-fundido {
+.escena-7-relampago-intro {
   position: absolute;
   inset: 0;
-
-  z-index: 80;
-
-  background-color: #000;
-
+  z-index: 85;
+  background: #fff;
   opacity: 0;
-
   pointer-events: none;
+  animation: relampagoEntradaEscena7 1.05s linear both;
+  will-change: opacity;
 }
 
-.escena-7-fundido.activo {
-  animation: fundidoNegroEscena7 2.2s ease-in forwards;
+@keyframes relampagoEntradaEscena7 {
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 0.92;
+  }
+
+  9% {
+    opacity: 0.06;
+  }
+
+  15% {
+    opacity: 0.78;
+  }
+
+  19% {
+    opacity: 0;
+  }
+
+  44% {
+    opacity: 0;
+  }
+
+  48% {
+    opacity: 0.84;
+  }
+
+  52% {
+    opacity: 0.05;
+  }
+
+  57% {
+    opacity: 0;
+  }
+
+  79% {
+    opacity: 0;
+  }
+
+  83% {
+    opacity: 0.7;
+  }
+
+  87% {
+    opacity: 0;
+  }
 }
 
-@keyframes fundidoNegroEscena7 {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+/* =========================================================
+   ADRIÁN ASUSTADO
+   Comparte la posición del personaje hablando.
+   ========================================================= */
+
+.escena-5-adrian-hablando.escena-7-adrian-asustado {
+    width: 22%;
+  transform-origin: center bottom;
+  animation: entradaAdrianAsustadoEscena7 0.48s
+    cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity, filter;
 }
 
+.escena-7-adrian-asustado img {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
 
-/* ---------- texto final ---------- */
+@keyframes entradaAdrianAsustadoEscena7 {
+  0% {
+    opacity: 0;
+    transform: translateX(3%) scale(0.72);
+    filter: blur(3px);
+  }
 
-.escena-7-fin {
+  48% {
+    opacity: 1;
+    transform: translateX(3%) scale(1.08);
+    filter: blur(0);
+  }
+
+  72% {
+    opacity: 1;
+    transform: translateX(3%) scale(0.97);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(3%) scale(1);
+    filter: none;
+  }
+}
+
+/* =========================================================
+   SUBTÍTULOS DE LA ESCENA 7
+   Cambio inmediato entre audios.
+   ========================================================= */
+
+.escena-7 .escena-5-texto-narracion {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* =========================================================
+   FUNDIDO A NEGRO Y CONTADOR HISTÓRICO
+   Sin modal, tarjeta ni desplazamiento.
+   ========================================================= */
+
+.escena-7-linea-tiempo {
   position: absolute;
   inset: 0;
-
-  z-index: 90;
-
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  pointer-events: none;
-}
-
-.escena-7-fin p {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   margin: 0;
-
-  padding: 0 6%;
-
-  color: #fce9d5;
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(22px, 3vw, 44px);
-  font-style: italic;
-  font-weight: 600;
-  letter-spacing: 3px;
-
-  text-align: center;
-
-  text-shadow: 0 0 18px rgba(252, 233, 213, 0.35);
-
-  animation: textoFinEscena7 2.8s ease-out both;
+  padding: clamp(16px, 4vw, 48px);
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0);
+  animation: fundidoNegroContadorEscena7 1.25s ease-in-out forwards;
 }
 
-@keyframes textoFinEscena7 {
+@keyframes fundidoNegroContadorEscena7 {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  to {
+    background-color: #000;
+  }
+}
+
+/* Contenido transparente: ya no parece una tarjeta */
+
+.escena-7-tiempo-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: min(760px, 100%);
+  max-height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: clamp(12px, 3vw, 30px);
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #fce9d5;
+  text-align: center;
+  opacity: 0;
+  animation: aparecerContadorEscena7 0.8s ease-out 0.9s forwards;
+}
+
+@keyframes aparecerContadorEscena7 {
   from {
     opacity: 0;
-    letter-spacing: 8px;
+    transform: translateY(12px) scale(0.98);
   }
+
   to {
     opacity: 1;
-    letter-spacing: 3px;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Título superior */
+
+.escena-7-tiempo-eyebrow {
+  margin: 0 0 12px;
+  color: #e97813;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: clamp(10px, 1.2vw, 14px);
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* Título principal */
+
+.escena-7-tiempo-titulo {
+  margin: 0 0 24px;
+  color: #fce9d5;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: clamp(24px, 3.5vw, 46px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+/* Año actual */
+
+.escena-7-tiempo-anio {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: clamp(80px, 13vw, 135px);
+  margin: 0 0 18px;
+  color: #fce9d5;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+
+.escena-7-tiempo-numero {
+  color: #e97813;
+  font-size: clamp(64px, 11vw, 120px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.escena-7-tiempo-era {
+  color: #fce9d5;
+  font-size: clamp(19px, 3vw, 32px);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Barra de avance */
+
+.escena-7-tiempo-barra {
+  width: 100%;
+  height: 9px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(252, 233, 213, 0.2);
+}
+
+.escena-7-tiempo-barra-progreso {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #9d3c14, #e97813);
+  transition: width 0.06s linear;
+}
+
+/* Texto durante el avance */
+
+.escena-7-tiempo-espera {
+  margin: 24px 0 0;
+  color: rgba(252, 233, 213, 0.8);
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* Mensaje de llegada al año 250 d. C. */
+
+.escena-7-tiempo-llegada {
+  margin: 26px 0 22px;
+  color: #fce9d5;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: clamp(17px, 2vw, 25px);
+  font-weight: 800;
+  animation: aparecerLlegadaEscena7 0.55s ease-out both;
+}
+
+@keyframes aparecerLlegadaEscena7 {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Botón para continuar */
+
+.escena-7-continuar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 14px 26px;
+  border: 2px solid #e97813;
+  border-radius: 999px;
+  background: #e97813;
+  color: #4d0000;
+  font-family: Montserrat, Arial, Helvetica, sans-serif;
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+  animation: aparecerLlegadaEscena7 0.55s ease-out both;
+}
+
+.escena-7-continuar:hover,
+.escena-7-continuar:focus-visible {
+  transform: translateY(-2px);
+  border-color: #fce9d5;
+  background: #fce9d5;
+  color: #650000;
+  box-shadow: 0 8px 24px rgba(233, 120, 19, 0.22);
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   MÓVILES
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .escena-7-linea-tiempo {
+    padding: 14px;
+  }
+
+  .escena-7-tiempo-panel {
+    width: 100%;
+    padding: 12px 4px;
+  }
+
+  .escena-7-tiempo-eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.3px;
+  }
+
+  .escena-7-tiempo-titulo {
+    margin-bottom: 20px;
+    font-size: clamp(22px, 6vw, 32px);
+  }
+
+  .escena-7-tiempo-anio {
+    min-height: 76px;
+    gap: 8px;
+  }
+
+  .escena-7-tiempo-numero {
+    font-size: clamp(56px, 15vw, 82px);
+  }
+
+  .escena-7-tiempo-era {
+    font-size: clamp(17px, 4.5vw, 23px);
+  }
+
+  .escena-7-tiempo-barra {
+    height: 7px;
+  }
+
+  .escena-7-tiempo-espera {
+    margin-top: 20px;
+    font-size: 13px;
+  }
+
+  .escena-7-tiempo-llegada {
+    margin: 22px 0 18px;
+    font-size: clamp(16px, 4.3vw, 21px);
+  }
+
+  .escena-7-continuar {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 13px;
+  }
+}
+
+/* Pantallas bajas en horizontal */
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .escena-7-linea-tiempo {
+    padding: 8px 24px;
+  }
+
+  .escena-7-tiempo-panel {
+    padding: 4px 12px;
+  }
+
+  .escena-7-tiempo-eyebrow {
+    margin-bottom: 4px;
+    font-size: 9px;
+  }
+
+  .escena-7-tiempo-titulo {
+    margin-bottom: 10px;
+    font-size: 22px;
+  }
+
+  .escena-7-tiempo-anio {
+    min-height: 56px;
+    margin-bottom: 8px;
+  }
+
+  .escena-7-tiempo-numero {
+    font-size: 54px;
+  }
+
+  .escena-7-tiempo-era {
+    font-size: 19px;
+  }
+
+  .escena-7-tiempo-espera {
+    margin-top: 10px;
+  }
+
+  .escena-7-tiempo-llegada {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  .escena-7-continuar {
+    min-height: 38px;
+    padding: 8px 18px;
+  }
+}
+
+/* Preferencia de movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+  .escena-7-relampago-intro,
+  .escena-7-tiempo-panel,
+  .escena-7-tiempo-llegada,
+  .escena-7-continuar {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+
+  .escena-7-tiempo-barra-progreso,
+  .escena-7-continuar {
+    transition: none !important;
   }
 }

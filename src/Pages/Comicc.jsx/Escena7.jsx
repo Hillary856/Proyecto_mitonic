@@ -3,61 +3,35 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
-  useState
+  useState,
 } from "react";
 
 import lottieReact from "lottie-react";
-
-import CicloAdrianBody from "../../assets/CicloAdrianBody.json";
 import AdrianHablando from "../../assets/AdrianHablando.json";
-
-import img0 from "../../assets/AdrianBody/img_0.png";
-import img1 from "../../assets/AdrianBody/img_1.png";
-import img2 from "../../assets/AdrianBody/img_2.png";
-import img3 from "../../assets/AdrianBody/img_3.png";
-import img4 from "../../assets/AdrianBody/img_4.png";
-import img5 from "../../assets/AdrianBody/img_5.png";
-import img6 from "../../assets/AdrianBody/img_6.png";
-import img7 from "../../assets/AdrianBody/img_7.png";
-
 import "./Escenas.css";
 
+const Lottie = lottieReact.default || lottieReact;
 
-const Lottie = lottieReact.default;
+/* BUSCADOR DE AUDIOS */
 
-
-/* =====================================================
-   BUSCADOR DE AUDIOS
-   Encuentra Esc7Audio1 a Esc7Audio7 sin importar
-   mayúsculas. Si falta alguno, avisa en la consola.
-===================================================== */
-
-const SONIDOS = import.meta.glob(
-  "../../Audios/*.mp3",
-  { eager: true, import: "default" }
-);
+const SONIDOS = import.meta.glob("../../Audios/*.mp3", {
+  eager: true,
+  import: "default",
+});
 
 const nombreSinExtension = (ruta) =>
-  ruta
-    .split("/")
-    .pop()
-    .replace(/\.[^.]+$/, "")
-    .toLowerCase();
+  ruta.split("/").pop().replace(/\.[^.]+$/, "").toLowerCase();
 
 const buscarAudio = (nombre) => {
-
   const ruta = Object.keys(SONIDOS).find(
-    (r) => nombreSinExtension(r) === nombre.toLowerCase()
+    (rutaActual) =>
+      nombreSinExtension(rutaActual) === nombre.toLowerCase()
   );
 
-  if (ruta) {
-    return SONIDOS[ruta];
-  }
+  if (ruta) return SONIDOS[ruta];
 
   console.warn("[Escena 7] No se encontró el audio:", nombre);
-
   return null;
-
 };
 
 const AUDIOS_ESCENA7 = {
@@ -67,107 +41,102 @@ const AUDIOS_ESCENA7 = {
   4: buscarAudio("Esc7Audio4"),
   5: buscarAudio("Esc7Audio5"),
   6: buscarAudio("Esc7Audio6"),
-  7: buscarAudio("Esc7Audio7")
+  7: buscarAudio("Esc7Audio7"),
 };
 
-
-/* =====================================================
-   FONDO DE LA ESCENA
-   Prueba estas rutas en orden hasta que una cargue.
-===================================================== */
+/* FONDO Y PERSONAJE */
 
 const FONDOS_ESCENA7 = [
   "/Escenarios/cueva2.svg",
   "/cueva2.svg",
   "/Escenarios/Cueva2.svg",
-  "/Cueva2.svg"
+  "/Cueva2.svg",
 ];
 
+const EXPRESION_ASUSTADO = "/asustado.svg";
 
-/* =====================================================
-   SUBTÍTULOS (el número es el del audio)
-===================================================== */
+const URL_LINEA_TIEMPO =
+  "https://runas-codex.chalkyroot.chatgpt.site/";
+
+/*
+ * Cronología:
+ * 800 a. C. → 1 a. C. → 1 d. C. → 250 d. C.
+ * No existe año cero en esta secuencia.
+ */
+
+const ANIOS_CRONOLOGICOS = [
+  ...Array.from({ length: 800 }, (_, indice) => ({
+    anio: 800 - indice,
+    era: "a. C.",
+  })),
+
+  ...Array.from({ length: 150 }, (_, indice) => ({
+    anio: indice + 1,
+    era: "d. C.",
+  })),
+];
+
+/* SUBTÍTULOS */
 
 const TEXTOS_ESCENA7 = {
   1: "Estoy de vuelta ¿Qué acaba de pasar? El reloj no está...",
-  2: "Claro, se quedó allí, en medio del Imperio romano.",
-  3: "He recorrido Atenas, el Ágora y Roma. He visto lugares, personas y acontecimientos que forman parte de nuestra historia.",
-  4: "He visto cómo pensamos, cómo vivimos, cómo luchamos y cómo construimos nuestra sociedad.",
-  5: "Pero todavía hay algo que no logro comprender. ¿Qué es realmente ese reloj? ¿Por qué me llevó precisamente a esos momentos?",
-  6: "Y ahora está allí, en algún lugar del Imperio romano. Supongo que algún día sabremos qué ocurrió con él.",
-  7: "Por ahora, solo puedo quedarme con lo que he visto y con las preguntas que este viaje deja atrás."
-};
 
+  2: "Claro, se quedó allí, en medio del Imperio romano.",
+
+  3: "He recorrido Atenas, el Ágora y Roma. He visto lugares, personas y acontecimientos que forman parte de nuestra historia.",
+
+  4: "He visto cómo pensamos, cómo vivimos, cómo luchamos y cómo construimos nuestra sociedad.",
+
+  5: "Pero todavía hay algo que no logro comprender. ¿Qué es realmente ese reloj? ¿Por qué me llevó precisamente a esos momentos?",
+
+  6: "Y ahora está allí, en algún lugar del Imperio romano. Supongo que algún día sabremos qué ocurrió con él.",
+
+  7: "Por ahora, solo puedo quedarme con lo que he visto y con las preguntas que este viaje deja atrás.",
+};
 
 const Escena7 = forwardRef(
   (
     {
       textoNarracionActivo = true,
-      onNarradorEstadoChange
+      onNarradorEstadoChange,
     },
     ref
   ) => {
-
-    /* =====================================================
-       ADRIÁN CAMINANDO
-    ===================================================== */
-
-    const imagenesAdrian = [
-      img0, img1, img2, img3,
-      img4, img5, img6, img7
-    ];
-
-    const animacionAdrian = {
-      ...CicloAdrianBody,
-      assets: CicloAdrianBody.assets.map((asset, index) => ({
-        ...asset,
-        u: "",
-        p: imagenesAdrian[index] || asset.p
-      }))
-    };
-
-
-    /* =====================================================
-       ESTADOS
-       Al inicio no suena nada: Adrián solo camina.
-    ===================================================== */
+    /* INTRODUCCIÓN */
 
     const [adrianHabla, setAdrianHabla] = useState(false);
+    const [mostrarAsustado, setMostrarAsustado] = useState(false);
+    const [mostrarRelampago, setMostrarRelampago] = useState(true);
+
+    /* AUDIO Y SUBTÍTULOS */
+
     const [audioActual, setAudioActual] = useState(0);
     const [tipoAudio, setTipoAudio] = useState("espera");
     const [narradorActivo, setNarradorActivo] = useState(false);
     const [momentoTexto, setMomentoTexto] = useState(null);
 
-    const [alejando, setAlejando] = useState(false);
-    const [oscureciendo, setOscureciendo] = useState(false);
-    const [mostrarFin, setMostrarFin] = useState(false);
+    /* FONDO */
 
     const [fondoIndice, setFondoIndice] = useState(0);
 
+    /* CONTADOR FINAL */
 
-    /* =====================================================
-       REFERENCIAS
-    ===================================================== */
+    const [mostrarContador, setMostrarContador] = useState(false);
+    const [indiceAnio, setIndiceAnio] = useState(0);
+    const [contadorFinalizado, setContadorFinalizado] = useState(false);
+
+    /* REFERENCIAS */
 
     const audioRef = useRef(null);
     const habloRef = useRef(false);
-    const finTimerRef = useRef(null);
 
-
-    /* =====================================================
-       AVISAR AL PADRE DEL ESTADO DEL NARRADOR
-    ===================================================== */
+    /* ESTADO DEL NARRADOR */
 
     useEffect(() => {
-      if (onNarradorEstadoChange) {
-        onNarradorEstadoChange(narradorActivo);
-      }
+      onNarradorEstadoChange?.(narradorActivo);
     }, [narradorActivo, onNarradorEstadoChange]);
 
-
-    /* =====================================================
-       LIMPIAR AUDIO Y TEMPORIZADORES AL SALIR
-    ===================================================== */
+    /* LIMPIEZA AL SALIR DE LA ESCENA */
 
     useEffect(() => {
       return () => {
@@ -175,102 +144,166 @@ const Escena7 = forwardRef(
           audioRef.current.pause();
           audioRef.current.currentTime = 0;
         }
-        if (finTimerRef.current) {
-          clearTimeout(finTimerRef.current);
-        }
       };
     }, []);
 
-
-    /* =====================================================
-       REPRODUCIR AUDIO
-    ===================================================== */
+    /* REPRODUCIR AUDIO Y MOSTRAR SU SUBTÍTULO */
 
     const reproducirAudio = (audio, numero) => {
       const reproductor = audioRef.current;
-      if (!reproductor || !audio) return;
+
+      /*
+       * Cambiamos el número de audio y el subtítulo
+       * en la misma transición, sin usar temporizadores.
+       */
+
+      setAudioActual(numero);
+      setMomentoTexto(numero);
+      setTipoAudio("principal");
+
+      if (!reproductor || !audio) {
+        console.warn(
+          `[Escena 7] No se puede reproducir el audio ${numero}.`
+        );
+        setNarradorActivo(false);
+        return;
+      }
 
       reproductor.pause();
       reproductor.src = audio;
       reproductor.load();
       reproductor.currentTime = 0;
 
-      setAudioActual(numero);
-      setTipoAudio("principal");
       setNarradorActivo(true);
 
       reproductor.play().catch((error) => {
-        console.error("No se pudo reproducir el audio de Escena 7:", error);
+        console.error(
+          `No se pudo reproducir el audio ${numero} de Escena 7:`,
+          error
+        );
+
+        setNarradorActivo(false);
       });
     };
 
-
-    /* =====================================================
-       PASAR AL SIGUIENTE AUDIO
-       En el último, la cámara empieza a alejarse.
-    ===================================================== */
-
     const siguienteAudio = (numero) => {
-      setMomentoTexto(numero);
-
-      if (numero === 7) {
-        setAlejando(true);
-      }
-
       reproducirAudio(AUDIOS_ESCENA7[numero], numero);
     };
 
+    /* FIN DEL EFECTO DE RELÁMPAGOS */
 
-    /* =====================================================
-       FINAL DE LA CAMINATA
-       Adrián se detiene y recién ahí empieza a hablar.
-    ===================================================== */
+    const terminarRelampagoInicial = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
 
-    const terminarCaminata = (evento) => {
-      if (evento?.animationName && evento.animationName !== "entradaAdrianEscena5") {
+      if (evento.animationName !== "relampagoEntradaEscena7") {
+        return;
+      }
+
+      setMostrarRelampago(false);
+      setMostrarAsustado(true);
+    };
+
+    /* FIN DE LA APARICIÓN DE ADRIÁN ASUSTADO */
+
+    const terminarEntradaAsustado = (evento) => {
+      if (evento.target !== evento.currentTarget) return;
+
+      if (
+        evento.animationName !== "entradaAdrianAsustadoEscena7"
+      ) {
         return;
       }
 
       if (habloRef.current) return;
+
       habloRef.current = true;
 
+      setMostrarAsustado(false);
       setAdrianHabla(true);
+
       siguienteAudio(1);
     };
 
-
-    /* =====================================================
-       FIN DE AUDIO
-    ===================================================== */
+    /* TRANSICIÓN INMEDIATA ENTRE AUDIOS */
 
     const manejarFinAudio = () => {
-
-      // Audios 1 a 6 → pasan solos al siguiente
       if (audioActual >= 1 && audioActual < 7) {
         siguienteAudio(audioActual + 1);
         return;
       }
 
-      // Audio 7 → la pantalla se oscurece y aparece el texto final
+      /*
+       * Cuando termina el séptimo audio,
+       * la escena pasa a negro y comienza el contador.
+       */
+
       if (audioActual === 7) {
         setMomentoTexto(null);
         setTipoAudio("espera");
         setNarradorActivo(false);
-        setOscureciendo(true);
 
-        finTimerRef.current = setTimeout(() => {
-          setMostrarFin(true);
-        }, 2200);
+        setIndiceAnio(0);
+        setContadorFinalizado(false);
+        setMostrarContador(true);
       }
     };
 
+    /* CONTADOR HISTÓRICO */
 
-    /* =====================================================
-       CONTROL DEL NARRADOR DESDE EL PADRE
-    ===================================================== */
+    useEffect(() => {
+      if (!mostrarContador || contadorFinalizado) {
+        return undefined;
+      }
+
+      // Duración total de la animación del contador.
+      const duracion = 8500;
+
+      let instanteInicial = null;
+      let frameId = null;
+
+      const actualizarContador = (instanteActual) => {
+        if (instanteInicial === null) {
+          instanteInicial = instanteActual;
+        }
+
+        const progreso = Math.min(
+          (instanteActual - instanteInicial) / duracion,
+          1
+        );
+
+        const nuevoIndice = Math.min(
+          Math.round(
+            progreso * (ANIOS_CRONOLOGICOS.length - 1)
+          ),
+          ANIOS_CRONOLOGICOS.length - 1
+        );
+
+        setIndiceAnio(nuevoIndice);
+
+        if (progreso < 1) {
+          frameId = window.requestAnimationFrame(
+            actualizarContador
+          );
+        } else {
+          setIndiceAnio(ANIOS_CRONOLOGICOS.length - 1);
+          setContadorFinalizado(true);
+        }
+      };
+
+      frameId = window.requestAnimationFrame(actualizarContador);
+
+      return () => {
+        if (frameId !== null) {
+          window.cancelAnimationFrame(frameId);
+        }
+      };
+    }, [mostrarContador, contadorFinalizado]);
+
+    /* CONTROL DE NARRACIÓN DESDE EL COMPONENTE PADRE */
 
     const toggleNarracion = () => {
       const reproductor = audioRef.current;
+
       if (!reproductor || tipoAudio === "espera") return;
 
       if (!reproductor.paused) {
@@ -279,64 +312,76 @@ const Escena7 = forwardRef(
         return;
       }
 
-      reproductor.play()
+      reproductor
+        .play()
         .then(() => setNarradorActivo(true))
         .catch((error) => {
-          console.error("No se pudo reanudar la narración:", error);
+          console.error(
+            "No se pudo reanudar la narración:",
+            error
+          );
         });
     };
 
-    useImperativeHandle(ref, () => ({ toggleNarracion }));
+    useImperativeHandle(ref, () => ({
+      toggleNarracion,
+    }));
 
-
-    /* =====================================================
-       SI UN FONDO NO CARGA, PRUEBA EL SIGUIENTE
-    ===================================================== */
+    /* CAMBIAR DE RUTA SI EL FONDO NO CARGA */
 
     const probarOtroFondo = () => {
       if (fondoIndice < FONDOS_ESCENA7.length - 1) {
         setFondoIndice((actual) => actual + 1);
       } else {
-        console.warn("[Escena 7] No se encontró el fondo cueva2.svg.");
+        console.warn(
+          "[Escena 7] No se encontró el fondo cueva2.svg."
+        );
       }
     };
 
+    /* DATOS DEL CONTADOR */
 
-    /* =====================================================
-       RENDER
-    ===================================================== */
+    const anioActual =
+      ANIOS_CRONOLOGICOS[indiceAnio] ||
+      ANIOS_CRONOLOGICOS[0];
+
+    const progresoContador =
+      (indiceAnio / (ANIOS_CRONOLOGICOS.length - 1)) * 100;
+
+    /* RENDER */
 
     return (
       <div className="escena-5 escena-7">
         <div className="escena-5-contenido">
 
-          {/* CÁMARA: fondo y Adrián (se aleja al final) */}
-          <div
-            className={`escena-7-camara ${alejando ? "alejando" : ""}`}
-          >
+          {/* FONDO ESTABLE */}
 
+          <div className="escena-7-camara">
             <img
               src={FONDOS_ESCENA7[fondoIndice]}
-              alt="Cueva"
+              alt="Cueva donde Adrián regresa"
               className="escena-5-fondo"
               onError={probarOtroFondo}
+              draggable="false"
             />
 
-            {/* ADRIÁN CAMINANDO */}
-            {!adrianHabla && (
+            {/* ADRIÁN ASUSTADO */}
+
+            {mostrarAsustado && (
               <div
-                className="escena-5-adrian-prueba"
-                onAnimationEnd={terminarCaminata}
+                className="escena-5-adrian-hablando escena-7-adrian-asustado"
+                onAnimationEnd={terminarEntradaAsustado}
               >
-                <Lottie
-                  animationData={animacionAdrian}
-                  loop
-                  autoplay
+                <img
+                  src={EXPRESION_ASUSTADO}
+                  alt="Adrián asustado"
+                  draggable="false"
                 />
               </div>
             )}
 
             {/* ADRIÁN HABLANDO */}
+
             {adrianHabla && (
               <div className="escena-5-adrian-hablando">
                 <Lottie
@@ -346,10 +391,20 @@ const Escena7 = forwardRef(
                 />
               </div>
             )}
-
           </div>
 
-          {/* AUDIO ÚNICO DE LA ESCENA */}
+          {/* RELÁMPAGOS INICIALES */}
+
+          {mostrarRelampago && (
+            <div
+              className="escena-7-relampago-intro"
+              onAnimationEnd={terminarRelampagoInicial}
+              aria-hidden="true"
+            />
+          )}
+
+          {/* AUDIO */}
+
           <audio
             ref={audioRef}
             onEnded={manejarFinAudio}
@@ -357,25 +412,92 @@ const Escena7 = forwardRef(
           />
 
           {/* SUBTÍTULOS */}
+
           {textoNarracionActivo &&
             momentoTexto !== null &&
             TEXTOS_ESCENA7[momentoTexto] && (
-              <div className="escena-5-texto-narracion">
+              <div
+                className="escena-5-texto-narracion"
+                key={momentoTexto}
+              >
                 {TEXTOS_ESCENA7[momentoTexto]}
               </div>
             )}
 
-          {/* FUNDIDO A NEGRO */}
-          <div
-            className={`escena-7-fundido ${oscureciendo ? "activo" : ""}`}
-            aria-hidden="true"
-          />
+          {/* CONTADOR SOBRE FONDO NEGRO */}
 
-          {/* TEXTO FINAL */}
-          {mostrarFin && (
-            <div className="escena-7-fin">
-              <p>La historia continúa...</p>
-            </div>
+          {mostrarContador && (
+            <section
+              className="escena-7-linea-tiempo"
+              aria-label="Cierre y contador histórico"
+            >
+              <div className="escena-7-tiempo-panel">
+
+                <p className="escena-7-tiempo-eyebrow">
+                  ADRIÁN Y LAS CRÓNICAS DEL IMPERIO
+                </p>
+
+                <h2 className="escena-7-tiempo-titulo">
+                  El tiempo sigue avanzando
+                </h2>
+
+                {/* AÑO ACTUAL */}
+
+                <div
+                  className="escena-7-tiempo-anio"
+                  aria-label={`Año ${anioActual.anio} ${anioActual.era}`}
+                  aria-live="off"
+                >
+                  <span className="escena-7-tiempo-numero">
+                    {anioActual.anio}
+                  </span>
+
+                  <span className="escena-7-tiempo-era">
+                    {anioActual.era}
+                  </span>
+                </div>
+
+                {/* BARRA DE AVANCE */}
+
+                <div
+                  className="escena-7-tiempo-barra"
+                  role="progressbar"
+                  aria-label="Avance del tiempo histórico"
+                  aria-valuemin={0}
+                  aria-valuemax={ANIOS_CRONOLOGICOS.length - 1}
+                  aria-valuenow={indiceAnio}
+                >
+                  <span
+                    className="escena-7-tiempo-barra-progreso"
+                    style={{
+                      width: `${progresoContador}%`,
+                    }}
+                  />
+                </div>
+
+                {/* MENSAJE FINAL */}
+
+                {contadorFinalizado ? (
+                  <>
+                    <p className="escena-7-tiempo-llegada">
+                      Hemos llegado al año 150 d. C.
+                    </p>
+
+                    <a
+                      className="escena-7-continuar"
+                      href={URL_LINEA_TIEMPO}
+                    >
+                      Continuar con la línea del tiempo
+                    </a>
+                  </>
+                ) : (
+                  <p className="escena-7-tiempo-espera">
+                    El viaje por la historia continúa…
+                  </p>
+                )}
+
+              </div>
+            </section>
           )}
 
         </div>
