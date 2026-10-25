@@ -13,15 +13,15 @@ export const SeccionFooter = () => {
 
             <div className="footer-logo">
                 <img
-                    src="/public/Logo.png"
+                    src="/Logo.png"
                     alt="Mitonic"
                 />
             </div>
 
 
-            <div className="footer-ondas">
+            <div className="footer-ondas-contenedor">
                 <img
-                    src="/public/Ondas.svg"
+                    src="/Ondas.svg"
                     alt=""
                     className="footer-ondas"
                 />

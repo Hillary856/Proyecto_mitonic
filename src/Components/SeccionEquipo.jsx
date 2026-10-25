@@ -99,7 +99,7 @@ export const SeccionEquipo = () => {
 
             <div className="integrante-frente">
               <img
-                src="/public/Luisa C.png"
+                src="/LUISA%20C.png"
                 alt="Luisa C"
               />
             </div>
@@ -128,7 +128,7 @@ export const SeccionEquipo = () => {
 
             <div className="integrante-frente">
               <img
-                src="/public/Hillary C.png"
+                src="/HILLARY%20C.png"
                 alt="Hillary"
               />
             </div>
@@ -157,7 +157,7 @@ export const SeccionEquipo = () => {
 
             <div className="integrante-frente">
               <img
-                src="/public/Luisa R.png"
+                src="/LUISA%20R.png"
                 alt="Luisa R"
               />
             </div>

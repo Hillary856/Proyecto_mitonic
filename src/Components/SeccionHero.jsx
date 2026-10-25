@@ -65,10 +65,7 @@ export const SeccionHero = () => {
 
           <div className="telon-fondo">
 
-            <img
-              
-              alt=""
-            />
+            <img src="/Fondo.svg" alt="" />
 
             {abierto && (
 
