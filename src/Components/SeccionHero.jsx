@@ -66,7 +66,7 @@ export const SeccionHero = () => {
           <div className="telon-fondo">
 
             <img
-              src="/agoranormal.png"
+              
               alt=""
             />
 

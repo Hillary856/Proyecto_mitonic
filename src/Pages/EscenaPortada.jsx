@@ -146,6 +146,9 @@ export const EscenaPortada = () => {
       const numero = Number(capitulo.numero);
 
       if (!capitulosDesbloqueados.includes(numero)) {
+      
+      
+      
         return;
       }
 
