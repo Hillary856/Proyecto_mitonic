@@ -97,10 +97,10 @@ const DIALOGOS = {
     "Vaya, parece que hoy hay un debate interesante en el Ágora.",
 
   comercio:
-    "Si queremos que nuestra ciudad prospere, debemos apoyar a los comerciantes. Gracias a ellos conseguimos productos e intercambiamos mercancías.",
+    "Si queremos que nuestra ciudad prospere, debemos apoyar a los comerciantes. Gracias a ellos conseguimos productos, intercambiamos mercancías y mantenemos activa gran parte de nuestra vida cotidiana .",
 
   leyes:
-    "¿De qué sirve impulsar el comercio si no existen reglas claras? Sin acuerdos que se respeten, las disputas aumentarán y algunos se aprovecharán de los demás.",
+    "¿Y de qué sirve impulsar el comercio si no existen reglas claras?. Sin acuerdos que se respeten, las disputas aumentarán y algunos terminarán aprovechandose de los demás.",
 
   pregunta:
     "Los dos tienen buenos argumentos. ¿Tú a quién apoyarías?",
@@ -112,19 +112,19 @@ const DIALOGOS = {
     "Apoyar las leyes y los acuerdos.",
 
   respuestaComercio:
-    "Me alegra que comprendas la importancia de esta propuesta. Facilitar los intercambios beneficia a más personas.",
+    "Me alegra que comprendas la importancia de esta propuesta. Si facilitamos los intercambios más personas podrán beneficiarse de los productos que llegan a nuestra ciudad.",
 
   adrianComercio:
-    "Tiene sentido. Si el comercio prospera, muchas personas se benefician.",
+    "El comercio es fundamental para nuestra ciudad",
 
   respuestaLeyes:
-    "Una ciudad necesita normas claras para resolver sus disputas y evitar problemas mayores.",
+    "Es importante que lo comprendas. Una ciudad necesita normas claras para resolver sus disputas y evitar que los desacuerdos se conviertan en problemas mayores.",
 
   adrianLeyes:
-    "Es cierto. Necesitamos reglas para resolver nuestros conflictos.",
+    "Los acuerdos nos ayudan a convivir aunque no siempre pensemos igual.",
 
   reflexion:
-    "Cada propuesta responde a una necesidad diferente.",
+    "Cada propuesta responde a una necesidad diferente. Vaya desición",
 
   reloj:
     "¡Otra vez esa luz! ¿A dónde me llevará ahora?",

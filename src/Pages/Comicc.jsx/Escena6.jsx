@@ -192,8 +192,9 @@ const OBJETOS = {
 };
 
 const TEXTOS_ESCENA6 = {
-  1: "Esto no es un espectáculo. Es una batalla.",
-  2: "Los ejércitos romanos están enfrentándose para defender y expandir los territorios del Imperio.",
+  1: "Esto no es un espectáculo. Es una batalla, los ejércitos romanos están enfrentándose para defender y expandir los territorios del Imperio, tengo que mantenerme lejos de los soldados, aquí no estoy a salvo. ",
+  2:"pero si el reloj me ha traído hasta aquí seguramente estos objetos tampoco están aquí por casualidad.",
+  
   3: "Una urna funeraria. En ella se conservan las cenizas de una persona fallecida. Los rituales funerarios forman una parte importante de nuestras tradiciones y de la manera en que honramos a quienes ya no están con nosotros.",
   4: "Un cincel. Nuestros artesanos utilizan herramientas como esta para trabajar la piedra y crear esculturas, relieves y monumentos.",
   5: "Un amuleto. Muchos llevan objetos como este para protegerse y atraer la buena fortuna. Sus símbolos reflejan nuestras creencias y la importancia que damos a la protección de los dioses y de las fuerzas que no podemos controlar.",

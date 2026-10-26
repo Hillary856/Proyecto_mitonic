@@ -108,17 +108,19 @@ const Escena1 = forwardRef(
       6: Esc1Audio6,
       7: Esc1Audio7,
       8: Esc1Audio8,
+
     };
 
     /* Subtítulos originales. */
     const textosEscena1 = {
       1: "Un nuevo día de investigación. Nunca sé qué voy a encontrar cuando entro en una cueva como esta... y eso es justamente lo que hace interesante mi trabajo.",
       2: "Por lo que puedo ver, este lugar lleva bastante tiempo sin ser explorado. Quizás todavía quede algo entre estos escombros.",
-      3: "Ve una moneda. Parece bastante antigua. Las monedas son mucho más que una forma de pagar, gracias a ellas podemos comerciar con mayor facilidad y conocer quién tiene poder en una determinada época. Además, sus figuras y símbolos nos hablan de nuestras creencias, nuestros dioses y hasta de la identidad de nuestras ciudades.",
-      4: "",
+      3: "Ve una moneda. Parece bastante antigua. Las monedas son mucho más que una forma de pagar, gracias a ellas podemos comerciar con mayor facilidad y conocer quién tiene poder en una determinada época.",
+      4: " Además, sus figuras y símbolos nos hablan de nuestras creencias, nuestros dioses y hasta de la identidad de nuestras ciudades.",
       5: "Y aquí tenemos un jarrón. Aunque parece un objeto cotidiano, estos jarrones pueden contar muchísimo sobre nosotros. Miren sus representaciones en ellas podemos encontrar escenas de nuestras costumbres, guerras, creencias y hasta momentos de nuestra vida diaria.",
-      7: "",
-      8: "¿y esto? ",
+      6: "Una lanza, esta si es fácil de reconocer. Es una de las armas principales de nuestros guerreros. Los hoplitas la utilizan junto con su escudo para enfrentarse al enemigo y proteger su ciudad. ",
+      7: "¿Y esto? no reconzco este objeto, definitivamente no parece pertenecer a los lugares que encuentro en una excavación",
+      
     };
 
     /* Estados de caminata y narración. */

@@ -310,7 +310,7 @@ export const EscenaPortada = () => {
                 onClick={comenzarComic}
               >
                 COMENZAR
-                <span aria-hidden="true"> ▶</span>
+                <span aria-hidden="true"> </span>
               </button>
 
             </div>

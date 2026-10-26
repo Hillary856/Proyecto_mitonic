@@ -121,15 +121,15 @@ const Escena5 = forwardRef(
 
       4: "Para mí, sin embargo, hay algo mucho más importante: entender por qué el reloj me ha traído hasta aquí.",
 
-      5: "El gladius romano es una espada corta de doble filo. Gracias a su tamaño, los legionarios podían usarla en combates muy cercanos, sin perder el orden de la formación.",
+      5: "El gladius romano, fue una de las armas más importantes del ejército romano, especialmente por su tamaño corto y fácil manejo en combates cercanos",
 
       6: "",
 
-      7: "Los cascos de bronce de los guerreros griegos, como los espartanos, protegían la cabeza y buena parte del rostro. A cambio, limitaban la visión y el oído.",
+      7: "El casco espartano era una parte fundamental de la protección de los guerreros espartanos. Cubría principalmente la cabeza y ayudaba a protegerlos durante los combates",
 
-      8: "El escudo de los legionarios era curvo y rectangular, de madera cubierta de cuero. Juntos, los soldados podían formar la famosa «tortuga» para protegerse de los proyectiles.",
+      8: "El escudo romano fue un icónico escudo semicilíndrico y rectangular utilizado por los legionarios de la antigua Roma.",
 
-      9: "Ya, veamos este objeto. Puede ayudarnos a entender un poco más sobre la vida en Roma.",
+      9: "Roma deja su historia en cada uno de estos objetos.",
     };
 
     const OBJETOS = {

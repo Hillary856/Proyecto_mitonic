@@ -89,13 +89,13 @@ const FONDOS_ESCENA7 = [
 ===================================================== */
 
 const TEXTOS_ESCENA7 = {
-  1: "Estoy de vuelta ¿Qué acaba de pasar? El reloj no está...",
+  1: "Estoy de vuelta ¿Qué acaba de pasar? El reloj no está... En medio del imperio romano He recorrido Atenas, el Ágora y Roma. He visto lugares, personas y acontecimientos que forman parte de nuestra historia. ",
   2: "Claro, se quedó allí, en medio del Imperio romano.",
-  3: "He recorrido Atenas, el Ágora y Roma. He visto lugares, personas y acontecimientos que forman parte de nuestra historia.",
+ 
   4: "He visto cómo pensamos, cómo vivimos, cómo luchamos y cómo construimos nuestra sociedad.",
   5: "Pero todavía hay algo que no logro comprender. ¿Qué es realmente ese reloj? ¿Por qué me llevó precisamente a esos momentos?",
   6: "Y ahora está allí, en algún lugar del Imperio romano. Supongo que algún día sabremos qué ocurrió con él.",
-  7: "Por ahora, solo puedo quedarme con lo que he visto y con las preguntas que este viaje deja atrás."
+  6: "Por ahora, solo puedo quedarme con lo que he visto y con las preguntas que este viaje deja atrás."
 };
 
 

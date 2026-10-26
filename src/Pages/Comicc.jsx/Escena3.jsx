@@ -79,10 +79,11 @@ const Escena3 = forwardRef(
 
     const subtitulosEscena3 = {
       1: "El Ágora. Este lugar es mucho más que una plaza. Aquí nos reunimos para comerciar, conversar y discutir sobre los asuntos que afectan a nuestra ciudad. Si prestan atención, pueden escuchar cómo las personas intercambian ideas, opiniones y argumentos. La vida pública de Atenas ocurre aquí, frente a todos.",
-      2: "Servía para premiar y dar la máxima distinción de respeto a los líderes, jueces y sabios.",
+      2: "¡Ahh, la corona de laurel!.Servía para premiar y dar la máxima distinción de respeto a los líderes, jueces y sabios. Llevarla puesta durante las reuniones daba una protección especial, por lo que nadie podía atacar ni callar a esa persona mientras daba su discurso, también se usaba como premio para los ganadores de los concursos de poesía y talento que se hacían en la plaza.",
       3: "Cada cosa que encontramos aquí parece mostrarnos una parte diferente de cómo funciona nuestra sociedad.",
-      4: "Era obligatoria para todos los comerciantes y debían pesar sus productos frente al cliente, ya fueran sacos de trigo, olivas o polvo de oro.",
-      5: "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios."
+      4: " La balanza de bronce. Era obligatoria para todos los comerciantes y debían pesar sus productos frente al cliente, ya fueran sacos de trigo, olivas o polvo de oro.",
+      5: "Un racimo de uvas no era una simple fruta: era el motor de la economía local, el ingrediente estrella de las grandes discusiones filosóficas impulsadas por el vino y un amuleto vivo consagrado a Dioniso para atraer la buena suerte a los negocios.",
+      6: "",
     };
 
     /* ========================== ESTADOS ===================== */
