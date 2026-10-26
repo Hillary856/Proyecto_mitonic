@@ -8,7 +8,7 @@ export const SeccionHeader = () => {
       <header className="header-mitonic">
 
         <Link to="/" className="logo-mitonic">
-          <img src="/public/Logo.png" alt="Mitonic" />
+          <img src="/Logo.png" alt="Mitonic" />
         </Link>
 
         <nav className="nav-mitonic">

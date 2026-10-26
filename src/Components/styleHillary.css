@@ -760,7 +760,7 @@ body {
   min-height: calc(100vh - 72px);
 
   background-color: #fcebd8;
-  background-image: url("../public/Fondo.svg");
+  background-image: url("/Fondo.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -30,8 +30,8 @@ import Esc1Audio7 from "../../Audios/Esc1Audio7.mp3";
 import Esc1Audio8 from "../../Audios/Esc1Audio8.mp3";
 
 import Es1Moneda from "../../AssetsNuevos/Es1Moneda.svg";
-import Es1Jarron from "../../AssetsNuevos/Es1Jarron.svg";
-import Es1Lanza from "../../AssetsNuevos/Es1Lanza.svg";
+import Es1Jarron from "../../AssetsNuevos/Es1jarron.svg";
+import Es1Lanza from "../../AssetsNuevos/Es1lanza.svg";
 import reloj from "../../AssetsNuevos/reloj.svg";
 import RelojCerrado from "../../AssetsNuevos/RelojCerrado.svg";
 

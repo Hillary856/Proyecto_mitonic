@@ -1,0 +1,309 @@
+/* INTRO PRINCIPAL */
+.intro-mitonic {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  background-color: #fce9d5;
+
+  opacity: 1;
+  transition: opacity 4s ease-in-out;
+
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+/* SALIDA DEL INTRO: 4 SEGUNDOS */
+.intro-mitonic.saliendo {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* CAPA DE HOJAS */
+.intro-hojas {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* CADA HOJA TIENE SU PROPIO RECORRIDO */
+.intro-hoja {
+  position: absolute;
+
+  display: block;
+  width: clamp(22px, 3vw, 46px);
+  aspect-ratio: 1;
+
+  opacity: 0.8;
+
+  animation: introHojaRecorrido
+    var(--duracion)
+    ease-in-out
+    var(--fase)
+    infinite;
+
+  will-change: transform;
+}
+
+/* APARICIÓN SUAVE DE LAS HOJAS */
+.intro-hoja-aparicion {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+
+  animation: introHojaAparicion 2.8s ease-out forwards;
+}
+
+/* MOVIMIENTO SUAVE DE LA HOJA */
+.intro-hoja-viento {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  opacity: 0.85;
+
+  animation: introHojaAleteo 25s ease-in-out infinite;
+
+  user-select: none;
+  pointer-events: none;
+}
+
+/* TRAYECTORIA LENTA Y ORGÁNICA */
+@keyframes introHojaRecorrido {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate3d(var(--x1), var(--y1), 0)
+      rotate(calc(var(--rotacion) * 0.25));
+  }
+
+  50% {
+    transform: translate3d(var(--x2), var(--y2), 0)
+      rotate(calc(var(--rotacion) * 0.65));
+  }
+
+  75% {
+    transform: translate3d(var(--x3), var(--y3), 0)
+      rotate(var(--rotacion));
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+/* APARECEN POCO A POCO */
+@keyframes introHojaAparicion {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ALETEO DISCRETO */
+@keyframes introHojaAleteo {
+  0% {
+    transform: rotate(-8deg) scale(0.96);
+  }
+
+  50% {
+    transform: rotate(8deg) scale(1.04);
+  }
+
+  100% {
+    transform: rotate(-8deg) scale(0.96);
+  }
+}
+
+/* HOJAS SALIENDO CON EL SCROLL */
+.intro-mitonic.saliendo .intro-hoja {
+  animation: introHojaSalida 4s cubic-bezier(0.45, 0, 0.8, 1)
+    var(--salida-retraso) forwards;
+}
+
+.intro-mitonic.saliendo .intro-hoja-aparicion,
+.intro-mitonic.saliendo .intro-hoja-viento {
+  animation: none !important;
+}
+
+/* RECORRIDO DE SALIDA */
+@keyframes introHojaSalida {
+  0% {
+    opacity: 0.8;
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(
+        var(--salida-x),
+        var(--salida-y),
+        0
+      )
+      rotate(var(--salida-rotacion))
+      scale(0.45);
+  }
+}
+
+/* LOGO */
+.intro-logo-bloque {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: min(70vw, 520px);
+}
+
+.intro-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+
+  opacity: 0;
+
+  animation: introLogoEntrada 1.8s
+    cubic-bezier(0.2, 0.75, 0.25, 1)
+    0.2s forwards;
+
+  will-change: transform, opacity;
+}
+
+/* ENTRADA DEL LOGO */
+@keyframes introLogoEntrada {
+  0% {
+    opacity: 0;
+    transform: scale(0.12);
+  }
+
+  70% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* SALIDA DEL LOGO EN 4 SEGUNDOS */
+.intro-mitonic.saliendo .intro-logo {
+  animation: introLogoSalida 3.8s ease-in forwards;
+}
+
+@keyframes introLogoSalida {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+}
+
+/* INDICACIÓN PARA DESLIZAR */
+.intro-indicacion {
+  position: absolute;
+  z-index: 3;
+  bottom: clamp(24px, 6vh, 55px);
+  left: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  width: 100%;
+
+  color: #713e25;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-align: center;
+
+  animation: introIndicacionEntrada 1s ease-out 1.2s both;
+}
+
+.intro-flecha {
+  display: block;
+  font-size: 25px;
+  line-height: 1;
+
+  animation: introFlechaMovimiento 1.8s ease-in-out infinite;
+}
+
+@keyframes introIndicacionEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes introFlechaMovimiento {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(7px);
+  }
+}
+
+/* TABLET Y MÓVIL */
+@media (max-width: 768px) {
+  .intro-logo-bloque {
+    width: min(78vw, 420px);
+  }
+
+  .intro-hoja {
+    width: clamp(18px, 5vw, 34px);
+  }
+
+  .intro-indicacion {
+    font-size: 11px;
+  }
+}
+
+/* RESPETAR LA PREFERENCIA DE MENOS MOVIMIENTO */
+@media (prefers-reduced-motion: reduce) {
+  .intro-hoja-viento,
+  .intro-flecha {
+    animation-duration: 12s;
+  }
+}
